@@ -5,14 +5,14 @@ export default {
 
     ],
     pagingQueAn:[],
-    pagingFQA:[],
+    pagingFAQ:[],
     //게시물 저장
     notices: [
     ],
     queAn: [
 
     ],
-    FQA: [] 
+    FAQ: [] 
 
   },
   getters: {
@@ -38,16 +38,16 @@ export default {
     getQueAnPaging (state) {                     //Q&A 페이지 정보
       return state.pagingQueAn
     },
-    getFQANumSize (state)  {                      //FQA 버튼 숫자 리스트
+    getFAQNumSize (state)  {                      //FAQ 버튼 숫자 리스트
       let list =[]
       
-      for(var i =  state.pagingFQA.startPage; i <= state.pagingFQA.endPage; i++){
+      for(var i =  state.pagingFAQ.startPage; i <= state.pagingFAQ.endPage; i++){
         list.push(i) 
       }
       return list
     },
-    getFQAPaging (state) {                     //FQA 페이지 정보
-      return state.pagingFQA
+    getFAQPaging (state) {                     //FAQ 페이지 정보
+      return state.pagingFAQ
     },
     getNoticeTotal(state){
       return state.notices.length
@@ -55,8 +55,8 @@ export default {
     getQueAnTotal(state){
       return state.queAn.length
     },
-    getFQATotal(state){
-      return state.FQA.length
+    getFAQTotal(state){
+      return state.FAQ.length
     }
   },
   mutations: {
@@ -66,8 +66,8 @@ export default {
     setCenterQueAn(state, payload) {                      //QueAn 페이지 저장
       return  state.queAn.push(payload)
     },
-    setCenterFQA (state, payload) {                       //FQA 페이지 저장
-      return  state.FQA.push(payload)
+    setCenterFAQ (state, payload) {                       //FAQ 페이지 저장
+      return  state.FAQ.push(payload)
     },
     setPagingNotices (state, payload) {                     //버튼 Notices페이징 저장 정보
       return  state.pagingNotices = payload
@@ -75,8 +75,8 @@ export default {
     setPagingQueAn (state, payload) {                       //버튼 QueAn페징 저장 정보
       return  state.pagingQueAn = payload
     },
-    setPagingFQA (state, payload) {                         //버튼 FQA페이징 저장 정보
-      return  state.pagingFQA = payload
+    setPagingFAQ (state, payload) {                         //버튼 FAQ페이징 저장 정보
+      return  state.pagingFAQ = payload
     },
     nullCenterNotices (state) {                             //notices페이지 삭제
       console.log(state.notices)
@@ -85,18 +85,18 @@ export default {
     nullCenterQueAn(state) {                             //QueAn페이지 삭제
       return state.queAn = []
     },
-    nullCenterFQA(state) {                              //FQA페이지 삭제
-      return state.FQA = []
+    nullCenterFAQ(state) {                              //FAQ페이지 삭제
+      return state.FAQ = []
     },
-    nullPagingpagingQueAn(state) {                      //FQA페이징 삭제 
+    nullPagingpagingQueAn(state) {                      //FAQ페이징 삭제 
       return state.pagingQueAn = []
     },
     nullPagingNotice(state){                        //notice페이징 삭제
       console.log(state.pagingNotices)
       return state.pagingNotices = []
     },  
-    nullPagingFQA(state){                           //pagingFQA페이징 삭제
-      return state.pagingFQA = []
+    nullPagingFAQ(state){                           //pagingFAQ페이징 삭제
+      return state.pagingFAQ = []
     }
   },
   actions: {
