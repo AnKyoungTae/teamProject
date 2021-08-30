@@ -1,4 +1,5 @@
 <template>
+<div class="container" style="width: 1000px;">
   <div class="m-4">
     <h1>이벤트 페이지</h1>
     <hr />
@@ -30,9 +31,11 @@
     </div>
     <div v-else>
       <!-- 페이지 로딩되었을때 -->
-      <div class="row" v-for="event in eventList" :key="event">
-        <eventRow :data="event"></eventRow>
-        <hr />
+      <div class="eventList">
+        <div class="row" v-for="event in eventList" :key="event">
+          <eventRow :data="event"></eventRow>
+          <hr />
+        </div>
       </div>
       <!-- 페이지네이션 -->
       <nav aria-label="Page navigation">
@@ -83,6 +86,7 @@
       </nav>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -208,5 +212,11 @@ export default {
 <style scoped>
 .available-link {
   cursor: pointer;
+}
+.eventList {
+  width:1000px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 </style>

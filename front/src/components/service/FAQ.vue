@@ -1,5 +1,5 @@
 <template>
- <div class="container" style="width: 1000px;">
+<div class="container" style="width: 1000px;">
   <div class="notice col-12 h-50">
     <!-- 리스트 시작 -->
     <div class="accordion accordion-flush" id="accordionFlushExample">

@@ -1,16 +1,11 @@
 <template>
-  <div class="eventWapper m-1 p-4">
-    이벤트 등록일 : {{ data.updateDate }} 이벤트 만료일 : {{ data.dueDate }}
-    <div
-      class="btn btn-outline-dark btn-lg"
-      @click="applyEvent"
-      :class="{ disabled: !eventavailable }"
-    >
-      이벤트 신청
+  <div style="width:400px; height: 100px; margin-left: 50px; border: 2px solid black;">
+    <strong style="font-size:30px;">1000원</strong>
+    <div style="text-align: left;">
+      가게이름
     </div>
-    <div v-if="couponLoaded">
-      <hr />
-      할인내용 : {{ couponInfo }} 할인금액 : {{ totalDiscountPrice }}
+    <div style="text-align: left;">
+     사용기간 :  {{ data.updateDate }}~{{ data.dueDate }}
     </div>
   </div>
 </template>
@@ -92,10 +87,4 @@ export default {
 </script>
 
 <style scoped>
-.eventWapper {
-  border: 1px solid gray;
-}
-.gray {
-  background-color: gray;
-}
 </style>
