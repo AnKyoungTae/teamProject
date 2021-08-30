@@ -63,6 +63,7 @@
             f.description,
             f.status foodStatus,
             f.store_id,
+            f.price,
             ff.name fileUrl
         FROM `orderInfo` i, food f, food_file ff
         WHERE i.food_id= f.foodId
