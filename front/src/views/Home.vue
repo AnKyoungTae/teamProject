@@ -4,8 +4,8 @@
       <main>
         <!--메인 이름, 지도, 가게 리스트 -->
         <div class="container-fluid px-4">
-          <!--메인 이름 WHAT POO -->
-          <h1 class="mt-4">WHAT POO</h1>
+          <!--메인 이름 WA POO -->
+          <h1 class="mt-4">WAPOO</h1>
           <div class="row">
             <!--지도 -->
             <div class="col-xl-7">
@@ -29,6 +29,7 @@
                       v-for="shop in nearShopList"
                       :key="shop"
                       :shopInfo="shop"
+                      @click="showShopDetail(shop.storeId)"
                     >
                     </ShopList>
                   </div>
@@ -43,7 +44,6 @@
         </div>
         <!-- 메뉴 리스트 시작-->
         <div class="card mb-4"></div>
-        <div class="btn btn-primary" @click="test">선택</div>
       </main>
     </div>
   </div>
@@ -99,16 +99,9 @@ export default {
           console.log(e);
         });
     },
-    test() {
-      http.get("/api/test").then((res) => {
-        console.log(res);
-      });
-    },
     showShopDetail(storeId) {
-      this.$router.push({
-        path: "/shopDetail?n=" + storeId,
-        query: { shopInfo: storeId },
-      });
+      window.location.href =
+        "http://localhost:8080/shopDetail?shopInfo=" + storeId;
     },
   },
   mounted() {

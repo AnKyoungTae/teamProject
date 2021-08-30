@@ -229,9 +229,6 @@ export default {
       address: "selectedPlace",
       addressDetail: "selectedAddressDetail",
     }),
-    ...mapGetters({
-      userInfo: "auth/getUserInfo",
-    }),
   },
   methods: {
     ...mapMutations(["SET_MODAL_MAP"]),

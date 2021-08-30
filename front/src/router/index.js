@@ -1,12 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
-    path: "/test",
-    name: "Test",
-    component: () => import("../views/Test.vue"),
-  },
-  {
-    path: "/",
+    path: "/", //홈 화면
     name: "Home",
     component: () => import("../views/Home.vue"),
   },
@@ -16,14 +11,14 @@ const routes = [
     component: () => import("../views/cart/Cart.vue"),
   },
   {
-    path: "/shops",
-    name: "Shops",
-    component: () => import("../views/food/Food.vue"),
+    path: "/shopCategory",
+    name: "ShopCategory",
+    component: () => import("../views/food/ShopCategory.vue"),
   },
   {
-    path: "/foodlist",
-    name: "FoodList",
-    component: () => import("../views/food/FoodList.vue"),
+    path: "/shoplist",
+    name: "ShopList",
+    component: () => import("../views/food/ShopList.vue"),
   },
   {
     path: "/shopDetail",
@@ -77,11 +72,6 @@ const routes = [
     path: "/myPage",
     name: "MyPage",
     component: () => import("../views/myPage/MyPage"),
-  },
-  {
-    path: "/test",
-    name: "Test",
-    component: () => import("../views/Test.vue"),
   },
   {
     path: "/storeregister",

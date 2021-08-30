@@ -10,7 +10,7 @@
       <span v-if="!collapsed && local" class="localText">
         {{ local.address_name }}
       </span>
-      <span v-else> 위치를 알수없습니다! </span>
+      <span v-else> ... </span>
     </transition>
   </div>
 </template>
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     refreshLocation() {
-      return navigator.geolocation.watchPosition(
+      return navigator.geolocation.getCurrentPosition(
         (position) => {
           this.setLocation(position.coords.latitude, position.coords.longitude);
         },
@@ -79,7 +79,7 @@ export default {
 }
 
 .link:hover {
-  background-color: var(--sidebar-item-hover);
+  background-color: rgb(216, 120, 91);
 }
 
 .link .icon {

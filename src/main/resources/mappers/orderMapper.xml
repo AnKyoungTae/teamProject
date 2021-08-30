@@ -42,6 +42,12 @@
         WHERE orderId = #{orderId};
     </update>
 
+    <update id="updateOrderPayment">
+        UPDATE `order`
+        SET payment = #{total}
+        WHERE orderId = #{order_id};
+    </update>
+
     <update id="updateOrderInfosStatus">
         UPDATE `orderInfo`
         SET `status` = #{status}

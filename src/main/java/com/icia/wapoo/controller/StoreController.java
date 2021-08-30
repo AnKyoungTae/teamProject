@@ -158,10 +158,10 @@ public class StoreController {
     public ResponseEntity getStoreListByLocation(@RequestBody Map<String, Object> data) {
         Double latitude = (Double) data.get("lat");
         Double longitude = (Double) data.get("lon");
-        int qantity = 5; // 기본값은 5개를 불러온다.
+        int quantity = 5; // 기본값은 5개를 불러온다.
         if(data.containsKey("quantity")){
             // 수량이 정해져있을경우,
-            qantity = ((Integer) data.get("quantity")).intValue();
+            quantity = ((Integer) data.get("quantity")).intValue();
         }
         String options = "ALL";
         if(data.containsKey("options")) {
@@ -173,7 +173,7 @@ public class StoreController {
             radius = (float) data.get("radius");
         }
         System.out.println("현재 위도(y)는 "+ latitude+" , 현재 경도(x)는 "+longitude+" 에서 가게정보를 요청합니다.");
-        List<Map<String, Object>> list = storeService.getNearStoresList(latitude, longitude, radius, qantity, options);
+        List<Map<String, Object>> list = storeService.getNearStoresList(latitude, longitude, radius, quantity, options);
         return new ResponseEntity(list, HttpStatus.OK);
     }
 

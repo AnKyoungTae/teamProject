@@ -1,5 +1,6 @@
 package com.icia.wapoo.service;
 
+import com.icia.wapoo.dao.CouponDao;
 import com.icia.wapoo.dao.OrderDao;
 import com.icia.wapoo.model.KakaoPayApproval;
 import com.icia.wapoo.model.KakaoPayReady;
@@ -29,6 +30,8 @@ import java.util.Map;
 public class OrderService {
     @Autowired
     private final OrderDao orderDao;
+    @Autowired
+    private final CouponDao couponDao;
 
     // 카카오페이 관련
     private static String KAKAOKEY;
@@ -41,6 +44,8 @@ public class OrderService {
     private String storeName = "wapooStore";
     private int totalQuantity;
     private int totalPrice;
+    private int discount;
+    List<Integer> checkedCouponList;
 
     @Value("${kakao.key}")
     public void setKakaokey(String key) {
@@ -49,12 +54,20 @@ public class OrderService {
 
     public Integer createOrder(Map<String, Object> orderData) {
         // 쿠폰 정보확인 및 디스카운트 초기화
-        int discount = 0;
-        orderData.put("discount", 0);
+        discount = 0;
+        checkedCouponList = (List<Integer>) orderData.get("couponIdList");
+        System.out.println("활성화된 coupon");
+        // 각 쿠폰 ID값으로 할인가격을 얻어서 클래스변수에 더한다.
+        checkedCouponList.stream().forEach((memberCouponId)->{
+            discount += couponDao.selectDiscountPrice(memberCouponId);
+        });
+        System.out.println(checkedCouponList.size() + "는 checkedCoupon 사이즈");
+        orderData.put("discount", discount);
         // 총 수량 초기화
         totalQuantity = 0;
         // 총 가격 초기화
-        totalPrice = -discount;
+        totalPrice = 0;
+        System.out.println("총가격은 "+ orderData.get("totalPrice"));
         int result = orderDao.insertOrder(orderData);
         if(result > 0 ){
             orderId = ((BigInteger) orderData.get("orderId")).intValue();
@@ -110,7 +123,7 @@ public class OrderService {
         }
 
         params.add("quantity", String.valueOf(totalQuantity));
-        params.add("total_amount", String.valueOf(totalPrice));
+        params.add("total_amount", String.valueOf(totalPrice-discount));
         params.add("tax_free_amount", "0");
         params.add("approval_url", "http://localhost:8080/kakaoPaySuccess");
         params.add("cancel_url", "http://localhost:8080/kakaoPayCancel");
@@ -120,7 +133,10 @@ public class OrderService {
 
         try {
             kakaoPayReadyVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReady.class);
-
+            // 각 쿠폰상태를 업데이트한다.
+            checkedCouponList.stream().forEach((memberCouponId)->{
+                couponDao.updateMemberCouponDisable(memberCouponId);
+            });
 
             return kakaoPayReadyVO.getNext_redirect_pc_url();
 
@@ -151,7 +167,7 @@ public class OrderService {
         params.add("partner_order_id", orderId.toString());
         params.add("partner_user_id", storeName);
         params.add("pg_token", pg_token);
-        params.add("total_amount", String.valueOf(totalPrice));
+        params.add("total_amount", String.valueOf(totalPrice-discount));
 
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<>(params, headers);
 
@@ -167,6 +183,7 @@ public class OrderService {
             orderDao.insertPayment(payment);
 
             int result = orderDao.updateOrderState(payment.getOrder_id(), "Y");
+            orderDao.updateOrderPayment(payment.getOrder_id(), kakaoPayApprovalVO.getAmount().getTotal());
             System.out.println("적용된 order 레코드 수 : "+ result);
             result = orderDao.updateOrderInfosStatus(payment.getOrder_id(), "Y");
             System.out.println("적용된 orderInfo 레코드 수 : " + result);

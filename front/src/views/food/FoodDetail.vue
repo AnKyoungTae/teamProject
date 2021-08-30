@@ -28,7 +28,7 @@
             {{ shopInfo.storeInfo.storeKind }}
           </p>
           <span style="font-weight: 600; font-size: 17px">업체정보</span>
-          <hr style="margin-top: 5px; width: 95%;" />
+          <hr style="margin-top: 5px; width: 95%" />
           <table>
             <tr>
               <td style="color: gray">전화번호</td>
@@ -48,7 +48,7 @@
           </table>
         </div>
       </div>
-      
+
       <div
         class="btn-group"
         role="group"
@@ -103,8 +103,6 @@
           <span class="visually-hidden">Loading...</span>
         </div>
       </div>
-
-      
     </div>
 
     <div style="border: 1px solid black"></div>
@@ -114,7 +112,6 @@
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
-  
 </template>
 
 <script>
@@ -158,13 +155,13 @@ export default {
 </script>
 
 <style scoped>
-  input {
-    background-color: gray;
-  }
-  .btn-group {
-    background-color: white;
-  }
-  .btn-outline-primary {
-    border-radius: 0px;
-  }
+input {
+  background-color: gray;
+}
+.btn-group {
+  background-color: white;
+}
+.btn-outline-primary {
+  border-radius: 0px;
+}
 </style>

@@ -94,6 +94,21 @@
           AND c.food_id = f.foodId
           AND m.coupon_holder = #{memberId}
           AND c.food_id = #{foodId}
+          AND m.coupon_used = 'N'
+          AND c.status = 'Y'
         LIMIT 1;
     </select>
+
+    <select id="selectDiscountPrice" resultType="int">
+        SELECT total_discountPrice
+        FROM member_coupon
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateMemberCouponDisable">
+        UPDATE member_coupon
+        SET coupon_used = 'Y',
+            used_date = NOW()
+        WHERE id = #{id};
+    </update>
 </mapper>

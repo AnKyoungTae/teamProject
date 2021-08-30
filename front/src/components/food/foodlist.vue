@@ -8,13 +8,12 @@
     </div>
     <!-- 가게가 없을때 -->
     <div v-else-if="shopList.length == 0">
-      <div>충분한정보가없습니당!</div>
+      <div>충분한정보가없습니다!</div>
     </div>
     <!-- 가게가 있을때 -->
     <div v-else-if="shopList != null || shopList.lenth > 1">
-      가게가 있다구욧
       <div
-        class="col-xs-8 col-sm-6"
+        class="col-xs-8 col-sm-6 m-2 shopdiv"
         v-for="(shop, index) in shopList"
         :key="index"
       >
@@ -93,5 +92,9 @@ export default {
 
 .row div div a {
   margin-top: 10px;
+}
+.list-group-item:hover {
+  cursor: pointer;
+  background-color: rgba(11, 153, 153, 0.3);
 }
 </style>

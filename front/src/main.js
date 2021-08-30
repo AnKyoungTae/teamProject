@@ -12,15 +12,6 @@ import "bootstrap";
 //폰트 어썸
 import "@fortawesome/fontawesome-free/js/all";
 
-// // CORS
-// const express = require("express");
-// const cors = require("cors");
-
-// let corsOption = {
-//   origin: "http://kapi.kakao.com",
-//   Credential: true,
-// };
-
 createApp(App)
   .use(store)
   .use(router)

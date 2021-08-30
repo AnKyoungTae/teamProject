@@ -80,7 +80,7 @@ export default {
   data() {
     return {
       shopList: [], // 불러온 가게리스트
-      quantity: 5, // 몇개나 불러올건지?
+      quantity: 10, // 몇개나 불러올건지?
       option: "ALL", // 무엇을 불러올것인지?
     };
   },
@@ -88,7 +88,12 @@ export default {
     ...mapGetters(["GET_LAT", "GET_LON"]),
   },
   mounted() {
-    this.requestShopList("ALL");
+    let keyword = this.$route.query.keyword;
+    if (!keyword) {
+      this.requestShopList("ALL");
+    } else {
+      this.requestShopList(keyword);
+    }
   },
   methods: {
     requestShopList(option) {
@@ -137,8 +142,10 @@ export default {
 .foodnum-a {
   text-decoration: none;
   color: #000000;
+  padding: 4px;
 }
 .foodnum-a:hover {
+  cursor: pointer;
   background-color: lightblue;
 }
 

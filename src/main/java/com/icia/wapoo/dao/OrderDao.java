@@ -35,4 +35,7 @@ public interface OrderDao {
     List<Map<String, Object>> selectAllOrderedFoodByOrderId(@Param("order_id") Integer orderId);
 
     String selectFoodnameByFoodId(@Param("foodId") int foodId);
+
+    void updateOrderPayment(@Param("order_id") int order_id,
+                            @Param("total") Integer total);
 }

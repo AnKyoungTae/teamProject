@@ -5,7 +5,7 @@
         <h5 class="mb-1">{{ shopInfo.name }}</h5>
       </div>
       <div class="col-2 storeKind">
-        <small class="text-muted">{{ shopInfo.storeKind }}</small>
+        <small class="text-muted">{{ getStoreKind }}</small>
       </div>
     </div>
     <div class="row">
@@ -41,7 +41,6 @@ export default {
   props: ["shopInfo"],
   mounted() {
     console.log(this.shopInfo.storeId); // 사진을 불러오기위함
-    console.log("사진 불러온다");
     if (this.shopInfo.storeId != null) {
       http
         .get("/store/getStoreFiles", {
@@ -53,7 +52,6 @@ export default {
           if (res.status === 200) {
             this.fileList = res.data;
             console.log(res.data);
-            console.log("사진 불러왔다");
           }
         })
         .catch((err) => {
@@ -71,29 +69,36 @@ export default {
         focus: "center", //어떤 슬라이드에 초점을 맞춰야 하는지 결정합니다.
         type: "loop",
         breakpoints: {
-          1600 : {
+          1600: {
             width: 700,
             perPage: 0,
           },
-          1200 : {
+          1200: {
             width: 700,
             perPage: 5,
           },
-          1100 : {
+          1100: {
             width: 500,
             perPage: 3,
           },
-          900 : {
+          900: {
             width: 400,
             perPage: 3,
           },
-          700 : {
+          700: {
             width: 300,
             perPage: 3,
           },
         },
       },
     };
+  },
+  methods: {},
+  computed: {
+    getStoreKind() {
+      let arr = this.shopInfo.storeKind.split(",");
+      return arr[0] + ", " + arr[1] + "...";
+    },
   },
 };
 </script>
@@ -103,7 +108,7 @@ export default {
   width: 100%;
   display: grid;
   justify-content: space-around;
-  color:black; 
+  color: black;
   text-decoration: none;
 }
 .storeTitle {
@@ -134,10 +139,8 @@ export default {
 }
 @media screen and (max-width: 1200px) {
   .menuImg {
-  width: 100px;
-  height: 70px;
+    width: 100px;
+    height: 70px;
   }
 }
 </style>
-  
-  
