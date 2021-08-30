@@ -223,7 +223,6 @@
 <script>
 import { normal, error, success } from "@/api/notification";
 import http from "@/api/http";
-import JWT from "@/api/jwt";
 import Detail from "@/components/admin/storeDetail.vue";
 
 export default {
@@ -287,14 +286,7 @@ export default {
     },
   },
   mounted() {
-    console.log("관리자로 로그인하였습니다.");
     normal("정보를 불러옵니다. 잠시만 기다려주세요..", this);
-    // 사용자 검증을 위해 토큰정보를 싣는다.
-    const token = JWT.getToken();
-    const headers = {
-      "content-type": "application/json",
-      accesstoken: token,
-    };
     // 정보를 호출한다.
     this.requestPage(1);
   },
@@ -312,7 +304,6 @@ export default {
         .then((response) => {
           if (response.status === 200) {
             console.log(response.data);
-            success("데이터 로딩 완료!", this);
             this.storeList = response.data;
             this.currentPage = request;
             console.log("현재페이지 : " + this.currentPage);
@@ -396,8 +387,6 @@ export default {
 }
 .available-link {
   cursor: pointer;
-}
-#optionWrapper {
 }
 .detailIsOn {
   visibility: hidden;

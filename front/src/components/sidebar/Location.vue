@@ -36,12 +36,12 @@ export default {
   },
   methods: {
     refreshLocation() {
-      return navigator.geolocation.getCurrentPosition(
+      return navigator.geolocation.watchPosition(
         (position) => {
           this.setLocation(position.coords.latitude, position.coords.longitude);
         },
         (error) => {
-          console.log("아니 위치정보받는데 에러가난다고" + error);
+          console.log("위치정보를 갱신할 수 없습니다" + error);
         }
       );
     },

@@ -1,14 +1,14 @@
 package com.icia.wapoo.controller;
 
+import java.util.List;
 import java.util.Map;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.icia.wapoo.jwt.service.JwtService;
 import com.icia.wapoo.model.Event;
@@ -26,11 +26,8 @@ import lombok.RequiredArgsConstructor;
 public class EventController {
     @Autowired
     private final EventService eventService;
-    
     @Autowired
     private final MemberService memberService;
-    
-    
     @Autowired
     private final JwtService jwtService;
 
@@ -80,5 +77,26 @@ public class EventController {
         	System.out.println("데이터가 비어있습니다.");
         }
         
+    }
+
+    @PostMapping("/getEventList")
+    public ResponseEntity getEventList(@RequestBody Map<String, Object> data) {
+        int listPerPage = ((Integer) data.get("listPerPage")).intValue();
+        int currentPage = ((Integer) data.get("currentPage")).intValue();
+        String option = (String) data.get("statusOption");
+        if(listPerPage <= 0 || currentPage <=0){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        System.out.println("요청페이지 : " + currentPage + ", 요청게시물 수 : "+listPerPage);
+        System.out.println(option);
+
+        List<Map<String, Object>> result = eventService.getEventList(listPerPage, currentPage, option);
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/getEventListCount")
+    public ResponseEntity getStoreListCount(@RequestParam("option") String option) {
+        int result = eventService.getEventListCount(option);
+        return new ResponseEntity(result, HttpStatus.OK);
     }
 }

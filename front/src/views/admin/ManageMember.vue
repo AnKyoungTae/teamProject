@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>쿠폰관리페이지</h1>
+    <h1>회원관리페이지</h1>
     <!-- 노티피케이션 -->
     <notifications
       group="notifyApp"
@@ -8,45 +8,44 @@
       style="margin-right: 30vh"
     />
 
-    
-      <div class="row align-items-center">
-        <div class="col-7">
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineRadioOptions"
-              id="inlineRadio1"
-              value="ALL"
-              checked
-              @click="setStatusOption('ALL')"
-            />
-            <label class="form-check-label" for="inlineRadio1">전체보기</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineRadioOptions"
-              id="inlineRadio3"
-              @click="setStatusOption('Y')"
-              value="Y"
-            />
-            <label class="form-check-label" for="inlineRadio3">승인</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineRadioOptions"
-              id="inlineRadio4"
-              @click="setStatusOption('N')"
-              value="N"
-            />
-            <label class="form-check-label" for="inlineRadio4">비승인</label>
-          </div>
+    <div class="row align-items-center">
+      <div class="col-7">
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="inlineRadioOptions"
+            id="inlineRadio1"
+            value="ALL"
+            checked
+            @click="setStatusOption('ALL')"
+          />
+          <label class="form-check-label" for="inlineRadio1">전체보기</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="inlineRadioOptions"
+            id="inlineRadio3"
+            @click="setStatusOption('Y')"
+            value="Y"
+          />
+          <label class="form-check-label" for="inlineRadio3">승인</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="inlineRadioOptions"
+            id="inlineRadio4"
+            @click="setStatusOption('N')"
+            value="N"
+          />
+          <label class="form-check-label" for="inlineRadio4">비승인</label>
         </div>
       </div>
+    </div>
     <!-- 테이블시작 -->
     <div
       id="wrapper"
@@ -63,7 +62,7 @@
             <th scope="col fw-bold">이메일</th>
             <th scope="col fw-bold">상태</th>
             <th scope="col fw-bold">역할</th>
-            
+
             <!-- 클릭시 자세하게 볼 수 있도록 -->
           </tr>
         </thead>
@@ -85,9 +84,9 @@
             <td class="table-light text-wrap fw-light" style="width: 10rem">
               {{ list.name }}
             </td>
-            <td class="table-light" style="width: 8rem;">{{ list.phone }}</td>
+            <td class="table-light" style="width: 8rem">{{ list.phone }}</td>
             <td class="table-light" style="width: 12rem">{{ list.email }}</td>
-            
+
             <td class="table-success" v-if="list.status == 'Y'">
               {{ list.status }}
             </td>
@@ -150,17 +149,43 @@
         </ul>
       </nav>
     </div>
+    <!-- 회원정보 상세페이지 -->
+    <div class="container detailWrapper" :class="{ detailIsOn: !memberDetail }">
+      <div class="row mb-2 p-3">
+        <div
+          class="col-3 btn btn-success align-align-self-auto m-1"
+          @click="approveMember"
+        >
+          승인하기
+        </div>
+        <div
+          class="col-3 btn btn-danger align-align-self-auto m-1"
+          @click="denyMember"
+        >
+          등록거절
+        </div>
+        <div class="col-2"></div>
+        <div
+          class="btn btn-primary col-3 align-self-end m-1"
+          @click="clearDetail"
+        >
+          목록으로 돌아가기
+        </div>
+      </div>
+      <Detail :data="selectedMember"></Detail>
+    </div>
   </div>
 </template>
 
 <script>
 import { normal, error, success } from "@/api/notification";
 import http from "@/api/http";
-import JWT from "@/api/jwt";
 import Detail from "@/components/admin/memberDetail.vue";
 
 export default {
-  
+  components: {
+    Detail,
+  },
   data() {
     return {
       memberList: [],
@@ -169,7 +194,8 @@ export default {
       totalCount: 0, // 총 게시글 수
       showindex: 5, // 번호로 표시될 페이지 총 갯수
       statusOption: "ALL",
-      selectedmember: "",
+      selectedMember: "",
+      memberDetail: false,
     };
   },
   computed: {
@@ -217,14 +243,7 @@ export default {
     },
   },
   mounted() {
-    console.log("관리자로 로그인하였습니다.");
     normal("정보를 불러옵니다. 잠시만 기다려주세요..", this);
-    // 사용자 검증을 위해 토큰정보를 싣는다.
-    const token = JWT.getToken();
-    const headers = {
-      "content-type": "application/json",
-      accesstoken: token,
-    };
     // 정보를 호출한다.
     this.requestPage(1);
   },
@@ -238,11 +257,10 @@ export default {
         statusOption: this.statusOption,
       };
       http
-        .post("http://localhost:8083/api/member/getmemberList", data)
+        .post("/api/member/getmemberList", data)
         .then((response) => {
           if (response.status === 200) {
             console.log(response.data);
-            success("데이터 로딩 완료!", this);
             this.memberList = response.data;
             this.currentPage = request;
             console.log("현재페이지 : " + this.currentPage);
@@ -255,30 +273,31 @@ export default {
     },
     requestListCount() {
       http
-        .get("http://localhost:8083/api/member/getmemberListCount", {
+        .get("/api/member/getmemberListCount", {
           params: {
             option: this.statusOption,
           },
         })
         .then((response) => {
           this.totalCount = response.data;
-          console.log("등록된 쿠폰의 총 갯수 : " + this.totalCount);
+          console.log("등록된 총 회원수 : " + this.totalCount);
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    requestChangememberStatus(memberId, status) {   //상태변경
+    requestChangeMemberStatus(memberId, status) {
+      //상태변경
       const data = {
         memberId: memberId,
         status: status,
       };
       http
-        .post("http://localhost:8083/api/member/updatememberStatus", data)
+        .post("/api/member/updatememberStatus", data)
         .then((response) => {
           if (response.status === 200) {
             console.log(response.data);
-            success("쿠폰 상태변경 완료!", this);
+            success("회원 상태변경 완료!", this);
             this.clearDetail();
           }
         })
@@ -292,45 +311,29 @@ export default {
       this.requestPage(1);
     },
     selectmember(list) {
-      this.selectedmember = list;
-      console.log(this.selectedmember);
-       var confirmflag = confirm("status를 변경합니다.");
-
-           if(confirmflag){
-             if(this.selectedmember.status === 'Y') {
-               console.log(this.selectedmember.memberId);
-               this.requestChangememberStatus(this.selectedmember.memberId, "N");
-             }
-             else {
-               console.log(this.selectedmember.memberId);
-               this.requestChangememberStatus(this.selectedmember.memberId, "Y");
-             }
-           }else{
-             console.log("취소");
-           }
-      
-      console.log(this.selectedmember.status);
+      this.selectedMember = list;
+      this.memberDetail = true;
     },
     clearDetail() {
       this.memberDetail = false;
       this.requestPage(this.currentPage);
     },
     approvemember() {
-      if (this.selectedmember.status === "Y") {
-        error("이미 승인된 쿠폰입니다!", this);
+      if (this.selectedMember.status === "Y") {
+        error("이미 활성화 된 계정입니다!", this);
         return;
       }
-      success("쿠폰를 승인합니다!", this);
-      
-      this.requestChangememberStatus(this.selectedmember.memberId, "Y");
+      success("계정을 활성화합니다!", this);
+
+      this.requestChangeMemberStatus(this.selectedMember.memberId, "Y");
     },
     denymember() {
-      if (this.selectedmember.status === "N") {
-        error("이미 취소된 쿠폰입니다!", this);
+      if (this.selectedMember.status === "N") {
+        error("계정이 이미 정지된 상태입니다!", this);
         return;
       }
-      error("쿠폰를 등록취소합니다!", this);
-      this.requestChangememberStatus(this.selectedmember.memberId, "N");
+      error("계정을 정지합니다!", this);
+      this.requestChangeMemberStatus(this.selectedMember.memberId, "N");
     },
   },
 };

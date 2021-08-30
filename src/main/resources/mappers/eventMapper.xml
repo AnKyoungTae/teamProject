@@ -17,4 +17,21 @@
         provider_id = #{provider_id}
     </insert>
 
+    <select id="selectEventList" resultType="Map">
+        SELECT *
+        FROM `event` e, `member` m
+        WHERE e.provider_id = m.memberId
+        <if test="!option.equals('ALL')">
+            AND e.`status` = #{option}
+        </if>
+        ORDER BY e.regDate DESC
+        LIMIT #{startLimit}, #{endLimit}
+    </select>
+    <select id="selectEventListCount" resultType="int">
+        SELECT COUNT(*) AS result
+        FROM event
+        <if test="!option.equals('ALL')">
+            WHERE status = #{option}
+        </if>
+    </select>
 </mapper>
