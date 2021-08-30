@@ -51,4 +51,49 @@
 		WHERE couponId = #{couponId}
 
     </update>
+
+    <select id="selectCouponByEventId" resultType="Map">
+        SELECT c.couponId,
+               c.couponName,
+               c.couponEnd,
+               c.couponPrice,
+               c.discountRate,
+               f.name,
+               f.price,
+               fi.name fileUrl
+        FROM coupon c, food f, food_file fi
+        WHERE event_id = #{eventId}
+          AND c.food_id = f.foodId
+          AND f.foodId = fi.food_id
+    </select>
+
+    <insert id="insertMemberCoupon">
+        INSERT INTO member_coupon
+        SET coupon_id = #{couponId},
+            coupon_holder = #{memberId},
+            coupon_used = 'N',
+            total_discountPrice = (
+                    SELECT
+                        (c.couponPrice * (c.discountRate/100)) total_discountPrice
+                    FROM coupon c, food f
+                    WHERE c.couponId = #{couponId}
+                    AND c.food_id = f.foodId)
+    </insert>
+
+    <select id="selectMemberCoupon" resultType="Map">
+        SELECT
+            m.id,
+            m.coupon_used,
+            m.total_discountPrice,
+            c.couponName,
+            c.status,
+            c.couponEnd,
+            f.name
+        FROM member_coupon m, coupon c, food f
+        WHERE m.coupon_id = c.couponId
+          AND c.food_id = f.foodId
+          AND m.coupon_holder = #{memberId}
+          AND c.food_id = #{foodId}
+        LIMIT 1;
+    </select>
 </mapper>

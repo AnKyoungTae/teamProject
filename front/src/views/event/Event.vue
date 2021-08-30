@@ -10,9 +10,15 @@
     />
     <div class="row">
       <!-- 맨 윗줄 카테고리영역 -->
-      <div class="col btn btn-light">전체 이벤트</div>
-      <div class="col btn btn-light">진행중인 이벤트</div>
-      <div class="col btn btn-light">만료된 이벤트</div>
+      <div class="col btn btn-light" @click="setStatusOption('ALL')">
+        전체 이벤트
+      </div>
+      <div class="col btn btn-light" @click="setStatusOption('Y')">
+        진행중인 이벤트
+      </div>
+      <div class="col btn btn-light" @click="setStatusOption('N')">
+        만료된 이벤트
+      </div>
     </div>
     <hr />
     <!-- 관리자, 판매자일경우 추가해야함 -->
@@ -25,7 +31,8 @@
     <div v-else>
       <!-- 페이지 로딩되었을때 -->
       <div class="row" v-for="event in eventList" :key="event">
-        <event-row :data="event"></event-row>
+        <eventRow :data="event"></eventRow>
+        <hr />
       </div>
       <!-- 페이지네이션 -->
       <nav aria-label="Page navigation">
@@ -189,6 +196,10 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    setStatusOption(value) {
+      this.statusOption = value;
+      this.requestPage(1);
     },
   },
 };

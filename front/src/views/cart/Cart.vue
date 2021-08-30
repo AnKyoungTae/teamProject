@@ -157,7 +157,16 @@
           <div class="couponWrapper d-block">
             <!-- 사용할 수 있는 쿠폰이 있으면 불러오기 -->
             <!-- 사용기한, 체크박스로 체크하면 사용 -->
-            <div>쿠폰정보가 없습니다</div>
+            <div
+              v-if="
+                !couponLoaded || couponList.length == 0 || couponList[0] == ''
+              "
+            >
+              쿠폰정보가 없습니다
+            </div>
+            <div v-else-if="couponLoaded">
+              {{ couponList }}
+            </div>
           </div>
           <!-- 결제수단 선택 -->
           <div class="cartOrder">
@@ -180,7 +189,10 @@
               </div>
             </div>
           </div>
-          <div class="calculatorWrapper d-block" style="padding-top: 0px; margin-top: 100px;">
+          <div
+            class="calculatorWrapper d-block"
+            style="padding-top: 0px; margin-top: 100px"
+          >
             <div class="orderText">
               <h4>주문내역</h4>
             </div>
@@ -229,10 +241,16 @@ export default {
       orderRequest: "",
       addressDetail: "",
       phone: "",
+      couponList: [],
+      couponLoaded: false,
     };
   },
   computed: {
-    ...mapGetters(["checkCart", "GET_LOCAL"]),
+    ...mapGetters({
+      checkCart: "checkCart",
+      GET_LOCAL: "GET_LOCAL",
+      getUserId: "auth/getUserId",
+    }),
     totalPrice: function () {
       let result = 0;
       for (let food of this.foodList) {
@@ -253,6 +271,7 @@ export default {
   methods: {
     ...mapMutations(["delCart", "clearCart"]),
     getFoodList(foodIdSet) {
+      // 페이지 초기화할때 카드에 저장된 음식 정보를 불러온다.
       const foodIdList = Array.from(foodIdSet);
       http
         .post("/order/getFoodList", {
@@ -262,9 +281,24 @@ export default {
           if (res.status === 200) {
             this.foodList = res.data;
             let orderList = new Map();
+            let memberId = this.getUserId;
             for (let food of res.data) {
               orderList.set(food.foodId, food.quantity);
+              // foodId와 memberId로 사용가능한 쿠폰 가져오기
+              http
+                .get("/coupon/getMemberCoupon", {
+                  params: {
+                    memberId: memberId,
+                    foodId: food.foodId,
+                  },
+                })
+                .then((res) => {
+                  if (res.status === 200) {
+                    this.couponList.push(res.data);
+                  }
+                });
             }
+            this.couponLoaded = true;
             this.orderList = orderList;
           }
         })

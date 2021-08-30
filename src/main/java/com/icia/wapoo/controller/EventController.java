@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 
+import com.icia.wapoo.model.Coupon;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -99,4 +100,6 @@ public class EventController {
         int result = eventService.getEventListCount(option);
         return new ResponseEntity(result, HttpStatus.OK);
     }
+
+
 }

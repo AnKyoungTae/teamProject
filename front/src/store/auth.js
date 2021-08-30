@@ -42,6 +42,24 @@ export default {
     getMyStore(state) {
       return state.myStore;
     },
+    getUserId(state) {
+      const jwt = require("jsonwebtoken");
+      const decodeAccessToken = jwt.decode(state.token.accessToken);
+      if (decodeAccessToken != null) {
+        console.log(decodeAccessToken);
+        return decodeAccessToken.memberId;
+      }
+      return 0;
+    },
+    getUserNickname(state) {
+      const jwt = require("jsonwebtoken");
+      const decodeAccessToken = jwt.decode(state.token.accessToken);
+      if (decodeAccessToken != null) {
+        console.log(decodeAccessToken);
+        return decodeAccessToken.nickname;
+      }
+      return "unknown";
+    },
   },
   mutations: {
     setToken(state, payload) {

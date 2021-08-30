@@ -1,6 +1,7 @@
 package com.icia.wapoo.dao;
 
 
+import com.icia.wapoo.model.Coupon;
 import org.apache.ibatis.annotations.Mapper;
 
 import org.apache.ibatis.annotations.Param;
@@ -22,4 +23,6 @@ public interface EventDao {
             @Param("startLimit") int startLimit, @Param("endLimit") int endLimit, @Param("option") String option);
 
     int selectEventListCount(@Param("option") String option);
+
+    Coupon selectCouponByEventId(@Param("eventId") Integer eventId);
 }

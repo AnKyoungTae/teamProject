@@ -117,4 +117,28 @@ public class CouponController {
 	        couponService.updateCouponStatus(couponId, status);
 	        return new ResponseEntity(HttpStatus.OK);
 	    }
+
+	@GetMapping("/getCouponInfo")
+	public ResponseEntity getCouponInfo(@RequestParam("eventId") Integer eventId) {
+		Map<String, Object> coupon = couponService.getCouponInfoByEventId(eventId);
+		return new ResponseEntity(coupon, HttpStatus.OK);
+	}
+
+	@PostMapping("/applyCoupon")
+	public ResponseEntity applyCoupon(@RequestBody Map<String, Object> requestData) {
+	 	Integer memberId = (Integer) requestData.get("memberId");
+	 	Integer couponId = (Integer) requestData.get("couponId");
+	 	System.out.println(memberId + "," + couponId);
+	 	int result = couponService.getCouponInstance(memberId, couponId);
+		if(result == 0) {
+			return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	 	return new ResponseEntity(HttpStatus.OK);
+	}
+
+	@GetMapping("/getMemberCoupon")
+	public ResponseEntity getMemberCoupon(@RequestParam("memberId") Integer memberId, @RequestParam("foodId") Integer foodId) {
+		Map<String, Object> couponInstance = couponService.getMemberCoupon(memberId, foodId);
+	 	return new ResponseEntity(couponInstance, HttpStatus.OK);
+	}
 }

@@ -1,39 +1,35 @@
 <template>
+  <div class="couponon-div">
+    <couponon></couponon>
+  </div>
 
-    <div class="couponon-div">
-        <couponon></couponon>
-    </div>
-    
-    <div class="couponend-div">
-        <couponend></couponend>
-    </div>
+  <div class="couponend-div">
+    <couponend></couponend>
+  </div>
 </template>
 
 <script>
-import couponon from  './couponon.vue';
-import couponend from './couponend.vue';
+import couponon from "./couponon.vue";
+import couponend from "./couponend.vue";
 
-export default ({
+export default {
   components: {
-      couponon,
-      couponend
-  }
-})
+    couponon,
+    couponend,
+  },
+};
 </script>
-
 
 <style scoped>
 .couponon-div {
-    width: 100%;
-    height: 100%;
-    clear: both;
-    display: block;
+  width: 100%;
+  height: 100%;
+  clear: both;
+  display: block;
 }
 
 .couponend-div {
-    width: 840px;
-    clear: both;
+  width: 840px;
+  clear: both;
 }
-
 </style>
-

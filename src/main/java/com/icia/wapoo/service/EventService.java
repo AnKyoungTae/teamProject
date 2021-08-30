@@ -1,5 +1,6 @@
 package com.icia.wapoo.service;
 
+import com.icia.wapoo.model.Coupon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,5 +49,9 @@ public class EventService {
 
     public int getEventListCount(String option) {
         return eventDao.selectEventListCount(option);
+    }
+
+    public Coupon getCouponInfoByEventId(Integer eventId) {
+        return eventDao.selectCouponByEventId(eventId);
     }
 }
