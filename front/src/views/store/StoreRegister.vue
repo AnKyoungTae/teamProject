@@ -294,7 +294,6 @@ export default {
         error("가게 이름을 입력해주세요!", this);
         return false;
       }
-      console.log("가게이름완료");
       formData.append("name", this.store_name);
       // 전화번호 valiation
       const phoneCheckReg = /^\d{2,3}-\d{3,4}-\d{4}$/;
@@ -306,7 +305,6 @@ export default {
         error("가게번호는 숫자와 -(하이픈)만 입력 가능합니다.");
         return;
       }
-      console.log("전화번호완료");
       formData.append("phone", this.store_contact);
 
       if (!this.address.address_name) {

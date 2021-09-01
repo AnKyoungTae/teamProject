@@ -24,8 +24,8 @@
           style="font-size: 20px; border-bottom: 2px solid black"
         >
           <div style="width: 600px">상품명</div>
-          <div style="width: 200px">상품금액</div>
           <div style="width: 200px">수량</div>
+          <div style="width: 200px">금액</div>
         </div>
         <div
           class="orderList"
@@ -62,7 +62,7 @@
         >
           <div style="width: 800px; text-align: left">할인금액</div>
           <div style="width: 200px">
-            {{ order.payment }}
+            {{ order.discount }}
           </div>
         </div>
         <div
@@ -75,7 +75,9 @@
         >
           <div style="width: 800px; text-align: left">총 결제금액</div>
           <div style="width: 200px">
-            {{ order.totalPrice }}
+            <b>
+              {{ order.payment }}
+            </b>
           </div>
         </div>
         <div
@@ -123,8 +125,12 @@
             {{ order.phone }}
           </div>
         </div>
-        <button type="button" class="btn btn-danger" style="margin: 50px">
-          주문내역 삭제
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="margin: 50px"
+        >
+          주문취소
         </button>
       </div>
     </div>
@@ -144,6 +150,12 @@ export default {
   },
   mounted() {
     this.orderId = this.$route.query.orderId;
+    // 오더 아이디가 없거나 0일때는?
+    if (this.orderId == null || this.orderId == 0) {
+      this.$router.push({ path: "/" });
+      alert("잘못된 요청입니다");
+    }
+    console.log(this.orderId);
     http
       .get("/order/getOrderedFoodList", {
         params: {

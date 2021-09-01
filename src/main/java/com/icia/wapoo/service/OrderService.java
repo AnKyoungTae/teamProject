@@ -56,18 +56,16 @@ public class OrderService {
         // 쿠폰 정보확인 및 디스카운트 초기화
         discount = 0;
         checkedCouponList = (List<Integer>) orderData.get("couponIdList");
-        System.out.println("활성화된 coupon");
         // 각 쿠폰 ID값으로 할인가격을 얻어서 클래스변수에 더한다.
         checkedCouponList.stream().forEach((memberCouponId)->{
             discount += couponDao.selectDiscountPrice(memberCouponId);
         });
-        System.out.println(checkedCouponList.size() + "는 checkedCoupon 사이즈");
+        System.out.println("멤버아이디 : "+orderData.get("memberId"));
         orderData.put("discount", discount);
         // 총 수량 초기화
         totalQuantity = 0;
         // 총 가격 초기화
         totalPrice = 0;
-        System.out.println("총가격은 "+ orderData.get("totalPrice"));
         int result = orderDao.insertOrder(orderData);
         if(result > 0 ){
             orderId = ((BigInteger) orderData.get("orderId")).intValue();

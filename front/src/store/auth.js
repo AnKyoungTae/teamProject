@@ -35,10 +35,13 @@ export default {
       const decodeAccessToken = jwt.decode(state.token.accessToken);
       if (decodeAccessToken != null) {
         console.log(decodeAccessToken);
+        //닉네임 가져온다
+        state.userNickname = decodeAccessToken.nickname;
         return decodeAccessToken.role;
       }
       return "BUYER";
     },
+
     getMyStore(state) {
       return state.myStore;
     },
@@ -57,6 +60,15 @@ export default {
       if (decodeAccessToken != null) {
         console.log(decodeAccessToken);
         return decodeAccessToken.nickname;
+      }
+      return "unknown";
+    },
+    getUserImage(state) {
+      const jwt = require("jsonwebtoken");
+      const decodeAccessToken = jwt.decode(state.token.accessToken);
+      if (decodeAccessToken != null) {
+        console.log(decodeAccessToken);
+        return decodeAccessToken.profileUrl;
       }
       return "unknown";
     },
@@ -104,7 +116,10 @@ export default {
             // 토큰을 저장한다.
             context.commit("setToken", res.headers.authorization);
             // 토큰을 이용해서 유저정보 불러오기
+
             return Promise.resolve(res);
+          } else if (res.status === 500) {
+            alert("아이디와 암호를 확인해주세요!");
           }
         })
         .catch((error) => {

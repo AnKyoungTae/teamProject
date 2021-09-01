@@ -1,6 +1,7 @@
 package com.icia.wapoo.service;
 
 import com.icia.wapoo.model.Article;
+import com.icia.wapoo.model.Comment;
 import com.icia.wapoo.model.ImageFile;
 import com.icia.wapoo.model.LoginInfo;
 import com.icia.wapoo.model.Store;
@@ -122,9 +123,7 @@ public class ArticleService {
 		
 		try 
 		{
-			
 			count = articleDao.boardHit(articleId);	
-			
 		}
 		catch(Exception e)
 		{
@@ -163,17 +162,17 @@ public class ArticleService {
 	{
 		int count = 0;
 		
-		Article article = new Article();
+		Comment comment = new Comment();
 		
-		article.setTitle((String)params.get("title"));
+		comment.setBody((String)params.get("title"));;
 		
-		article.setParantId( (long)(((Integer) params.get("parantId")).intValue()));
+		comment.setArticleId((((Integer) params.get("parantId")).intValue()));;
 		
-		article.setWriterId(memberId);
+		comment.setWriterId(memberId);
 		
 		try
 		{
-			count = articleDao.commentInsert(article);
+			count = articleDao.commentInsert(comment);
 		}
 		catch(Exception e)
 		{
@@ -308,22 +307,7 @@ public class ArticleService {
 		return count;
 	}
 	
-	//댓글 리스트
-	public List<Article> commentList(long parantId)
-	{
-		List<Article> list = null;
-		
-		try
-		{
-			list = articleDao.commentList(parantId);
-		}
-		catch(Exception e)
-		{
-			System.out.println(e);
-		}
-		
-		return list;
-	}
+	
 	
 	//내글 모두 출력
 	public List<Article> myList(long memberId, long boardId)
@@ -362,6 +346,114 @@ public class ArticleService {
 		return check;
 	}
 
+	//댓글 가져오기
+	public Comment getComment(int memberId, int commentId)
+	{
+		Comment comment = null;
+		
+		try
+		{
+			comment = articleDao.getComment(memberId, commentId);
+		}
+		catch(Exception e)
+		{
+			System.out.println("getComment 오류: " + e);
+		}
+
+		return comment;
+	}
+	
+	//댓글 삭제
+	public int deleteComment(int commentId)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = articleDao.deleteComment(commentId);
+		}
+		catch(Exception e)
+		{
+			System.out.println("deleteComment 오류: " + e);
+		}
+		return count;
+	}
+	
+	//댓글수 감소
+	public int deleteChildren(int articleId)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = articleDao.deleteChildren(articleId);
+		}
+		catch(Exception e)
+		{
+			System.out.println("deleteChildren 오류: " + e);
+		}
+		
+		return count;
+	}
+	
+	//클릭 댓글 모두 가져오기
+	public List<Comment> getAllComment(int articleId)
+	{
+		List<Comment> list = null;
+		
+		try
+		{
+			list = articleDao.getAllComment(articleId);
+		}
+		catch(Exception e)
+		{
+			System.out.println("getAllComment 오류: " + e);
+		}
+		return list;
+	}
+	
+	//게시판 신고
+	public int reportArticle(int articleId)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = articleDao.reportArticle(articleId);
+		}
+		catch(Exception e)
+		{
+			System.out.println("reportArticle 오류: " + e);
+		}
+		
+		return count;
+	}
+	
+	//댓글 신고
+		public int reportComment(int commentId)
+		{
+			int count = 0;
+			
+			try
+			{
+				count = articleDao.reportComment(commentId);
+			}
+			catch(Exception e)
+			{
+				System.out.println("reportComment 오류: " + e);
+			}
+			
+			return count;
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 		

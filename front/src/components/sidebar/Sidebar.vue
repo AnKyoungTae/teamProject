@@ -22,8 +22,8 @@
         <h2 @click="this.$router.push({ path: '/' })" class="logo">관리자</h2>
       </div>
       <!-- 펼쳤을때 -->
-      <Profile class="profile" />
     </span>
+    <Profile class="profile"></Profile>
     <Location icon="fas fa-compass" />
     <div v-if="userRole != null && userRole == 'ADMIN'">
       <!-- 관리자로 로그인 했을때 보이는 메뉴들 -->
@@ -34,12 +34,6 @@
       >
       <SidebarLink to="/eventadd" icon="fas fa-ticket-alt"
         >이벤트등록</SidebarLink
-      >
-      <SidebarLink
-        to="/serviceCenter"
-        icon="far fa-comments"
-        @click="serviceCenter"
-        >고객센터</SidebarLink
       >
     </div>
     <div v-else-if="userRole != null && userRole == 'SELLER'">
@@ -56,17 +50,18 @@
     <div v-else>
       <SidebarLink to="/#" icon="fas fa-robot">아키네이터</SidebarLink>
       <SidebarLink to="/cart" icon="fas fa-shopping-cart">장바구니</SidebarLink>
-      <SidebarLink
-        to="/serviceCenter"
-        icon="far fa-comments"
-        @click="serviceCenter"
-        >고객센터</SidebarLink
-      >
+
       <SidebarLink to="/shopCategory" icon="fas fa-utensils"
         >음식/가게</SidebarLink
       >
-      <SidebarLink to="/event" icon="fas fa-utensils">이벤트</SidebarLink>
     </div>
+    <SidebarLink
+      to="/serviceCenter"
+      icon="far fa-comments"
+      @click="serviceCenter"
+      >고객센터</SidebarLink
+    >
+    <SidebarLink to="/event" icon="fas fa-utensils">이벤트</SidebarLink>
     <span class="burger" @click="toggleSidebar">
       <BurgerButton />
     </span>
@@ -91,18 +86,10 @@ export default {
     ...mapGetters({ userRole: "auth/getUserRole" }),
   },
   methods: {
-    ...mapMutations([
-      //serviceCenter 토글
-      "SET_COUNT_NOTICE",
-      "SET_COUNT_QUEAN",
-      "SET_COUNT_FQA",
-    ]),
     serviceCenter() {
       //serviceCenter 토글 true
-      this.SET_COUNT_NOTICE(true);
-      this.SET_COUNT_QUEAN(true);
-      this.SET_COUNT_FQA(true);
-      this.$store.commit("SET_serviceCenters", 0);
+      this.$store.commit("SET_serviceCenters", 1); //serviceCenter 안 버튼 상태
+      this.$store.commit("SET_serviceCenterToggle", false); //sidebar에서 serviceCenter 클릭시
     },
   },
 };
@@ -136,7 +123,7 @@ export default {
   flex-direction: column;
 }
 .profile {
-  transition: 0.5s ease;
+  transition: opacity 0.1s;
 }
 
 .burger {

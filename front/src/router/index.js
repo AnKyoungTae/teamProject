@@ -133,7 +133,17 @@ const routes = [
   {
     path: "/kakaoPaySuccess",
     name: "KakaoPaySuccess",
-    component: () => import("../views/cart/KakaoPay.vue"),
+    component: () => import("../views/kakaopay/KakaoPaySuccess.vue"),
+  },
+  {
+    path: "/kakaoPayCancel",
+    name: "KakaoPayCancel",
+    component: () => import("../views/kakaopay/KakaoPayCancel.vue"),
+  },
+  {
+    path: "/kakaoPaySuccessFail",
+    name: "KakaoPaySuccessFail",
+    component: () => import("../views/kakaopay/KakaoPaySuccessFail.vue"),
   },
   {
     path: "/orderInfo",

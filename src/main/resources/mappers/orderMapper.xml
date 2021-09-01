@@ -11,7 +11,8 @@
             discount = #{discount},
             payment = 0,
             address= #{address},
-            phone = #{phone}
+            phone = #{phone},
+            member_id = #{memberId}
     </insert>
     <insert id="insertOrderInfo">
         INSERT INTO `orderInfo`

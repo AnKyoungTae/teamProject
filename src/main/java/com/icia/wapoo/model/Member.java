@@ -16,5 +16,5 @@ public class Member{
     private String email;
     private String nickname;
     private String role;
-
+    private String profileUrl;
 }

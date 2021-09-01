@@ -126,8 +126,6 @@ export default {
       // 받은 정보의 처리
       response
         .then((res) => {
-          console.log("==");
-          console.log(res);
           this.SET_MODAL_REGISTER(false);
           if (this.loginSave == true) {
             localStorage.setItem("loginId", this.userId);

@@ -74,3 +74,31 @@ export async function pagingMyBoard(boardId){
     }
   })
 }
+
+//댓글 삭제  
+export function deleteComment(articleId, commentId) {
+  return http.post("/article/board/deleteComment",{
+    params: {
+      articleId: articleId,
+      commentId: commentId
+    }
+  } )
+}
+//신고하기!!!!!!!!11
+//게시판
+export function reportArticle(articleId){
+  return http.get("/article/reportArticle", {
+    params: {
+      articleId: articleId
+    }
+  })
+}
+
+//댓글
+export function reportComment(commentId){
+  return http.get("/article/reportArticle", {
+    params: {
+      commentId: commentId
+    }
+  })
+}

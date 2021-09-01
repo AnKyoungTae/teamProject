@@ -3,14 +3,17 @@
     @click="refreshLocation"
     class="link"
     :class="{ isCollapsed: !collapsed }"
+    v-if="!collapsed"
   >
     <i class="icon" :class="icon" />
     <!-- 트랜지션 태그는 vuejs에서 제공하는 태그로, DOM이 조작될때 CSS 애니메이션을 넣을 수 있다. -->
     <transition name="fade">
-      <span v-if="!collapsed && local" class="localText">
-        {{ local.address_name }}
-      </span>
-      <span v-else> ... </span>
+      <div>
+        <span v-if="!collapsed && local" class="localText">
+          {{ local.address_name }}
+        </span>
+        <span v-else> ... </span>
+      </div>
     </transition>
   </div>
 </template>
@@ -57,8 +60,8 @@ export default {
 
 <style scoped>
 .isCollapsed {
-  left: 10%;
   background-color: tomato;
+  left: 10%;
 }
 .link {
   display: flex;

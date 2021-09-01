@@ -44,7 +44,7 @@
         </tr>
         <tr
           style="cursor: pointer;"
-          v-for="(qn, index) in this.$store.state.serviceCenter.queAn"
+          v-for="(qn, index) in this.queAn"
           :key="index"
           @click="listPage(qn.articleId)"
         >
@@ -65,7 +65,7 @@
             <i class="fas fa-lock"></i>
           </td>
         </tr>
-        <tr v-if="getQueAnTotal == 0">
+        <tr v-if="queAn.length < 0">
           <td colspan="6" style="font-weight: 700; font-size: 2vh">글이 없습니다</td>
         </tr>
       </tbody>
@@ -85,7 +85,7 @@
           </a>
         </li>
         <!-- 숫자 순서 버튼 -->
-        <li class="page-item" v-for="num in this.getnumSize" :key="num"  :style="{ontSize: '20px'}">        
+        <li class="page-item" v-for="num in this.pageList" :key="num"  :style="{ontSize: '20px'}">        
           <a class="page-link"  href="#" @click="numPage(num, this.paging.range, this.listSize,this.rangeSize, this.search)" v-if="paging.page != num">{{num}}</a>
           <a class="page-link"  href="#" @click="numPage(num, this.paging.range, this.listSize,this.rangeSize, this.search)" style="background-color: #0d6efd; color: #fff;" v-else >{{num}}</a>
         </li>
@@ -108,35 +108,29 @@
 
 <script>
 import * as authAPI from "@/api/article.js";
-import { mapMutations, mapGetters } from "vuex";
+
 
 export default {
   data() {
     return {
-      paging:[],
+      paging:[],        //페이징
+      queAn:[],         //Q&A리스트
+
+      pageList:[],
+
       listSize: 10,     //리스트 수
       rangeSize: 5,      //버튼 수,
+
       search: null,     //검색
+
       myCount: true      //myCount
 
     }
   },
-  computed: {
-    ...mapGetters({
-      getnumSize: "serviceCenter/getnumSize",
-      getQueAnPaging: "serviceCenter/getQueAnPaging",
-      getQueAnTotal: "serviceCenter/getQueAnTotal"
-    }),
-  },
+ 
 
   methods: {
-    ...mapMutations({
-      setCenterQueAn: "serviceCenter/setCenterQueAn",
-      nullPagingpagingQueAn: "serviceCenter/nullPagingpagingQueAn",
-      nullCenterQueAn: "serviceCenter/nullCenterQueAn",
-      setPagingQueAn: "serviceCenter/setPagingQueAn",
-      SET_MODAL_LOGIN: "SET_MODAL_LOGIN"
-    }),
+    
     //글쓰기전 본인 확인
     memberCheck() {
       authAPI
@@ -181,9 +175,10 @@ export default {
           console.log(err);
         });
     },
+    //공개 비공개 검사
     privateToggle(status) {
-      //공개 비공개 검사
-      if (status === "Y") {
+
+      if (status === "Y" || status === "S") {
         return true;
       }
     },
@@ -206,14 +201,11 @@ export default {
       .getBoardList(2, page, range, listSize, rangeSize, search)
       .then(res => {
         console.log(res)
-        this.nullCenterQueAn()         //테이터 삭제
-        this.nullPagingpagingQueAn()    //페이징 삭제
+
         this.search = res.data.search
-        this.setPagingQueAn(res.data.paging)
+        this.paging =  res.data.paging
         
-        res.data.list.forEach(element => {      //vuex에 데이터 넣기
-          this.setCenterQueAn(element)   
-        });
+        this.queAn = res.data.list
       })
     },
     //검색
@@ -229,22 +221,56 @@ export default {
       .pagingMyBoard(2)
       .then(res => {
         console.log(res)
-        this.nullCenterQueAn()         //테이터 삭제
-        res.data.list.forEach(element => {      //vuex에 데이터 넣기
-          this.setCenterQueAn(element)   
-        });
+       
+        this.queAn = res.data.list
 
       })
+    },
+
+    //Q&A 리스트 불러오기
+    downAllList(boardId, page, range) {
+      //리스트 axios 통신 query = boardId  page:페이지  range: 범위  boardId
+      authAPI
+        .getBoardList(boardId, page, range)
+        .then((res) => {
+          console.log(res.data)
+          //페이징
+          this.paging = res.data.paging
+         
+          //리스트
+          this.queAn = res.data.list
+
+          //페이징 리스트
+          this.pageLists()
+          
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
+    //페이지 리스트
+    pageLists() {
+      for(let i = this.paging.startPage; i <= this.paging.endPage; i++){
+        this.pageList.push(i)
+      }
     }
+    
   },
+
+  
+  
   //고객센터통해 접근할 경우
-  mounted() {
-    this.paging = this.getQueAnPaging;
+  async mounted() {
+    await this.downAllList(2, 1, 1)
+    
+    
   },
   //버튼 클릭시
   updated() {
-    this.paging = this.getQueAnPaging
-  }
+    
+  },
+ 
 }
 </script>
 

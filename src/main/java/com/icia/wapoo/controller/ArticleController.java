@@ -5,6 +5,7 @@ import com.icia.wapoo.S3.S3Service;
 import com.icia.wapoo.jwt.service.JwtService;
 
 import com.icia.wapoo.model.Article;
+import com.icia.wapoo.model.Comment;
 import com.icia.wapoo.model.ImageFile;
 import com.icia.wapoo.paging.PagingA;
 
@@ -213,21 +214,8 @@ public class ArticleController {
 	{
 		System.out.println("댓글 업로드");
 		
-		long memberId = 0;
-		try
-		{
-			//JWT 토큰값
-			String JWT = jwtService.resolveToken(request);
-			System.out.println(JWT);
-			
-			Map<String, Object> token = jwtService.getUserInfo(JWT);
-			// token에서 memberId 값 가져오기
-			 memberId = (long)((Integer) token.get("memberId")).intValue();
-		}
-		catch(Exception e)
-		{
-			System.out.println("memberId 없음");
-		}
+		long memberId = getMemberIdByRequest(request);
+		
 		System.out.println("memberId : " + memberId);
 		
 		if(memberId > 0)//회원 확인
@@ -296,7 +284,7 @@ public class ArticleController {
 		
 		Map<String, Object> map = new HashMap<>();//여기 담아서 보냄
 		boolean MYPAGE = false; 				  //작성자 여부
-		List<Article> list = null;				  //댓글 여기에 보냄		
+		List<Comment> list = null;				  //댓글 여기에 보냄		
 		Article article = null;
 		//파일
 		List<ImageFile> articleImageFile = null;
@@ -304,7 +292,7 @@ public class ArticleController {
 		if(articleId > 0)
 		{
 			article = articleService.boardList(articleId);//게시글
-			list = articleService.commentList(article.getArticleId());//댓글
+			list = articleService.getAllComment((int)article.getArticleId());//댓글
 			System.out.println("list[0] : " + list);
 			//파일
 			
@@ -353,26 +341,8 @@ public class ArticleController {
 		System.out.println("페이지 삭제");
 		
 		//조큰 값 없으면
-		long memberId = 0;
+		long memberId = getMemberIdByRequest(request);
 
-		try
-		{
-			//JWT 토큰값
-			String JWT = jwtService.resolveToken(request);
-			System.out.println(JWT);
-			
-			Map<String, Object> token = jwtService.getUserInfo(JWT);
-			// token에서 memberId 값 가져오기
-			 memberId = (long)((Integer) token.get("memberId")).intValue();
-			 System.out.println("memberId 있음");
-		}
-		catch(Exception e)
-		{
-			System.out.println("memberId 없음");
-		}
-		//테스트 
-		//long memberId = 1;
-		
 		Map<String, Object> params = (Map<String, Object>) ListData.get("params");
 		System.out.println(params);
 		
@@ -391,46 +361,18 @@ public class ArticleController {
 				if(article != null)//글 존재 여부
 				{
 					System.out.println("articleId : " +articleId +" 글 있다.");
-					
-					if(article.getChildren() > 0)//댓글여부 확인
+						
+					if(articleService.boardDelete(articleId) > 0)
 					{
-						long parantId = articleId;
-						System.out.println("본글이다 :" + article.getBoardId() +"댓글 삭제 필요");
-						if(articleService.commentDelete(parantId) > 0)//댓글 삭제 확인
-						{
-							System.out.println("댓글 삭제 성공 \n");
-							
-							if(articleService.boardDelete(articleId) > 0)
-							{
-								System.out.println("댓글 삭제, 글삭제: 성공 \n");
-								return new ResponseEntity("100", HttpStatus.OK);
-							}
-							else
-							{
-								System.out.println("댓글 삭제 성공, 글삭제: DB 오류 \n");
-								return new ResponseEntity("300", HttpStatus.OK);
-							}
-						}
-						else
-						{
-							System.out.println("댓글 삭제 DB 오류 \n");
-							return new ResponseEntity("300", HttpStatus.OK);
-						}
+						System.out.println("글삭제: 성공 \n");
+						return new ResponseEntity("100", HttpStatus.OK);
 					}
 					else
 					{
-						System.out.println("댓글 없음 글삭제");
-						if(articleService.boardDelete(articleId) > 0)
-						{
-							System.out.println("글삭제: 성공 \n");
-							return new ResponseEntity("100", HttpStatus.OK);
-						}
-						else
-						{
-							System.out.println("글삭제: DB 오류 \n");
-							return new ResponseEntity("300", HttpStatus.OK);
-						}
+						System.out.println("글삭제: DB 오류 \n");
+						return new ResponseEntity("300", HttpStatus.OK);
 					}
+				
 				}
 				else
 				{
@@ -450,6 +392,45 @@ public class ArticleController {
 			return new ResponseEntity("200", HttpStatus.OK);
 		}
 		
+	}
+	
+	//댓글 삭제
+	@PostMapping("/board/deleteComment") //@RequestBody Map<String, Object> params int articleId int commentId
+	public ResponseEntity commentDelete(@RequestBody Map<String, Object> params, HttpServletRequest request)
+	{
+		System.out.println("댓글 삭제");
+		System.out.println("params: " + params);
+		
+		Map<String, Object> data = (Map<String, Object>) params.get("params");
+		System.out.println("data: " + data);
+		int commentId = (((Integer) data.get("commentId")).intValue());
+		int articleId = (((Integer) data.get("articleId")).intValue());
+		System.out.println("commentId: " + commentId);
+		System.out.println("articleId: " + articleId);
+		
+		
+		int memberId = (int)getMemberIdByRequest(request);
+		
+		if(memberId > 0)
+		{
+			Comment comment = articleService.getComment(memberId, commentId);
+			
+			if(comment != null)
+			{
+				if(articleService.deleteComment(commentId)> 0)
+				{
+					System.out.println("댓글 삭제 성공");
+					if(articleService.deleteChildren(articleId)> 0)
+					{
+						System.out.println("댓글 감소 성공");
+						return new ResponseEntity("ok", HttpStatus.OK);
+					}
+				}
+			}
+		}
+		
+		
+		return new ResponseEntity("no", HttpStatus.OK);
 	}
 	
 	
@@ -602,12 +583,12 @@ public class ArticleController {
 		
 		if(memberId >= 0)
 		{
-			System.out.println("111111111111111111111111");
+			
 			check = articleService.memberVerify(memberId);
 			
 			if(check)
 			{
-				System.out.println("2222222222222222222222222");
+				
 				return new ResponseEntity(check, HttpStatus.OK);
 			}
 			else
@@ -618,12 +599,65 @@ public class ArticleController {
 		}
 		else
 		{
-			System.out.println("2222222222222222222222222");
+			
 			return new ResponseEntity(check, HttpStatus.OK);
 		}
 		
 		
 	}
+	
+	//신고
+	@GetMapping("/reportArticle")
+	public ResponseEntity reportArticle(@RequestParam(required = false, defaultValue = "0") int articleId,
+										@RequestParam(required = false, defaultValue = "0") int commentId)
+	{
+		System.out.println("articleId" + articleId);
+		System.out.println("commentId" + commentId);
+		
+		System.out.println("신고하기");
+		if(articleId > 0)
+		{
+			System.out.println("게시판 신고");
+			
+			if(articleService.reportArticle(articleId) > 0)
+			{
+				return new ResponseEntity("ok", HttpStatus.OK);
+			}
+			
+		}
+		else if(commentId > 0)
+		{
+			System.out.println("댓글 신고");
+			
+			if(articleService.reportComment(commentId) > 0)
+			{
+				return new ResponseEntity("ok", HttpStatus.OK);
+			}
+		}
+		
+		
+		
+		
+		
+		
+		return new ResponseEntity("no", HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
 
 

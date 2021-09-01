@@ -1,6 +1,12 @@
 <template>
   <div>
     <div class="wrapper m-4 container-fluid p-2">
+      <!-- 노티피케이션 -->
+      <notifications
+        group="notifyApp"
+        position="bottom right"
+        style="margin-right: 30vh"
+      />
       <div class="cart">
         <h1 class="m-2">장바구니</h1>
         <hr />
@@ -16,17 +22,17 @@
                 </td>
                 <td style="padding-left: 10px">
                   <!-- 주소가 맞지 않을 수 있으니 수정할수있도록 할것 -->
-                  <span
-                    ><div v-if="currentPlace">
-                      {{ currentPlace.address_name }}
+                  <span>
+                    <div>
+                      {{ finalAddress }}
                     </div>
-
+                    <!-- 모달 취소를 했을 때, placeSelector를 false로 만들어야함 -->
                     <span
                       class="badge bg-info text-dark m-1"
                       style="cursor: pointer"
-                      @click="SET_MODAL_MAP(true)"
-                      @close="SET_MODAL_MAP(false)"
-                      >주소수정</span
+                      @click="openMap"
+                      @close="closeMap"
+                      >주소찾기</span
                     ></span
                   >
                   <input
@@ -34,6 +40,7 @@
                     placeholder="(필수) 상세주소 입력"
                     style="width: 100%"
                     v-model="addressDetail"
+                    @input="type_addressDetail"
                   />
                 </td>
               </tr>
@@ -260,6 +267,7 @@
         </div>
       </div>
     </div>
+    <kakaomap v-if="mapModal"></kakaomap>
   </div>
 </template>
 
@@ -267,8 +275,11 @@
 import { mapState, mapGetters, mapMutations } from "vuex";
 import http from "@/api/http";
 import axios from "axios";
+import kakaomap from "@/components/modal/Map.vue";
+import { error, success } from "@/api/notification";
 
 export default {
+  components: { kakaomap },
   data() {
     return {
       foodList: [],
@@ -280,6 +291,7 @@ export default {
       couponList: [],
       couponLoaded: false,
       checkedCoupon: [],
+      placeSelector: false,
     };
   },
   computed: {
@@ -319,6 +331,15 @@ export default {
       }
       return result;
     },
+    finalAddress() {
+      if (this.placeSelector == false && this.currentPlace) {
+        return this.currentPlace.address_name;
+      } else if (this.placeSelector == true && this.address.place_name) {
+        return this.address.place_name;
+      } else {
+        return this.currentPlace.address_name;
+      }
+    },
   },
   mounted() {
     if (this.GET_LOCAL == null) {
@@ -331,7 +352,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["delCart", "clearCart"]),
+    ...mapMutations(["delCart", "clearCart", "SET_MODAL_MAP"]),
     getFoodList(foodIdSet) {
       // 페이지 초기화할때 카드에 저장된 음식 정보를 불러온다.
       const foodIdList = Array.from(foodIdSet);
@@ -390,17 +411,36 @@ export default {
     },
     putOrder() {
       // 클릭했을 때 재 클릭을 방지해야함.
-      // validation 필요하다
+      // validation
+      if (!this.finalAddress) {
+        error("주소를 입력해주세요!", this);
+        return;
+      }
+      if (this.addressDetail == "" || !this.addressDetail) {
+        console.log(this.address);
+        error("상세 주소를 입력해주세요", this);
+        return;
+      }
+      const phoneCheckReg = /^\d{2,3}-\d{3,4}-\d{4}$/;
+      let phoneValidation = phoneCheckReg.test(this.phone);
+      if (!this.phone) {
+        error("전화번호를 입력해주세요", this);
+        return false;
+      } else if (phoneValidation === false) {
+        error("전화번호는 숫자와 -(하이픈)만 입력 가능합니다.");
+        return;
+      }
 
       // 계산 진행, 만약 회원이면 정보로 하고, 로그인 아니면 필요정보입력
       // 정보들은 백단에서 한번 더 재확인해야한다.
-      const address = this.GET_LOCAL.address_name + ", " + this.addressDetail;
+      const address = this.finalAddress + ", " + this.addressDetail;
       const phone = this.phone;
       const orderRequest = this.orderRequest;
       const totalPrice = this.totalPrice;
       // 쿠폰정보 쿠폰사용가능 정보 확인
       const couponIdList = this.checkedCoupon;
-      console.log("총 가격이 얼마냐?" + this.totalPrice);
+      // member Id 얻어오기
+      const memberId = this.getUserId;
       // 데이터 정렬
       const orderData = {
         address,
@@ -408,7 +448,9 @@ export default {
         orderRequest,
         totalPrice,
         couponIdList,
+        memberId,
       };
+      console.log("==== 생성되어 들어가는 memeberId = " + memberId);
       // DB에 오더 넣기.
       axios
         .create({ baseURL: "http://localhost:8083" })
@@ -501,6 +543,17 @@ export default {
       this.$store.commit("SET_LON", longitude);
       console.log("사용자 위치 추적: " + latitude + ", " + longitude);
       this.$store.commit("SET_OBSERVE", true);
+    },
+    openMap() {
+      this.placeSelector = true;
+      this.SET_MODAL_MAP(true);
+    },
+    closeMap() {
+      this.placeSelector = false;
+      this.SET_MODAL_MAP(false);
+    },
+    type_addressDetail(e) {
+      this.addressDetail = e.target.value;
     },
   },
 };

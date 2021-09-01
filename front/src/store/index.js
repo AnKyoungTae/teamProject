@@ -6,9 +6,6 @@ import Akinator from "@/store/akinator";
 import createPersistedState from "vuex-persistedstate";
 import serviceCenter from "./serviceCenter";
 
-import couponon from "./event/couponon.js";
-import couponend from "./event/couponend.js";
-
 export default createStore({
   state: {
     loading: false, // 로딩 컴포넌트를 위함
@@ -22,10 +19,8 @@ export default createStore({
 
     akinator: false, // 아키네이터 상태
 
-    countNotice: true, //notice 상태
-    countQueAn: true, //Q&A 상태
-    countFAQ: true, //FQA 상태
-    serviceCenters: 0, //서비스 센터 위치
+    serviceCenters: 1, //서비스 센터 위치
+    serviceCenterToggle: false, //사이드바 클릭
 
     selectedPlace: "주소찾기를 눌러주세요...", // 주소찾기에서 선택한 주소
     selectedAddressDetail: "", // 주소찾기에서 선택한 상세주소
@@ -71,18 +66,7 @@ export default createStore({
     SET_SELECT_REGISTER(state, data) {
       state.selectRegister = data;
     },
-    SET_COUNT_NOTICE(state, boolean) {
-      //notice 상태 확인 변화
-      state.countNotice = boolean;
-    },
-    SET_COUNT_QUEAN(state, boolean) {
-      //notice 상태 확인 변화
-      state.countQueAn = boolean;
-    },
-    SET_COUNT_FQA(state, boolean) {
-      //notice 상태 확인 변화
-      state.countFAQ = boolean;
-    },
+
     SET_MODAL_MAP(state, boolean) {
       state.mapModal = boolean;
     },
@@ -103,8 +87,12 @@ export default createStore({
       state.isObserved = boolean;
     },
     SET_serviceCenters(state, payload) {
-      console.log("serviceCenter:   " + state.serviceCenters);
+      //serviceCenter 에서 버튼 위치
       state.serviceCenters = payload;
+    },
+    SET_serviceCenterToggle(state, payload) {
+      //sidebar에서 serviceCenter 클릭시
+      state.serviceCenterToggle = payload;
     },
     SET_MODAL_REVIEW(state, boolean) {
       state.reviewModal = boolean;
@@ -114,8 +102,6 @@ export default createStore({
     auth,
     Akinator,
     serviceCenter,
-    couponon,
-    couponend,
     cart,
   },
   plugins: [

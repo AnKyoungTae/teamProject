@@ -10,11 +10,100 @@
 		m.`phone` AS tel, 
 		m.`email` AS email, 
 		m.`nickname` AS nickname,
-		m.`status` AS status
+		m.`status` AS status,
+		m.profileUrl AS profileUrl
    FROM `loginInfo` l, `member` m 
   WHERE m.memberId = l.member_id 
     AND m.memberId = #{memberId}
-    AND m.status = "Y";
+    AND m.status = "Y"
 </select>
+
+<update id="insertProfile" >
+
+UPDATE `member`
+SET	nickname = #{nickname},
+	phone = #{tel},
+	email = #{email}
+WHERE	memberId = #{memberId}
+</update>
+
+<!-- 비밀번호 수정 -->
+<update id="insertPassWord" >
+UPDATE loginInfo
+SET	PASSWORD = #{password}
+WHERE	member_id = #{member_id}
+</update>
+
+<!-- 회원 확인 -->
+<select id="deleteProfileCheck" resultType="LoginInfo">
+SELECT	*
+FROM	`loginInfo`
+WHERE	member_id = #{member_id}
+AND	PASSWORD = #{password}
+</select>
+<!-- 탈퇴하기 -->
+<insert id="deleteProfile">
+UPDATE `member`
+SET	STATUS = 'N'
+WHERE	memberId = #{member_id}
+</insert>
+
+<!-- 주문 조회 -->
+<select id="selectAllOrders" resultType="Order">
+SELECT	A.orderId,
+	A.orderDate AS 'orderDate',
+	A.status AS 'status',
+	E.name AS 'storeName',
+	A.phone AS 'phone',
+	C.name AS 'foodName',
+	B.quantity AS 'quantity',
+	D.name AS 'image',
+	D.orgName AS 'orgName'
+FROM	`order` A INNER JOIN  `orderInfo` B INNER JOIN `food` C INNER JOIN `store_file` D INNER JOIN `store` E
+ON	A.orderId = B.orderInfoId
+AND	B.food_id = C.foodId
+AND	C.store_id = D.store_id
+AND	C.store_id = E.storeId
+
+
+WHERE	A.status != 'S'
+AND	A.member_id= #{memberId}
+
+</select>
+
+<select id="getCoupon" resultType="Map">
+	SELECT
+		A.couponNumber,
+		A.couponName,
+		B.coupon_used AS 'couponUsed',
+			A.couponEnd,
+		B.total_discountPrice,
+		A.status,
+		f.store_id
+	FROM	`coupon` A, `member_coupon` B, food f
+	WHERE	A.couponId = B.coupon_id
+	  AND A.food_id = f.foodId
+	  AND B.coupon_holder = #{memberId}
+</select>
+
+<!-- 이미지 업로드 -->
+<update id="insertImage">
+UPDATE `member`
+SET	profileUrl = #{fileURL}
+	
+WHERE	memberId = #{memberId}
+
+
+
+</update>
+
+	<select id="selectFileUrl" resultType="String">
+		SELECT profileUrl
+		FROM `member`
+		WHERE memberId = #{memberId};
+	</select>
+
+
+
 
 </mapper>

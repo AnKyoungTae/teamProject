@@ -55,15 +55,15 @@ FROM article
 <!-- 글 삭제 -->
 <delete id="boardDelete" parameterType="Article">
 	UPDATE article
-	SET STATUS = 'S'
+	SET STATUS = 'N'
 WHERE articleId = #{value}
 
 </delete>
 
-<!-- 댓글 삭제 parant_id: 모든 댓글 삭제 -->
+<!-- 댓글 삭제  모든 댓글 삭제 -->
 <delete id="commentDelete" parameterType="Article">
 UPDATE article
-	SET STATUS = 'S'
+	SET STATUS = 'N'
 WHERE parant_id = #{value}
 </delete>
 
@@ -120,30 +120,28 @@ VALUES (
 
 
 <!-- 댓글 등록 -->
-<insert id="commentInsert" useGeneratedKeys="true" keyProperty="articleId" parameterType="Article">
-INSERT INTO article(
+<insert id="commentInsert" >
+
+INSERT INTO `comment`(
 	regDate,
 	updateDate,
-	title,
 	BODY,
-	hit,
-	parant_id,
-	board_id,
-	writer_id)
+	STATUS,
+	article_id,
+	writer_id
+    )
 VALUES (
 	NOW(),
 	NOW(),
-	#{title},
-	'',
-	0,
-	#{parantId},
-	4,
+	#{body},
+	'Y',
+	#{articleId},
 	#{writerId}
 )
 </insert>
 	
 <!-- 게시물 조회수 증가 -->
-<update id="boardHit" parameterType="int">
+<update id="boardHit" >
 UPDATE article
 	SET hit = hit + 1
 WHERE articleId = #{articleId}
@@ -173,7 +171,7 @@ SELECT @rownum:=@rownum+1 AS nickname,
 FROM article    , (SELECT @rownum:=0) TMP
 WHERE (@rownum:=0)=0
 AND board_id = #{boardId}
-AND	STATUS != 'S'
+AND	STATUS != 'N'
 
 <if test="search != null">
 AND	title LIKE CONCAT('%', #{search} ,'%')
@@ -192,7 +190,7 @@ SELECT
 FROM
 	article
 WHERE	board_id = #{boardId}
-AND		status != 'S'
+AND		status != 'N'
 <if test="search != null">
 AND	title LIKE CONCAT('%', #{search} ,'%')
 </if>
@@ -213,27 +211,7 @@ WHERE articleId = #{articleId};
 
 
 </update>
-<!-- 댓글 조회 -->
-<select id="commentList"  resultType="Article">
-SELECT A.articleId,
-	A.regDate,
-	A.updateDate,
-	A.title,
-	A.BODY,
-	A.hit,
-	A.STATUS,
-	A.children,
-	A.parant_id AS patantId,
-	A.board_id AS boardId,
-	A.writer_id AS writerId,
-	B.nickname
-	
-FROM    `article` A INNER JOIN `member` B
-ON A.writer_id = B.memberId
 
-WHERE parant_id = #{parantId}
-ORDER BY articleId DESC
-</select>
 
 
 <!-- 내글 모두 보기 -->
@@ -256,6 +234,8 @@ ON A.writer_id = B.memberId
 
 WHERE board_id = #{boardId}
 AND	writer_id = #{memberId}
+AND A.status != 'N'
+ORDER BY articleId DESC
 
 </select>
 
@@ -267,19 +247,59 @@ SELECT *
 
 </select>
 	
+<!-- 댓글 가져오기 -->
+<select id="getComment" resultType="Comment">
+SELECT *
+   FROM `comment`
+   WHERE commentId= #{commentId}
+   AND	writer_id = #{memberId}
+ORDER BY commentId DESC
+</select>
 	
+<update id="deleteComment">
+UPDATE `comment`
+	SET STATUS='N'
+WHERE commentId = #{commentId}
+</update>
+
+<!-- 게시물 댓글 수 감소 -->
+<update id="deleteChildren">
+UPDATE article
+	SET children = children -1
+WHERE articleId = #{articleId}
+
+</update>
 	
+<!-- 모든 댓글 가져오기 -->
+<select id="getAllComment" resultType="Comment">
+SELECT 
+	comment.commentId,
+	comment.regDate,
+	comment.updateDate,
+	comment.status,
+	comment.body,
+	comment.article_id AS 'articleId',
+	comment.writer_id AS 'writerId',
+	member.nickname
 	
+FROM `comment` INNER JOIN `member`
+ON	comment.writer_id= member.memberId
+WHERE  comment.article_id= #{articleId}
+AND comment.status != 'N'
+</select>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+<!-- 댓글 신고 -->	
+<update id="reportComment">
+UPDATE `comment`
+	SET STATUS='S'
+WHERE commentId = #{commentId}
+</update>
+<!-- 게시글 신고 -->
+<update id="reportArticle">
+UPDATE `article`
+	SET STATUS='S'
+WHERE articleId = #{articleId}
+</update>
 	
 	
 	

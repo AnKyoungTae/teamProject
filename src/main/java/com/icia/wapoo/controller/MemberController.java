@@ -95,7 +95,7 @@ public class MemberController {
         System.out.println("test : 토큰정보 -> " +infos);
         int id = (int) infos.get("memberId");
         Member member = memberService.getMemberBymemberId(id);
-
+        System.out.println("member: " + member);
 
         return new ResponseEntity(member, HttpStatus.OK);
     }

@@ -11,14 +11,29 @@
     />
     <div class="row">
       <!-- 맨 윗줄 카테고리영역 -->
-      <div class="col btn btn-light" @click="setStatusOption('ALL')">
-        전체 이벤트
+      <div
+        class="col btn btn-light spread-underline"
+        @click="setStatusOption('ALL')"
+      >
+        <span :class="[this.statusOption === 'ALL' ? 'choiced' : '']">
+          전체 이벤트
+        </span>
       </div>
-      <div class="col btn btn-light" @click="setStatusOption('Y')">
-        진행중인 이벤트
+      <div
+        class="col btn btn-light spread-underline"
+        @click="setStatusOption('Y')"
+      >
+        <span :class="[this.statusOption === 'Y' ? 'choiced' : '']">
+          진행중인 이벤트
+        </span>
       </div>
-      <div class="col btn btn-light" @click="setStatusOption('N')">
-        만료된 이벤트
+      <div
+        class="col btn btn-light spread-underline"
+        @click="setStatusOption('N')"
+      >
+        <span :class="[this.statusOption === 'N' ? 'choiced' : '']">
+          만료된 이벤트
+        </span>
       </div>
     </div>
     <hr />
@@ -31,11 +46,18 @@
     </div>
     <div v-else>
       <!-- 페이지 로딩되었을때 -->
+<<<<<<< HEAD
       <div class="eventList">
         <div class="row" v-for="event in eventList" :key="event">
           <eventRow :data="event"></eventRow>
           <hr />
         </div>
+=======
+      <div class="row" v-for="event in eventList" :key="event">
+        <eventRow :data="event"></eventRow>
+
+        <hr />
+>>>>>>> 0accfd3d05b21f8af1e360b23b72f5395a6efd52
       </div>
       <!-- 페이지네이션 -->
       <nav aria-label="Page navigation">
@@ -105,7 +127,7 @@ export default {
       listPerPage: 10, // 한번에 보여줄 리스트숫자
       totalCount: 0, // 총 게시글 수
       showindex: 5, // 번호로 표시될 페이지 총 갯수
-      statusOption: "ALL",
+      statusOption: "Y",
       selectedEvent: "",
       pageLoaded: false,
     };
@@ -213,10 +235,39 @@ export default {
 .available-link {
   cursor: pointer;
 }
+<<<<<<< HEAD
 .eventList {
   width:1000px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+=======
+.choiced {
+  text-decoration-line: underline;
+  text-underline-position: under;
+}
+.spread-underline {
+  color: #333;
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px 0;
+  position: relative;
+}
+.spread-underline:after {
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 4px;
+  left: 50%;
+  position: absolute;
+  background: #ffb000;
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0;
+}
+.spread-underline:hover:after {
+  width: 100%;
+  left: 0;
+>>>>>>> 0accfd3d05b21f8af1e360b23b72f5395a6efd52
 }
 </style>
