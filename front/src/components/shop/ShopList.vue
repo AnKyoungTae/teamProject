@@ -11,13 +11,11 @@
     <div class="row">
       <!-- 음식사진시작 -->
       <div class="col-12">
-        <div class="slide">
-          <splide :options="options">
-            <splide-slide v-for="file in fileList" :key="file">
+          <splide  class="slide" :options="options">
+            <splide-slide v-for="file in fileList" :key="file" style="border:1px solid red;">
               <img class="menuImg" :src="file.name" />
             </splide-slide>
           </splide>
-        </div>
       </div>
       <!-- 종료 -->
     </div>
@@ -41,6 +39,7 @@ export default {
   props: ["shopInfo"],
   mounted() {
     console.log(this.shopInfo.storeId); // 사진을 불러오기위함
+    console.log("사진불러옴");
     if (this.shopInfo.storeId != null) {
       http
         .get("/store/getStoreFiles", {
@@ -63,23 +62,22 @@ export default {
     return {
       fileList: [],
       options: {
-        rewind: true, //첫 번째 슬라이드 이전 또는 마지막 슬라이드 이후에 슬라이더를 되감는지 여부.
-        speed: 300, // 밀리초 단위의 전환 속도입니다.
-        rewindSpeed: 300, //되감기 시 전환 속도(밀리초)입니다.
-        focus: "center", //어떤 슬라이드에 초점을 맞춰야 하는지 결정합니다.
-        type: "loop",
+        speed      : 300,       // 밀리초 단위의 전환 속도입니다.
+        perMove    : 1,         //슬라이더가 다음 또는 이전 페이지로 이동할 때 이동해야 하는 슬라이드 수를 결정합니다.
+        trimSpace  : true,      //첫 번째 슬라이드 이전 또는 마지막 슬라이드 이후에 공백을 트리밍할지 여부입니다.
+        pagination : false,     //페이지 매김(표시 점)을 추가할지 여부입니다.
+        type       : 'loop',    //슬라이더 유형을 결정합니다.
+        focus      : 'center',  //어떤 슬라이드에 초점을 맞춰야 하는지 결정합니다.
+        destroy    : true,
         breakpoints: {
-          1600: {
-            width: 700,
-            perPage: 0,
-          },
           1200: {
+            destroy: false,
             width: 700,
             perPage: 5,
           },
           1100: {
-            width: 500,
-            perPage: 3,
+            width: 600,
+            perPage: 5,
           },
           900: {
             width: 400,
@@ -123,21 +121,25 @@ export default {
   justify-self: start;
   padding: 0px;
 }
+.slide {
+  border:1px solid black;
+}
 @media screen and (min-width: 1200px) {
-  .slide {
-    width: 300px;
-    display: none;
-  }
-  .menuImg {
-    width: 0px;
-    height: 0px;
-  }
   .storeHeader {
     width: 300px;
     height: 50px;
   }
+  .menuImg {
+    display: none;
+  }
 }
 @media screen and (max-width: 1200px) {
+  .storeHeader {
+    width: 100%;
+  }
+  .splide {
+    width: 700px;
+  }
   .menuImg {
     width: 100px;
     height: 70px;
