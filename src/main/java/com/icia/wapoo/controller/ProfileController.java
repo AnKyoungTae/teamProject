@@ -28,6 +28,7 @@ import com.icia.wapoo.model.Member;
 import com.icia.wapoo.model.MemberCoupon;
 import com.icia.wapoo.model.Order;
 import com.icia.wapoo.model.Profile;
+import com.icia.wapoo.model.Review;
 import com.icia.wapoo.service.MemberService;
 import com.icia.wapoo.service.ProfileService;
 
@@ -240,6 +241,27 @@ public class ProfileController {
 	public ResponseEntity getMemberProfilePicture(@RequestParam("memberId") Integer memberId) {
     	String url = profileService.getProfileUrl(memberId);
     	return new ResponseEntity(url, HttpStatus.OK);
+	}
+	
+	
+	@GetMapping(value = "/getMyReview")
+	public ResponseEntity getMyReview(@RequestParam("memberId") Integer memberId, HttpServletRequest request)
+	{
+		System.out.println("작성했던 리뷰를 가져옵니다");
+		int memberIdCheck = getMemberIdByRequest(request);
+		if(memberIdCheck != memberId) {
+			return new ResponseEntity(HttpStatus.FORBIDDEN);
+		}
+		if(memberId > 0)
+		{
+			System.out.println("회원넘버" +memberId);
+			List<Map<String, Object>> list = profileService.getMyReview(memberId);
+			return new ResponseEntity(list, HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	

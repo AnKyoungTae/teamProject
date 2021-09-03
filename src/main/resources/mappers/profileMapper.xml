@@ -104,6 +104,24 @@ WHERE	memberId = #{memberId}
 	</select>
 
 
+<!-- 리뷰 -->
+<select id="selectMyReview" resultType="Map">
+		SELECT r.reviewId
+            ,r.regDate
+            ,r.updateDate
+            ,r.status
+            ,r.score
+            ,r.body
+            ,r.store_id
+            ,r.foodPhoto
+            ,r.reply
+             ,r.writerid
+            ,m.nickname
+        FROM review r, `member` m
+        WHERE r.writerid = m.memberId
+        AND r.writerid = #{memberId}
+        AND r.status != 'N'
+</select>
 
 
 </mapper>

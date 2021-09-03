@@ -137,6 +137,7 @@ export default {
       return new Promise((resolve) => {
         setTimeout(function () {
           context.commit("delToken");
+          context.commit("SET_MY_STORE", "");
           context.commit("delUserInfo");
           console.log("로그아웃 했음.");
           router.push({ path: "/" });

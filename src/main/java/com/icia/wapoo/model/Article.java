@@ -19,6 +19,7 @@ public class Article{
 	private long parantId;			// 부모 게시글
 	private long boardId;			// 게시판 종류
 	private long writerId;			// 작성자
+	private String suspend;		//신고내용
 	
 	private String nickname;		//닉네임
 

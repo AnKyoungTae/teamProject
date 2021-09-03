@@ -55,7 +55,7 @@
                 <i class="fas fa-thumbs-up"></i
                 ><span class="i-text">리뷰점수</span>
               </td>
-              <td class="td2" style="padding-left: 20px">4.9</td>
+              <td class="td2" style="padding-left: 20px">{{ averageScore }}</td>
             </tr>
             <tr>
               <td class="td1" style="color: gray; margin-top: 20px">
@@ -116,7 +116,7 @@
         :shopname="shopInfo.storeInfo.name"
         v-else-if="currentComp === 'shopMap'"
       ></shopMap>
-      <review v-else-if="currentComp === 'review'"></review>
+      <review v-else-if="currentComp === 'review'" :storeId="storeId"></review>
       <div v-else>
         <div class="spinner-border" role="status">
           <span class="visually-hidden">Loading...</span>
@@ -136,21 +136,43 @@ import http from "@/api/http";
 import shopMenu from "@/components/adminComponent/StoreMenu.vue";
 import shopMap from "@/components/adminComponent/StoreMap.vue";
 import review from "@/components/adminComponent/Review.vue";
+import { mapGetters } from "vuex";
+
 export default {
   components: { shopMenu, shopMap, review },
   mounted() {
-    let storeId = this.$route.query.shopInfo;
-    this.getStoreInfo(storeId);
+    this.initStore();
+    if (this.myStore.storeId == this.storeId) {
+      this.ownStore = true;
+    }
+    console.log("몇인데 스토어이디? :" + this.storeId);
+    this.getStoreInfo(this.storeId);
     this.setComponent("shopMenu");
+    this.getAverageScore();
+  },
+  computed: {
+    ...mapGetters({ myStore: "auth/getMyStore" }),
   },
   data() {
     return {
       shopInfo: null,
       dataLoaded: false,
       currentComp: "shopMenu",
+      averageScore: null,
+      ownStore: false,
+      storeId: null,
     };
   },
   methods: {
+    initStore() {
+      let storeIdt;
+      if (this.$route.query.shopInfo == null) {
+        storeIdt = this.myStore.storeId;
+      } else {
+        storeIdt = this.$route.query.shopInfo;
+      }
+      this.storeId = storeIdt;
+    },
     getStoreInfo(storeId) {
       http
         .get("/store/getStoreInfos", {
@@ -166,6 +188,21 @@ export default {
     },
     setComponent(comp) {
       this.currentComp = comp;
+    },
+    getAverageScore() {
+      http
+        .get("/review/getAverageScore", {
+          params: {
+            storeId: this.storeId,
+          },
+        })
+        .then((response) => {
+          this.averageScore = response.data;
+          console.log("점수 평균값 : " + this.averageScore);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

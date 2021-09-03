@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="col-md-10 gray mt-2">
+    <div class="gray">
       <div id="staticMap"></div>
     </div>
     <div>
@@ -50,6 +50,7 @@ export default {
 #staticMap {
   width: 100%;
   height: 100%;
+  text-align: center;
 }
 .gray {
   background-color: gray;

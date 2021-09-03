@@ -1,40 +1,50 @@
 <template>
-<center>
-  <div>
-    비밀번호 변경하기
-    <br>
-    ON<input type="radio" @change="changePwd" name="pwd">
-    OFF<input type="radio" @change="changeNotPwd" name="pwd" checked>
-    <br>
-  </div>
-  <div class="container" style="width: 800px; margin-right: 10px">
-    <div>
-      <div class="row" style="border-top: 1px solid black">
-        <div class="col-4 edit-1">이름 :</div>
-        <div class="col-8 edit-2">{{name}}</div>
-      </div>
-      <div class="row">
-        <div class="col-4 edit-1">닉네임 :</div>
-        <div class="col-8 edit-2">
-          <input
+<div class="manage-div">
+    <div class="manage-div2">
+      <h3 class="manage-text">내정보 수정</h3>
+      <div class="profile-manage">
+        <div class="manage-box">
+          <a class="profile-img">
+            <strong class="login-tit">이름</strong>
+            <span class="login-txt">{{ name }}</span>
+          </a>
+          <hr style="padding: 0px;"/>
+
+          <a class="profile-img">
+            <strong class="login-tit">아이디</strong>
+            <span class="login-txt">{{ loginId }}</span>
+          </a>
+          <hr style="padding: 0px;"/>
+
+          <a class="profile-img">
+            <strong class="login-tit">닉네임</strong>
+            <span class="login-txt"><input
             v-model="nickname"
             type="text"
             placeholder="한글,영문,숫자만 2~10자리"
-            maxlength="10"
+            maxlength="15"
           />
          
-          <div v-if="this.nickname === ''" class="msg">닉네임을 입력하세요.</div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-4 edit-1">아이디 </div>
-        <div class="col-8 edit-2">{{loginId}}</div>
-      </div>
-      
-      <div class="row">
-        <div class="col-4 edit-1">핸드폰번호 :</div>
-        <div class="col-8 edit-2">
-          <input
+          <div v-if="this.nickname === ''" class="msg">닉네임을 입력하세요.</div></span>
+          </a>
+          <hr style="padding: 0px;"/>
+
+          <a class="profile-img">
+            <strong class="login-tit">이메일</strong>
+            <span class="login-txt"><input
+            v-model="email"
+            type="email"
+            placeholder="이메일 적어주세요"
+            maxlength="20"
+          />
+          
+          <div v-if="this.email === '' " class="msg"></div></span>
+          </a>
+          <hr style="padding: 0px;"/>
+
+          <a class="profile-img">
+            <strong class="login-tit">핸드폰번호</strong>
+            <span class="login-txt"><input
             v-model="tel"
             type="text"
             placeholder="-없이 적어주세요"
@@ -42,58 +52,50 @@
      
           />
         
-          <div v-if="this.tel ===  '' " class="msg">번화번호를 입력하요</div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-4 edit-1">이메일 :</div>
-        <div class="col-8 edit-2" style="border-bottom: 1px solid black">
-          <input
-            v-model="email"
-            type="email"
-            placeholder="이메일 적어주셈"
-            maxlength="20"
-          />
-          
-          <div v-if="this.email === '' " class="msg"></div>
-        </div>
+          <div v-if="this.tel ===  '' " class="msg">핸드폰번호를 입력하세요</div></span>
+          </a>
+          <hr style="padding: 0px;"/>
 
-      </div>
+          <div>
+            비밀번호 변경하기
+            <br>
+            ON<input type="radio" @change="changePwd" name="pwd">
+            OFF<input type="radio" @change="changeNotPwd" name="pwd" checked>
+            <br>
+          </div>
+          <div class="row" v-if="pwdToggle == true">
+            <a class="profile-img">
+              <strong class="login-tit">비밀번호</strong>
+              <span class="login-txt"><input
+              v-model="pwd"
+              type="password"
+              placeholder="숫자,대문자,소문자 8~16자리"
+              maxlength="16"
+            /></span>
+            </a>
+            <hr style="padding: 0px;"/>
+          </div>
 
-      <div class="row" v-if="pwdToggle == true">
-        <div class="col-4 edit-1">비밀번호 :</div>
-        <div class="col-8 edit-2">
-          <input
-            v-model="pwd"
-            type="password"
-            placeholder="숫자,대문자,소문자 8~16자리"
-            maxlength="16"
-          />
-    
+          <div class="row" v-if="pwdToggle == true">
+            <a class="profile-img">
+              <strong class="login-tit">비밀번호 확인</strong>
+              <span class="login-txt"><input
+              v-model="pwdCheck"
+              type="password"
+              placeholder="위 비밀번호랑 똑같이 적으세요"
+              maxlength="16"
+            /></span>
+            </a>
+            <hr style="padding: 0px;"/>
+          </div>
         </div>
       </div>
-      <div class="row" v-if="pwdToggle == true">
-        <div class="col-4 edit-1">비밀번호 확인 :</div>
-        <div class="col-8 edit-2">
-          <input
-            v-model="pwdCheck"
-            type="password"
-            placeholder="위 비밀번호랑 똑같이 적으셈"
-            maxlength="16"
-          />
-        
-        </div>
-      </div>
-      <br>
-      <div >
-        <button type="button" @Click="editProfile" class="btn btn-secondary">
-          <span style="font-size: 20px">수정완료</span>
-        </button>
-      </div>
-
+      <button type="button" @Click="editProfile" class="btn btn-secondary">
+        <span style="font-size: 20px">수정완료</span>
+      </button>
     </div>
   </div>
-</center>
+
 </template>
 
 <script>
@@ -204,25 +206,76 @@ export default {
 </script>
 
 <style>
-.edit-1 {
-  font-weight: 400;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-style: solid;
-  border-width: 0px 1px 1px 1px;
+.manage-div {
+  max-width: 560px;
+  margin: 50px auto 0;
+  display: block;
 }
-.edit-2 {
-  font-weight: 400;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-style: solid;
-  border-width: 0px 1px 1px 0px;
+.manage-div2 {
+  display: block;
 }
+.manage-text {
+  font-weight: normal;
+  font-size: 20px;
+}
+.profile-manage {
+  margin-top: 10px;
+  border-top: 1px solid #7c7c7c;
+}
+.manage-box {
+  margin-top: 40px;
+  text-align: left;
+}
+.profile-comm {
+  margin-top: 4px;
+  color: gray;
+}
+.profile-img {
+  margin-top: 10px;
+}
+.profile-imgdiv {
+  float: left;
+  width: 80px;
+  height: 80px;
+  padding: auto 0;
+  position: relative;
+}
+.profile-imgdiv img {
+  display: block; 
+  width: 80px; 
+  height: 80px; 
+  border-radius: 50%;
+}
+.img-text {
+  overflow: hidden;
+  display: block;
+  font-size: 22px;
+  height: 80px;
+  line-height: middle;
+  padding-left: 20px;
+  padding-bottom: 10px;
+}
+.login-tit {
+  font-size: 20px;
+}
+.login-txt {
+  float: right;
+  color: #5066aa;
+  font-size: 20px;
+}
+.m-2 {
+  cursor: pointer;
+}
+.nicknamebox {
+  float: left;
+  line-height: 80px;
+}
+.filebox {
+  margin-left: 30%;
+  height: 80px;
+  text-align: right;
+}
+
 .msg {
   color: red;
   font-size: 15px;

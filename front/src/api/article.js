@@ -31,7 +31,7 @@ export async function listDelete(params) {
   });
 }
 //페이징 리스트
-export async function getBoardList(boardId, page, range, listSize, rangeSize, search=null){
+export async function getBoardList(boardId, page, range, rangeSize, listSize, search=null){
   return http.get("/article/pagingBoard",{
     params: {
       boardId: boardId,
@@ -86,19 +86,21 @@ export function deleteComment(articleId, commentId) {
 }
 //신고하기!!!!!!!!11
 //게시판
-export function reportArticle(articleId){
+export function reportArticle(articleId, suspend){
   return http.get("/article/reportArticle", {
     params: {
-      articleId: articleId
+      articleId: articleId,
+      suspend: suspend
     }
   })
 }
 
 //댓글
-export function reportComment(commentId){
+export function reportComment(commentId, suspend){
   return http.get("/article/reportArticle", {
     params: {
-      commentId: commentId
+      commentId: commentId,
+      suspend: suspend
     }
   })
 }

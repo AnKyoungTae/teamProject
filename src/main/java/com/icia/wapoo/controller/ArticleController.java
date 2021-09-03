@@ -97,7 +97,7 @@ public class ArticleController {
 		
 		if(article != null)
 		{
-			if(article.getStatus().equals("Y"))
+			if(!article.getStatus().equals("N"))
 			{
 				System.out.println("글 확인 가능");
 				return new ResponseEntity("100", HttpStatus.OK);
@@ -131,6 +131,7 @@ public class ArticleController {
 	@PostMapping("/board/writeProc")
 	public ResponseEntity writeProc( @RequestBody Map<String, Object> writeForm, HttpServletRequest request)
 	{
+		System.out.println("글작성.");
 		long memberId = getMemberIdByRequest(request);
 		
 		if(memberId > 0)
@@ -144,13 +145,27 @@ public class ArticleController {
 			
 			Article article = new Article();
 			
+			
+			try
+			{
+				System.out.println("회원이다.:"+ Integer.parseInt((String) (writeData.get("parantId"))));
+				
+				article.setParantId(Integer.parseInt((String) (writeData.get("parantId"))));
+				System.out.println("답글 작성");
+			}
+			catch(Exception e)
+			{
+				article.setParantId(0);
+				System.out.println("게시글 작성");
+			}
+			
 			article.setTitle((String)writeData.get("title"));
-
+			
 			article.setBody((String)writeData.get("body"));
 			
 			article.setStatus((String)writeData.get("status"));
 			
-			article.setBoardId( Integer.parseInt((String)writeData.get("boardId")));
+			article.setBoardId( (((Integer) writeData.get("boardId")).intValue()));
 			
 			article.setWriterId(memberId);
 			
@@ -348,7 +363,7 @@ public class ArticleController {
 		
 		long writerId = (long)(((Integer) params.get("writerId")).intValue());
 		
-		long articleId = (long)(((Integer) params.get("articleId")).intValue());
+		long articleId = Integer.parseInt((String) (params.get("articleId")));
 		
 		if(memberId != 0)
 		{
@@ -365,12 +380,12 @@ public class ArticleController {
 					if(articleService.boardDelete(articleId) > 0)
 					{
 						System.out.println("글삭제: 성공 \n");
-						return new ResponseEntity("100", HttpStatus.OK);
+						return new ResponseEntity("ok", HttpStatus.OK);
 					}
 					else
 					{
 						System.out.println("글삭제: DB 오류 \n");
-						return new ResponseEntity("300", HttpStatus.OK);
+						return new ResponseEntity("no", HttpStatus.OK);
 					}
 				
 				}
@@ -520,11 +535,20 @@ public class ArticleController {
 		
 		System.out.println("search: " + search);
 		
+		System.out.println("page: " + page);
+		System.out.println("range: " + range);
+		System.out.println("listSize: " + listSize);
+		System.out.println("rangeSize: " + rangeSize);
+		
+		
 		
 		Map<String, Object> map = new HashMap<>();
 		
 		//전체 게시글 개수
 		int total = articleService.getBoardListCnt(boardId, search);
+		
+		
+		System.out.println("total: " + total);
 
 	    //Pagination 객체생성
 		PagingA paging = new PagingA();
@@ -541,6 +565,7 @@ public class ArticleController {
 			paging.setNext(false);
 			paging.setPrev(false);
 		}
+		
 		
 		List<Article>  list =  articleService.getBoardList(paging, boardId, search);
 		
@@ -609,17 +634,28 @@ public class ArticleController {
 	//신고
 	@GetMapping("/reportArticle")
 	public ResponseEntity reportArticle(@RequestParam(required = false, defaultValue = "0") int articleId,
-										@RequestParam(required = false, defaultValue = "0") int commentId)
+										@RequestParam(required = false, defaultValue = "0") int commentId,
+										@RequestParam(required = false, defaultValue = "no") String suspend, HttpServletRequest request)
 	{
-		System.out.println("articleId" + articleId);
-		System.out.println("commentId" + commentId);
+		long memberId = getMemberIdByRequest(request);
+		
+		System.out.println("body: " + suspend);
+		
+		
+		
+		
+		
+		if(memberId == 0 || suspend == "no")
+		{
+			return new ResponseEntity("noMember", HttpStatus.OK);
+		}
 		
 		System.out.println("신고하기");
 		if(articleId > 0)
 		{
 			System.out.println("게시판 신고");
 			
-			if(articleService.reportArticle(articleId) > 0)
+			if(articleService.reportArticle(articleId, suspend) > 0)
 			{
 				return new ResponseEntity("ok", HttpStatus.OK);
 			}
@@ -629,7 +665,7 @@ public class ArticleController {
 		{
 			System.out.println("댓글 신고");
 			
-			if(articleService.reportComment(commentId) > 0)
+			if(articleService.reportComment(commentId, suspend) > 0)
 			{
 				return new ResponseEntity("ok", HttpStatus.OK);
 			}

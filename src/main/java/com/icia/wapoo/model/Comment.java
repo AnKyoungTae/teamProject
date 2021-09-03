@@ -15,6 +15,7 @@ public class Comment {
 	private String body; //내용
 	private int articleId; //작성자글
 	private long writerId; //작성자 id
+	private String suspend;		//신고내용
 	
 	private String nickname;//닉네임
 }

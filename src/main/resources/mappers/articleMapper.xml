@@ -46,7 +46,8 @@ SELECT	IFNULL(articleId, '') AS articleId,
 	IFNULL(STATUS, '') AS STATUS,
 	IFNULL(parant_id, 0) AS parant_id,
 	IFNULL(board_id, 0) AS board_id,
-	IFNULL(writer_id, 0) AS writer_id
+	IFNULL(writer_id, 0) AS writer_id,
+	suspend
 FROM article
   	WHERE articleId = #{value}
     </select>
@@ -60,13 +61,7 @@ WHERE articleId = #{value}
 
 </delete>
 
-<!-- 댓글 삭제  모든 댓글 삭제 -->
-<delete id="commentDelete" parameterType="Article">
-UPDATE article
-	SET STATUS = 'N'
-WHERE parant_id = #{value}
-</delete>
-
+<!--  이지미 삭제 -->
 <delete id="imageDelete" parameterType="ImageFile">
 DELETE FROM article_file
 WHERE articlefileId = #{value}
@@ -86,7 +81,8 @@ SELECT A.articleId,
 	A.parant_id AS patantId,
 	A.board_id AS boardId,
 	A.writer_id AS writerId,
-	B.nickname
+	B.nickname,
+	A.suspend
 	
 FROM    `article` A INNER JOIN `member` B
 ON A.writer_id = B.memberId
@@ -104,7 +100,11 @@ INSERT INTO article(
 	hit,
 	STATUS,
 	board_id,
-	writer_id)
+	writer_id
+<if test="parantId != 0">
+	,parant_id
+</if>
+	)
 VALUES (
 	NOW(),
 	NOW(),
@@ -114,7 +114,9 @@ VALUES (
 	#{status},
 	#{boardId},
 	#{writerId}
-
+<if test="parantId != 0">
+	,#{parantId}
+</if>
 )
 </insert>
 
@@ -166,21 +168,35 @@ SELECT @rownum:=@rownum+1 AS nickname,
 	STATUS,
 	children,
 	board_id AS boardId,
-	writer_id AS writerId
+	parant_id AS parantId,
+	writer_id AS writerId,
+	SUSPEND    
 	
-FROM article    , (SELECT @rownum:=0) TMP
+FROM article, (SELECT @rownum:=#{paging.startList}) TMP
 WHERE (@rownum:=0)=0
-AND board_id = #{boardId}
 AND	STATUS != 'N'
+<choose>
+	<when test="boardId gte 3">
+	AND board_id >= 3
+	</when>
+	<otherwise>
+	AND board_id = #{boardId}
+	</otherwise>
+
+</choose>
 
 <if test="search != null">
 AND	title LIKE CONCAT('%', #{search} ,'%')
 </if>
 
 
-ORDER BY articleId DESC
+ORDER BY 
+CASE WHEN parant_id IS NULL 
+    THEN articleId 
+    ELSE parant_id END , 
+regDate DESC
 
-LIMIT #{paging.startList}, #{paging.listSize}
+LIMIT #{paging.DBsStart}, #{paging.listSize}
 
 </select>
 <!-- 전체 페이지 수 -->
@@ -189,8 +205,17 @@ SELECT
 	COUNT(*) AS totalPage
 FROM
 	article
-WHERE	board_id = #{boardId}
-AND		status != 'N'
+WHERE	status != 'N'
+
+<choose>
+	<when test="boardId gte 3">
+	AND board_id >= 3
+	</when>
+	<otherwise>
+	AND board_id = #{boardId}
+	</otherwise>
+
+</choose>
 <if test="search != null">
 AND	title LIKE CONCAT('%', #{search} ,'%')
 </if>
@@ -227,7 +252,8 @@ SELECT A.articleId,
 	A.parant_id AS patantId,
 	A.board_id AS boardId,
 	A.writer_id AS writerId,
-	B.nickname
+	B.nickname,
+	A.suspend
 	
 FROM    `article` A INNER JOIN `member` B
 ON A.writer_id = B.memberId
@@ -280,7 +306,8 @@ SELECT
 	comment.body,
 	comment.article_id AS 'articleId',
 	comment.writer_id AS 'writerId',
-	member.nickname
+	member.nickname,
+	comment.suspend
 	
 FROM `comment` INNER JOIN `member`
 ON	comment.writer_id= member.memberId
@@ -291,13 +318,15 @@ AND comment.status != 'N'
 <!-- 댓글 신고 -->	
 <update id="reportComment">
 UPDATE `comment`
-	SET STATUS='S'
+	SET STATUS='S',
+	suspend = #{suspend}
 WHERE commentId = #{commentId}
 </update>
 <!-- 게시글 신고 -->
 <update id="reportArticle">
 UPDATE `article`
-	SET STATUS='S'
+	SET STATUS='S',
+	suspend = #{suspend}
 WHERE articleId = #{articleId}
 </update>
 	

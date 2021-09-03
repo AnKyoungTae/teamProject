@@ -38,7 +38,7 @@
     </div>
     <div v-else-if="userRole != null && userRole == 'SELLER'">
       <!-- 판매자로 로그인 했을때 보이는 메뉴들 -->
-      <SidebarLink to="/store" icon="fas fa-store"> 내 가게</SidebarLink>
+      <SidebarLink to="/shopDetail" icon="fas fa-store"> 내 가게</SidebarLink>
       <SidebarLink
         to="/storeMenus"
         icon="fas fa-bars"

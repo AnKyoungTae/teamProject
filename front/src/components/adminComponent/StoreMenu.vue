@@ -48,47 +48,5 @@ ul {
   list-style: none;
   padding-left: 0px;
 }
-li {
-  width: 100%;
-  position: relative;
-  cursor: pointer;
-  list-style: none;
-  padding-left: 0px;
-  font-weight: bold;
-}
 
-li .title {
-  padding: 10px;
-  text-indent: 20px;
-  text-align: left;
-}
-
-i {
-  position: absolute;
-  top: 14px;
-  transition: transform 0.5s ease-in-out;
-}
-
-i .open {
-  transform: rotatez(180deg);
-}
-
-.div-box {
-  width: 100%;
-  height: 40px;
-}
-
-.div-left {
-  float: left;
-  width: 50%;
-  height: 40px;
-}
-.div-right {
-  float: right;
-  width: 50%;
-  height: 40px;
-  padding: 10px;
-  text-align: right;
-  padding-right: 30px;
-}
 </style>

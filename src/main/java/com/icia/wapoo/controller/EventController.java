@@ -96,7 +96,7 @@ public class EventController {
     }
 
     @GetMapping("/getEventListCount")
-    public ResponseEntity getStoreListCount(@RequestParam("option") String option) {
+    public ResponseEntity getEventListCount(@RequestParam("option") String option) {
         int result = eventService.getEventListCount(option);
         return new ResponseEntity(result, HttpStatus.OK);
     }

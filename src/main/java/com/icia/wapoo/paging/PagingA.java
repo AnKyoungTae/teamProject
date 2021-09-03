@@ -27,6 +27,8 @@ public class PagingA {
 	private int endPage;					// 각 페이지 범위 끝 번호
 
 	private int startList;					//DB게시판
+	
+	private int	DBsStart;					//DB시작 번호
 
 	private boolean prev;					//이전 페이지
 
@@ -68,7 +70,16 @@ public class PagingA {
 
 		this.startList = (page - 1) * listSize;
 		
-
+		
+		//DB 시작번호
+		this.DBsStart = this.total-10* (page);
+		
+		if(this.total -10*(page) < 0)
+		{
+			this.DBsStart = 0;
+			this.listSize = 10 - (-(this.total-10* (page)));
+		}
+		
 		//이전 버튼 상태
 
 		this.prev = range == 1 ? false : true;

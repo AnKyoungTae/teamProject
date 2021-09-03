@@ -2,6 +2,8 @@
   <div class="container" style="width: 1000px">
     <div class="m-4">
       <h1>주문상세정보페이지</h1>
+      <p>주문번호 : {{ orderId }}</p>
+      <hr />
       <hr />
       <div v-if="loaded == false">
         <div class="spinner-border" role="status">

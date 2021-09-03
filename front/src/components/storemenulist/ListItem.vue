@@ -50,7 +50,7 @@ expand-leave-active {
 .item-text {
   float: left;
   padding-top: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   margin-left: 10px;
 }
 .item-img {
@@ -64,5 +64,8 @@ expand-leave-active {
 .menu-name {
   font-size: 22px;
   font-weight: bold;
+}
+.menu-price {
+  margin-top: 5px;
 }
 </style>

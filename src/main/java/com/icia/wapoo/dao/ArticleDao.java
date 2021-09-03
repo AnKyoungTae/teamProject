@@ -32,8 +32,7 @@ public interface ArticleDao {
 	public int boardDelete(long articleId);
 	//이미지 삭제
 	int imageDelete(int fileId);
-	// 댓글 삭제
-	public int commentDelete(long parantId);
+	
 
 	//게시글 view
 	Article boardList(@Param("articleId") long articleId);
@@ -65,8 +64,8 @@ public interface ArticleDao {
 	List<Comment> getAllComment(int articleId);
 
 	//게시글 신고
-	int reportArticle(int articleId);
+	int reportArticle(int articleId, String suspend);
 	//댓글 신고
-	int reportComment(int commentId);
+	int reportComment(int commentId, String suspend);
 	
 }

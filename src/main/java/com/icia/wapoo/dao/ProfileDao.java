@@ -8,6 +8,7 @@ import com.icia.wapoo.model.LoginInfo;
 import com.icia.wapoo.model.MemberCoupon;
 import com.icia.wapoo.model.Order;
 import com.icia.wapoo.model.Profile;
+import com.icia.wapoo.model.Review;
 import com.icia.wapoo.model.Store;
 
 import java.util.List;
@@ -38,4 +39,6 @@ public interface ProfileDao {
 	int insertImage(String fileURL, int memberId);
 
     String selectFileUrl(@Param("memberId") Integer memberId);
+    
+    List<Map<String, Object>> selectMyReview(@Param("memberId") Integer memberId);
 }

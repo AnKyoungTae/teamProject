@@ -16,6 +16,7 @@ import com.icia.wapoo.model.Member;
 import com.icia.wapoo.model.MemberCoupon;
 import com.icia.wapoo.model.Order;
 import com.icia.wapoo.model.Profile;
+import com.icia.wapoo.model.Review;
 
 @Service
 public class ProfileService {
@@ -189,4 +190,22 @@ public class ProfileService {
     public String getProfileUrl(Integer memberId) {
 		return profileDao.selectFileUrl(memberId);
     }
+    
+    //내가 작성한 리뷰가져오기
+    public List<Map<String, Object>> getMyReview(Integer memberId)
+	{
+		List<Map<String, Object>> list = null;
+		
+		try
+		{
+			list = profileDao.selectMyReview(memberId);
+		}
+		catch(Exception e)
+		{
+			System.out.println("리뷰정보가 없습니다.");
+			System.out.println("getMyReview 오류: " + e);
+		}
+		
+		return list;
+	}
 }

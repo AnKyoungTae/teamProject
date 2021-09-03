@@ -71,7 +71,7 @@ const routes = [
   {
     path: "/myPage",
     name: "MyPage",
-    component: () => import("../views/myPage/MyPage"),
+    component: () => import("../views/myPage/MyPage.vue"),
   },
   {
     path: "/storeregister",
@@ -82,23 +82,6 @@ const routes = [
     path: "/store",
     name: "StoreHome",
     component: () => import("../views/store/StoreHome.vue"),
-    children: [
-      {
-        path: "/review",
-        name: "Review",
-        component: () => import("../components/adminComponent/Review.vue"),
-      },
-      {
-        path: "/storemap",
-        name: "StoreMap",
-        component: () => import("../components/adminComponent/StoreMap.vue"),
-      },
-      {
-        path: "/storemenu",
-        name: "StoreMenu",
-        component: () => import("../components/adminComponent/StoreMenu.vue"),
-      },
-    ],
   },
   {
     path: "/manageStore",

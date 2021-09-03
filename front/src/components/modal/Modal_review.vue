@@ -54,7 +54,7 @@ export default {
 
 .modal-container {
   width: 420px;
-  height: 460px;
+  height: 520px;
   margin: 0px auto;
   background-color: #fff;
   border-radius: 2px;
@@ -63,7 +63,7 @@ export default {
 }
 
 .modal-header {
-  padding: 0px; 
+  padding: 0px;
   padding-bottom: 12px;
 }
 

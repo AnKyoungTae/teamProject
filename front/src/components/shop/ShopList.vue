@@ -55,6 +55,7 @@ export default {
           if (res.status === 200) {
             this.fileList = res.data;
             console.log(res.data);
+            this.renderSplide();
           }
         })
         .catch((err) => {

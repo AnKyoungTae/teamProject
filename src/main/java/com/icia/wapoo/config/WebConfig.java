@@ -31,6 +31,7 @@ public class WebConfig implements WebMvcConfigurer {
             "/store/getStoreInfos",
             "/order/**",
             "/**",
+            "/review/**",
             "/article/**"
     };
 

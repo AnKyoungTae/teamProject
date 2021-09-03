@@ -222,22 +222,7 @@ public class ArticleService {
 		return count;
 	}
 	
-	//댓글 삭제
-	public long commentDelete(long parantId)
-	{
-		int count = 0;
-		
-		try
-		{
-			count = articleDao.commentDelete(parantId);
-		}
-		catch(Exception e)
-		{
-			System.out.println("commentDelete DB오류: "+ e);
-		}
-		
-		return count;
-	}
+	
 	
 	//이지미 삭제
 	public int imageDelete(int fileId)
@@ -413,13 +398,13 @@ public class ArticleService {
 	}
 	
 	//게시판 신고
-	public int reportArticle(int articleId)
+	public int reportArticle(int articleId, String suspend)
 	{
 		int count = 0;
 		
 		try
 		{
-			count = articleDao.reportArticle(articleId);
+			count = articleDao.reportArticle(articleId, suspend);
 		}
 		catch(Exception e)
 		{
@@ -430,13 +415,13 @@ public class ArticleService {
 	}
 	
 	//댓글 신고
-		public int reportComment(int commentId)
+		public int reportComment(int commentId, String suspend)
 		{
 			int count = 0;
 			
 			try
 			{
-				count = articleDao.reportComment(commentId);
+				count = articleDao.reportComment(commentId, suspend);
 			}
 			catch(Exception e)
 			{
