@@ -10,12 +10,23 @@
     </div>
     <div class="row">
       <!-- 음식사진시작 -->
-      <div class="col-12">
-          <splide  class="slide" :options="options">
-            <splide-slide v-for="file in fileList" :key="file" style="border:1px solid red;">
-              <img class="menuImg" :src="file.name" />
-            </splide-slide>
-          </splide>
+      <div class="col-12 slide">
+        <div id="container">
+          <div class="slide_wrap">
+            <div class="slide_box">
+              <div class="slide_list clearfix">
+                <div v-for="file in fileList" :key="file" v-bind:class="'slide_content slide' + index">
+                  <img class="menuImg" :src="file.name" />
+                </div>
+              </div>
+            </div>
+            <div class="slide_btn_box">
+              <button type="button" class="slide_btn_prev"><i class="fas fa-chevron-left"></i></button>
+              <button type="button" class="slide_btn_next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <ul class="slide_pagination"></ul>
+          </div>
+        </div>
       </div>
       <!-- 종료 -->
     </div>
@@ -26,20 +37,13 @@
 </template>
 
 <script>
-import { Splide, SplideSlide } from "@splidejs/vue-splide";
-import "@splidejs/splide/dist/css/themes/splide-default.min.css";
 import http from "@/api/http";
 
 export default {
   components: {
-    Splide,
-    SplideSlide,
   },
-
   props: ["shopInfo"],
   mounted() {
-    console.log(this.shopInfo.storeId); // 사진을 불러오기위함
-    console.log("사진불러옴");
     if (this.shopInfo.storeId != null) {
       http
         .get("/store/getStoreFiles", {
@@ -57,41 +61,81 @@ export default {
           console.log("사진불러오는데 에러" + err);
         });
     }
+
+    const slideList = document.querySelector('.slide_list'); // Slide parent dom
+    const slideContents = document.querySelectorAll('.slide_content'); // each slide dom
+    const slideBtnNext = document.querySelector('.slide_btn_next'); // next button
+    const slideBtnPrev = document.querySelector('.slide_btn_prev'); // prev button
+    const slideLen = slideContents.length; // slide length
+    const slideWidth = 400; // slide width
+    const slideSpeed = 300; // slide speed
+    const startNum = 0; // initial slide index (0 ~ 4)
+    slideList.style.width = slideWidth * (slideLen + 2) + "px";
+    // Copy first and last slide
+    let firstChild = slideList.firstElementChild;
+    let lastChild = slideList.lastElementChild;
+    let clonedFirst = firstChild.cloneNode(true);
+    let clonedLast = lastChild.cloneNode(true);
+    // Add copied Slides
+    slideList.appendChild(clonedFirst);
+    slideList.insertBefore(clonedLast, slideList.firstElementChild);
+    slideList.style.transform = "translate3d(-" + (slideWidth * (startNum + 1)) + "px, 0px, 0px)";
+    let curIndex = startNum; // current slide index (except copied slide)
+    let curSlide = slideContents[curIndex]; // current slide dom
+    curSlide.classList.add('slide_active');
+    /** Next Button Event */
+    slideBtnNext.addEventListener('click', function() {
+      if (curIndex <= slideLen - 1) {
+        slideList.style.transition = slideSpeed + "ms";
+        slideList.style.transform = "translate3d(-" + (slideWidth * (curIndex + 2)) + "px, 0px, 0px)";
+      }
+      if (curIndex === slideLen - 1) {
+        setTimeout(function() {
+          slideList.style.transition = "0ms";
+          slideList.style.transform = "translate3d(-" + slideWidth + "px, 0px, 0px)";
+        }, slideSpeed);
+      curIndex = -1;
+    }
+    curSlide.classList.remove('slide_active');
+    curSlide = slideContents[++curIndex];
+    curSlide.classList.add('slide_active');
+    });
+    /** Prev Button Event */
+    slideBtnPrev.addEventListener('click', function() {
+      if (curIndex >= 0) {
+        slideList.style.transition = slideSpeed + "ms";
+        slideList.style.transform = "translate3d(-" + (slideWidth * curIndex) + "px, 0px, 0px)";
+      }
+      if (curIndex === 0) {
+        setTimeout(function() {
+          slideList.style.transition = "0ms";
+          slideList.style.transform = "translate3d(-" + (slideWidth * slideLen) + "px, 0px, 0px)";
+        }, slideSpeed);
+      curIndex = slideLen;
+      }
+      curSlide.classList.remove('slide_active');
+      curSlide = slideContents[--curIndex];
+      curSlide.classList.add('slide_active');
+    });
+
+    // Add pagination dynamically
+    let pageChild = '';
+    for (var i = 0; i < slideLen; i++) {
+    pageChild += '<li class="dot';
+    pageChild += (i === startNum) ? ' dot_active' : '';
+    pageChild += '" data-index="' + i + '"><a href="#"></a></li>';
+    }
+    pagination.innerHTML = pageChild;
+    const pageDots = document.querySelectorAll('.dot'); // each dot from pagination
+
   },
   data() {
     return {
       fileList: [],
-      options: {
-        speed      : 300,       // 밀리초 단위의 전환 속도입니다.
-        perMove    : 1,         //슬라이더가 다음 또는 이전 페이지로 이동할 때 이동해야 하는 슬라이드 수를 결정합니다.
-        trimSpace  : true,      //첫 번째 슬라이드 이전 또는 마지막 슬라이드 이후에 공백을 트리밍할지 여부입니다.
-        pagination : false,     //페이지 매김(표시 점)을 추가할지 여부입니다.
-        type       : 'loop',    //슬라이더 유형을 결정합니다.
-        focus      : 'center',  //어떤 슬라이드에 초점을 맞춰야 하는지 결정합니다.
-        destroy    : true,
-        breakpoints: {
-          1200: {
-            destroy: false,
-            width: 700,
-            perPage: 5,
-          },
-          1100: {
-            width: 600,
-            perPage: 5,
-          },
-          900: {
-            width: 400,
-            perPage: 3,
-          },
-          700: {
-            width: 300,
-            perPage: 3,
-          },
-        },
-      },
     };
   },
-  methods: {},
+  methods: {
+  },
   computed: {
     getStoreKind() {
       let arr = this.shopInfo.storeKind.split(",");
@@ -121,28 +165,71 @@ export default {
   justify-self: start;
   padding: 0px;
 }
-.slide {
-  border:1px solid black;
+/* 슬라이드 css */
+.slide_wrap { 
+  position: relative; 
+  width: 700px; 
+  margin: auto;
+  border: 1px solid yellow;
 }
+.slide_box { 
+  width: 100%; 
+  margin: auto; 
+  overflow-x: hidden; 
+  border: 1px solid red;
+}
+.slide_content { 
+  display: table; 
+  float: left; 
+  width: 100px; 
+  height: 70px; 
+  border: 1px solid blue;
+}
+img {
+  width: 100px;
+  height: 70px;
+}
+/*
 @media screen and (min-width: 1200px) {
+  .slide {
+    display: none;
+  }
   .storeHeader {
     width: 300px;
     height: 50px;
   }
-  .menuImg {
-    display: none;
-  }
 }
 @media screen and (max-width: 1200px) {
-  .storeHeader {
-    width: 100%;
-  }
-  .splide {
-    width: 700px;
-  }
-  .menuImg {
+  img {
     width: 100px;
     height: 70px;
   }
+  .slide {
+    width: 700px;
+  }
+  .storeHeader {
+    width: 100%;
+  }
 }
+@media screen and (max-width: 1100px) {
+  .slide {
+    width: 600px;
+  }
+}
+@media screen and (max-width: 900px) {
+  .slide {
+    width: 500px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .slide {
+    width: 400px;
+  }
+}
+@media screen and (max-width: 700px) {
+  .slide {
+    width: 300px;
+  }
+}
+*/
 </style>

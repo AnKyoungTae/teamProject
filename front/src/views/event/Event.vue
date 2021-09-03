@@ -46,18 +46,10 @@
     </div>
     <div v-else>
       <!-- 페이지 로딩되었을때 -->
-<<<<<<< HEAD
-      <div class="eventList">
-        <div class="row" v-for="event in eventList" :key="event">
-          <eventRow :data="event"></eventRow>
-          <hr />
-        </div>
-=======
       <div class="row" v-for="event in eventList" :key="event">
         <eventRow :data="event"></eventRow>
 
         <hr />
->>>>>>> 0accfd3d05b21f8af1e360b23b72f5395a6efd52
       </div>
       <!-- 페이지네이션 -->
       <nav aria-label="Page navigation">
@@ -235,13 +227,6 @@ export default {
 .available-link {
   cursor: pointer;
 }
-<<<<<<< HEAD
-.eventList {
-  width:1000px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-=======
 .choiced {
   text-decoration-line: underline;
   text-underline-position: under;
@@ -268,6 +253,5 @@ export default {
 .spread-underline:hover:after {
   width: 100%;
   left: 0;
->>>>>>> 0accfd3d05b21f8af1e360b23b72f5395a6efd52
 }
 </style>
