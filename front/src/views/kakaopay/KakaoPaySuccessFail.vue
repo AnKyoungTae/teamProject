@@ -8,7 +8,7 @@
 export default {
   mounted() {
     alert("결제가 취소되었습니다!");
-    opener.location.href = "http://localhost:8080/";
+    opener.location.href = "http://localhost:8081/";
     window.close();
   },
 };

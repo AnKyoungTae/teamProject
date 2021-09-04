@@ -133,6 +133,11 @@ const routes = [
     name: "OrderInfo",
     component: () => import("../views/cart/OrderInfo.vue"),
   },
+  {
+    path: "/akinator",
+    name: "Arkinator",
+    component: () => import("../views/akinator/Arkinator.vue"),
+  },
 ];
 
 const router = createRouter({

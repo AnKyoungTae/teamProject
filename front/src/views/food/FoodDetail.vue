@@ -108,6 +108,7 @@
       </div>
       <shopMenu
         :foodList="shopInfo.foodList"
+        :searchId="this.$route.query.foodIdsearch"
         v-if="currentComp === 'shopMenu'"
       ></shopMenu>
       <shopMap
@@ -141,11 +142,7 @@ import { mapGetters } from "vuex";
 export default {
   components: { shopMenu, shopMap, review },
   mounted() {
-    this.initStore();
-    if (this.myStore.storeId == this.storeId) {
-      this.ownStore = true;
-    }
-    console.log("몇인데 스토어이디? :" + this.storeId);
+    this.storeId = this.$route.query.shopInfo;
     this.getStoreInfo(this.storeId);
     this.setComponent("shopMenu");
     this.getAverageScore();
@@ -164,15 +161,6 @@ export default {
     };
   },
   methods: {
-    initStore() {
-      let storeIdt;
-      if (this.$route.query.shopInfo == null) {
-        storeIdt = this.myStore.storeId;
-      } else {
-        storeIdt = this.$route.query.shopInfo;
-      }
-      this.storeId = storeIdt;
-    },
     getStoreInfo(storeId) {
       http
         .get("/store/getStoreInfos", {

@@ -42,4 +42,13 @@ public class AkinatorService {
         }
         return 1;
     }
+
+    public List<Map<String, Integer>> getAkinatorMetaList() {
+        return akinatorDao.selectAllAkinator();
+    }
+
+    public List<Map<String, Object>> getFoodList(List<Integer> foodIdList, Double LAT, Double LON) {
+        List<Map<String, Object>> foodList = akinatorDao.getAllFoodByFoodId(foodIdList, LAT, LON);
+        return foodList;
+    }
 }

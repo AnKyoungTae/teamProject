@@ -16,10 +16,19 @@ import OrderModal from "@/components/modal/Order.vue";
 
 import { mapMutations } from "vuex";
 export default {
-  props: ["foodList"],
+  props: ["foodList", "searchId"],
   components: {
     ListItem,
     OrderModal,
+  },
+  mounted() {
+    if (this.searchId) {
+      let searched = this.foodList.filter((food) => {
+        return food.foodId == this.searchId;
+      });
+      this.orderModalData = searched[0];
+      this.SET_MODAL_ORDER(true);
+    }
   },
   data() {
     return {
@@ -48,5 +57,4 @@ ul {
   list-style: none;
   padding-left: 0px;
 }
-
 </style>

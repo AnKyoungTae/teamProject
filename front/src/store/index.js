@@ -2,7 +2,6 @@ import { createStore } from "vuex";
 
 import auth from "@/store/auth";
 import cart from "@/store/cart";
-import Akinator from "@/store/akinator";
 import createPersistedState from "vuex-persistedstate";
 import serviceCenter from "./serviceCenter";
 
@@ -16,8 +15,6 @@ export default createStore({
     orderModal: false, // 주문 모달
     selectRegister: "BUYER",
     reviewModal: false,
-
-    akinator: false, // 아키네이터 상태
 
     serviceCenters: 1, //서비스 센터 위치
     serviceCenterToggle: false, //사이드바 클릭
@@ -60,9 +57,6 @@ export default createStore({
       state.registerModal = false;
       console.log(state.orderModal);
     },
-    SET_AKINATOR(state, boolean) {
-      state.akinator = boolean;
-    },
     SET_SELECT_REGISTER(state, data) {
       state.selectRegister = data;
     },
@@ -100,7 +94,6 @@ export default createStore({
   },
   modules: {
     auth,
-    Akinator,
     serviceCenter,
     cart,
   },

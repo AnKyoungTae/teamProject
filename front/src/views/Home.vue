@@ -102,7 +102,7 @@ export default {
     },
     showShopDetail(storeId) {
       // window.location.href =
-      //   "http://localhost:8080/shopDetail?shopInfo=" + storeId;
+      //   "http://localhost:8081/shopDetail?shopInfo=" + storeId;
       console.log(storeId);
     },
   },

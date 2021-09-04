@@ -51,7 +51,7 @@
       >
     </div>
     <div v-else>
-      <SidebarLink to="/#" icon="fas fa-robot">아키네이터</SidebarLink>
+      <SidebarLink to="/akinator" icon="fas fa-robot">아키네이터</SidebarLink>
       <SidebarLink to="/cart" icon="fas fa-shopping-cart">장바구니</SidebarLink>
 
       <SidebarLink to="/shopCategory" icon="fas fa-utensils"
