@@ -46,6 +46,9 @@
       >
         가게메뉴</SidebarLink
       >
+      <SidebarLink to="/eventadd" icon="fas fa-ticket-alt"
+        >이벤트등록</SidebarLink
+      >
     </div>
     <div v-else>
       <SidebarLink to="/#" icon="fas fa-robot">아키네이터</SidebarLink>

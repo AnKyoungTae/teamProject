@@ -39,6 +39,8 @@ public interface ProfileDao {
 	int insertImage(String fileURL, int memberId);
 
     String selectFileUrl(@Param("memberId") Integer memberId);
-    
+    //리뷰 가져오기
     List<Map<String, Object>> selectMyReview(@Param("memberId") Integer memberId);
+    //리뷰 삭제
+    int updateReviewStatus(@Param("reviewId") Integer reviewId, @Param("status") String state);
 }

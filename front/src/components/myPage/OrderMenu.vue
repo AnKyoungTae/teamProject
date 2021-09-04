@@ -1,45 +1,63 @@
 <template>
-  <div
-    class="container"
-    style="width: 800px; border-style: solid; border-width: 1px 1px 0px 1px"
-  >
+  <div style="width: 100%">
+    <div class="manage-div">
+      <div class="manage-div2">
+        <h3 class="manage-text">
+          주문내역
+        </h3>
+        <div class="profile-manage">
+          <div class="menu-box">
     <div
-      class="row mt-1"
-      style="height: 130px; cursor: pointer"
+      style=" cursor: pointer; width: 100%;"
       v-for="(orderList, index) in orderLists"
       :key="index"
       @click="showOrderDetail(orderList.orderId)"
     >
-      <div class="col-4 orderMenu-img">
-        <router-link to="/food">
+    <div class="menu-div">
+      <div class="menu-top">
+        <div class="top-left">
+          <span style="color: lightgray;">{{ orderList.orderDate }} · 배달중</span>
+        </div>
+        <div class="top-right">
+          <span>주문번호:{{orderList.order_id}}</span>  
+        </div>        
+      </div>
+      <div class="menu-bottom">
+        <div class="bottom-left">
+          <router-link to="/food">
           <img
             class="shopImg"
             :src="orderList.image"
             :alt="orderList.orgName"
           />
         </router-link>
-      </div>
-      <div class="col-3 orderMenu-name">
-        <h4>{{ orderList.storeName }}</h4>
-      </div>
-      <div class="col-5 orderMenu-list">
-        <div class="myMenu">
-          <h5>{{ orderList.foodName }} {{ orderList.quantity }}개 <br /></h5>
         </div>
-        <div class="time">
-          {{ orderList.orderDate }}
+        <div class="bottom-right">
+          <div style="padding: 20px 0px; line-height: 100px;">
+            <div style="float: left; padding-left: 30px;">
+              <h4>{{ orderList.storeName }}</h4>
+              <div class="myMenu">
+                <h6>{{ orderList.foodName }} {{ orderList.quantity }}개</h6>
+              </div>  
+            </div>
+        </div>
+        </div>
+        </div>
+        <div style="text-align: right;">
           <button
-            type="button"
-            @Click="orderDel()"
-            class="btn btn-outline-danger"
-            style="font-size: 13px"
-          >
-            주문취소요청
-          </button>
+                type="button"
+                @Click="orderDel()"
+                class="btn btn-outline-danger"
+                style="font-size: 13px"
+              >
+                주문취소요청
+              </button> 
+          </div>
         </div>
       </div>
     </div>
   </div>
+  </div></div></div>
 </template>
 
 <script>
@@ -91,40 +109,50 @@ export default {
 };
 </script>
 
-<style>
-.orderMenu-name {
-  border-bottom: 1px solid black;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+<style scoped>
+.manage-div {
+  max-width: 560px;
+  margin: 50px auto 0;
+  display: block;
 }
-.orderMenu-img {
-  border-bottom: 1px solid black;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+.manage-div2 {
+  display: block;
 }
-.orderMenu-list {
-  border-bottom: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: stretch;
+.menu-box {
+  margin-top: 16px;
+  text-align: left;
 }
-.myMenu {
-  padding-top: 10px;
+.menu-div {
+  border-bottom: 1px solid lightgray;
+  margin-top: 10px;
+  padding: 8px 20px;
 }
-.time {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding-bottom: 5px;
+.menu-top {
+  display: block;
+  margin-bottom: 30px;
+}
+.top-left {
+  float: left;
+  width: 50%;
+  text-align: left;
+}
+.top-right {
+  float: right;
+  width: 50%;
+  text-align: right;
+}
+.bottom-left {
+  float: left;
+  width: 20%;
+}
+.bottom-right {
+  float: right;
+  width: 80%;
+  text-align: left;
 }
 .shopImg {
-  width: 150px;
+  width: 100px;
   height: 100px;
+  border-radius: 25px;
 }
 </style>

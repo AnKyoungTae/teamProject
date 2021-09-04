@@ -57,6 +57,7 @@ SELECT	A.orderId,
 	A.phone AS 'phone',
 	C.name AS 'foodName',
 	B.quantity AS 'quantity',
+	B.order_id,
 	D.name AS 'image',
 	D.orgName AS 'orgName'
 FROM	`order` A INNER JOIN  `orderInfo` B INNER JOIN `food` C INNER JOIN `store_file` D INNER JOIN `store` E
@@ -117,11 +118,18 @@ WHERE	memberId = #{memberId}
             ,r.reply
              ,r.writerid
             ,m.nickname
-        FROM review r, `member` m
+            ,s.name
+        FROM review r, `member` m, `store` s
         WHERE r.writerid = m.memberId
+        AND r.store_id = s.storeId
         AND r.writerid = #{memberId}
         AND r.status != 'N'
 </select>
 
+<update id="updateReviewStatus">
+	update review
+    SET status = #{status}
+    where reviewid = #{reviewId}
+</update>
 
 </mapper>

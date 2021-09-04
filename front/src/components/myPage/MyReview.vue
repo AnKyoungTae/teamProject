@@ -8,73 +8,64 @@
         <div class="profile-manage">
           <div class="manage-box">
             <div v-for="(reviewList, index) in reviewLists" :key="index">
-              <p class="profile-comm">
-                {{ reviewList.nickname }}님이 등록한 리뷰입니다.
-              </p>
-              <div style="width: 100%">
-                <div class="review3-text">
-                  <span class="review3-span1"
-                    >{{ reviewList.store_id }}가게명</span
-                  >
-                  <span class="review3-span2"
-                    >{{ reviewList.regDate[0] }}.{{ reviewList.regDate[1]
-                    }}{{ reviewList.regDate[2] }}</span
-                  >
-                </div>
-                <div class="review3-div">
-                  <a class="review3-a m-1" @click="removeReview">삭제</a>
-                </div>
-              </div>
-              <div class="review3-star" style="width: 200px">
-                <div class="star-1">
-                  <i
-                    class="fas fa-star"
-                    v-for="star of reviewList.score"
-                    :key="star"
-                  ></i
-                  >&nbsp;&nbsp;
-                  <span style="color: burlywood"
-                    >{{ reviewList.score }} /5.0</span
-                  >
-                </div>
-              </div>
-              <div>
-                <img
-                  class="review3-img m-2"
-                  :src="reviewList.foodPhoto"
-                  style="width: 180px; height: 180px; margin-left: 10px"
-                  v-if="reviewList.foodPhoto"
-                />
-              </div>
-              <div class="review3-menu">
-                <!-- 시킨음식 -->
-                <span>시킨음식</span>
-              </div>
-              <div class="review3-view">
-                <!-- 내용 -->
-                <p v-if="reviewList.body" style="font-size: 18px">
-                  {{ reviewList.body }}
+              <div v-if="reviewList.status != 'n'">
+                <p class="profile-comm">
+                  {{ reviewList.nickname }}님이 등록한 리뷰입니다.
                 </p>
-                <p v-else>삭제된 리뷰입니다.</p>
-              </div>
-              <!-- 사장님 댓글 -->
-              <div
-                v-if="reviewList.reply"
-                style="
-                  border: 1px solid lightgray;
-                  background-color: lightgray;
-                  margin-bottom: 16px;
-                  padding: 10px;
-                "
-              >
-                <span>&nbsp;&#10551;&nbsp; 사장님댓글</span>&nbsp;&nbsp;<span
-                  style="font-size: 14px; color: gray"
+                <div style="width: 100%">
+                  <div class="review3-text">
+                    <span class="review3-span1"
+                      >{{ reviewList.name }}</span>
+                  </div>
+                  <div class="review3-div">
+                    <a class="review3-a m-1" @click="removeReview(reviewList.reviewId)">삭제</a>
+                  </div>
+                </div>
+                <div class="review3-star" style="width: 400px">
+                  <div class="star-1">
+                    <i
+                      class="fas fa-star"
+                      v-for="star of reviewList.score"
+                      :key="star"
+                    ></i
+                    >&nbsp;&nbsp;
+                    <span style="color: burlywood"
+                      >{{ reviewList.score }} /5.0</span>
+                    <span class="review3-span2"
+                      >{{ reviewList.regDate[0] }}.{{ reviewList.regDate[1]
+                      }}{{ reviewList.regDate[2] }}</span>
+                  </div>
+                </div>
+                <div>
+                  <img
+                    class="review3-img m-2"
+                    :src="reviewList.foodPhoto"
+                    style="width: 180px; height: 180px; margin-left: 10px"
+                    v-if="reviewList.foodPhoto"
+                  />
+                </div>
+                <div class="review3-view">
+                  <!-- 내용 -->
+                  <p v-if="reviewList.body" style="font-size: 18px">
+                    {{ reviewList.body }}
+                  </p>
+                  <p v-else>삭제된 리뷰입니다.</p>
+                </div>
+                <!-- 사장님 댓글 -->
+                <div
+                  v-if="reviewList.reply"
+                  style="
+                    border: 1px solid lightgray;
+                    background-color: lightgray;
+                    margin-bottom: 16px;
+                    padding: 10px;
+                  "
                 >
-                  날짜</span
-                >
-                <p style="margin: 0px">사장 리뷰내용</p>
+                  <span>&nbsp;&#10551;&nbsp; 사장님댓글</span>
+                  <p style="margin: 0px">{{reviewList.reply}}</p>
+                </div>
+                <hr style="margin-left: -16px; margin-top: 40px" />
               </div>
-              <hr style="margin-left: -16px; margin-top: 40px" />
             </div>
           </div>
         </div>
@@ -94,7 +85,7 @@ export default {
     return {
       memberId: null,
       reviewLists: [],
-      reviewListLoaded: false,
+      reviewStatus: true,
     };
   },
   methods: {
@@ -112,11 +103,32 @@ export default {
           console.log(res);
           console.log(res.data);
           this.reviewLists = res.data;
-          this.reviewListLoaded = true;
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+    removeReview(reviewId) {
+      if (this.getUserId != this.memberId) {
+        alert("권한이 없습니다!");
+        return;
+      }
+      let sure = confirm("정말 삭제하시겠습니까?");
+      if (!sure) {
+        return;
+      }
+      const data = {
+        reviewId,
+        status: "N",
+      };
+      http.post("/profile/ReviewStatus", data)
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          success("리뷰를 삭제했습니다!", this);
+          location.reload();
+        }
+      });
     },
   },
   mounted() {
@@ -131,7 +143,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .review3 {
   width: 100%;
   text-align: left;

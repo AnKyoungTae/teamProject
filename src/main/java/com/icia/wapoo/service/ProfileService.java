@@ -208,4 +208,9 @@ public class ProfileService {
 		
 		return list;
 	}
+    
+    public int updateReviewState(Integer reviewId, String state) {
+    	System.out.println("updateReviewState");
+        return profileDao.updateReviewStatus(reviewId, state);
+    }
 }

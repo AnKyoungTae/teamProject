@@ -264,14 +264,21 @@ public class ProfileController {
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	@PostMapping("/ReviewStatus")
+    public ResponseEntity modifyReviewStatus(@RequestBody Map<String, Object> data) {
+		System.out.println("ReviewStatus Controller");
+        Integer reviewId = (Integer) data.get("reviewId");
+        String status = (String) data.get("status");
+        System.out.println("reviewId" + reviewId);
+        System.out.println("status" + status);
+        int result = profileService.updateReviewState(reviewId, status);
+        if(result > 0){
+        	System.out.println(result);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        System.out.println("error");
+        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 	
 	
 }
