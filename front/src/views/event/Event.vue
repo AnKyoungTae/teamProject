@@ -1,106 +1,106 @@
 <template>
-<div class="container" style="width: 1000px;">
-  <div class="m-4">
-    <h1>이벤트 페이지</h1>
-    <hr />
-    <!-- 노티피케이션 -->
-    <notifications
-      group="notifyApp"
-      position="bottom right"
-      style="margin-right: 30vh"
-    />
-    <div class="row">
-      <!-- 맨 윗줄 카테고리영역 -->
-      <div
-        class="col btn btn-light spread-underline"
-        @click="setStatusOption('ALL')"
-      >
-        <span :class="[this.statusOption === 'ALL' ? 'choiced' : '']">
-          전체 이벤트
-        </span>
+  <div class="container" style="width: 1000px">
+    <div class="m-4">
+      <h1>이벤트 페이지</h1>
+      <hr />
+      <!-- 노티피케이션 -->
+      <notifications
+        group="notifyApp"
+        position="bottom right"
+        style="margin-right: 30vh"
+      />
+      <div class="row">
+        <!-- 맨 윗줄 카테고리영역 -->
+        <div
+          class="col btn btn-light spread-underline"
+          @click="setStatusOption('ALL')"
+        >
+          <span :class="[this.statusOption === 'ALL' ? 'choiced' : '']">
+            전체 이벤트
+          </span>
+        </div>
+        <div
+          class="col btn btn-light spread-underline"
+          @click="setStatusOption('Y')"
+        >
+          <span :class="[this.statusOption === 'Y' ? 'choiced' : '']">
+            진행중인 이벤트
+          </span>
+        </div>
+        <div
+          class="col btn btn-light spread-underline"
+          @click="setStatusOption('N')"
+        >
+          <span :class="[this.statusOption === 'N' ? 'choiced' : '']">
+            만료된 이벤트
+          </span>
+        </div>
       </div>
-      <div
-        class="col btn btn-light spread-underline"
-        @click="setStatusOption('Y')"
-      >
-        <span :class="[this.statusOption === 'Y' ? 'choiced' : '']">
-          진행중인 이벤트
-        </span>
+      <hr />
+      <!-- 관리자, 판매자일경우 추가해야함 -->
+      <div v-if="!pageLoaded">
+        <!-- 페이지 로딩되지않았을 때 -->
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
       </div>
-      <div
-        class="col btn btn-light spread-underline"
-        @click="setStatusOption('N')"
-      >
-        <span :class="[this.statusOption === 'N' ? 'choiced' : '']">
-          만료된 이벤트
-        </span>
-      </div>
-    </div>
-    <hr />
-    <!-- 관리자, 판매자일경우 추가해야함 -->
-    <div v-if="!pageLoaded">
-      <!-- 페이지 로딩되지않았을 때 -->
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
-    <div v-else>
-      <!-- 페이지 로딩되었을때 -->
-      <div class="row" v-for="event in eventList" :key="event">
-        <eventRow :data="event"></eventRow>
+      <div v-else>
+        <!-- 페이지 로딩되었을때 -->
+        <div class="row" v-for="event in eventList" :key="event">
+          <eventRow :data="event"></eventRow>
 
-        <hr />
-      </div>
-      <!-- 페이지네이션 -->
-      <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-          <li class="page-item" :class="{ disabled: !hasPreviousPage }">
-            <a
-              class="page-link"
-              aria-disabled="true"
-              @click="requestPage(firstPageOfthisIndex - 1)"
-              :class="{ 'available-link': hasPreviousPage }"
-              >이전목록</a
-            >
-            <!-- 현재 단락의 가장 첫번째 페이지 -1을 요청해야함. -->
-          </li>
-          <!-- 페이지순번 -->
-          <div v-for="(index, i) in maxIndex" :key="i">
-            <div v-if="index + (currentIndex - 1) * maxIndex <= totalPages">
-              <li
-                class="page-item"
-                v-if="
-                  (this.currentIndex - 1) * this.showindex + index !=
-                  currentPage
-                "
+          <hr />
+        </div>
+        <!-- 페이지네이션 -->
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" :class="{ disabled: !hasPreviousPage }">
+              <a
+                class="page-link"
+                aria-disabled="true"
+                @click="requestPage(firstPageOfthisIndex - 1)"
+                :class="{ 'available-link': hasPreviousPage }"
+                >이전목록</a
               >
-                <a
-                  class="page-link available-link"
-                  @click="requestPage(index + (currentIndex - 1) * maxIndex)"
-                  >{{ index + (currentIndex - 1) * maxIndex }}</a
+              <!-- 현재 단락의 가장 첫번째 페이지 -1을 요청해야함. -->
+            </li>
+            <!-- 페이지순번 -->
+            <div v-for="(index, i) in maxIndex" :key="i">
+              <div v-if="index + (currentIndex - 1) * maxIndex <= totalPages">
+                <li
+                  class="page-item"
+                  v-if="
+                    (this.currentIndex - 1) * this.showindex + index !=
+                    currentPage
+                  "
                 >
-              </li>
-              <li class="page-item active" v-else>
-                <span class="page-link">{{
-                  index + (currentIndex - 1) * maxIndex
-                }}</span>
-              </li>
+                  <a
+                    class="page-link available-link"
+                    @click="requestPage(index + (currentIndex - 1) * maxIndex)"
+                    >{{ index + (currentIndex - 1) * maxIndex }}</a
+                  >
+                </li>
+                <li class="page-item active" v-else>
+                  <span class="page-link">{{
+                    index + (currentIndex - 1) * maxIndex
+                  }}</span>
+                </li>
+              </div>
             </div>
-          </div>
 
-          <li class="page-item" :class="{ disabled: !hasNextPage }">
-            <a
-              class="page-link"
-              @click="requestPage(lastPageOfthisIndex + 1)"
-              :class="{ 'available-link': hasNextPage }"
-              >다음목록</a
-            >
-          </li>
-        </ul>
-      </nav>
+            <li class="page-item" :class="{ disabled: !hasNextPage }">
+              <a
+                class="page-link"
+                @click="requestPage(lastPageOfthisIndex + 1)"
+                :class="{ 'available-link': hasNextPage }"
+                >다음목록</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>

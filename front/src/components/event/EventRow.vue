@@ -6,7 +6,8 @@
     <hr />
     <!-- 쿠폰이 로드되었을 경우 -->
     <div v-if="!couponLoaded">만료된 이벤트입니다.</div>
-    <div v-else-if="couponLoaded">
+    <div v-else-if="outofCoupon">할인쿠폰이 매진되었습니다.</div>
+    <div v-else-if="couponLoaded && !outofCoupon">
       <!-- 이벤트 정보 -->
 
       <div>
@@ -21,9 +22,9 @@
       </div>
       <div>
         <hr />
-        <div v-if="eventavailable == true"></div>
+        <div v-if="eventAvailable == true"></div>
         <a>
-          <div class="event-btn" :class="{ disabled: !eventavailable }">
+          <div class="event-btn" :class="{ disabled: !eventAvailable }">
             <div class="btn-div">
               <span class="btn-span1">{{ couponInfo.name }} 할인쿠폰</span
               ><br />
@@ -65,11 +66,21 @@ export default {
     return {
       couponInfo: null,
       couponLoaded: false,
-      eventavailable: false,
+      eventAvailable: false,
+      outofCoupon: false,
+      couponAvailable: false,
     };
   },
   methods: {
     applyEvent() {
+      if (this.eventAvailable === false) {
+        alert("참여할 수 없는 행사입니다.");
+        return;
+      }
+      if (this.couponAvailable === false) {
+        alert("신청할 수 없는 할인쿠폰입니다");
+        return;
+      }
       const memberId = this.getUserId;
       if (memberId > 0) {
         let applyCoupon = confirm("이벤트에 참여하시겠습니까?");
@@ -104,30 +115,38 @@ export default {
     },
   },
   mounted() {
-    if (this.data.status == "Y") {
-      // 이벤트가 활성화 되어있을 경우, 쿠폰 데이터를 불러온다.
+    // 이벤트가 활성화 되어있을 경우, 쿠폰 데이터를 불러온다.
 
-      http
-        .get("/coupon/getCouponInfo", {
-          params: {
-            eventId: this.data.eventId,
-          },
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            console.log(res.data);
-            if (res.data !== "") {
-              this.couponInfo = res.data;
-              this.couponLoaded = true;
-              if (this.couponInfo || this.couponInfo !== "") {
-                this.eventavailable = true;
+    http
+      .get("/coupon/getCouponInfo", {
+        params: {
+          eventId: this.data.eventId,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          // 올바르게 통신했을때
+          this.couponLoaded = true;
+
+          if (res.data !== "") {
+            // 쿠폰이 있을 때
+            this.couponInfo = res.data;
+            if (this.couponInfo || this.couponInfo !== "") {
+              // 쿠폰의 유효기간 확인
+              if (this.couponInfo.status === "Y") {
+                this.couponAvailable = true;
+              }
+              if (this.data.status === "Y") {
+                this.eventAvailable = true;
               }
             }
+          } else {
+            // 쿠폰 정보가 없을 때
+            this.outofCoupon = true;
+            return;
           }
-        });
-    } else {
-      return;
-    }
+        }
+      });
   },
 };
 </script>

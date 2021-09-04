@@ -221,6 +221,7 @@ input {
   font-weight: bold;
   border-bottom: 5px solid rgb(255, 205, 139);
   box-shadow: none;
+  z-index: 0;
 }
 .btn-outline-primary {
   border-color: lightgray;
