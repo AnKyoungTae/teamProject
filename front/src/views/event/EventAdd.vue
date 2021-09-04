@@ -84,7 +84,13 @@
             >
               <option selected>메뉴를 선택하세요</option>
               <option v-for="food of foodList" :key="food" :value="food.foodId">
-                {{ food.name }}
+                <span v-if="food.status === '1'">
+                  {{ food.name }} ({{ food.price }}원)
+                </span>
+                <span v-else-if="food.status === '2'">
+                  {{ food.name }} (품절)
+                </span>
+                <span v-else> {{ food.name }} (판매중지) </span>
               </option>
             </select>
           </td>
@@ -172,10 +178,10 @@ export default {
   },
   computed: {
     selectedFood() {
-      if (!isNaN(this.$refs.selectedFood.value)) {
-        return null;
+      if (!isNaN(this.$refs.foodSelector.value)) {
+        return this.$refs.foodSelector.value;
       }
-      return this.$refs.foodSelector.value;
+      return null;
     },
     totalDiscount() {
       if (isNaN(this.couponPrice)) {
@@ -183,9 +189,9 @@ export default {
       } else {
         let result;
         if (this.couponPrice > 0) {
-          result = (this.couponPrice * (100 - this.discountRate)) / 100;
+          result = (this.couponPrice * this.discountRate) / 100;
         } else {
-          result = ((this.couponPrice * (100 - this.discountRate)) / 100) * -1;
+          result = ((this.couponPrice * this.discountRate) / 100) * -1;
         }
         return parseInt(result * 100);
       }
@@ -260,7 +266,7 @@ export default {
         return;
       }
       // // 쿠폰 음식
-      if (!this.selectedFood) {
+      if (this.selectedFood === null) {
         error("할인 음식을 골라주세요", this);
         document.getElementById("foodSelector").focus();
         return;
@@ -296,13 +302,29 @@ export default {
         name: this.couponName,
         couponEnd: this.couponEnd,
         price: this.couponPrice * 100,
-        discountRate: this.discountRate,
-        foodId: this.selectedFood,
+        discountRate: parseInt(this.discountRate),
+        foodId: parseInt(this.selectedFood),
       };
-
-      http.post("/event/addEvent", data).then((res) => {
-        console.log(res.data);
-      });
+      normal("등록 요청중입니다..", this);
+      http
+        .post("/event/addEvent", data)
+        .then((res) => {
+          if (res.status === 200) {
+            success(
+              "이벤트가 신청되었습니다! 관리자의 승인을 기다립니다..",
+              this
+            );
+            this.$router.push({ path: "/store" });
+          } else {
+            error("다시 시도해주세요!", this);
+            return;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          error("알수 없는 오류입니다. 관리자에게 문의하세요!", this);
+          return;
+        });
     },
   },
   mounted() {

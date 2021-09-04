@@ -1,5 +1,6 @@
 package com.icia.wapoo.service;
 
+import com.icia.wapoo.dao.CouponDao;
 import com.icia.wapoo.model.Coupon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,21 +22,23 @@ public class EventService {
    
     @Autowired
     private final EventDao eventDao;
+    @Autowired
+    private final CouponDao couponDao;
 
     @Transactional
-    public int insertEvent(Event event){
-    	System.out.println("서비스 들어옴");
+    public int addEvent(Event event, Coupon coupon){
     	int count = eventDao.insertEvent(event);
-        System.out.println("EventService : 적용된 이벤트 수 => " + count);
-        
         if ( count > 0) {
-        	System.out.println("EventService 통과");
-        	return count;
-        	
+            coupon.setEvent_id(event.getEventId());
+        	int result = couponDao.insertCoupon(coupon);
+        	if(result > 0) {
+        	    return result;
+            }
         } else {
         	System.out.println("EventService 통과못함");
             throw new RuntimeException("이벤트 정보 삽입중에 오류발생!");
         }
+        return 0;
     }
 
     public List<Map<String, Object>> getEventList(int listPerPage, int requestPage, String option) {
