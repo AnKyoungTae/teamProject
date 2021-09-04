@@ -1,4 +1,5 @@
 <template>
+<div class="container" style="width: 1000px;">
   <div class="m-4">
     <h1>이벤트 페이지</h1>
     <hr />
@@ -99,6 +100,7 @@
       </nav>
     </div>
   </div>
+</div>
 </template>
 
 <script>
