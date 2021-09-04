@@ -52,7 +52,7 @@
           </td>
         </tr>
         <tr>
-          <td class="td1" rowspan="4">할인정보</td>
+          <td class="td1" rowspan="5">할인정보</td>
           <td class="coupon1">할인명</td>
           <td class="coupon1">할인 음식</td>
           <td class="coupon1">할인넘버</td>
@@ -61,7 +61,7 @@
           <td class="coupon1">할인 종료일</td>
           <td class="coupon1"></td>
         </tr>
-        <tr style="border-bottom: 2px solid black;">
+        <tr class="coupon3">
           <td class="coupon2">
             <input
               type="text"
@@ -91,7 +91,7 @@
           </td>
           <td class="coupon2">
             <input
-              style="width: 100px;"
+              style="width: 80px;"
               type="text"
               class=""
               name="couponName"
@@ -101,7 +101,7 @@
           </td>
           <td class="coupon2">
             <input
-              style="width: 100px;"
+              style="width: 80px;"
               type="text"
               class=""
               name="couponName"
@@ -120,11 +120,21 @@
             />
           </td>
           <td class="coupon2">
-            <button>등록</button>
+            <input
+              type="button"
+              class="couponInsert coupon"
+              value="등록"
+              @click="couponInsert()"
+            />
           </td>
         </tr>
-        <tr style="border-top: 2px solid black; border-bottom: 2px solid black;">
+        <tr>
           <td colspan="2">
+            <span>* 등록된 할인정보는 이벤트와 함께 추가됩니다.</span>
+          </td>
+        </tr>
+        <tr class="coupon3" style="border-top: 2px solid black; border-bottom: 2px solid black;">
+          <td colspan="2" class="coupon1">
             할인명
           </td>
           <td>
@@ -133,16 +143,10 @@
           <td>
             할인가격
           </td>
-          <td>
+          <td colspan="2">
             할인 종료일
           </td>
           <td>
-            <input
-              type="submit"
-              class="couponDelete"
-              value="삭제"
-              @click="couponDelete()"
-            />
           </td>
         </tr>
         <tr style="border-bottom: 1px solid rgb(199, 198, 198);">
@@ -155,14 +159,20 @@
           <td class="coupon">
             <span>ex)10000원</span>
           </td>
-          <td class="coupon">
+          <td class="coupon" colspan="2">
             <span>ex)2021-09-30</span>
           </td>
-          <td class="coupon">
-            <button>삭제</button>
+          <td>
+            <input
+              type="button"
+              class="couponDelete coupon"
+              value="취소"
+              @click="couponDelete()"
+            />
           </td>
         </tr>
       </table>
+      <span class="text_0">* 등록 후 수정은 불가능하니 등록 시 신중하게 해주십시오.</span><br/>
       <input
         type="submit"
         class="eventadd-button"
@@ -240,15 +250,22 @@ table {
   color: gray;
 }
 .coupon {
-  padding: 20px;
+  padding: 0px 10px;
 }
 .coupon1 {
   border-top: 2px solid black; 
   border-bottom: 1px solid rgb(199, 198, 198); 
   padding: 10px;
+  background-color: rgb(236, 236, 236);
 }
 .coupon2 {
   border-bottom: 1px solid rgb(199, 198, 198); 
   padding: 10px;
+}
+.text_0 {
+  color: rgb(194, 51, 51);
+}
+.coupon3 {
+  background-color: rgb(236, 236, 236);
 }
 </style>
