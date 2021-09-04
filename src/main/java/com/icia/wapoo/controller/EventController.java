@@ -5,6 +5,8 @@ import java.util.Map;
 
 
 import com.icia.wapoo.model.Coupon;
+import com.icia.wapoo.model.Store;
+import com.icia.wapoo.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,8 @@ import com.icia.wapoo.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -31,6 +35,28 @@ public class EventController {
     private final MemberService memberService;
     @Autowired
     private final JwtService jwtService;
+    @Autowired
+    private final StoreService storeService;
+
+    private Integer getMemberIdByRequest(HttpServletRequest request) {
+        System.out.println("받은 토큰으로 멤버를 검색합니다");
+        Integer memberId = 0;
+        try
+        {
+            //JWT 토큰값
+            String JWT = jwtService.resolveToken(request);
+            System.out.println(JWT);
+
+            Map<String, Object> token = jwtService.getUserInfo(JWT);
+            // token에서 memberId 값 가져오기
+            memberId = ((Integer) token.get("memberId")).intValue();
+        }
+        catch(Exception e)
+        {
+            System.out.println("memberId 없음");
+        }
+        return memberId;
+    }
 
     @PostMapping("/eventinsert")
     public void eventInsert(@RequestBody Map<String, Object> data) {
@@ -101,5 +127,18 @@ public class EventController {
         return new ResponseEntity(result, HttpStatus.OK);
     }
 
+    @GetMapping("/getFoodList")
+    public ResponseEntity getFoodList(HttpServletRequest request) {
+        Integer requesterId = getMemberIdByRequest(request);
+        if(requesterId == null) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        Store store = storeService.getStoreById(requesterId);
+        if(store == null) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        List<Map<String, Object>> foodList = storeService.getAllFood(store.getStoreId());
+        return new ResponseEntity(foodList, HttpStatus.OK);
+    }
 
 }

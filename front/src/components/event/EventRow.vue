@@ -17,7 +17,7 @@
         >
       </div>
       <div>
-        <span class="data-span">WHAT POO 회원을 대상으로 {{ data.body }}</span>
+        <span class="data-span">{{ data.body }}</span>
       </div>
       <div>
         <hr />
