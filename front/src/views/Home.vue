@@ -29,7 +29,6 @@
                       v-for="shop in nearShopList"
                       :key="shop"
                       :shopInfo="shop"
-                      @click="showShopDetail(shop.storeId)"
                     >
                     </ShopList>
                   </div>

@@ -10,8 +10,12 @@
     </div>
     <div class="row">
       <!-- 음식사진시작 -->
-      <div class="col-12">
-        {{ fileList }}
+      <div class="col-12 slide">
+        <div v-if="fileList != null" class="imgList">
+          <div v-for="(file, index) in fileList" :key="file">
+            <img class="imgFile" v-bind:id="'imgFile' + index" :src="file.name" />
+          </div>
+        </div>
       </div>
       <!-- 종료 -->
     </div>
@@ -25,8 +29,8 @@
 import http from "@/api/http";
 
 export default {
-  components: {},
-
+  components: {
+  },
   props: ["shopInfo"],
   mounted() {
     if (this.shopInfo.storeId != null) {
@@ -40,7 +44,8 @@ export default {
           if (res.status === 200) {
             this.fileList = res.data;
             console.log(res.data);
-            this.renderSplide();
+
+            this.fileList.splice(5);
           }
         })
         .catch((err) => {
@@ -53,7 +58,8 @@ export default {
       fileList: [],
     };
   },
-  methods: {},
+  methods: {
+  },
   computed: {
     getStoreKind() {
       let arr = this.shopInfo.storeKind.split(",");
@@ -83,15 +89,18 @@ export default {
   justify-self: start;
   padding: 0px;
 }
+.imgList {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.imgFile {
+  width: 100px;
+  height: 70px;
+}
 @media screen and (min-width: 1200px) {
-  .slide {
-    width: 300px;
+  .imgList {
     display: none;
-  }
-  .menuImg {
-    width: 0px;
-    height: 0px;
-    border: 2px solid blue;
   }
   .storeHeader {
     width: 300px;
@@ -99,9 +108,48 @@ export default {
   }
 }
 @media screen and (max-width: 1200px) {
-  .menuImg {
-    width: 100px;
-    height: 70px;
+  .imgList {
+    width: 700px;
+  }
+  .storeHeader {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 1100px) {
+  .imgList {
+    width: 600px;
+  }
+}
+@media screen and (max-width: 900px) {
+  .imgList {
+    width: 500px;
+  }
+  #imgFile4 {
+    display: none;
+  }
+}
+@media screen and (max-width: 800px) {
+  .imgList {
+    width: 400px;
+  }
+  #imgFile3 {
+    display: none;
+  }
+}
+@media screen and (max-width: 700px) {
+  .imgList {
+    width: 300px;
+  }
+  #imgFile2 {
+    display: none;
+  }
+}
+@media screen and (max-width: 600px) {
+  .imgList {
+    width: 200px;
+  }
+  #imgFile1 {
+    display: none;
   }
 }
 </style>
