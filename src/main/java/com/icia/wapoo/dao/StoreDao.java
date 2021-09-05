@@ -40,7 +40,8 @@ public interface StoreDao {
             @Param("lon") Double longitude,
             @Param("radius") float radius,
             @Param("qantity") int qantity,
-            @Param("options") String options);
+            @Param("options") String options,
+            @Param("loadFrom") int loadFrom);
 
     Store selectStoreByStoreId(@Param("storeId") Integer storeId);
 

@@ -91,7 +91,6 @@ export default {
       http
         .post("/store/getStoreListByLocation", { lat, lon })
         .then((res) => {
-          console.log(res.data);
           this.nearShopList = res.data;
           this.showList = true;
         })

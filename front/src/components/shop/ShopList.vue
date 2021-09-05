@@ -1,5 +1,9 @@
 <template>
-  <div @click="storePage(shopInfo.storeId)" class="storeList">
+  <div
+    @click="storePage(shopInfo.storeId)"
+    class="storeList"
+    title="클릭시 상세페이지로 이동합니다"
+  >
     <div class="storeHeader">
       <div class="headerTitle">
         <h5 class="storeTitle">
@@ -53,7 +57,6 @@ export default {
         .then((res) => {
           if (res.status === 200) {
             this.fileList = res.data;
-            console.log(res.data);
             this.fileList.splice(5);
           }
         })
@@ -69,7 +72,6 @@ export default {
         })
         .then((response) => {
           this.averageScore = response.data;
-          console.log("점수 평균값 : " + this.averageScore);
         })
         .catch((err) => {
           console.log(err);
@@ -149,6 +151,9 @@ export default {
   height: 70px;
   margin-left: 10px;
   margin-right: 20px;
+}
+.storeList:hover {
+  outline: 1px solid orange;
 }
 @media screen and (min-width: 1200px) {
   .imgList {

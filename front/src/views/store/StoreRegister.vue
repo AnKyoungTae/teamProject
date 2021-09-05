@@ -76,8 +76,8 @@
         id="address"
         v-model="address.place_name"
         aria-label="readonly input example"
-        readonly
         style="text-align: center"
+        readonly
       />
       <label for="addressDetail" class="form-label mt-2"
         ><b>상세주소</b>를 입력해주세요.</label
@@ -178,7 +178,7 @@
               <div class="image-box">
                 <label for="imageFile">추가 사진 등록</label>
                 <input
-                  type="imageFile"
+                  type="file"
                   id="imageFile"
                   ref="files"
                   @change="imageAddUpload"

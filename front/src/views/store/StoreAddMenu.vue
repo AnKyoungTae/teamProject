@@ -164,6 +164,8 @@ export default {
       .catch((err) => {
         console.log(err);
         error("오류가 발생했습니다. 다시 시도해주세요", this);
+
+        alert("관리자의 승인이후에 음식을 등록할 수 있습니다!");
         this.$store.dispatch("auth/logout");
         this.$router.push({ path: "/" });
       });
@@ -223,6 +225,8 @@ export default {
         })
         .catch((err) => {
           console.log(err);
+
+          alert("관리자의 승인이후에 음식을 등록할 수 있습니다!");
           error("오류가 발생했습니다. 다시 시도해주세요", this);
           this.$store.dispatch("auth/logout");
           this.$router.push({ path: "/" });

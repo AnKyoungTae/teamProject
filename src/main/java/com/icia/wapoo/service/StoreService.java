@@ -71,9 +71,7 @@ public class StoreService {
     public List<Map<String, Object>> getStoreList(int listPerPage, int requestPage, String option) {
         int StartLimit = (requestPage-1)* listPerPage;
         int EndLimit = listPerPage;
-        System.out.println((StartLimit+1) + "번째 부터 시작하여 "+EndLimit +"개를 가져옵니다.");
         List<Map<String, Object>> list = storeDao.selectStoreList(StartLimit, EndLimit, option);
-        System.out.println("가져온 게시물 수 : " + list.size());
         return list;
     }
 
@@ -132,9 +130,7 @@ public class StoreService {
     public List<Map<String, Object>> getFoodList(int listPerPage, int requestPage, String option, int store_id) {
         int StartLimit = (requestPage-1)* listPerPage;
         int EndLimit = listPerPage;
-        System.out.println((StartLimit+1) + "번째 부터 시작하여 "+EndLimit +"개를 가져옵니다.");
         List<Map<String, Object>> list = storeDao.selectFoodList(StartLimit, EndLimit, option, store_id);
-        System.out.println("가져온 게시물 수 : " + list.size());
         return list;
     }
 
@@ -142,8 +138,8 @@ public class StoreService {
         return storeDao.selectFoodListCount(option, store_id);
     }
 
-    public List<Map<String, Object>> getNearStoresList(Double latitude, Double longitude, float radius, int qantity, String options) {
-        return storeDao.selectNearStoresList(latitude, longitude, radius, qantity, options);
+    public List<Map<String, Object>> getNearStoresList(Double latitude, Double longitude, float radius, int qantity, String options, int loadFrom) {
+        return storeDao.selectNearStoresList(latitude, longitude, radius, qantity, options, loadFrom);
     }
 
     public Store getStoreInfo(Integer storeId) {

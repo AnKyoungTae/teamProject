@@ -132,6 +132,9 @@ export default {
         password: this.userPassword,
       });
       // 받은 정보의 처리
+      console.log("response");
+      console.log(response);
+
       response
         .then((res) => {
           this.SET_MODAL_REGISTER(false);
