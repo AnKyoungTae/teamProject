@@ -97,13 +97,33 @@ WHERE	memberId = #{memberId}
 
 </update>
 
-	<select id="selectFileUrl" resultType="String">
-		SELECT profileUrl
-		FROM `member`
-		WHERE memberId = #{memberId};
-	</select>
+<select id="selectFileUrl" resultType="String">
+	SELECT profileUrl
+	FROM `member`
+	WHERE memberId = #{memberId};
+</select>
 
+<!--비밀번호 찾기 login 정보 -->
+<select id="getLoginInfo" resultType="LoginInfo">
+SELECT *
+FROM `loginInfo`
+WHERE loginId = #{loginId}
+</select>
 
+<!--비밀번호 찾기 member 정보 -->
+<select id="getMember" resultType="Member">
+SELECT *
+FROM	`member`
+WHERE	NAME = #{name}
+AND	email = #{email}
+</select>
 
+<!-- 아이디 찾기 멤버 아이디 -->
+<select id="getMemberId" resultType="LoginInfo">
+SELECT	*
+FROM	`loginInfo`
+WHERE	member_id = #{memberId}
+
+</select>
 
 </mapper>

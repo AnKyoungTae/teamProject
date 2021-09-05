@@ -158,6 +158,7 @@ export default {
     },
 
     listPage(articleId) {
+
       //페이지 이동
       let params = {
         articleId: articleId,
@@ -175,7 +176,7 @@ export default {
           } else if (res.data == 400) {
             return alert("글 없습니다");
           } else {
-            return alert("다시 시도해 주세요");
+            return alert("글이 삭제되었습니다.");
           }
         })
         .catch((err) => {
@@ -185,7 +186,7 @@ export default {
     //공개 비공개 검사
     privateToggle(status) {
 
-      if (status === "Y" || status === "S") {
+      if (status !== "H" ) {
         return true;
       }
     },
@@ -240,11 +241,8 @@ export default {
       authAPI
       .pagingMyBoard(2)
       .then(res => {
-     
-       
-        this.queAn = res.data.list
 
-        
+        this.queAn = res.data.list
 
       })
     },

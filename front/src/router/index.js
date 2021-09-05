@@ -150,6 +150,11 @@ const routes = [
     name: "OrderInfo",
     component: () => import("../views/cart/OrderInfo.vue"),
   },
+  {
+    path: "/password",
+    name:"Password",
+    component: () => import("../views/Email/Password.vue")
+  }
 ];
 
 const router = createRouter({

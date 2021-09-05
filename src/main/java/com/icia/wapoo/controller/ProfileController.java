@@ -28,6 +28,7 @@ import com.icia.wapoo.model.Member;
 import com.icia.wapoo.model.MemberCoupon;
 import com.icia.wapoo.model.Order;
 import com.icia.wapoo.model.Profile;
+import com.icia.wapoo.service.EmailService;
 import com.icia.wapoo.service.MemberService;
 import com.icia.wapoo.service.ProfileService;
 
@@ -43,6 +44,9 @@ public class ProfileController {
     private JwtService jwtService;
     @Autowired
     private ProfileService profileService;
+    
+    @Autowired
+    private EmailService emailService;
 	
     private int getMemberIdByRequest(HttpServletRequest request) {
         System.out.println("받은 토큰으로 멤버를 검색합니다");
@@ -84,7 +88,7 @@ public class ProfileController {
 		int memberId = getMemberIdByRequest(request);
 		
 		Map<String, Object> param = (Map<String, Object>) params.get("params");
-		System.out.println("프로필 수정하기:" + params);
+		
 		System.out.println("프로필 수정하기:" + param);
 		
 		if(memberId > 0)
@@ -243,8 +247,67 @@ public class ProfileController {
 	}
 	
 	
-	
-	
+	//비밀번호 찾기
+	@RequestMapping(value = "/findpwd")
+	public ResponseEntity findPwd(@RequestBody Map<String, Object> params, HttpServletResponse response){
+		
+		System.out.println("이메일 보내기 시작");
+		
+		Map<String, Object> param = (Map<String, Object>) params.get("params");
+		
+		
+		System.out.println(param);
+		
+		String result = emailService.findPwd(param);
+		
+		if(result == "ok")
+		{
+			System.out.println("이메일 보내기 성공");
+			return new ResponseEntity("ok", HttpStatus.OK);
+		}
+		else if(result == "email")
+		{
+			System.out.println(" 보낸 이메일 다름");
+			return new ResponseEntity("email", HttpStatus.OK);
+		}
+		else if(result == "id")
+		{
+			System.out.println(" 아이디 다름");
+			return new ResponseEntity("id", HttpStatus.OK);
+		}
+		
+		
+		System.out.println("이메일 보내기 실패");
+		return new ResponseEntity("no", HttpStatus.OK);
+		
+	}
+	//아이디 찾기
+	@RequestMapping(value = "/findid")
+	public ResponseEntity findIdPOST(@RequestBody Map<String, Object> params, HttpServletResponse response){
+		Map<String, Object> param = (Map<String, Object>) params.get("params");
+		
+		
+		System.out.println(param);
+		
+		String result = emailService.findId(param);
+		
+		if(result == "ok")
+		{
+			System.out.println("이메일 보내기 성공");
+			return new ResponseEntity("ok", HttpStatus.OK);
+		}
+		else if(result == "email")
+		{
+			System.out.println(" 보낸 이메일 또는 이름 다름");
+			return new ResponseEntity("email", HttpStatus.OK);
+		}
+		
+		
+		
+		System.out.println("이메일 보내기 실패");
+		return new ResponseEntity("no", HttpStatus.OK);
+		
+	}
 	
 	
 	

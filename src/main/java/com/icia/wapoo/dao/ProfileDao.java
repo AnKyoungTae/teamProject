@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.icia.wapoo.model.LoginInfo;
+import com.icia.wapoo.model.Member;
 import com.icia.wapoo.model.MemberCoupon;
 import com.icia.wapoo.model.Order;
 import com.icia.wapoo.model.Profile;
@@ -38,4 +39,11 @@ public interface ProfileDao {
 	int insertImage(String fileURL, int memberId);
 
     String selectFileUrl(@Param("memberId") Integer memberId);
+    //계정 확인
+    Member getMember(String name, String email) throws Exception;
+    //계정확인2
+    LoginInfo getLoginInfo(String loginId) throws Exception;
+    //아이디 계정확인
+    LoginInfo getMemberId(int memberId);
+    
 }

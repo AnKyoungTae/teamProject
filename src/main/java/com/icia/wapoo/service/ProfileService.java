@@ -1,8 +1,22 @@
 package com.icia.wapoo.service;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+
+import javax.mail.Address;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +25,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.icia.wapoo.S3.S3Service;
 import com.icia.wapoo.dao.MemberDao;
 import com.icia.wapoo.dao.ProfileDao;
+import com.icia.wapoo.login.Gmail;
+import com.icia.wapoo.login.RandomNumber;
+import com.icia.wapoo.login.SHA256;
+
 import com.icia.wapoo.model.LoginInfo;
 import com.icia.wapoo.model.Member;
 import com.icia.wapoo.model.MemberCoupon;
@@ -28,6 +46,11 @@ public class ProfileService {
 	
 	@Autowired
 	private final S3Service s3Service = null;
+	
+	
+    private static SHA256 sHA256;
+	
+	
 	
 	//프로필 조회 profileDao에서 가져옴
 	public Profile profileSelect(int memberId)
@@ -57,15 +80,28 @@ public class ProfileService {
 	{
 		int count = 0;
 		
-		try
-		{
-			System.out.println("loginInfo:   " + loginInfo);
-			count = profileDao.insertPassWord(loginInfo);
-		}
-		catch(Exception e)
-		{
-			System.out.println("insertPassWord 오류: " + e);
-		}
+		//비밀번호 해쉬변화
+        String pwd = null;
+        try 
+        {
+        	pwd = sHA256.hashCode(loginInfo.getPassword());
+        	
+        	loginInfo.setPassword(pwd);
+        	try
+    		{
+    			System.out.println("loginInfo:   " + loginInfo);
+    			count = profileDao.insertPassWord(loginInfo);
+    		}
+    		catch(Exception e)
+    		{
+    			System.out.println("insertPassWord 오류: " + e);
+    		}
+        	
+        }catch(Exception e)
+        {
+        	System.out.println("비밀번호 해쉬중 오류발생!!");
+        }
+		
 		return count;
 	}
 	
@@ -185,8 +221,12 @@ public class ProfileService {
 		return count;
 	}
 
-
+	//이미지 찾기
     public String getProfileUrl(Integer memberId) {
 		return profileDao.selectFileUrl(memberId);
     }
+    
+    
+    
+    
 }
