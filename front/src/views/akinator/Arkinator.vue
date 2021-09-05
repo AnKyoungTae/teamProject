@@ -657,26 +657,29 @@ export default {
   border-radius: 5px;
 }
 .foodDistance {
-  font-size: 10px;
+  font-size: 14px;
   text-align: right;
   margin-right: 5%;
   padding-top: 15%;
+  margin: 0px;
 }
 .foodInfo {
   width: 40%;
   height: 100%;
-  padding: 10px 0px;
+  padding-top: 15px; 
   display: flex;
   flex-flow: column;
   justify-content: center;
 }
 .foodName {
+  font-size: 18px;
   font-weight: bold;
 }
 .foodPrice {
   font-weight: lighter;
   color: rgb(77, 77, 77);
   font-size: 0.8rem;
+  font-size: 14px;
 }
 /* 스크롤바 */
 .foodListWrapper::-webkit-scrollbar {
