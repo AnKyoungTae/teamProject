@@ -121,24 +121,7 @@
               </div>
               <div>
                 <span v-if="MYPAGE == true">
-                  <button
-                    type="button"
-                    class="btn btn-outline-dark"
-                    style="padding: 1px; margin-right: 10px; font-size: 15px"
-                    v-if="commentToggle == false"
-                    @click="changeComment(comment.commentId)"
-                  >
-                    수정
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-outline-dark"
-                    style="padding: 1px; margin-right: 10px; font-size: 15px"
-                    v-else
-                    @click="changeComment(comment.commentId)"
-                  >
-                    완료
-                  </button>
+                  
                   <button
                     type="button"
                     class="btn btn-outline-dark"

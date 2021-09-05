@@ -2,6 +2,7 @@ package com.icia.wapoo.service;
 
 import com.icia.wapoo.dao.LoginInfoDao;
 import com.icia.wapoo.dao.MemberDao;
+import com.icia.wapoo.login.SHA256;
 import com.icia.wapoo.model.LoginInfo;
 import com.icia.wapoo.model.Member;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,27 @@ public class MemberServiceImpl implements MemberService{
 
     @Autowired
     private final LoginInfoDao loginInfoDao;
+    
+    @Autowired
+    private SHA256 sHA256;
 
     @Override
     public Member getMemberByLoginInfo(String loginId, String password) {
         System.out.println("아이디 " + loginId +" 비번 "+ password + " 으로 로그인시도");
-        LoginInfo loginInfo = loginInfoDao.selectloginInfo(loginId, password);
+        
+        LoginInfo loginInfo = null;
+        //비밀번호 해쉬변화
+        String pwd = null;
+        try 
+        {
+        	pwd = sHA256.hashCode(password);
+        	
+        	loginInfo = loginInfoDao.selectloginInfo(loginId, pwd);
+        }catch(Exception e)
+        {
+        	System.out.println("비밀번호 해쉬중 오류발생!!");
+        	
+        }
 
 
         if(loginInfo == null) {
@@ -63,10 +80,24 @@ public class MemberServiceImpl implements MemberService{
             System.out.println("member테이블에 데이터 삽입완료 생성된 id -> " + member.getMemberId());
             LoginInfo loginInfo = new LoginInfo();
             loginInfo.setLoginId((String) userData.get("loginId"));
-            loginInfo.setPassword((String) userData.get("password"));
-            loginInfo.setMember_id(member.getMemberId());
-            System.out.println("LoginInfo 에 들어갈 값 "+ loginInfo);
-            result = loginInfoDao.insertLoginInfo(loginInfo);
+            //비밀번호 해쉬변화
+            String pwd = null;
+            result = 0;
+            try 
+            {
+            	pwd = sHA256.hashCode((String) userData.get("password"));
+            	
+            	loginInfo.setPassword(pwd);
+                loginInfo.setMember_id(member.getMemberId());
+                System.out.println("LoginInfo 에 들어갈 값 "+ loginInfo);
+                result = loginInfoDao.insertLoginInfo(loginInfo);
+            }catch(Exception e)
+            {
+            	System.out.println("비밀번호 해쉬중 오류발생!!");
+            	
+            }
+            
+            
             if(result > 0) {
                 System.out.println("LoginInfo 데이터 삽입 완료");
                 return true;

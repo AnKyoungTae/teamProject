@@ -1,68 +1,72 @@
 <template>
-  <div class="container">
+  <div class="container" id="stores">
     <notifications
       group="notifyApp"
       position="bottom right"
       style="margin-right: 30vh"
     />
-    <div class="container-fluid px-4">
-      <div class="row">
-        <nav>
-          <ul class="foodnum-ul" style="position: sticky">
-            <li>
-              <a @click="requestShopList('ALL')" class="foodnum-a">전체보기</a>
-            </li>
-            <li>
-              <a @click="requestShopList('1인분')" class="foodnum-a"
-                >1인분 주문</a
-              >
-            </li>
-            <li>
-              <a @click="requestShopList('프랜차이즈')" class="foodnum-a"
-                >프랜차이즈</a
-              >
-            </li>
-            <li>
-              <a @click="requestShopList('치킨')" class="foodnum-a">치킨</a>
-            </li>
-            <li>
-              <a @click="requestShopList('양식')" class="foodnum-a"
-                >피자/양식</a
-              >
-            </li>
-            <li>
-              <a @click="requestShopList('중식')" class="foodnum-a">중국집</a>
-            </li>
-            <li>
-              <a @click="requestShopList('한식')" class="foodnum-a">한식</a>
-            </li>
-            <li>
-              <a @click="requestShopList('일식')" class="foodnum-a"
-                >일식/돈가스</a
-              >
-            </li>
-            <li>
-              <a @click="requestShopList('족발')" class="foodnum-a"
-                >족발/보쌈</a
-              >
-            </li>
-            <li>
-              <a @click="requestShopList('야식')" class="foodnum-a">야식</a>
-            </li>
-            <li>
-              <a @click="requestShopList('분식')" class="foodnum-a">분식</a>
-            </li>
-            <li>
-              <a @click="requestShopList('카페')" class="foodnum-a"
-                >카페/디저트</a
-              >
-            </li>
-          </ul>
-        </nav>
+    <div @scroll:#main="handleScroll">
+      <div class="container-fluid px-4">
+        <div class="row">
+          <nav>
+            <ul class="foodnum-ul" style="position: sticky">
+              <li>
+                <a @click="requestShopList('ALL')" class="foodnum-a"
+                  >전체보기</a
+                >
+              </li>
+              <li>
+                <a @click="requestShopList('1인분')" class="foodnum-a"
+                  >1인분 주문</a
+                >
+              </li>
+              <li>
+                <a @click="requestShopList('프랜차이즈')" class="foodnum-a"
+                  >프랜차이즈</a
+                >
+              </li>
+              <li>
+                <a @click="requestShopList('치킨')" class="foodnum-a">치킨</a>
+              </li>
+              <li>
+                <a @click="requestShopList('양식')" class="foodnum-a"
+                  >피자/양식</a
+                >
+              </li>
+              <li>
+                <a @click="requestShopList('중식')" class="foodnum-a">중국집</a>
+              </li>
+              <li>
+                <a @click="requestShopList('한식')" class="foodnum-a">한식</a>
+              </li>
+              <li>
+                <a @click="requestShopList('일식')" class="foodnum-a"
+                  >일식/돈가스</a
+                >
+              </li>
+              <li>
+                <a @click="requestShopList('족발')" class="foodnum-a"
+                  >족발/보쌈</a
+                >
+              </li>
+              <li>
+                <a @click="requestShopList('야식')" class="foodnum-a">야식</a>
+              </li>
+              <li>
+                <a @click="requestShopList('분식')" class="foodnum-a">분식</a>
+              </li>
+              <li>
+                <a @click="requestShopList('카페')" class="foodnum-a"
+                  >카페/디저트</a
+                >
+              </li>
+            </ul>
+          </nav>
 
-        <div>
-          <div class="row">
-            <foodlist :shopList="shopList"></foodlist>
+          <div>
+            <div class="row">
+              <foodlist :shopList="shopList"></foodlist>
+            </div>
           </div>
         </div>
       </div>
@@ -117,7 +121,6 @@ export default {
       http
         .post("/store/getStoreListByLocation", data)
         .then((res) => {
-          console.log(res);
           if (res.status === 200) {
             success("로딩성공", this);
             if (res.data == []) {
@@ -129,6 +132,14 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    handleScroll(e) {
+      this.scrollPostion = e.target.scrollTop;
+      if (this.scrollPosition > 100) {
+        console.log("UP");
+      } else {
+        console.log("DOWN");
+      }
     },
   },
   components: {

@@ -134,6 +134,11 @@ const routes = [
     component: () => import("../views/cart/OrderInfo.vue"),
   },
   {
+    path: "/password",
+    name:"Password",
+    component: () => import("../views/Email/Password.vue")
+  },
+  {
     path: "/akinator",
     name: "Arkinator",
     component: () => import("../views/akinator/Arkinator.vue"),
