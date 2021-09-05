@@ -53,7 +53,6 @@ export default {
         .then((res) => {
           if (res.status === 200) {
             this.fileList = res.data;
-            console.log(res.data);
             this.fileList.splice(5);
           }
         })
@@ -69,7 +68,6 @@ export default {
         })
         .then((response) => {
           this.averageScore = response.data;
-          console.log("점수 평균값 : " + this.averageScore);
         })
         .catch((err) => {
           console.log(err);

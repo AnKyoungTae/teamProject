@@ -1,11 +1,11 @@
 <template>
-  <div class="container" id="stores">
+  <div class="container">
     <notifications
       group="notifyApp"
       position="bottom right"
       style="margin-right: 30vh"
     />
-    <div @scroll:#main="handleScroll">
+    <div>
       <div class="container-fluid px-4">
         <div class="row">
           <nav>
@@ -86,6 +86,8 @@ export default {
       shopList: [], // 불러온 가게리스트
       quantity: 10, // 몇개나 불러올건지?
       option: "ALL", // 무엇을 불러올것인지?
+      loadFrom: 0,
+      dataLoaded: false,
     };
   },
   computed: {
@@ -101,6 +103,7 @@ export default {
   },
   methods: {
     requestShopList(option) {
+      window.addEventListener("scroll", this.handleScroll);
       this.shopList = [];
       if (!this.GET_LAT || !this.GET_LON) {
         error("위치정보를 확인할수 없습니다. 다시 시도해주세요.", this);
@@ -116,6 +119,7 @@ export default {
         lat: this.GET_LAT,
         lon: this.GET_LON,
         quantity: this.quantity,
+        loadFrom: this.loadFrom,
         options: this.option,
       };
       http
@@ -127,23 +131,36 @@ export default {
               this.shopList.push("none");
             }
             this.shopList = res.data;
+            this.loadFrom += this.quantity;
+            this.dataLoaded = true;
           }
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    handleScroll(e) {
-      this.scrollPostion = e.target.scrollTop;
-      if (this.scrollPosition > 100) {
-        console.log("UP");
-      } else {
-        console.log("DOWN");
+    handleScroll(event) {
+      // console.log(
+      //   "innerHeight : " +
+      //     window.innerHeight +
+      //     "\nscrollY : " +
+      //     window.scrollY +
+      //     "\noffset : " +
+      //     document.body.offsetHeight
+      // );
+      if (
+        window.innerHeight + window.scrollY + 5 >=
+        document.body.offsetHeight
+      ) {
+        console.log("스크롤이 아래까지 옴.");
       }
     },
   },
   components: {
     foodlist,
+  },
+  unmounted() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
 };
 </script>

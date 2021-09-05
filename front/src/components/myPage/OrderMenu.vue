@@ -2,62 +2,66 @@
   <div style="width: 100%">
     <div class="manage-div">
       <div class="manage-div2">
-        <h3 class="manage-text">
-          주문내역
-        </h3>
+        <h3 class="manage-text">주문내역</h3>
         <div class="profile-manage">
           <div class="menu-box">
-    <div
-      style=" cursor: pointer; width: 100%;"
-      v-for="(orderList, index) in orderLists"
-      :key="index"
-      @click="showOrderDetail(orderList.orderId)"
-    >
-    <div class="menu-div">
-      <div class="menu-top">
-        <div class="top-left">
-          <span style="color: lightgray;">{{ orderList.orderDate }} · 배달중</span>
-        </div>
-        <div class="top-right">
-          <span>주문번호:{{orderList.order_id}}</span>  
-        </div>        
-      </div>
-      <div class="menu-bottom">
-        <div class="bottom-left">
-          <router-link to="/food">
-          <img
-            class="shopImg"
-            :src="orderList.image"
-            :alt="orderList.orgName"
-          />
-        </router-link>
-        </div>
-        <div class="bottom-right">
-          <div style="padding: 20px 0px; line-height: 100px;">
-            <div style="float: left; padding-left: 30px;">
-              <h4>{{ orderList.storeName }}</h4>
-              <div class="myMenu">
-                <h6>{{ orderList.foodName }} {{ orderList.quantity }}개</h6>
-              </div>  
+            <div
+              style="cursor: pointer; width: 100%"
+              v-for="(orderList, index) in orderLists"
+              :key="index"
+              @click="showOrderDetail(orderList.orderId)"
+            >
+              <div class="menu-div">
+                <div class="menu-top">
+                  <div class="top-left">
+                    <span style="color: lightgray"
+                      >{{ orderList.orderDate }} · 배달중</span
+                    >
+                  </div>
+                  <div class="top-right">
+                    <span>주문번호:{{ orderList.order_id }}</span>
+                  </div>
+                </div>
+                <div class="menu-bottom">
+                  <div class="bottom-left">
+                    <router-link to="/food">
+                      <img
+                        class="shopImg"
+                        :src="orderList.image"
+                        :alt="orderList.orgName"
+                      />
+                    </router-link>
+                  </div>
+                  <div class="bottom-right">
+                    <div style="padding: 20px 0px; line-height: 100px">
+                      <div style="float: left; padding-left: 30px">
+                        <h4>{{ orderList.storeName }}</h4>
+                        <div class="myMenu">
+                          <h6>
+                            {{ orderList.foodName }} {{ orderList.quantity }}개
+                          </h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="text-align: right">
+                  <button
+                    type="button"
+                    @Click="orderDel(orderList.order_id)"
+                    class="btn btn-outline-danger"
+                    style="font-size: 13px"
+                  >
+                    주문취소요청
+                  </button>
+                </div>
+              </div>
             </div>
-        </div>
-        </div>
-        </div>
-        <div style="text-align: right;">
-          <button
-                type="button"
-                @Click="orderDel()"
-                class="btn btn-outline-danger"
-                style="font-size: 13px"
-              >
-                주문취소요청
-              </button> 
           </div>
         </div>
       </div>
     </div>
   </div>
-  </div></div></div>
 </template>
 
 <script>
@@ -73,8 +77,19 @@ export default {
     };
   },
   methods: {
-    orderDel() {
-      alert("삭제되었습니다!");
+    orderDel(orderId) {
+      http
+        .post("/order/requestCancel", {
+          orderId: orderId,
+          status: "S",
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            alert("주문 취소를 요청하였습니다!");
+          } else {
+            alert("알수없는 오류입니다. 관리자에게 문의하세요");
+          }
+        });
     },
     //주문 상세 페이지
     showOrderDetail(orderId) {
