@@ -134,6 +134,7 @@ export default {
       this.pwdToggle = true
     },
     changeNotPwd() {
+      this.pwd = null
       this.pwdToggle = false
     },
     

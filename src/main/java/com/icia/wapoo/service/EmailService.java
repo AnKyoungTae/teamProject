@@ -99,16 +99,19 @@ public class EmailService  {
     	
     	if(loginInfo == null)
     	{
+    		System.out.println("11111111111111111111111: " + loginInfo);
     		//아이디 없음
     		return "id";
     	}
     	else if(member == null)
     	{
+    		System.out.println("222222222222222222222222");
     		//이름 이메일 다름
     		return "email";
     	}
     	else
     	{
+    		System.out.println("3333333333333333333333333333");
     		// 임시 비밀번호 생성
     		String pwd = "";
     		pwd = randomNumber.getPwd();

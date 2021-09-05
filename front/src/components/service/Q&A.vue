@@ -245,23 +245,15 @@ export default {
           this.queAn = res.data.list.reverse();
           this.pageList = [];
           this.pageLists(res.data.paging.startPage, res.data.paging.endPage);
-          let maxnum =
-            res.data.paging.page == 1 ? 10 : 10 * res.data.paging.page;
-          if (res.data.paging.total - 10 * page < 0) {
-            maxnum =
-              res.data.paging.startList +
-              10 -
-              -(res.data.paging.total - 10 * page);
-          }
-          let num = 0;
-
-          for (let i = res.data.paging.startList; i < maxnum; i++) {
-            if (i < this.queAn.length) {
-              this.queAn[num].nickname = num + 1;
-            } else {
-              this.queAn[num].nickname = i + 1;
-            }
-            num++;
+          
+          //리스트 번호처리
+          let num = Math.abs(res.data.paging.total -((page - 1) * 10))
+          
+          
+          for(let i = 0 ;i < this.queAn.length ;i++){
+            
+              this.queAn[i].nickname = num--
+              
           }
         });
     },
@@ -296,25 +288,15 @@ export default {
           this.queAn = res.data.list.reverse();
           this.pageList = [];
           this.pageLists(res.data.paging.startPage, res.data.paging.endPage);
+          
           //리스트 번호처리
-
-          let maxnum =
-            res.data.paging.page == 1 ? 10 : 10 * res.data.paging.page;
-          if (res.data.paging.total - 10 * page < 0) {
-            maxnum =
-              res.data.paging.startList +
-              10 -
-              -(res.data.paging.total - 10 * page);
-          }
-          let num = 0;
-
-          for (let i = res.data.paging.startList; i < maxnum; i++) {
-            if (i < this.queAn.length) {
-              this.queAn[num].nickname = num + 1;
-            } else {
-              this.queAn[num].nickname = i + 1;
-            }
-            num++;
+          let num = Math.abs(res.data.paging.total -((page - 1) * 10))
+          
+          
+          for(let i = 0 ;i < this.queAn.length ;i++){
+            
+              this.queAn[i].nickname = num--
+              
           }
         })
         .catch((err) => {

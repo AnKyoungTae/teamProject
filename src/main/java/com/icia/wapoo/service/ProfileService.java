@@ -47,8 +47,8 @@ public class ProfileService {
 	@Autowired
 	private final S3Service s3Service = null;
 	
-	
-    private static SHA256 sHA256;
+	@Autowired
+    private SHA256 sHA256;
 	
 	
 	
@@ -84,11 +84,14 @@ public class ProfileService {
         String pwd = null;
         try 
         {
+        	
         	pwd = sHA256.hashCode(loginInfo.getPassword());
         	
-        	loginInfo.setPassword(pwd);
         	try
     		{
+        		
+            	loginInfo.setPassword(pwd);
+            	
     			System.out.println("loginInfo:   " + loginInfo);
     			count = profileDao.insertPassWord(loginInfo);
     		}
