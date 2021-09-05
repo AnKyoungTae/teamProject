@@ -45,7 +45,7 @@
                 <!-- 0점 -->
                 <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
             </span>
-            <span>
+            <span style="margin-left:5px;">
                 {{ averageScore }}점
             </span>
         </div>
