@@ -219,12 +219,7 @@ export default {
     },
     //공개 비공개 검사
     privateToggle(status) {
-<<<<<<< HEAD
-
-      if (status !== "H" ) {
-=======
       if (status === "Y" || status === "S") {
->>>>>>> 12f2bd6899a62040c50232281651616aa38c5c36
         return true;
       }
     },
@@ -282,24 +277,11 @@ export default {
     },
     // 내글 보기
     myPage() {
-<<<<<<< HEAD
-      this.search = ''
-      this.myCount = false
-
-      authAPI
-      .pagingMyBoard(2)
-      .then(res => {
-
-        this.queAn = res.data.list
-
-      })
-=======
       this.search = "";
       this.myCount = false;
       authAPI.pagingMyBoard(2).then((res) => {
         this.queAn = res.data.list;
       });
->>>>>>> 12f2bd6899a62040c50232281651616aa38c5c36
     },
     //Q&A 리스트 불러오기
     downAllList(boardId, page, range) {

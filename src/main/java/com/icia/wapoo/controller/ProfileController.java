@@ -248,7 +248,7 @@ public class ProfileController {
 	}
 	
 	
-<<<<<<< HEAD
+
 	//비밀번호 찾기
 	@RequestMapping(value = "/findpwd")
 	public ResponseEntity findPwd(@RequestBody Map<String, Object> params, HttpServletResponse response){
@@ -315,7 +315,7 @@ public class ProfileController {
 	
 	
 	
-=======
+
 	@GetMapping(value = "/getMyReview")
 	public ResponseEntity getMyReview(@RequestParam("memberId") Integer memberId, HttpServletRequest request)
 	{
@@ -351,7 +351,7 @@ public class ProfileController {
         System.out.println("error");
         return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
->>>>>>> 12f2bd6899a62040c50232281651616aa38c5c36
+
 	
 	
 }
