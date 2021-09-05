@@ -42,7 +42,6 @@ export default {
   },
   methods: {
     refreshLocation() {
-      console.log("리프레쉬로케이션");
       return navigator.geolocation.getCurrentPosition(
         (position) => {
           this.setLocation(position.coords.latitude, position.coords.longitude);
@@ -56,13 +55,9 @@ export default {
       this.$store.commit("SET_LAT", latitude);
       this.$store.commit("SET_LON", longitude);
       this.$store.commit("SET_OBSERVE", true);
-      console.log(latitude);
-      console.log(longitude);
       if (window.kakao && window.kakao.maps) {
-        console.log("카카오스크립트있음");
         this.findAddress(latitude, longitude);
       } else {
-        console.log("카카오 스크립트 없음");
         const script = document.createElement("script");
         script.onload = () => kakao.maps.load(this.refreshLocation);
         script.src =
@@ -71,10 +66,8 @@ export default {
       }
     },
     findAddress(latitude, longitude) {
-      console.log(latitude);
-      console.log(longitude);
       this.geocoder = new kakao.maps.services.Geocoder();
-      console.log(this.geocoder);
+
       this.coord = new kakao.maps.LatLng(latitude, longitude);
       const addressSearch = (coord) => {
         return new Promise((resolve, reject) => {
@@ -92,15 +85,11 @@ export default {
         });
       };
       const setLocal = (result) => {
-        console.log("셋 로칼");
         this.$store.commit("SET_LOCAL", result[0].address);
-        console.log(this.local);
-        console.log("여기까지 오긴옴");
       };
       // async
       (async () => {
         try {
-          console.log("에싱크");
           const result = await addressSearch(this.coord);
           setLocal(result);
         } catch (e) {

@@ -93,7 +93,11 @@
           </div>
           <!-- 장바구니에 무엇인가를 담아뒀을 때 -->
           <div v-else-if="foodList.length > 0">
-            <div v-for="(food, index) in foodList" :key="index">
+            <div
+              v-for="(food, index) in foodList"
+              :key="index"
+              class="foodWrapper"
+            >
               <div class="foodContainer d-block">
                 <div class="row">
                   <img :src="food.fileUrl" class="foodImage col-4" />
@@ -600,10 +604,15 @@ export default {
 .cart {
   border: 2px solid tomato;
 }
+.foodWrapper {
+  display: flex;
+  border: 1px solid gainsboro;
+  justify-content: center;
+}
 .foodContainer {
   height: 9rem;
   overflow: hidden;
-  border: 1px solid gainsboro;
+
   display: flex;
   align-items: center;
 }
