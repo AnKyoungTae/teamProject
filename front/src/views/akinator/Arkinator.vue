@@ -19,12 +19,15 @@
         <!-- 답변들 -->
 
         <div
-          class="answer p-1 m-1"
+          class=""
           v-for="(answer, index) of answers"
           :key="index"
-          @click="rollback(answer)"
+          
         >
-          {{ answer.answerText }}
+            <span class="span-x" style="color: red; margin-right: 13px;" @click="rollback(answer)" v-if="isHidden[index]" v-bind="isHidden[index]">X</span>
+            <span class="answer p-1 m-1">
+              <span @click="hidden(index)" style="font-size: 20px;">{{ answer.answerText }}</span>
+            </span>
         </div>
       </div>
       <div class="alternativesWrapper m-1 p-1">
@@ -38,19 +41,19 @@
           <span>더 이상 질문이 없습니다.</span>
         </div>
         <div
-          class="alternative p-1 m-1 btn btn-outline-primary"
+          class="alternative p-1 m-1 btn"
           v-for="(alternative, index) of alternatives"
           :key="index"
           @click="choiceAkinator(alternative)"
         >
-          {{ alternative.answerText }}
+          <span>{{ alternative.answerText }}</span>
         </div>
       </div>
     </div>
     <div class="col-md-4 col-sm-12 right row-cols-1 p-2">
       <div class="filterWrapper p-2">
         <!-- 검색탭 -->
-        <div class="input-group mb-3">
+        <div class="input-group mb-3" style="margin: auto;">
           <input
             type="text"
             class="form-control"
@@ -91,7 +94,16 @@
             :class="[selectedFood === food ? 'choicedFoodList' : '']"
             :title="food.description"
           >
-            {{ food }}
+            <div style="float: left; width: 40%;">
+              <img :src="food.fileUrl" class="food-img"  style="width: 100px; height: 100px"/>
+            </div>
+            <div style="float: right; width: 60%; padding-top: 15px;">
+              <span style="font-size: 18px;">{{food.name}}</span><br/>
+              <span style="font-size: 20px;">{{food.price}}원</span><br/>
+              <div style="font-size: 14px; width:100%; text-align: right; padding-right: 5px; padding-top: 10px;">
+               <span>{{food.distance}}km</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -178,6 +190,17 @@ export default {
         }
       });
     },
+    hidden(index) {
+      if(this.isHidden[index] == false) {
+        console.log(this.isHidden[index]);
+        this.isHidden[index] = true
+        console.log("1");
+      }else {
+        console.log(this.isHidden[index]);
+        this.isHidden[index] = false;
+        console.log("2");
+      }
+    },
     choiceAkinator(alternative) {
       // 선택했을 때,
       this.answers.push(alternative);
@@ -211,6 +234,7 @@ export default {
         alert("적어도 한개의 아키네이터 정보는 필요합니다!");
         return;
       }
+
       // 선택된 답장에 맞는 Akinator 돌려주기 from executed
       // answerId 가 겹치는게 있는 arkinator 를 akinatorList에 넣는다.
       const retrieve = this.executedAkinators.find((akinator) => {
@@ -337,6 +361,8 @@ export default {
       akinatorMeta: [], // 아키네이터 빅데이터
       foodFilter: "", // 검색창
       selectedFood: null, // 선택한 음식정보
+      spanX: this.spanX,
+      isHidden: false,
     };
   },
   mounted() {
@@ -395,7 +421,7 @@ export default {
 }
 #log > div {
   position: relative;
-  margin-top: 20px;
+  margin-top: 10px;
   /* 애니메이션속성 */
   animation: fadeInUp 0.5s ease forwards;
 }
@@ -420,7 +446,7 @@ export default {
   position: absolute;
   width: 35%;
   left: 300px;
-  min-height: 120px;
+  font-size: 20px;
   top: 50px;
   padding: 5px;
   background: #ffffff;
@@ -434,26 +460,26 @@ export default {
   content: "";
   position: absolute;
   border-style: solid;
-  border-width: 15px 19px 15px 0;
+  border-width: 0 19px 15px 0;
   border-color: transparent #ffffff;
   display: block;
   width: 0;
   z-index: 1;
   left: -19px;
-  top: 27px;
+  top: 8px;
 }
 
 .question:before {
   content: "";
   position: absolute;
   border-style: solid;
-  border-width: 15px 19px 15px 0;
+  border-width: 0 22px 17px 0;
   border-color: transparent #7f7f7f;
   display: block;
   width: 0;
-  z-index: 0;
-  left: -20px;
-  top: 27px;
+  z-index: 1;
+  left: -22px;
+  top: 7px;
 }
 .answer {
   position: relative;
@@ -471,12 +497,13 @@ export default {
   top: 50%;
   width: 0;
   height: 0;
-  border: 1em solid transparent;
+  border: 0.7em solid transparent;
   border-left-color: #e7fdff;
   border-right: 0;
   border-bottom: 0;
   margin-top: -0.5em;
-  margin-right: -1em;
+  margin-right: -0.7em;
+  transform: rotateX(180deg);
 }
 .answer:hover {
   border: 2px solid tomato;
@@ -543,6 +570,7 @@ export default {
   height: 28%;
   border-radius: 8px;
   border: 1px solid gray;
+  padding: 8px;
 }
 .emptyFood {
   /* 음식목록이 비어있을 때 가운데정렬 */
@@ -575,4 +603,18 @@ export default {
   outline: 2px solid royalblue;
   transition: 0.2s;
 }
+.alternative:hover {
+  -webkit-transform: scale(1.05);
+     -moz-transform: scale(1.05);
+      -ms-transform: scale(1.05);
+       -o-transform: scale(1.05);
+          transform: scale(1.05);  
+}
+
+.alternative span {
+  -webkit-transition: all 0.1s linear;
+          transition: all 0.1s linear;
+          display:inline-block;
+}
+
 </style>
