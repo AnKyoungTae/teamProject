@@ -65,7 +65,7 @@
 
           <div>
             <div class="row">
-              <foodlist :shopList="shopList"></foodlist>
+              <foodlist :shopList="getShopList"></foodlist>
             </div>
           </div>
         </div>
@@ -92,8 +92,12 @@ export default {
   },
   computed: {
     ...mapGetters(["GET_LAT", "GET_LON"]),
+    getShopList() {
+      return this.shopList;
+    },
   },
   mounted() {
+    window.addEventListener("scroll", this.handleScroll);
     let keyword = this.$route.query.keyword;
     if (!keyword) {
       this.requestShopList("ALL");
@@ -103,8 +107,6 @@ export default {
   },
   methods: {
     requestShopList(option) {
-      window.addEventListener("scroll", this.handleScroll);
-      this.shopList = [];
       if (!this.GET_LAT || !this.GET_LON) {
         error("위치정보를 확인할수 없습니다. 다시 시도해주세요.", this);
         this.$router.push({ path: "/" });
@@ -114,7 +116,13 @@ export default {
         error("잘못된 요청입니다", this);
         return;
       }
-      this.option = option;
+      if (option != null) {
+        this.option = option;
+        this.shopList = [];
+        this.quantity = 10;
+        this.loadFrom = 0;
+      }
+
       const data = {
         lat: this.GET_LAT,
         lon: this.GET_LON,
@@ -126,11 +134,11 @@ export default {
         .post("/store/getStoreListByLocation", data)
         .then((res) => {
           if (res.status === 200) {
-            success("로딩성공", this);
             if (res.data == []) {
               this.shopList.push("none");
             }
-            this.shopList = res.data;
+            let arr = this.shopList.concat(res.data);
+            this.shopList = arr;
             this.loadFrom += this.quantity;
             this.dataLoaded = true;
           }
@@ -152,7 +160,13 @@ export default {
         window.innerHeight + window.scrollY + 5 >=
         document.body.offsetHeight
       ) {
-        console.log("스크롤이 아래까지 옴.");
+        if (this.dataLoaded == false) {
+          return;
+        }
+        if (this.dataLoaded == true) {
+          this.dataLoaded = false;
+          this.requestShopList();
+        }
       }
     },
   },
@@ -160,6 +174,7 @@ export default {
     foodlist,
   },
   unmounted() {
+    console.log("파괴됨");
     window.removeEventListener("scroll", this.handleScroll);
   },
 };

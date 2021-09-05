@@ -159,7 +159,8 @@
         <![CDATA[
         HAVING distance < #{radius}
         ]]>
-        ORDER BY distance LIMIT 0,#{qantity};
+        ORDER BY distance
+        LIMIT #{loadFrom},#{qantity};
     </select>
     <select id="selectStoreByStoreId" resultType="Store">
         SELECT

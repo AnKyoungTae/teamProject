@@ -1,5 +1,9 @@
 <template>
-  <div @click="storePage(shopInfo.storeId)" class="storeList">
+  <div
+    @click="storePage(shopInfo.storeId)"
+    class="storeList"
+    title="클릭시 상세페이지로 이동합니다"
+  >
     <div class="storeHeader">
       <div class="headerTitle">
         <h5 class="storeTitle">
@@ -147,6 +151,9 @@ export default {
   height: 70px;
   margin-left: 10px;
   margin-right: 20px;
+}
+.storeList:hover {
+  outline: 1px solid orange;
 }
 @media screen and (min-width: 1200px) {
   .imgList {

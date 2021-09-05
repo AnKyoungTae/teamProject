@@ -177,8 +177,8 @@ public class StoreController {
             // 수량이 정해져있을경우,
             loadFrom = ((Integer) data.get("loadFrom")).intValue();
         }
-        System.out.println("현재 위도(y)는 "+ latitude+" , 현재 경도(x)는 "+longitude+" 에서 가게정보를 요청합니다.");
         List<Map<String, Object>> list = storeService.getNearStoresList(latitude, longitude, radius, quantity, options, loadFrom);
+        System.out.println("사이즈" + list.size());
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
