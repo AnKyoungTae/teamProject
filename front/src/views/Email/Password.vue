@@ -3,62 +3,58 @@
     <button type="button" class="btn btn-outline-secondary touch" @click="changeStatusId">아이디</button>
     <button type="button" class="btn btn-outline-secondary touch" @click="changeStatusPwd">비밀번호</button>
     <div v-if="status == 'id'">
-      <h3 class="title">아이디 찾기</h3>
-      <table class="tab">
-        
-        <tr>
-          <td>
-            <span>이름 </span>
-          </td>
-          <td>
-            <input type="text" class="text" v-model="name">
-          </td>
-        </tr>
-
-        <tr>
-          <td>
-            <span>이메일</span>
-          </td>
-          <td>
-            <input type="text" class="text" v-model="email">
-          </td>
-        </tr>
-        
-      </table>
+      <div class="manage-div">
+        <div class="manage-div2">
+          <h3 class="title">아이디 찾기</h3>
+          <div class="profile-manage">
+            <div class="manage-box">
+              <div>
+                <strong><span class="login-txt">이름 입력</span></strong><br />
+                <a class="profile-img">
+                  <strong class="login-tit"><input type="text" class="text" v-model="name" placeholder="이름" style="width: 100%;"></strong>
+                </a>
+              </div>
+              <div style="margin-top: 30px;">
+                <strong><span class="login-txt">이메일 입력</span></strong><br />
+                <a class="profile-img">
+                  <strong class="login-tit"><input type="text" class="text" v-model="email" placeholder="이메일" style="width: 100%;"></strong>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <button @click="sendId" class="btn btn-outline-info send-button">보내기</button>
     </div>
     <div v-else>
-      <h3 class="title">비밀번호 찾기</h3>
-      <table class="tab">
-        <tr >
-          <td>
-            <span>아이디</span>
-          </td>
-          <td>
-            <input type="text" class="text" v-model="loginId">
-          </td>
-        </tr>
-
-        <tr>
-          <td>
-            <span>이름 </span>
-          </td>
-          <td>
-            <input type="text" class="text" v-model="name">
-          </td>
-        </tr>
-
-        <tr>
-          <td>
-            <span>이메일</span>
-          </td>
-          <td>
-            <input type="text" class="text" v-model="email">
-          </td>
-        </tr>
-        
-      </table>
+      <div class="manage-div">
+        <div class="manage-div2">
+          <h3 class="title">비밀번호 찾기</h3>
+          <div class="profile-manage">
+            <div class="manage-box">
+              <div>
+                <strong><span class="login-txt">아이디 입력</span></strong><br />
+                <a class="profile-img">
+                  <strong class="login-tit"><input type="text" class="text" v-model="loginId" placeholder="아이디" style="width: 100%;"></strong>
+                </a>
+              </div>
+              <div style="margin-top: 30px;">
+                <strong><span class="login-txt">이름 입력</span></strong><br />
+                <a class="profile-img">
+                  <strong class="login-tit"><input type="text" class="text" v-model="name" placeholder="이름" style="width: 100%;"></strong>
+                </a>
+              </div>
+              <div style="margin-top: 30px;">
+                <strong><span class="login-txt">이메일 입력</span></strong><br />
+                <a class="profile-img">
+                  <strong class="login-tit"><input type="text" class="text" v-model="email" placeholder="이메일" style="width: 100%;"></strong>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <button @click="sendEmail" class="btn btn-outline-info send-button">보내기</button>
     </div>
@@ -161,14 +157,80 @@ export default {
 </script>
 
 <style scoped>
+.manage-div {
+  max-width: 560px;
+  margin: 50px auto 0;
+  display: block;
+}
+.manage-div2 {
+  display: block;
+}
+.manage-text {
+  font-weight: normal;
+  font-size: 20px;
+}
+.profile-manage {
+  margin-top: 10px;
+  border-top: 1px solid #7c7c7c;
+}
+.manage-box {
+  margin: 40px auto;
+  text-align: center;
+  width: 300px;
+}
+.profile-img {
+  margin-top: 10px;
+  text-decoration: none;
+}
+.profile-imgdiv {
+  float: left;
+  width: 80px;
+  height: 80px;
+  padding: auto 0;
+  position: relative;
+}
+.profile-imgdiv img {
+  display: block; 
+  width: 80px; 
+  height: 80px; 
+  border-radius: 50%;
+}
+.img-text {
+  overflow: hidden;
+  display: block;
+  font-size: 22px;
+  height: 80px;
+  line-height: middle;
+  padding-left: 20px;
+  padding-bottom: 10px;
+}
+.login-tit {
+  font-size: 20px;
+}
+.login-txt {
+  margin-right: 15px;
+  color: #5066aa;
+  font-size: 20px;
+}
+.text {
+  border: none;
+  border-bottom: 1.5px solid lightgray;
+  width: 100%;
+  text-align: center;
+}
+
+
+
+
+
 .main{
   margin-top: 5vh;
 }
 .main .touch{
   margin: 0 3vw;
 }
-.main .title{
-  margin: 5vh 0;
+.title{
+  margin: 5vh 0 15px 0;
 }
 .main .tab{
   margin: 0 auto;
@@ -177,8 +239,5 @@ export default {
   width: 20vw;
   height: 3vh;
   margin: 1vh 0;
-}
-.send-button{
-  margin-top: 5vh;
 }
 </style>
