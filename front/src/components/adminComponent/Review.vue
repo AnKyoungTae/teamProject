@@ -71,7 +71,7 @@
     </div>
   </div>
   <div v-else>
-    <div v-for="(review, index) of reviewList" :key="index" class="m-2">
+    <div v-for="(review, index) in reviewList" :key="index" class="m-2">
       <review-row :data="review" :isOwner="isOwner"></review-row>
     </div>
   </div>
@@ -395,7 +395,6 @@ export default {
   cursor: pointer;
   background-color: tomato;
 }
-
 
 .review2-p {
   margin: 0px;
