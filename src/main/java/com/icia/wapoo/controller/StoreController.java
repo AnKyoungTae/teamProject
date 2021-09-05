@@ -158,7 +158,7 @@ public class StoreController {
     public ResponseEntity getStoreListByLocation(@RequestBody Map<String, Object> data) {
         Double latitude = (Double) data.get("lat");
         Double longitude = (Double) data.get("lon");
-        int quantity = 5; // 기본값은 5개를 불러온다.
+        int quantity = 7; // 기본값은 5개를 불러온다.
         if(data.containsKey("quantity")){
             // 수량이 정해져있을경우,
             quantity = ((Integer) data.get("quantity")).intValue();
@@ -168,7 +168,7 @@ public class StoreController {
             // 종류가 정해져있을경우,
             options = (String) data.get("options");
         }
-        float radius = 5;
+        float radius = 30;
         if(data.containsKey("radius")) {
             radius = (float) data.get("radius");
         }

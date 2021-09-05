@@ -51,7 +51,7 @@
         WHERE store_id = #{storeId}
     </select>
     <select id="selectAverageScore" resultType="float">
-        SELECT ROUND(AVG(score),1)
+        SELECT IFNULL(ROUND(AVG(score),1), -1)
         FROM review
         WHERE store_id = #{storeId}
     </select>
