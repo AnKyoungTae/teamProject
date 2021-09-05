@@ -90,7 +90,7 @@ public class OrderController {
     }
 
     @PostMapping("/requestCancel")
-    public Map<String, Object> requestCancel(@RequestBody("orderId") Integer orderId) {
-
+    public Map<String, Object> requestCancel(@RequestBody Integer orderId) {
+        return null;
     }
 }
