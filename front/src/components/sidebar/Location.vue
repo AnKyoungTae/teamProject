@@ -24,7 +24,10 @@ import { mapGetters } from "vuex";
 
 export default {
   data() {
-    return {};
+    return {
+      geocoder: null,
+      coord: null,
+    };
   },
   props: {
     icon: { type: String, required: true },
@@ -39,6 +42,7 @@ export default {
   },
   methods: {
     refreshLocation() {
+      console.log("리프레쉬로케이션");
       return navigator.geolocation.getCurrentPosition(
         (position) => {
           this.setLocation(position.coords.latitude, position.coords.longitude);
@@ -51,9 +55,62 @@ export default {
     setLocation(latitude, longitude) {
       this.$store.commit("SET_LAT", latitude);
       this.$store.commit("SET_LON", longitude);
-      console.log("사용자 위치 추적: " + latitude + ", " + longitude);
       this.$store.commit("SET_OBSERVE", true);
+      console.log(latitude);
+      console.log(longitude);
+      if (window.kakao && window.kakao.maps) {
+        console.log("카카오스크립트있음");
+        this.findAddress(latitude, longitude);
+      } else {
+        console.log("카카오 스크립트 없음");
+        const script = document.createElement("script");
+        script.onload = () => kakao.maps.load(this.refreshLocation);
+        script.src =
+          "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0feaa40f6d94ad4428a4f4f8a6cab340&libraries=services,clusterer,drawing";
+        document.head.appendChild(script);
+      }
     },
+    findAddress(latitude, longitude) {
+      console.log(latitude);
+      console.log(longitude);
+      this.geocoder = new kakao.maps.services.Geocoder();
+      console.log(this.geocoder);
+      this.coord = new kakao.maps.LatLng(latitude, longitude);
+      const addressSearch = (coord) => {
+        return new Promise((resolve, reject) => {
+          this.geocoder.coord2Address(
+            coord.getLng(),
+            coord.getLat(),
+            function (result, status) {
+              if (status === kakao.maps.services.Status.OK) {
+                resolve(result);
+              } else {
+                reject(status);
+              }
+            }
+          );
+        });
+      };
+      const setLocal = (result) => {
+        console.log("셋 로칼");
+        this.$store.commit("SET_LOCAL", result[0].address);
+        console.log(this.local);
+        console.log("여기까지 오긴옴");
+      };
+      // async
+      (async () => {
+        try {
+          console.log("에싱크");
+          const result = await addressSearch(this.coord);
+          setLocal(result);
+        } catch (e) {
+          console.log(e);
+        }
+      })();
+    },
+  },
+  mounted() {
+    this.refreshLocation();
   },
 };
 </script>

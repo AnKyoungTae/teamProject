@@ -131,6 +131,7 @@ export default {
         console.log("지도이동");
         this.map.setCenter(coords);
       };
+      console.log("오나욧");
       // async
       (async () => {
         try {

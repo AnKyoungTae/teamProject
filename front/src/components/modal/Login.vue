@@ -38,7 +38,9 @@
           <input @click="setLoginSave" v-model="loginSave" type="checkbox" />
           <span>아이디 저장</span>
         </label>
-        <button class="find-password-button">비밀번호 찾기</button>
+        <button class="find-password-button">
+          <div @click="findPw">비밀번호 찾기</div>
+        </button>
       </div>
       <div class="login-button-wrapper">
         <div>
@@ -75,6 +77,7 @@
 import Modal from "@/components/modal/Modal_login";
 import { error, success } from "@/api/notification";
 import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
+import http from "@/api/http";
 export default {
   components: {
     Modal,
@@ -161,6 +164,20 @@ export default {
     },
     setLoginSave() {
       this.loginSave = !this.loginSave;
+    },
+    findPw() {
+      let email = prompt("이메일을 입력해주세요. (Gmail)");
+      let id = email.split("@")[0];
+      // 기능구현위주 간단하게. 정규식도 추가해야함.
+      http
+        .get("/api/member/findPw", {
+          params: {
+            id,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+        });
     },
   },
 };
