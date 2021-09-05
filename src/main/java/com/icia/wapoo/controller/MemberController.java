@@ -2,7 +2,7 @@ package com.icia.wapoo.controller;
 
 import com.icia.wapoo.jwt.service.JwtService;
 import com.icia.wapoo.model.Member;
-import com.icia.wapoo.service.MailService;
+import com.icia.wapoo.service.EmailService;
 import com.icia.wapoo.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
     @Autowired
-    private final MailService mailService;
+    private final EmailService mailService;
 
 
     /**
@@ -200,9 +200,5 @@ public class MemberController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/member/findPw")
-    public ResponseEntity findPw(@RequestParam String id) {
-        mailService.simpleMailSend(id);
-        return new ResponseEntity(HttpStatus.OK);
-    }
+    
 }

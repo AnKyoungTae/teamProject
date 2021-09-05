@@ -53,7 +53,7 @@ export function update(params) {
 //본인 확인
 export async function articleVerify(params) {
   return http.post("/article/articleVerify", {
-    params,
+    params
   });
 }
 
