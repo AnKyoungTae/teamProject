@@ -12,8 +12,7 @@ import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 
-import javax.mail.Message;
-import javax.mail.Session;
+
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -25,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.icia.wapoo.S3.S3Service;
 import com.icia.wapoo.dao.MemberDao;
 import com.icia.wapoo.dao.ProfileDao;
-import com.icia.wapoo.login.Gmail;
+
 import com.icia.wapoo.login.RandomNumber;
 import com.icia.wapoo.login.SHA256;
 
