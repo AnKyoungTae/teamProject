@@ -104,7 +104,12 @@ export default {
     ...mapState(["isAuthenticated"]),
   },
   methods: {
-    ...mapMutations(["SET_MODAL_REGISTER", "SET_LOGIN", "SET_SELECT_REGISTER"]),
+    ...mapMutations([
+      "SET_MODAL_REGISTER",
+      "SET_LOGIN",
+      "SET_SELECT_REGISTER",
+      "SET_MODAL_LOGIN",
+    ]),
     ...mapActions({
       login: "auth/login",
     }),
@@ -166,18 +171,8 @@ export default {
       this.loginSave = !this.loginSave;
     },
     findPw() {
-      let email = prompt("이메일을 입력해주세요. (Gmail)");
-      let id = email.split("@")[0];
-      // 기능구현위주 간단하게. 정규식도 추가해야함.
-      http
-        .get("/api/member/findPw", {
-          params: {
-            id,
-          },
-        })
-        .then((res) => {
-          console.log(res);
-        });
+      this.SET_MODAL_LOGIN(false);
+      this.$router.push({ name: "Password" });
     },
   },
 };

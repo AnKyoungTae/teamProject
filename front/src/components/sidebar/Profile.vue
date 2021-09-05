@@ -81,9 +81,6 @@
         >
           로그인
         </div>
-        <div type="button" class="btn btn-success d-inline col-12" style="margin-top: 1vh;" @click="changPassword">
-          아이디/비밀번호 찾기
-        </div>
       </div>
     </div>
   </transition>
@@ -154,10 +151,6 @@ export default {
       });
       this.inputOrderNumber = null;
     },
-    //아이디 비밀번호 찾기 페이지 이동
-    changPassword() {
-      this.$router.push({name: 'Password'})
-    }
   },
   components: {
     LoginModal,
