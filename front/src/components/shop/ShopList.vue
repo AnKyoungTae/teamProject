@@ -1,46 +1,48 @@
 <template>
-  <a href="#" class="shopList">
-    <div class="row storeHeader">
-      <div class="col-10 storeTitle">
-        <h5 class="mb-1">{{ shopInfo.name }}</h5>
+  <div @click="storePage(shopInfo.storeId)" class="storeList">
+    <div class="storeHeader">
+      <div class="headerTitle">
+        <h5 class="storeTitle">
+          {{ shopInfo.name }}
+        </h5>
+        <small style="color:gray;">
+          {{ shopInfo.storeKind }}
+        </small>
       </div>
-      <div class="col-2 storeKind">
-        <small class="text-muted">{{ getStoreKind }}</small>
+      <div class="storeReview">
+        <Reviewicon :averageScore="this.averageScore"></Reviewicon>
       </div>
     </div>
-    <div class="row">
-      <!-- 음식사진시작 -->
-      <div class="col-12">
-        <div class="slide">
-          <splide :options="options">
-            <splide-slide v-for="file in fileList" :key="file">
-              <img class="menuImg" :src="file.name" />
-            </splide-slide>
-          </splide>
+    <!-- 음식사진시작 -->
+    <div class="slide">
+      <div v-if="fileList != null" class="imgList">
+        <div v-for="(file, index) in fileList" :key="file">
+          <img class="imgFile" v-bind:id="'imgFile' + index" :src="file.name" />
         </div>
       </div>
-      <!-- 종료 -->
     </div>
-    <div class="row address">
-      <small> {{ shopInfo.address }}, {{ shopInfo.addressDetail }} </small>
+    <!-- 종료 -->
+    <div class="storeFooter">
+      <small class="address">
+        {{ shopInfo.address }}, {{ shopInfo.addressDetail }}
+      </small>
+      <div style="width:100px; text-align:right;">
+        {{ shopInfo.distance }}km
+      </div>
     </div>
-  </a>
+  </div>
 </template>
 
 <script>
-import { Splide, SplideSlide } from "@splidejs/vue-splide";
-import "@splidejs/splide/dist/css/themes/splide-default.min.css";
 import http from "@/api/http";
+import Reviewicon from "@/components/shop/Reviewicon.vue";
 
 export default {
   components: {
-    Splide,
-    SplideSlide,
+    Reviewicon,
   },
-
   props: ["shopInfo"],
   mounted() {
-    console.log(this.shopInfo.storeId); // 사진을 불러오기위함
     if (this.shopInfo.storeId != null) {
       http
         .get("/store/getStoreFiles", {
@@ -52,48 +54,43 @@ export default {
           if (res.status === 200) {
             this.fileList = res.data;
             console.log(res.data);
+            this.fileList.splice(5);
           }
         })
         .catch((err) => {
           console.log("사진불러오는데 에러" + err);
         });
+
+        http
+        .get("/review/getAverageScore", {
+          params: {
+            storeId: this.shopInfo.storeId,
+          },
+        })
+        .then((response) => {
+          this.averageScore = response.data;
+          console.log("점수 평균값 : " + this.averageScore);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
+    
   },
   data() {
     return {
       fileList: [],
-      options: {
-        rewind: true, //첫 번째 슬라이드 이전 또는 마지막 슬라이드 이후에 슬라이더를 되감는지 여부.
-        speed: 300, // 밀리초 단위의 전환 속도입니다.
-        rewindSpeed: 300, //되감기 시 전환 속도(밀리초)입니다.
-        focus: "center", //어떤 슬라이드에 초점을 맞춰야 하는지 결정합니다.
-        type: "loop",
-        breakpoints: {
-          1600: {
-            width: 700,
-            perPage: 0,
-          },
-          1200: {
-            width: 700,
-            perPage: 5,
-          },
-          1100: {
-            width: 500,
-            perPage: 3,
-          },
-          900: {
-            width: 400,
-            perPage: 3,
-          },
-          700: {
-            width: 300,
-            perPage: 3,
-          },
-        },
-      },
+      averageScore: null,
     };
   },
-  methods: {},
+  methods: {
+    storePage(storeId) {
+      this.$router.push({
+        path: "/shopDetail?n=" + storeId,
+        query: { shopInfo: storeId },
+      });
+    }
+  },
   computed: {
     getStoreKind() {
       let arr = this.shopInfo.storeKind.split(",");
@@ -104,43 +101,93 @@ export default {
 </script>
 
 <style scoped>
-.shopList {
-  width: 100%;
-  display: grid;
-  justify-content: space-around;
+.storeList {
   color: black;
   text-decoration: none;
+  padding: 0px 10px;
+  cursor: pointer;
+}
+.headerTitle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.storeHeader,
+.storeFooter {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 .storeTitle {
   text-align: left;
   padding: 5px 0 0;
 }
-.storeKind {
+.storeReview {
+  text-align: right;
   padding: 5px 0 0;
+  width:150px;
 }
 .address {
   text-align: left;
   justify-self: start;
   padding: 0px;
 }
+.storeTitle, 
+.address {
+  display: inline-block;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  width:200px;
+}
+.imgList {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+.imgFile {
+  width: 100px;
+  height: 70px;
+  margin-left:10px;
+  margin-right:20px;
+}
 @media screen and (min-width: 1200px) {
-  .slide {
-    width: 300px;
+  .imgList {
     display: none;
-  }
-  .menuImg {
-    width: 0px;
-    height: 0px;
-  }
-  .storeHeader {
-    width: 300px;
-    height: 50px;
   }
 }
 @media screen and (max-width: 1200px) {
-  .menuImg {
-    width: 100px;
-    height: 70px;
+  .storeHeader {
+    width: 100%;
+  }
+  .storeTitle, .address {
+    width: 300px;
+  }
+}
+@media screen and (max-width: 950px) {
+  #imgFile4 {
+    display: none;
+  }
+}
+@media screen and (max-width: 770px) {
+  #imgFile3 {
+    display: none;
+  }
+}
+@media screen and (max-width: 660px) {
+  #imgFile2 {
+    display: none;
+  }
+  .storeTitle, .address {
+    width: 200px;
+  }
+}
+@media screen and (max-width: 550px) {
+  #imgFile1 {
+    display: none;
+  }
+  .storeTitle, .address {
+    width: 150px;
   }
 }
 </style>

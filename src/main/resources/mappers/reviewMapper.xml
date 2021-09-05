@@ -37,10 +37,10 @@
         AND r.status != 'N'
         AND r.store_id = #{storeId}
 
-        <if test="!option.equals('score')">
+        <if test="option.equals('score')">
             ORDER BY r.score DESC
         </if>
-        <if test="!option.equals('recent')">
+        <if test="option.equals('recent')">
             ORDER BY r.regDate DESC
         </if>
         LIMIT #{startLimit}, #{endLimit}
@@ -72,4 +72,5 @@
         SET status = #{status}
         where reviewid = #{reviewId}
     </update>
+    
 </mapper>

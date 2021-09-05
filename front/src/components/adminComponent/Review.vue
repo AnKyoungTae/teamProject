@@ -10,7 +10,7 @@
       <!-- 평점 -->
       <span style="font-weight: 600; font-size: 35px">{{ averageScore }}</span
       ><span style="color: lightgray; font-size: 28px"> / 5</span>
-      <div style="font-size: 13px; margin-top: 0px">
+      <div style="font-size: 13px; margin-top: -10px">
         <!-- 별 -->
         <i
           class="fas fa-star"
@@ -62,7 +62,7 @@
       </span>
     </div>
   </div>
-  <hr />
+  <hr style="margin-top: 0px" />
   <!-- 리뷰로우 -->
   <div v-if="!pageLoaded">
     <!-- 페이지 로딩되지않았을 때 -->
@@ -71,7 +71,7 @@
     </div>
   </div>
   <div v-else>
-    <div v-for="review of reviewList" :key="review" class="m-2">
+    <div v-for="(review, index) of reviewList" :key="index" class="m-2">
       <review-row :data="review" :isOwner="isOwner"></review-row>
     </div>
   </div>
@@ -218,10 +218,12 @@ export default {
       this.pageLoaded = false;
       console.log("요청페이지 : " + request);
       this.requestListCount();
+      let storeId = parseInt(this.storeId);
+
       const data = {
         listPerPage: this.listPerPage,
         currentPage: request,
-        storeId: this.storeId,
+        storeId: storeId,
         showOption: this.showOption,
       };
       http
@@ -242,10 +244,11 @@ export default {
     },
 
     requestListCount() {
+      const storeId = parseInt(this.storeId);
       http
         .get("/review/getReviewListCount", {
           params: {
-            storeId: this.storeId,
+            storeId: storeId,
           },
         })
         .then((response) => {
@@ -257,10 +260,11 @@ export default {
         });
     },
     requestListHasReplyCount() {
+      const storeId = parseInt(this.storeId);
       http
         .get("/review/getReviewListHasReplyCount", {
           params: {
-            storeId: this.storeId,
+            storeId: storeId,
           },
         })
         .then((response) => {
@@ -278,10 +282,11 @@ export default {
       this.requestPage(1);
     },
     getAverageScore() {
+      const storeId = parseInt(this.storeId);
       http
         .get("/review/getAverageScore", {
           params: {
-            storeId: this.storeId,
+            storeId: storeId,
           },
         })
         .then((response) => {
@@ -327,7 +332,7 @@ export default {
 
 .review {
   width: 100%;
-  border: 1px solid black;
+  border: 1px solid lightgray;
 }
 .review-left {
   font-size: 40px;
@@ -342,7 +347,7 @@ export default {
   text-align: left;
   background-color: lightgray;
   height: 50px;
-  line-height: 50px;
+  line-height: 40px;
   padding-left: 20px;
 }
 .review2-p {
@@ -389,5 +394,12 @@ export default {
 .reviewWrite:hover {
   cursor: pointer;
   background-color: tomato;
+}
+
+
+.review2-p {
+  margin: 0px;
+  height: 60px;
+  line-height: 50px;
 }
 </style>

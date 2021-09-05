@@ -55,7 +55,9 @@
                 <i class="fas fa-thumbs-up"></i
                 ><span class="i-text">리뷰점수</span>
               </td>
-              <td class="td2" style="padding-left: 20px">{{ averageScore }}</td>
+              <td class="td2" style="padding-left: 20px">
+                <Reviewicon :averageScore="this.averageScore"></Reviewicon>
+              </td>
             </tr>
             <tr>
               <td class="td1" style="color: gray; margin-top: 20px">
@@ -108,6 +110,7 @@
       </div>
       <shopMenu
         :foodList="shopInfo.foodList"
+        :searchId="this.$route.query.foodIdsearch"
         v-if="currentComp === 'shopMenu'"
       ></shopMenu>
       <shopMap
@@ -136,29 +139,20 @@ import http from "@/api/http";
 import shopMenu from "@/components/adminComponent/StoreMenu.vue";
 import shopMap from "@/components/adminComponent/StoreMap.vue";
 import review from "@/components/adminComponent/Review.vue";
+import Reviewicon from "@/components/shop/Reviewicon.vue";
+
 import { mapGetters } from "vuex";
 
 export default {
-  components: { shopMenu, shopMap, review },
+  components: { shopMenu, shopMap, review, Reviewicon },
   mounted() {
-    if (this.myStore.storeId == this.storeId) {
-      this.ownStore = true;
-    }
+    this.storeId = this.$route.query.shopInfo;
     this.getStoreInfo(this.storeId);
     this.setComponent("shopMenu");
     this.getAverageScore();
   },
   computed: {
     ...mapGetters({ myStore: "auth/getMyStore" }),
-    storeId() {
-      let storeId;
-      if (this.$route.query.shopInfo == null) {
-        storeId = this.myStore.storeId;
-      } else {
-        storeId = this.$route.query.shopInfo;
-      }
-      return storeId;
-    },
   },
   data() {
     return {
@@ -167,6 +161,7 @@ export default {
       currentComp: "shopMenu",
       averageScore: null,
       ownStore: false,
+      storeId: null,
     };
   },
   methods: {
@@ -230,6 +225,7 @@ input {
   font-weight: bold;
   border-bottom: 5px solid rgb(255, 205, 139);
   box-shadow: none;
+  z-index: 0;
 }
 .btn-outline-primary {
   border-color: lightgray;

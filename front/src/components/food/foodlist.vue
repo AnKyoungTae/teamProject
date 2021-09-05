@@ -11,9 +11,12 @@
       <div>충분한정보가없습니다!</div>
     </div>
     <!-- 가게가 있을때 -->
-    <div v-else-if="shopList != null || shopList.lenth > 1">
+    <div
+      class="row row-cols-2"
+      v-else-if="shopList != null || shopList.lenth > 1"
+    >
       <div
-        class="col-xs-8 col-sm-6 m-2 shopdiv"
+        class="col-sm-5 m-2 shopdiv"
         v-for="(shop, index) in shopList"
         :key="index"
       >

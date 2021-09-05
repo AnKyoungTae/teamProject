@@ -29,6 +29,7 @@ import com.icia.wapoo.model.MemberCoupon;
 import com.icia.wapoo.model.Order;
 import com.icia.wapoo.model.Profile;
 import com.icia.wapoo.service.EmailService;
+import com.icia.wapoo.model.Review;
 import com.icia.wapoo.service.MemberService;
 import com.icia.wapoo.service.ProfileService;
 
@@ -247,6 +248,7 @@ public class ProfileController {
 	}
 	
 	
+<<<<<<< HEAD
 	//비밀번호 찾기
 	@RequestMapping(value = "/findpwd")
 	public ResponseEntity findPwd(@RequestBody Map<String, Object> params, HttpServletResponse response){
@@ -313,6 +315,43 @@ public class ProfileController {
 	
 	
 	
+=======
+	@GetMapping(value = "/getMyReview")
+	public ResponseEntity getMyReview(@RequestParam("memberId") Integer memberId, HttpServletRequest request)
+	{
+		System.out.println("작성했던 리뷰를 가져옵니다");
+		int memberIdCheck = getMemberIdByRequest(request);
+		if(memberIdCheck != memberId) {
+			return new ResponseEntity(HttpStatus.FORBIDDEN);
+		}
+		if(memberId > 0)
+		{
+			System.out.println("회원넘버" +memberId);
+			List<Map<String, Object>> list = profileService.getMyReview(memberId);
+			return new ResponseEntity(list, HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PostMapping("/ReviewStatus")
+    public ResponseEntity modifyReviewStatus(@RequestBody Map<String, Object> data) {
+		System.out.println("ReviewStatus Controller");
+        Integer reviewId = (Integer) data.get("reviewId");
+        String status = (String) data.get("status");
+        System.out.println("reviewId" + reviewId);
+        System.out.println("status" + status);
+        int result = profileService.updateReviewState(reviewId, status);
+        if(result > 0){
+        	System.out.println(result);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        System.out.println("error");
+        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+>>>>>>> 12f2bd6899a62040c50232281651616aa38c5c36
 	
 	
 }

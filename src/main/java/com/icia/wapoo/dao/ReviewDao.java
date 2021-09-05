@@ -31,4 +31,5 @@ public interface ReviewDao {
                              @Param("reply") String reply);
 
     int updateReviewStatus(@Param("reviewId") Integer reviewId, @Param("status") String state);
+
 }

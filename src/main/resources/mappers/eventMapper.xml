@@ -9,9 +9,9 @@
         INSERT INTO `event`
         SET
         regDate = NOW(),
-        updateDate = NOW(),
+        updateDate = #{updateDate},
         dueDate = #{dueDate},
-        status = 'Y',
+        status = #{status},
         `body` = #{body},
         `title` = #{title},
         provider_id = #{provider_id}

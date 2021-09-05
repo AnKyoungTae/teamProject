@@ -32,7 +32,8 @@ public class WebConfig implements WebMvcConfigurer {
             "/order/**",
             "/**",
             "/review/**",
-            "/article/**"
+            "/article/**",
+            "/akinator/**"
     };
 
     @Override

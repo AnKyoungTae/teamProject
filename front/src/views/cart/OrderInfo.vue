@@ -2,6 +2,8 @@
   <div class="container" style="width: 1000px">
     <div class="m-4">
       <h1>주문상세정보페이지</h1>
+      <p>주문번호 : {{ orderId }}</p>
+      <hr />
       <hr />
       <div v-if="loaded == false">
         <div class="spinner-border" role="status">
@@ -129,6 +131,7 @@
           type="button"
           class="btn btn-outline-danger"
           style="margin: 50px"
+          @click="cancelOrder"
         >
           주문취소
         </button>
@@ -167,6 +170,17 @@ export default {
         this.foodList = res.data.foodList;
         this.loaded = true;
       });
+  },
+  methods: {
+    cancelOrder() {
+      http
+        .post("/order/requestCancel", {
+          orderId: this.orderId,
+        })
+        .then((res) => {
+          console.log(res);
+        });
+    },
   },
 };
 </script>

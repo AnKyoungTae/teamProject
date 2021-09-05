@@ -11,7 +11,6 @@
               index !== 0 ? 'first' + index : '',
             ]"
             :src="food.src"
-            style="width: 300px; left: -10px; top: 35px"
           />
         </div>
         <!-- 이미지만 바꿔주면 됨 -->
@@ -142,8 +141,9 @@ export default {
   border: 2px solid teal;
 }
 .first {
-  width: 220px;
-  left: 10px;
+  width: 250px;
+  left: -3px;
+  top: 44px;
 }
 .first1 {
   width: 220px;

@@ -31,6 +31,7 @@ export default {
       baselongitude: 126.675102369038,
       local: null,
       map: null,
+      bounds: null,
     };
   },
   mounted() {
@@ -69,6 +70,7 @@ export default {
       const marker = new kakao.maps.Marker({
         position: markerPosition,
       });
+
       marker.setMap(this.map);
     },
     refreshLocation() {
@@ -129,6 +131,7 @@ export default {
         console.log("지도이동");
         this.map.setCenter(coords);
       };
+      console.log("오나욧");
       // async
       (async () => {
         try {
@@ -155,6 +158,9 @@ export default {
       var imageSrc =
         "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 
+      this.bounds = new kakao.maps.LatLngBounds();
+      const myPosition = new kakao.maps.LatLng(this.latitude, this.longitude);
+      this.bounds.extend(myPosition);
       for (let i = 0; i < positions.length; i++) {
         // 마커 이미지의 이미지 크기 입니다
         var imageSize = new kakao.maps.Size(24, 35);
@@ -169,6 +175,8 @@ export default {
           title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
           image: markerImage, // 마커 이미지
         });
+
+        this.bounds.extend(positions[i].latlng);
         // 마커에 표시할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
           content: positions[i].title, // 인포윈도우에 표시할 내용
@@ -185,6 +193,7 @@ export default {
           });
         })(marker, infowindow);
       }
+      this.map.setBounds(this.bounds);
     },
     // 지도이동
   },

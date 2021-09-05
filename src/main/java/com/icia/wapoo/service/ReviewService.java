@@ -46,6 +46,7 @@ public class ReviewService {
         System.out.println("가져온 게시물 수 : " + list.size());
         return list;
     }
+    
 
     public int getReviewListCount(Integer storeId) {
         return reviewDao.selectReviewListCount(storeId);

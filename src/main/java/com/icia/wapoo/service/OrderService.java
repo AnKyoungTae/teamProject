@@ -123,9 +123,9 @@ public class OrderService {
         params.add("quantity", String.valueOf(totalQuantity));
         params.add("total_amount", String.valueOf(totalPrice-discount));
         params.add("tax_free_amount", "0");
-        params.add("approval_url", "http://localhost:8080/kakaoPaySuccess");
-        params.add("cancel_url", "http://localhost:8080/kakaoPayCancel");
-        params.add("fail_url", "http://localhost:8080/kakaoPaySuccessFail");
+        params.add("approval_url", "http://localhost:8081/kakaoPaySuccess");
+        params.add("cancel_url", "http://localhost:8081/kakaoPayCancel");
+        params.add("fail_url", "http://localhost:8081/kakaoPaySuccessFail");
 
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<>(params, headers);
 

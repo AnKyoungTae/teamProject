@@ -147,6 +147,7 @@ public class StoreService {
     }
 
     public Store getStoreInfo(Integer storeId) {
+
         return storeDao.selectStoreByStoreId(storeId);
     }
 

@@ -8,7 +8,11 @@
     <div style="width: 100%">
       <div class="review3-text">
         <span class="review3-span1">{{ data.nickname }}</span>
-        <span class="review3-span2">{{ data.regDate }}</span>
+        <span class="review3-span2"
+          >{{ data.regDate[0] }}.{{ data.regDate[1] }}.{{
+            data.regDate[2]
+          }}</span
+        >
       </div>
       <div class="review3-div">
         <a class="review3-a m-1" v-if="ableToEdit" @click="removeReview"
@@ -21,38 +25,45 @@
       <div class="star-1">
         <i class="fas fa-star" v-for="star of data.score" :key="star"></i
         >&nbsp;&nbsp;
+        <span style="color: burlywood">{{ data.score }} /5.0</span>
       </div>
     </div>
     <div>
       <img
         class="review3-img m-2"
         :src="data.foodPhoto"
-        style="
-          width: 200px;
-          height: 200px;
-          border: 1px solid grey;
-          margin-left: 10px;
-        "
+        style="width: 180px; height: 180px; margin-left: 10px"
         v-if="data.foodPhoto"
       />
     </div>
-    <div class="review3-menu">
-      <!-- 시킨음식 -->
-      <span>{{ data.score }} /5.0</span>
-    </div>
+    <div class="review3-menu m-2"></div>
     <div class="review3-view">
       <!-- 내용 -->
-      <p v-if="data.body">
+      <p v-if="data.body" style="font-size: 18px">
         {{ data.body }}
       </p>
       <p v-else>삭제된 리뷰입니다.</p>
     </div>
-    <hr />
     <!-- 사장님 댓글 -->
-    <div v-if="data.reply">
-      <span>사장님댓글</span>
-      <p>{{ data.reply }}</p>
+    <div
+      v-if="data.reply"
+      style="
+        border: 1px solid lightgray;
+        background-color: lightgray;
+        margin-bottom: 16px;
+        padding: 10px;
+      "
+    >
+      <span>&nbsp;&#10551;&nbsp; 사장님댓글</span>&nbsp;&nbsp;<span
+        style="font-size: 14px; color: gray"
+      >
+        {{ data.updateDate[0] }}.{{ data.updateDate[1] }}.{{
+          data.updateDate[2]
+        }}</span
+      >
+      <p style="margin: 0px">{{ data.reply }}</p>
     </div>
+    <hr style="margin-left: -16px" />
     <div v-if="replySuccess == true">
       <!-- 댓글달기 성공했을때 새로고침대신 가짜로띄워주기-->
       <span>사장님댓글</span>
@@ -61,7 +72,10 @@
       </p>
     </div>
     <!-- 사장일때, -->
-    <div v-if="!data.reply && isOwner && replymode == false && reply == ''">
+    <div
+      v-if="!data.reply && isOwner && replymode == false && reply == ''"
+      style="margin-bottom: 16px"
+    >
       <span class="m-2">사장님이시군요? 리뷰에 댓글을 달아주세요!</span>
       <div class="btn btn-outline-primary" @click="willReply">댓글달기</div>
     </div>
@@ -186,10 +200,9 @@ export default {
 <style scoped>
 .review3 {
   width: 100%;
-  border: 1px solid black;
   text-align: left;
-  padding: 15px;
   padding-left: 20px;
+  padding-right: 20px;
 }
 .review3-text {
   float: left;
@@ -215,7 +228,6 @@ export default {
 
 .review3-img {
   width: 100%;
-  background-color: yellow;
   text-align: center;
 }
 
@@ -234,7 +246,7 @@ export default {
 
 .review3-div {
   text-align: right;
-  padding-right: 40px;
+  padding-right: 20px;
   float: right;
   width: 20%;
 }

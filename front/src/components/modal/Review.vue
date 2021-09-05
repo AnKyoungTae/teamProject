@@ -10,11 +10,7 @@
     </template>
     <template v-slot:header>
       <!-- 사진 미리보기 -->
-      <img
-        class="popupImageItem"
-        :src="uploadImageFile"
-        style="width: 100px; height: 100px; background-color: grey"
-      />
+      <span></span>
     </template>
     <template v-slot:body>
       <!-- alt 에 이미지 없을때 비상용 이미지 추가? -->
@@ -34,14 +30,23 @@
           v-model="content"
         ></textarea>
       </div>
-      <div>
+
+      <img v-if="inputfile == true"
+        class="popupImageItem"
+        :src="uploadImageFile"
+        style="width: 100px; height: 100px; background-color: grey"
+      />
+      <div class="file">
+        <label for="file" style="margin-top: 10px;">첨부파일</label>
         <input
           type="file"
           id="file"
+          name='' multiple
           @change="imageAddUpload($event)"
           ref="reviewImage"
         />
       </div>
+      <div v-if="inputfile == false" style="height: 100px;"></div>
     </template>
     <template v-slot:footer>
       <div class="btn btn-success" @click="uploadReview">리뷰 등록하기</div>
@@ -67,6 +72,7 @@ export default {
       stars: [true, true, false, false, false],
       content: null,
       image: "",
+      inputfile: false,
     };
   },
   mounted() {},
@@ -101,6 +107,7 @@ export default {
         reader.onload = (e) => {
           this.uploadImageFile = e.target.result;
         };
+        this.inputfile = true;
         reader.readAsDataURL(input.files[0]);
       }
     },
@@ -128,7 +135,7 @@ export default {
         this.SET_MODAL_REVIEW(false);
         alert("리뷰를 남겼습니다!");
         window.location.href =
-          "http://localhost:8080/shopDetail?shopInfo=" + this.storeId;
+          "http://localhost:8081/shopDetail?shopInfo=" + this.storeId;
       });
     },
   },
@@ -148,5 +155,30 @@ export default {
 .fa-camera {
   width: 23px;
   height: 23px;
+}
+
+
+
+
+.file label {
+  display: inline-block;
+  width: 100px;
+  height: 45px;
+  background-color: #4a4a4a;
+  color: #fff;
+  cursor: pointer;
+  line-height: 45px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.file input[type="file"] {
+  position: absolute;
+  width :1px;
+  height: 1px;
+  margin: -1px;
+  clip: rect(0,0,0,0);
+  overflow: hidden;
+  padding: 0;
 }
 </style>

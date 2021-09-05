@@ -29,7 +29,6 @@
                       v-for="shop in nearShopList"
                       :key="shop"
                       :shopInfo="shop"
-                      @click="showShopDetail(shop.storeId)"
                     >
                     </ShopList>
                   </div>
@@ -52,7 +51,7 @@
 <script>
 import Kakao from "@/components/map/Kakao.vue";
 import ShopList from "@/components/shop/ShopList.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import http from "@/api/http";
 
 export default {
@@ -82,6 +81,7 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(["SET_AKINATOR"]),
     showStoreList() {
       if (this.OBS === true) {
         this.getStoreListByLocation(this.LAT, this.LON);
@@ -100,8 +100,9 @@ export default {
         });
     },
     showShopDetail(storeId) {
-      window.location.href =
-        "http://localhost:8080/shopDetail?shopInfo=" + storeId;
+      // window.location.href =
+      //   "http://localhost:8081/shopDetail?shopInfo=" + storeId;
+      console.log(storeId);
     },
   },
   mounted() {

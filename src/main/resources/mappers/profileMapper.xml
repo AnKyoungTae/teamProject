@@ -57,6 +57,7 @@ SELECT	A.orderId,
 	A.phone AS 'phone',
 	C.name AS 'foodName',
 	B.quantity AS 'quantity',
+	B.order_id,
 	D.name AS 'image',
 	D.orgName AS 'orgName'
 FROM	`order` A INNER JOIN  `orderInfo` B INNER JOIN `food` C INNER JOIN `store_file` D INNER JOIN `store` E
@@ -125,5 +126,31 @@ FROM	`loginInfo`
 WHERE	member_id = #{memberId}
 
 </select>
+<!-- 리뷰 -->
+<select id="selectMyReview" resultType="Map">
+		SELECT r.reviewId
+            ,r.regDate
+            ,r.updateDate
+            ,r.status
+            ,r.score
+            ,r.body
+            ,r.store_id
+            ,r.foodPhoto
+            ,r.reply
+             ,r.writerid
+            ,m.nickname
+            ,s.name
+        FROM review r, `member` m, `store` s
+        WHERE r.writerid = m.memberId
+        AND r.store_id = s.storeId
+        AND r.writerid = #{memberId}
+        AND r.status != 'N'
+</select>
+
+<update id="updateReviewStatus">
+	update review
+    SET status = #{status}
+    where reviewid = #{reviewId}
+</update>
 
 </mapper>

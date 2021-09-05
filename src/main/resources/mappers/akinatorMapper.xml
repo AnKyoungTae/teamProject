@@ -18,5 +18,36 @@
             question_id = #{question_id},
             answerValue = #{answerValue}
     </insert>
-
+    <select id="selectAllAkinator" resultType="Map">
+        SELECT *
+        FROM akinator
+    </select>
+    <select id="getAllFoodByFoodId" resultType="Map">
+        SELECT f.foodId
+                ,f.name
+                ,f.description
+                ,f.price
+                ,fi.name fileUrl
+                ,s.storeId
+                , (
+                ROUND(6371 * ACOS( COS( RADIANS(#{LAT}) )
+                * COS( RADIANS( s.localy ) )
+                * COS( RADIANS( s.localx )
+                - RADIANS( #{LON}) )
+                + SIN( RADIANS(#{LAT}) )
+                * SIN( RADIANS( s.localy ) ) ), 2)) AS distance
+        FROM store s, food_file fi, food f
+        WHERE s.storeId = f.store_id
+          AND s.status = 'Y'
+          AND f.foodId = fi.food_id
+          AND f.status = 1
+          AND f.foodId IN
+        <foreach collection="foodIdList" item="foodId" open="(" close=")" separator=",">
+            #{foodId}
+        </foreach>
+        <![CDATA[
+        HAVING distance < 100
+        ]]>
+        ORDER BY distance
+    </select>
 </mapper>

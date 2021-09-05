@@ -44,21 +44,4 @@ instance.interceptors.request.use(
   }
 );
 
-// 받는 모든 요청에, 이 인터셉터가 관여한다.
-instance.interceptors.response.use(
-  function (response) {
-    // 요청이 성공했을 때의 콜백정의.
-    console.log("요청에 성공하였습니다");
-    return response;
-  },
-  function (error) {
-    // 에러코드를 확인한다
-    const errorStatus = error.response.status;
-    if (errorStatus === 400) console.log(error.response.data);
-    if (errorStatus === 401) console.log("인증에 실패했습니다.");
-    if (errorStatus === 403) console.log("권한이 없습니다.");
-    if (errorStatus === 500) alert("다시 시도해주세요");
-    return Promise.reject(error);
-  }
-);
 export default instance;

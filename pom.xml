@@ -72,14 +72,15 @@
             <artifactId>spring-cloud-starter-aws</artifactId>
             <version>2.2.6.RELEASE</version>
         </dependency>
-		<!-- 메일 api -->
-		
-		<dependency>
+<!--        메일-->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
             <version>2.5.4</version>
         </dependency>
-		
+
+
+
 
 
 

@@ -2,6 +2,7 @@ package com.icia.wapoo.controller;
 
 import com.icia.wapoo.jwt.service.JwtService;
 import com.icia.wapoo.model.Member;
+import com.icia.wapoo.service.MailService;
 import com.icia.wapoo.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,6 +28,8 @@ public class MemberController {
     private JwtService jwtService;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private final MailService mailService;
 
 
     /**
@@ -193,6 +197,12 @@ public class MemberController {
         }
         System.out.println("updateMemberStatus로 들어갑니다.");
         memberService.updateMemberStatus(memberId, status);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/member/findPw")
+    public ResponseEntity findPw(@RequestParam String id) {
+        mailService.simpleMailSend(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

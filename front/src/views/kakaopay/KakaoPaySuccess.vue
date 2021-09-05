@@ -21,7 +21,7 @@ export default {
         alert("주문이 완료되었습니다!");
         // 부모페이지 이동, 로그인되어있지않으면 못가..
         opener.location.href =
-          "http://localhost:8080/orderInfo?orderId=" + res.data;
+          "http://localhost:8081/orderInfo?orderId=" + res.data;
         window.close();
       });
   },

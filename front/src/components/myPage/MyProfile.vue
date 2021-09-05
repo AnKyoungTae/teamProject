@@ -1,60 +1,68 @@
 <template>
-  <div class="container" style="width: 800px">
-    <div style="height: 660px">
-      <div v-if="correction == true">
-        <div v-if="profile != null">
-          <div class="row" style="padding: 20px; border: 1px solid black">
-            <div class="img" style="padding-bottom: 20px">
-              <img
-                :src='profile.profileUrl'
-                style="width: 150px; height: 150px; border-radius: 50%"
-              />
+  <div style="width: 100%;">
+    <div v-if="correction == true">
+      <div v-if="profile != null">
+  <div class="manage-div">
+    <div class="manage-div2">
+      <h3 class="manage-text">내정보 관리</h3>
+      <div class="profile-manage">
+        <div class="manage-box">
+          <strong>프로필</strong>
+          <p class="profile-comm">WHAT POO에서 등록한 프로필입니다.</p>
+          <a class="profile-img">
+            <div>
+              <div class="nicknamebox">
+                <div class="profile-imgdiv" style="margin-right: 10px;">
+                  <img
+                  :src='profile.profileUrl'
+                  style="position: relative"
+                  />
+                  
+                </div>
+                <span class="img-text">
+                  {{ profile.nickname }}
+                </span>
+              </div>
+              <div class="filebox">
+                <label for="ex_file" >업로드</label>
+                <input type="file" id="ex_file" ref="files" @change="changeImage"/>
+                <span class="m-2" v-if="profileImage != null" @click="updateIamge">수정</span>
+              </div>
             </div>
-            <div class="filebox">
-              <label for="ex_file" >업로드</label>
-              <input type="file" id="ex_file" ref="files" @change="changeImage"/>
-              <span class="m-2" v-if="profileImage != null" @click="updateIamge">수정</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-4 profile-1">이름 :</div>
-            <div class="col-8 profile-2">
-              {{ profile.name }}
-              <!-- 배열위치는 언제든 바뀔수있음. 그보다 정확한 변수명을 명시해줄것 -->
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-4 profile-1">닉네임 :</div>
-            <div class="col-8 profile-2">
-              {{ profile.nickname }}
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-4 profile-1">아이디 :</div>
-            <div class="col-8 profile-2">
-              {{ profile.loginId }}
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-4 profile-1">핸드폰번호 :</div>
-            <div class="col-8 profile-2">
-              {{ profile.tel }}
-              <!-- tel 로 받아놓게했는데 DB에선 phone 으로 했음. 헷갈릴수있음 -->
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-4 profile-1">이메일 :</div>
-            <div class="col-8 profile-2">
-              {{ profile.email }}
-            </div>
-          </div>
+          </a>
         </div>
+        <hr style="padding: 0px;"/>
+        <div class="manage-box">
+          <strong>로그인정보</strong>
+          <p class="profile-comm">WHAT POO에서 로그인에 사용되는 정보입니다.</p>
+          <a class="profile-img">
+            <strong class="login-tit">아이디</strong>
+            <span class="login-txt">{{ profile.loginId }}</span>
+          </a>
+          <hr style="padding: 0px;"/>
 
-      </div>
+          <a class="profile-img">
+            <strong class="login-tit">이메일</strong>
+            <span class="login-txt">{{ profile.email }}</span>
+          </a>
+          <hr style="padding: 0px;"/>
+        
+          <a class="profile-img">
+            <strong class="login-tit">이름</strong>
+            <span class="login-txt">{{ profile.name }}</span>
+          </a>
+          <hr style="padding: 0px;"/>
 
-      <div v-if="correction == false">
-        <EditProfile @trueEdit="edit" :message="profile"  ></EditProfile>
+          <a class="profile-img">
+            <strong class="login-tit">핸드폰번호</strong>
+            <span class="login-txt">{{ profile.tel }}</span>
+          </a>
+          <hr style="padding: 0px;"/>
+        </div>
       </div>
+    </div>
+  </div>
+  </div>
 
       <div v-if="profile == null">
         <div>정말 탈퇴 하시겠습니까?</div>
@@ -65,6 +73,13 @@
       </div>
     
     </div>
+    <div v-if="correction == false">
+        <EditProfile @trueEdit="edit" :message="profile"  ></EditProfile>
+      </div>
+</div>
+
+  <div class="container" style="width: 800px">
+    
 
     
 
@@ -81,12 +96,12 @@
     </div>
     <!-- 탈퇴 버튼-->
     <div v-else>
-      <button  type="button" @click="reallyDelete" class="btn btn-secondary" style="margin-left: 50px;">
+      <button  type="button" @click="reallyDelete" class="btn btn-secondary" style="position: fixed">
         <span style="font-size: 20px">탈퇴하기</span>
       </button>
 
-      <button type="button" @click="secession()" class="btn btn-secondary">
-          <span style="font-size: 20px">뒤로가기</span>
+      <button type="button" @click="secession()" class="btn btn-secondary" style="margin-left: 150px;">
+          <span style="font-size: 20px">취소</span>
         </button>
     </div>
   </div>
@@ -150,7 +165,7 @@ export default {
           
           //위치
         }else if(res.data == "no"){
-          alert("문제있습니다.")
+          alert("비번이 다릅니다.")
         }else{
           alert("서버문제입니다.")
         }
@@ -237,7 +252,80 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.manage-div {
+  max-width: 560px;
+  margin: 50px auto 0;
+  display: block;
+}
+.manage-div2 {
+  display: block;
+}
+.manage-text {
+  font-weight: normal;
+  font-size: 20px;
+}
+.profile-manage {
+  margin-top: 10px;
+  border-top: 1px solid #7c7c7c;
+}
+.manage-box {
+  margin-top: 40px;
+  text-align: left;
+}
+.profile-comm {
+  margin-top: 4px;
+  color: gray;
+}
+.profile-img {
+  margin-top: 10px;
+}
+.profile-imgdiv {
+  float: left;
+  width: 80px;
+  height: 80px;
+  padding: auto 0;
+  position: relative;
+}
+.profile-imgdiv img {
+  display: block; 
+  width: 80px; 
+  height: 80px; 
+  border-radius: 50%;
+}
+.img-text {
+  overflow: hidden;
+  display: block;
+  font-size: 22px;
+  height: 80px;
+  line-height: middle;
+  padding-left: 20px;
+  padding-bottom: 10px;
+}
+.login-tit {
+  font-size: 20px;
+}
+.login-txt {
+  float: right;
+  color: #5066aa;
+  font-size: 20px;
+}
+.m-2 {
+  cursor: pointer;
+}
+.nicknamebox {
+  float: left;
+  line-height: 80px;
+}
+.filebox {
+  margin-left: 30%;
+  height: 80px;
+  text-align: right;
+}
+
+
+
+
 .profile-1 {
   font-weight: 400;
   padding: 20px;
