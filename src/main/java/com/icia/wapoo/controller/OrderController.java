@@ -89,4 +89,8 @@ public class OrderController {
         return resultMap;
     }
 
+    @PostMapping("/requestCancel")
+    public Map<String, Object> requestCancel(@RequestBody Integer orderId) {
+        return null;
+    }
 }

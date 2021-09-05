@@ -55,7 +55,6 @@ export default createStore({
       state.orderModal = boolean;
       state.loginModal = false;
       state.registerModal = false;
-      console.log(state.orderModal);
     },
     SET_SELECT_REGISTER(state, data) {
       state.selectRegister = data;

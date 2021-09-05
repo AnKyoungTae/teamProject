@@ -13,7 +13,10 @@
         :class="{ collapsedQuetionWidth: collapsed }"
         v-else-if="this.stageAkinator.length != 0"
       >
-        {{ question }}
+        <p>Akinator</p>
+        <span>
+          {{ question }}
+        </span>
       </div>
       <div class="chatWrapper m-1 p-2" id="log">
         <!-- 답변들 -->
@@ -22,12 +25,14 @@
           class=""
           v-for="(answer, index) of answers"
           :key="index"
-          
         >
-            <span class="span-x" style="color: red; margin-right: 13px;" @click="rollback(answer)" v-if="isHidden[index]" v-bind="isHidden[index]">X</span>
-            <span class="answer p-1 m-1">
-              <span @click="hidden(index)" style="font-size: 20px;">{{ answer.answerText }}</span>
-            </span>
+          <div class="answerRollback" @click="rollback(answer)">
+            <div></div>
+            <div></div>
+          </div>
+          <span>
+            {{ answer.answerText }}
+          </span>
         </div>
       </div>
       <div class="alternativesWrapper m-1 p-1">
@@ -41,19 +46,21 @@
           <span>더 이상 질문이 없습니다.</span>
         </div>
         <div
-          class="alternative p-1 m-1 btn"
+          class="alternative p-1 m-1 btn btn-outline-secondary"
           v-for="(alternative, index) of alternatives"
           :key="index"
           @click="choiceAkinator(alternative)"
         >
-          <span>{{ alternative.answerText }}</span>
+          <span>
+            {{ alternative.answerText }}
+          </span>
         </div>
       </div>
     </div>
     <div class="col-md-4 col-sm-12 right row-cols-1 p-2">
       <div class="filterWrapper p-2">
         <!-- 검색탭 -->
-        <div class="input-group mb-3" style="margin: auto;">
+        <div class="input-group mb-2">
           <input
             type="text"
             class="form-control"
@@ -62,7 +69,7 @@
             v-model="foodFilter"
           />
           <span
-            class="input-group-text btn btn-outline-primary"
+            class="input-group-text btn btn-outline-primary p-1"
             id="food-filter"
             >검색</span
           >
@@ -90,39 +97,23 @@
           @click="selectFood(food)"
         >
           <div
-            class="row"
+            class="foodWrapper"
             :class="[selectedFood === food ? 'choicedFoodList' : '']"
             :title="food.description"
           >
-            <div style="float: left; width: 40%;">
-              <img :src="food.fileUrl" class="food-img"  style="width: 100px; height: 100px"/>
-            </div>
-            <div style="float: right; width: 60%; padding-top: 15px;">
-              <span style="font-size: 18px;">{{food.name}}</span><br/>
-              <span style="font-size: 20px;">{{food.price}}원</span><br/>
-              <div style="font-size: 14px; width:100%; text-align: right; padding-right: 5px; padding-top: 10px;">
-               <span>{{food.distance}}km</span>
-              </div>
+            <img :src="food.fileUrl" class="foodImg" />
+            <div class="foodInfo">
+              <span class="foodName">{{ food.name }}</span>
+              <span class="foodPrice">{{ food.price }} 원</span>
+              <p class="foodDistance">{{ food.distance }} Km</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="choicesWrapper">
+      <div class="choicesWrapper m-1">
         <!-- 버튼탭 -->
         <div class="btn btn-outline-success" @click="toFoodDetail">선택</div>
         <div class="btn btn-outline-danger" @click="toHome">나가기</div>
-      </div>
-      <div class="noMoreAkinator p-2">
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            id="flexCheckDefault"
-          />
-          <label class="form-check-label" for="flexCheckDefault">
-            오늘 아키네이터 하지않기
-          </label>
-        </div>
       </div>
     </div>
   </div>
@@ -141,7 +132,6 @@ export default {
         return;
       }
       this.foodDataLoaded = false;
-      console.log(this.answers);
       // 필터링
       let filtered = (meta, answer) => {
         return meta.filter((item) => {
@@ -272,7 +262,10 @@ export default {
       });
       this.answers = rolledAnswers;
       this.requestFoodList();
-      this.setStage();
+      //
+      if (this.stageAkinator.length == 0) {
+        this.setStage();
+      }
     },
     setStage() {
       // 남아있는게 없을 때,
@@ -302,7 +295,6 @@ export default {
     toFoodDetail() {
       // 선택
       // target = http://localhost:8081/shopDetail?shopInfo=?&foodIdsearch=?
-      console.log(this.selectedFood);
       this.$router.push({
         path: "/shopDetail",
         query: {
@@ -392,15 +384,14 @@ export default {
 }
 .left {
   /* 가운데 중심으로 왼쪽탭들 */
-  background: rgb(255, 226, 220);
   border: 1px solid grey;
   display: inline-flex;
   flex-flow: row wrap;
   height: 100%;
+  min-width: 480px;
 }
 .right {
   /* 가운데 중심으로 오른쪽 탭들 */
-  background: rgb(213, 255, 255);
   border: 1px solid grey;
   /* 오른쪽 탭의 최소크기 설정 */
   min-width: 100px;
@@ -432,19 +423,23 @@ export default {
 
 .chatWrapper {
   /* 채팅화면탭 */
-  background: tan;
+  background: rgb(166, 213, 252);
   width: 100%;
   height: 70%;
   display: flex;
   /* 정렬방식 */
-  flex-flow: column-reverse nowrap;
+  flex-flow: column;
+  flex-wrap: nowrap;
   align-items: flex-end;
-  align-content: flex-start;
+  justify-content: end;
   overflow: hidden;
+  border: 1px solid gray;
+  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 .question {
   position: absolute;
   width: 35%;
+  min-width: 320px;
   left: 300px;
   font-size: 20px;
   top: 50px;
@@ -454,6 +449,7 @@ export default {
   -moz-border-radius: 10px;
   border-radius: 10px;
   border: #7f7f7f solid 1px;
+  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .question:after {
@@ -481,10 +477,22 @@ export default {
   left: -22px;
   top: 7px;
 }
+.question > p {
+  display: inline;
+  color: #5c79f8;
+}
+.question > span {
+  display: block;
+  padding-top: 25px;
+  top: 20px;
+  font-size: 20px;
+  font-weight: bolder;
+}
 .answer {
   position: relative;
-  background: #e7fdff;
+  background: #fffb1c;
   border-radius: 0.4em;
+  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
   right: 5%;
 }
 .collapsedQuetionWidth {
@@ -497,22 +505,65 @@ export default {
   top: 50%;
   width: 0;
   height: 0;
-  border: 0.7em solid transparent;
-  border-left-color: #e7fdff;
+  border: 1em solid transparent;
+  border-left-color: #fffb1c;
   border-right: 0;
   border-bottom: 0;
   margin-top: -0.5em;
-  margin-right: -0.7em;
-  transform: rotateX(180deg);
+  margin-right: -1em;
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.1);
 }
-.answer:hover {
-  border: 2px solid tomato;
-  transition: 0.2s;
+/* 답변 엑스박스 */
+.answerRollback {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: orange;
+  box-shadow: 0px 3px 2px 2px rgb(184, 184, 184);
+  left: -25px;
+  border-radius: 6px;
+  transition: 250ms ease;
   cursor: pointer;
+  opacity: 0.2;
+}
+.answerRollback:hover {
+  background: tomato;
+  box-shadow: 0px 3px 2px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  opacity: 1;
+}
+.answerRollback div {
+  transition: 250ms ease;
+}
+.answerRollback div:first-of-type {
+  width: 14px;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 2px;
+  position: absolute;
+  top: 10px;
+  left: 10%;
+  transform: rotate(-125deg);
+}
+.answerRollback div:last-of-type {
+  width: 14px;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 2px;
+  position: absolute;
+  top: 10px;
+  left: 10%;
+  transform: rotate(125deg);
+}
+
+.answer > span {
+  padding: 2px 10px;
+  display: block;
 }
 .alternativesWrapper {
   /* 답변목록탭 */
-  background: thistle;
+  background: lightgray;
+  border: 1px solid gray;
   width: 100%;
   height: 25%;
   /* 정렬방식 */
@@ -521,15 +572,27 @@ export default {
   flex-direction: column;
   flex-wrap: wrap;
   overflow: auto;
+  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 .alternative {
   font-size: 18px;
-  background: lightgray;
+  background: #fffb1c;
   display: inline-block;
+  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+.alternative:hover {
+  background: orange;
+}
+.alternative > span {
+  padding: 2px 10px;
+  display: inline-block;
+}
+.input-group {
+  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 .filterWrapper {
   /* 검색탭 */
-  background: rgb(255, 232, 228);
+
   width: 100%;
   height: 10%;
   display: flex;
@@ -538,9 +601,10 @@ export default {
 }
 .foodListWrapper {
   /* 음식목록탭 */
-  background: rgb(203, 255, 192);
+  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
+  border: 1px solid grey;
   width: 100%;
-  height: 75%;
+  height: 80%;
   display: flex;
   /* 정렬방식 */
   flex-direction: column;
@@ -549,7 +613,6 @@ export default {
 }
 .choicesWrapper {
   /* 버튼탭 */
-  background: rgb(255, 227, 175);
   width: 100%;
   height: 10%;
   display: flex;
@@ -557,15 +620,16 @@ export default {
   justify-content: space-evenly;
   align-items: center;
 }
+.choicesWrapper > div {
+  width: 40%;
+}
 .noMoreAkinator {
   display: flex;
-  background: rgb(185, 164, 160);
   height: 5%;
   align-items: center;
 }
 
 .foodListContainer {
-  background: tomato;
   display: table-column;
   height: 28%;
   border-radius: 8px;
@@ -578,7 +642,41 @@ export default {
   padding-top: 50%;
 }
 .emptyFood > span {
-  background: #5c79f8;
+  font-size: 20px;
+  color: tomato;
+}
+.foodWrapper {
+  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.foodImg {
+  width: 50%;
+  margin: 10px;
+  border-radius: 5px;
+}
+.foodDistance {
+  font-size: 10px;
+  text-align: right;
+  margin-right: 5%;
+  padding-top: 15%;
+}
+.foodInfo {
+  width: 40%;
+  height: 100%;
+  padding: 10px 0px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+.foodName {
+  font-weight: bold;
+}
+.foodPrice {
+  font-weight: lighter;
+  color: rgb(77, 77, 77);
+  font-size: 0.8rem;
 }
 /* 스크롤바 */
 .foodListWrapper::-webkit-scrollbar {
@@ -600,7 +698,8 @@ export default {
 }
 /* 선택되었을 때 */
 .choicedFoodList {
-  outline: 2px solid royalblue;
+  border: 2px solid orange;
+  border-radius: 6px;
   transition: 0.2s;
 }
 .alternative:hover {

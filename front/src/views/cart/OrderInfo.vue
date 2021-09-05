@@ -131,6 +131,7 @@
           type="button"
           class="btn btn-outline-danger"
           style="margin: 50px"
+          @click="cancelOrder"
         >
           주문취소
         </button>
@@ -169,6 +170,17 @@ export default {
         this.foodList = res.data.foodList;
         this.loaded = true;
       });
+  },
+  methods: {
+    cancelOrder() {
+      http
+        .post("/order/requestCancel", {
+          orderId: this.orderId,
+        })
+        .then((res) => {
+          console.log(res);
+        });
+    },
   },
 };
 </script>

@@ -1,10 +1,9 @@
 <template>
-  <div>
+  <div class="m-2">
     <div class="gray">
       <div id="staticMap"></div>
     </div>
-    <div>
-    </div>
+    <div></div>
   </div>
 </template>
 
@@ -55,5 +54,6 @@ export default {
 .gray {
   background-color: gray;
   height: 20rem;
+  border: 2px solid gray;
 }
 </style>

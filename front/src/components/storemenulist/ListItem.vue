@@ -1,12 +1,19 @@
 <template>
   <ul v-show="list" class="list-item" @click="SET_MODAL_ORDER(true)">
     <div class="item-box">
-      <div class="item-text" style="margin-left: 20px;">
+      <div class="item-text" style="margin-left: 20px">
         <div class="menu-name">
           <!--가게 음식메뉴 이름-->
           {{ list.name }}
+          <span class="badge bg-success" v-if="list.status == 1">판매중</span>
+          <span class="badge bg-warning" v-else-if="list.status == 2"
+            >품절</span
+          >
+          <span class="badge bg-danger" v-else>판매중지</span>
         </div>
-        <div class="menu-price" style="text-align: left;">{{ list.price }}원</div>
+        <div class="menu-price" style="text-align: left">
+          {{ list.price }}원
+        </div>
       </div>
       <div class="item-img">
         <img :src="list.fileUrl" class="item-img" />
@@ -47,6 +54,11 @@ expand-leave-active {
   background-color: white;
   border-top: 1px solid whitesmoke;
 }
+.item-box:hover {
+  cursor: pointer;
+  background: orange;
+  transition: 0.2s;
+}
 .item-text {
   float: left;
   padding-top: 20px;
@@ -59,6 +71,7 @@ expand-leave-active {
   height: 90px;
   margin-top: 4px;
   margin-right: 10px;
+  bottom: 2px;
 }
 
 .menu-name {
