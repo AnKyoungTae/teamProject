@@ -64,13 +64,17 @@
           </nav>
 
           <div>
-            <div class="row">
+            <div class="row" id="listContainer">
               <foodlist :shopList="getShopList"></foodlist>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="btn btn-outline-info moreShop" @click="requestShopList()">
+      더 보기
+    </div>
+    <!-- <div class="btn btn-outline-info toTheTop" @click="toTheTop;">맨 위로</div> -->
   </div>
 </template>
 
@@ -88,6 +92,7 @@ export default {
       option: "ALL", // 무엇을 불러올것인지?
       loadFrom: 0,
       dataLoaded: false,
+      noMoreShop: false,
     };
   },
   computed: {
@@ -105,6 +110,22 @@ export default {
       this.requestShopList(keyword);
     }
   },
+  // updated() {
+  //   (() => {
+  //     let $shop = document.querySelector(".shopdiv:last-child");
+  //     const io = new IntersectionObserver(
+  //       (entry, observer) => {
+  //         const ioTarget = entry[0].target;
+  //         if (entry[0].isIntersecting) {
+  //           console.log("보임", ioTarget);
+  //           io.unobserve($shop);
+  //         }
+  //       },
+  //       { threshold: 0.5 }
+  //     );
+  //     io.observe($shop);
+  //   })();
+  // },
   methods: {
     requestShopList(option) {
       if (!this.GET_LAT || !this.GET_LON) {
@@ -116,11 +137,15 @@ export default {
         error("잘못된 요청입니다", this);
         return;
       }
+      if (this.noMoreShop == true) {
+        return;
+      }
       if (option != null) {
         this.option = option;
         this.shopList = [];
         this.quantity = 10;
         this.loadFrom = 0;
+        this.noMoreShop = false;
       }
 
       const data = {
@@ -141,6 +166,9 @@ export default {
             this.shopList = arr;
             this.loadFrom += this.quantity;
             this.dataLoaded = true;
+            success("▽", this);
+          } else {
+            this.noMoreShop = true;
           }
         })
         .catch((err) => {
@@ -157,7 +185,7 @@ export default {
       //     document.body.offsetHeight
       // );
       if (
-        window.innerHeight + window.scrollY + 5 >=
+        window.innerHeight + window.scrollY + 100 >=
         document.body.offsetHeight
       ) {
         if (this.dataLoaded == false) {
@@ -168,6 +196,9 @@ export default {
           this.requestShopList();
         }
       }
+    },
+    toTheTop() {
+      window.scrollTo(0, 0);
     },
   },
   components: {
@@ -212,5 +243,19 @@ export default {
 
 .row div div a {
   margin-top: 10px;
+}
+.toTheTop {
+  width: 120px;
+  height: 40px;
+  position: fixed;
+  bottom: 10%;
+  right: 10%;
+}
+.moreShop {
+  width: 120px;
+  height: 40px;
+  position: fixed;
+  bottom: 10%;
+  right: 10%;
 }
 </style>

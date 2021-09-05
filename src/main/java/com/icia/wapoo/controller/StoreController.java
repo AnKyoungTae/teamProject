@@ -178,7 +178,9 @@ public class StoreController {
             loadFrom = ((Integer) data.get("loadFrom")).intValue();
         }
         List<Map<String, Object>> list = storeService.getNearStoresList(latitude, longitude, radius, quantity, options, loadFrom);
-        System.out.println("사이즈" + list.size());
+        if(list.size() == 0) {
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
         return new ResponseEntity(list, HttpStatus.OK);
     }
 

@@ -173,9 +173,10 @@ export default {
   },
   methods: {
     cancelOrder() {
+      const orderId = parseInt(this.orderId);
       http
         .post("/order/requestCancel", {
-          orderId: this.orderId,
+          orderId: orderId,
           status: "S",
         })
         .then((res) => {
