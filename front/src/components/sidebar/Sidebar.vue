@@ -101,9 +101,9 @@ export default {
 <style>
 /* 기본 테마 정의 - 참고: https://blog.thereis.xyz/136 */
 :root {
-  --sidebar-bg-color: #2f855a;
-  --sidebar-item-hover: #38a169;
-  --sidebar-item-active: #276749;
+  --sidebar-bg-color: #355f6e;
+  --sidebar-item-hover: #91afba;
+  --sidebar-item-active: #59a0ba;
 }
 </style>
 
@@ -124,6 +124,7 @@ export default {
 
   display: flex;
   flex-direction: column;
+  box-shadow: 4px 4px 4px 4px rgba(190, 190, 190, 0.6);
 }
 .profile {
   transition: opacity 0.1s;
