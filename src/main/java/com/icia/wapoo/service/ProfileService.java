@@ -1,21 +1,9 @@
 package com.icia.wapoo.service;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-import javax.mail.Address;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-
-
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,15 +13,11 @@ import com.icia.wapoo.S3.S3Service;
 import com.icia.wapoo.dao.MemberDao;
 import com.icia.wapoo.dao.ProfileDao;
 
-import com.icia.wapoo.login.RandomNumber;
 import com.icia.wapoo.login.SHA256;
 
 import com.icia.wapoo.model.LoginInfo;
 import com.icia.wapoo.model.Member;
-import com.icia.wapoo.model.MemberCoupon;
-import com.icia.wapoo.model.Order;
 import com.icia.wapoo.model.Profile;
-import com.icia.wapoo.model.Review;
 
 @Service
 public class ProfileService {
@@ -178,9 +162,9 @@ public class ProfileService {
 	}
 	
 	//주문내용 가져오기
-	public List<Order> getOrder(Integer memberId)
+	public List<Map<String, Object>> getOrder(Integer memberId)
 	{
-		List<Order> list = null;
+		List<Map<String, Object>> list = null;
 		
 		try
 		{

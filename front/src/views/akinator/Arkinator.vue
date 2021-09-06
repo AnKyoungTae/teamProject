@@ -213,6 +213,15 @@ export default {
               this.akinatorLoaded = true;
               this.foodDataLoaded = true;
               this.setStage();
+              if (this.isFirst == true) {
+                let firstRandChoice =
+                  this.alternatives[
+                    Math.floor(Math.random() * this.alternatives.length)
+                  ];
+                this.choiceAkinator(firstRandChoice);
+
+                this.isFirst = false;
+              }
             }
           });
         }
@@ -353,8 +362,8 @@ export default {
       akinatorMeta: [], // 아키네이터 빅데이터
       foodFilter: "", // 검색창
       selectedFood: null, // 선택한 음식정보
-      spanX: this.spanX,
-      isHidden: false,
+      isFirst: true,
+
     };
   },
   mounted() {

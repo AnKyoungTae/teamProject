@@ -1,7 +1,5 @@
 package com.icia.wapoo.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,12 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.icia.wapoo.jwt.service.JwtService;
 import com.icia.wapoo.model.LoginInfo;
 import com.icia.wapoo.model.Member;
-import com.icia.wapoo.model.MemberCoupon;
-import com.icia.wapoo.model.Order;
 import com.icia.wapoo.model.Profile;
 import com.icia.wapoo.service.EmailService;
-import com.icia.wapoo.model.Review;
-import com.icia.wapoo.service.MemberService;
 import com.icia.wapoo.service.ProfileService;
 
 import lombok.RequiredArgsConstructor;
@@ -206,7 +198,7 @@ public class ProfileController {
 		}
 		if(memberId > 0)
 		{
-			List<Order> list = profileService.getOrder(memberId);
+			List<Map<java.lang.String, Object>> list = profileService.getOrder(memberId);
 			return new ResponseEntity(list, HttpStatus.OK);
 		}
 		else
