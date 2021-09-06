@@ -13,7 +13,9 @@
     <span v-else>
       <!-- 멤버 롤 마다 가는곳 다르게 -->
       <div v-if="!userRole || userRole == 'BUYER'">
-        <h2 @click="this.$router.push({ path: '/' })" class="logo">WAPOO</h2>
+        <span @click="this.$router.push({ path: '/' })" class="logo">
+          WAPOO
+        </span>
       </div>
       <div v-else-if="userRole != null && userRole == 'SELLER'">
         <h2 @click="this.$router.push({ path: '/' })" class="logo">판매자</h2>
@@ -94,6 +96,9 @@ export default {
       this.$store.commit("SET_serviceCenters", 1); //serviceCenter 안 버튼 상태
       this.$store.commit("SET_serviceCenterToggle", false); //sidebar에서 serviceCenter 클릭시
     },
+  },
+  data() {
+    return {};
   },
 };
 </script>

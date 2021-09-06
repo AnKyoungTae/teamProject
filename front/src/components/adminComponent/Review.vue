@@ -70,7 +70,7 @@
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
-  <div v-else-if="reviewList.length > 0">
+  <div v-else-if="Array.isArray(reviewList) && reviewList.length > 0">
     <div v-for="(review, index) in reviewList" :key="index" class="m-2">
       <review-row :data="review" :isOwner="isOwner"></review-row>
     </div>
@@ -220,6 +220,10 @@ export default {
       this.pageLoaded = false;
       console.log("요청페이지 : " + request);
       this.requestListCount();
+      if (this.totalCount == 0) {
+        this.pageLoaded = true;
+        return;
+      }
       let storeId = parseInt(this.storeId);
 
       const data = {

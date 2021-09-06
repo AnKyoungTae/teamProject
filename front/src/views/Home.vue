@@ -5,7 +5,7 @@
         <!--메인 이름, 지도, 가게 리스트 -->
         <div class="container-fluid px-4">
           <!--메인 이름 WA POO -->
-          <h1 class="mt-4">WAPOO</h1>
+          <h1 class="mt-4">주변가게보기</h1>
           <div class="row">
             <!--지도 -->
             <div class="col-xl-7">
