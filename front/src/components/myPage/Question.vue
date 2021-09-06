@@ -88,7 +88,7 @@ export default {
     },
     getMyArticle(){
       authAPI
-      .pagingMyBoard(2)
+      .pagingMyBoard(3)
       .then(res=> {
         console.log(res.data.list.length)
      

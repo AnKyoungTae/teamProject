@@ -89,4 +89,83 @@
         FROM coupon
         WHERE event_id = #{eventId}
     </select>
+    
+    
+<!-- 주문표 -->
+<select id="storeOrder" resultType="StoreOrder">
+SELECT	a.name AS 'name',
+	a.store_id AS 'storeId',
+	a.price AS 'price',
+	b.quantity AS 'quantity',
+	b.status AS 'status',
+	b.orderDate AS 'orderDate',
+	b.totalPrice AS 'totalPrice',
+	b.discount AS 'discount',
+	b.payment AS 'payment',
+	b.address AS 'address',
+	b.phone AS 'phone',
+	b.requests AS 'requests',
+	b.orderId AS 'orderId',
+	b.orderInfoId AS 'orderInfoId'
+	
+FROM	food a, (SELECT	a.food_id AS 'foodId',
+	a.quantity AS 'quantity',
+	a.status AS 'status',
+	b.orderDate AS 'orderDate',
+	b.totalPrice AS 'totalPrice',
+	b.discount AS 'discount',
+	b.payment AS 'payment',
+	a.order_id AS 'orderId',
+	b.address AS 'address',
+	b.phone AS 'phone',
+	b.requests AS 'requests',
+	a.orderInfoId AS 'orderInfoId'
+	
+	
+	FROM	orderInfo a, `order` b
+	WHERE	a.order_id = b.orderId) b
+WHERE	b.foodId = a.foodId
+AND	a.store_id = #{storeId}
+
+AND b.status = #{status}
+
+
+
+</select>
+
+<!-- 가게별 주문 총합 -->
+<select id="getTotalOrder" resultType="int">
+SELECT COUNT(DISTINCT a.order_id)
+FROM	`orderInfo` a, `food` b
+WHERE	a.food_id = b.foodId
+AND	a.status = #{status}
+AND	b.store_id = #{storeId}
+
+</select>
+
+<!-- 주문 음식 1개 삭제 -->
+<update id="deleteOrder">
+UPDATE	`orderInfo`
+SET	STATUS = 'N'
+WHERE	orderInfoId = #{orderInfoId}
+</update>
+
+<!-- 주문1건 삭제 -->
+<update id="deleteAllOrder">
+UPDATE	`orderInfo`
+SET	STATUS = 'N'
+WHERE	order_id = #{orderId}
+</update>
+
+<!-- 전체 주문 승인 -->
+<update id="approveOrder">
+UPDATE	`orderInfo`
+SET	STATUS = 'Y'
+WHERE	order_id = #{orderId}
+</update>
+
+
+    
+    
+    
 </mapper>

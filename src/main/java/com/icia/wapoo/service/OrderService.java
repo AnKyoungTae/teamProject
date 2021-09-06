@@ -5,6 +5,8 @@ import com.icia.wapoo.dao.OrderDao;
 import com.icia.wapoo.model.KakaoPayApproval;
 import com.icia.wapoo.model.KakaoPayReady;
 import com.icia.wapoo.model.Payment;
+import com.icia.wapoo.model.StoreOrder;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -209,4 +211,98 @@ public class OrderService {
     public int setOrderStatus(Integer orderId, String status) {
         return orderDao.updateOrderState(orderId, status);
     }
+    
+    
+    //주문보기
+    public List<StoreOrder> storeOrder(int storeId, String status)
+    {
+    	List<StoreOrder> storeOrder = null;
+    	
+    	try
+    	{
+    		storeOrder  = orderDao.storeOrder(storeId, status);
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println("storeOrder 오류: " + e);
+    	}
+    	
+    	return storeOrder;
+    }
+    
+    //가게별 주문 합
+    public int getTotalOrder(int storeId, String status)
+    {
+    	int count = 0;
+    	
+    	try
+    	{
+    		count  = orderDao.getTotalOrder(storeId, status);
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println("getTotalOrder 오류: " + e);
+    	}
+    	
+    	
+    	return count;
+    }
+    
+    //주문 음식 1개 삭제
+    public int deleteOrder(int orderInfoId)
+    {
+    	int count = 0;
+    	
+    	try
+    	{
+    		count  = orderDao.deleteOrder(orderInfoId);
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println("getTotalOrder 오류: " + e);
+    	}
+    	
+    	return count;
+    }
+    
+    //주문 1건 삭제
+    public int deleteAllOrder(int orderId)
+    {
+    	int count = 0;
+    	
+    	try
+    	{
+    		count  = orderDao.deleteAllOrder(orderId);
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println("deleteAllOrder 오류: " + e);
+    	}
+    	
+    	return count;
+    }
+    
+    //전체 주문 승인
+    public int approveOrder(int orderId)
+    {
+    	int count = 0;
+    	
+    	try
+    	{
+    		count  = orderDao.approveOrder(orderId);
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println("deleteAllOrder 오류: " + e);
+    	}
+    	
+    	return count;
+    }
+    
+    
+    
+    
+    
+    
+    
 }

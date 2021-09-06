@@ -4,6 +4,8 @@ import com.icia.wapoo.jwt.service.JwtService;
 import com.icia.wapoo.model.Food;
 import com.icia.wapoo.model.KakaoPayApproval;
 import com.icia.wapoo.model.KakaoPayReady;
+import com.icia.wapoo.model.Store;
+import com.icia.wapoo.model.StoreOrder;
 import com.icia.wapoo.service.OrderService;
 import com.icia.wapoo.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -99,4 +102,87 @@ public class OrderController {
         }
         return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    
+    //주문표
+    @PostMapping("/storeOrder")
+    public ResponseEntity storeOrder(@RequestBody Map<String, Object> orderStatus, HttpServletRequest request)
+    {
+    	int memberId = getMemberIdByRequest(request);
+    	
+    	String status = (String) orderStatus.get("satus");
+    	
+    	//getStoreById
+    	List<StoreOrder> storeOrder = null;
+    	
+    	Store store = storeService.getStoreById(memberId);
+    	//주문표
+    	storeOrder = orderService.storeOrder(store.getStoreId(), status);
+    	//가게별 주문 포탈
+    	int total = orderService.getTotalOrder(store.getStoreId(), status);
+    	//고객 취소 주문 
+    	List<StoreOrder> cancelStoreOrder = orderService.storeOrder(store.getStoreId(), "C");
+    	
+    	Map<String, Object> map = new HashMap<>();
+    	
+    	map.put("storeOrder", storeOrder);
+    	map.put("total", total);
+    	map.put("cancelStoreOrder", cancelStoreOrder);
+    	
+    	return new ResponseEntity(map, HttpStatus.OK);
+    }
+    
+    //주문 음식 1개 취소
+    @PostMapping("/deleteOrder")
+    public ResponseEntity deleteOrder(@RequestBody String orderStoreId, HttpServletRequest request)
+    {
+    	int orderInfoId = Integer.parseInt(orderStoreId);
+    	
+   
+    	
+    	if(orderInfoId > 0)
+    	{
+    		if(orderService.deleteOrder(orderInfoId) > 0)
+    		{
+    			return new ResponseEntity("ok", HttpStatus.OK);
+    		}
+    	}
+    	
+    	return new ResponseEntity("no", HttpStatus.OK);
+    }
+    
+  //주문 1건 취소
+    @PostMapping("/deleteAllOrder")
+    public ResponseEntity deleteAllOrder(@RequestBody String totalOrderId, HttpServletRequest request)
+    {
+    	int orderId = Integer.parseInt(totalOrderId);
+    	
+    	if(orderId > 0)
+    	{
+    		if(orderService.deleteAllOrder(orderId) > 0)
+    		{
+    			return new ResponseEntity("ok", HttpStatus.OK);
+    		}
+    	}
+    	
+    	return new ResponseEntity("no", HttpStatus.OK);
+    }
+    
+    //전제 주문 승인 
+    @PostMapping("/approveOrder")
+    public ResponseEntity approveOrder(@RequestBody String totalOrderId, HttpServletRequest request)
+    {
+    	int orderId = Integer.parseInt(totalOrderId);
+    	
+    	if(orderId > 0)
+    	{
+    		if(orderService.approveOrder(orderId) > 0)
+    		{
+    			return new ResponseEntity("ok", HttpStatus.OK);
+    		}
+    	}
+    	
+    	return new ResponseEntity("no", HttpStatus.OK);
+    }
+    
+    
 }
