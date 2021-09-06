@@ -26,12 +26,17 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Poor+Story&display=swap");
+html,
+body {
+  background: white;
+}
 #app {
   font-family: "Poor Story", cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 21px;
   text-align: center;
-  color: #2c3e50;
+  background: white;
 }
 #nav {
   position: relative;
