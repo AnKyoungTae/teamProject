@@ -1,5 +1,5 @@
 <template>
-  <div @click="storePage(shopInfo.storeId)" class="storeList">
+  <div @click="storePage(shopInfo.storeId)" class="storeList" style="border:1px solid gray;">
     <div class="storeHeader">
       <div class="headerTitle">
         <h5 class="storeTitle">
