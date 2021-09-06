@@ -76,7 +76,7 @@ AND	A.member_id= #{memberId}
 	SELECT
 		A.couponNumber,
 		A.couponName,
-		B.coupon_used AS 'couponUsed',
+		B.coupon_used AS couponUsed,
 			A.couponEnd,
 		B.total_discountPrice,
 		A.status,
@@ -85,6 +85,7 @@ AND	A.member_id= #{memberId}
 	WHERE	A.couponId = B.coupon_id
 	  AND A.food_id = f.foodId
 	  AND B.coupon_holder = #{memberId}
+	  AND B.coupon_used = 'N'
 </select>
 
 <!-- 이미지 업로드 -->
