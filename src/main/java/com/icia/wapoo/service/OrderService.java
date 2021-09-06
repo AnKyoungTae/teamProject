@@ -205,4 +205,8 @@ public class OrderService {
         resultMap.put("foodList", orderedFoodsList);
         return resultMap;
     }
+
+    public int setOrderStatus(Integer orderId, String status) {
+        return orderDao.updateOrderState(orderId, status);
+    }
 }

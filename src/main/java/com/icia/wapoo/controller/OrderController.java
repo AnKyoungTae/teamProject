@@ -90,7 +90,13 @@ public class OrderController {
     }
 
     @PostMapping("/requestCancel")
-    public Map<String, Object> requestCancel(@RequestBody Integer orderId) {
-        return null;
+    public ResponseEntity requestCancel(@RequestBody Map<String, Object> data) {
+        Integer orderId = (Integer) data.get("orderId");
+        String status = (String) data.get("status");
+        int result = orderService.setOrderStatus(orderId, status);
+        if(result > 0) {
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

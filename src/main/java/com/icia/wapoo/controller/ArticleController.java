@@ -97,10 +97,19 @@ public class ArticleController {
 		
 		if(article != null)
 		{
-			if(!article.getStatus().equals("N"))
+			if(!article.getStatus().equals("H"))
 			{
-				System.out.println("글 확인 가능");
-				return new ResponseEntity("100", HttpStatus.OK);
+				if(article.getStatus().equals("N"))
+				{
+					System.out.println("제거된 글");
+					return new ResponseEntity("no", HttpStatus.OK);
+				}
+				else
+				{
+					System.out.println("글 확인 가능");
+					return new ResponseEntity("100", HttpStatus.OK);
+				}
+				
 			}
 			else
 			{

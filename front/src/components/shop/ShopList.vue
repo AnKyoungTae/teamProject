@@ -1,12 +1,17 @@
 <template>
-  <div @click="storePage(shopInfo.storeId)" class="storeList" style="border:1px solid gray;">
+  <div
+    @click="storePage(shopInfo.storeId)"
+    class="storeList"
+    title="클릭시 상세페이지로 이동합니다"
+    style="border:1px solid gray;"
+  >
     <div class="storeHeader">
       <div class="headerTitle">
         <h5 class="storeTitle">
           {{ shopInfo.name }}
         </h5>
-        <small style="color:gray;">
-          {{ shopInfo.storeKind }}
+        <small style="color: gray">
+          {{ getStoreKind }}
         </small>
       </div>
       <div class="storeReview">
@@ -26,7 +31,7 @@
       <small class="address">
         {{ shopInfo.address }}, {{ shopInfo.addressDetail }}
       </small>
-      <div style="width:100px; text-align:right;">
+      <div style="width: 100px; text-align: right">
         {{ shopInfo.distance }}km
       </div>
     </div>
@@ -53,7 +58,6 @@ export default {
         .then((res) => {
           if (res.status === 200) {
             this.fileList = res.data;
-            console.log(res.data);
             this.fileList.splice(5);
           }
         })
@@ -61,7 +65,7 @@ export default {
           console.log("사진불러오는데 에러" + err);
         });
 
-        http
+      http
         .get("/review/getAverageScore", {
           params: {
             storeId: this.shopInfo.storeId,
@@ -69,13 +73,11 @@ export default {
         })
         .then((response) => {
           this.averageScore = response.data;
-          console.log("점수 평균값 : " + this.averageScore);
         })
         .catch((err) => {
           console.log(err);
         });
     }
-    
   },
   data() {
     return {
@@ -89,7 +91,7 @@ export default {
         path: "/shopDetail?n=" + storeId,
         query: { shopInfo: storeId },
       });
-    }
+    },
   },
   computed: {
     getStoreKind() {
@@ -125,20 +127,20 @@ export default {
 .storeReview {
   text-align: right;
   padding: 5px 0 0;
-  width:150px;
+  width: 150px;
 }
 .address {
   text-align: left;
   justify-self: start;
   padding: 0px;
 }
-.storeTitle, 
+.storeTitle,
 .address {
   display: inline-block;
-  white-space: nowrap; 
-  overflow: hidden; 
+  white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
-  width:200px;
+  width: 200px;
 }
 .imgList {
   display: flex;
@@ -148,8 +150,11 @@ export default {
 .imgFile {
   width: 100px;
   height: 70px;
-  margin-left:10px;
-  margin-right:20px;
+  margin-left: 10px;
+  margin-right: 20px;
+}
+.storeList:hover {
+  outline: 1px solid orange;
 }
 @media screen and (min-width: 1200px) {
   .imgList {
@@ -160,7 +165,8 @@ export default {
   .storeHeader {
     width: 100%;
   }
-  .storeTitle, .address {
+  .storeTitle,
+  .address {
     width: 300px;
   }
 }
@@ -178,7 +184,8 @@ export default {
   #imgFile2 {
     display: none;
   }
-  .storeTitle, .address {
+  .storeTitle,
+  .address {
     width: 200px;
   }
 }
@@ -186,7 +193,8 @@ export default {
   #imgFile1 {
     display: none;
   }
-  .storeTitle, .address {
+  .storeTitle,
+  .address {
     width: 150px;
   }
 }

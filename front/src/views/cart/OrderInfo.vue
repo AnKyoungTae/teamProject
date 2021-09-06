@@ -173,12 +173,18 @@ export default {
   },
   methods: {
     cancelOrder() {
+      const orderId = parseInt(this.orderId);
       http
         .post("/order/requestCancel", {
-          orderId: this.orderId,
+          orderId: orderId,
+          status: "S",
         })
         .then((res) => {
-          console.log(res);
+          if (res.status === 200) {
+            alert("주문 취소를 요청하였습니다!");
+          } else {
+            alert("알수없는 오류입니다. 관리자에게 문의하세요");
+          }
         });
     },
   },
