@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" style="background-color: #F78C80">
     <notifications
       group="notifyApp"
       position="bottom right"

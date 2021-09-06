@@ -98,6 +98,6 @@ export default {
 }
 .list-group-item:hover {
   cursor: pointer;
-  background-color: rgba(11, 153, 153, 0.3);
+  background-color: #E85349;
 }
 </style>
