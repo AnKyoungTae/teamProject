@@ -221,6 +221,7 @@ export default {
       let storeId = parseInt(this.storeId);
 
       const data = {
+        
         listPerPage: this.listPerPage,
         currentPage: request,
         storeId: storeId,
@@ -300,7 +301,7 @@ export default {
   },
   mounted() {
     normal("정보를 불러옵니다. 잠시만 기다려주세요..", this);
-    // 정보를 호출한다.
+    //정보를 호출한다.
     this.requestPage(1);
     this.getAverageScore();
 
