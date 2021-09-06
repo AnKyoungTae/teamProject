@@ -589,20 +589,15 @@ public class ArticleController {
 	
 	//내글 보기
 	@GetMapping(value="/pagingMyBoard")
-	public Map<String, Object> getMyList(@RequestParam long boardId, HttpServletRequest request)
+	public ResponseEntity getMyList(@RequestParam long boardId, HttpServletRequest request)
 	{
-		System.out.println("내글 보기");
-		
 		long memberId = getMemberIdByRequest(request);
-		
-		Map<String, Object> map = new HashMap<>();
-		
-		List<Article> list = articleService.myList(memberId, boardId);
-		
-		map.put("list", list);
-		
-		
-		return map;
+		List<Article> list = articleService.myList(memberId, 3);
+		list.addAll(articleService.myList(memberId,4));
+		list.addAll(articleService.myList(memberId,5));
+		list.addAll(articleService.myList(memberId,6));
+		list.stream().forEach(System.out::println);
+		return new ResponseEntity(list, HttpStatus.OK);
 	}
 	
 	//글쓰기 고객확인

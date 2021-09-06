@@ -1,6 +1,6 @@
 <template>
     <div style="width: 1200px;">
-        <div style="font-size: 40px;">주문관리</div>
+        <h2 style="margin-top: 50px;">주문관리</h2>
         <div style="text-align: left;">
             <span style="font-size: 20px; margin-left: 20px;">총 주문건수:</span>
             <div class="row align-items-center">

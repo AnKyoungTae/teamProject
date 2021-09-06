@@ -35,7 +35,7 @@ public interface ProfileDao {
 	//쿠폰 정보가져오기
 	List<Map<String, Object>> getCoupon(int memberId);
 	//주문정보 가저오기
-	List<Order> selectAllOrders(@Param("memberId") Integer memberId);
+	List<Map<String, Object>> selectAllOrders(@Param("memberId") Integer memberId);
 	//이미지 업로드
 	int insertImage(String fileURL, int memberId);
 
