@@ -1,25 +1,26 @@
 <template>
   <div class="main">
-    <button type="button" class="btn btn-outline-secondary touch" @click="changeStatusId">아이디</button>
-    <button type="button" class="btn btn-outline-secondary touch" @click="changeStatusPwd">비밀번호</button>
     <div v-if="status == 'id'">
       <div class="manage-div">
         <div class="manage-div2">
           <h3 class="title">아이디 찾기</h3>
-          <div class="profile-manage">
+          <div class="Login-manage">
             <div class="manage-box">
               <div>
-                <strong><span class="login-txt">이름 입력</span></strong><br />
-                <a class="profile-img">
-                  <strong class="login-tit"><input type="text" class="text" v-model="name" placeholder="이름" style="width: 100%;"></strong>
+                <strong><span class="login-txt">이름 입력</span></strong>
+                <a class="Login-Abox">
+                  <strong class="login-tit"><input type="text" class="text" v-model="name" placeholder="이름" ></strong>
                 </a>
               </div>
               <div style="margin-top: 30px;">
-                <strong><span class="login-txt">이메일 입력</span></strong><br />
-                <a class="profile-img">
-                  <strong class="login-tit"><input type="text" class="text" v-model="email" placeholder="이메일" style="width: 100%;"></strong>
+                <strong><span class="login-txt">이메일 입력</span></strong>
+                <a class="Login-Abox">
+                  <strong class="login-tit"><input type="text" class="text" v-model="email" placeholder="이메일"></strong>
                 </a>
               </div>
+              <p style="margin-top: 8px;">
+                <span style="cursor: pointer" @click="changeStatusId">아이디</span> &nbsp;|&nbsp; <span style="cursor: pointer" @click="changeStatusPwd">비밀번호</span>
+              </p>
             </div>
           </div>
         </div>
@@ -31,26 +32,29 @@
       <div class="manage-div">
         <div class="manage-div2">
           <h3 class="title">비밀번호 찾기</h3>
-          <div class="profile-manage">
+          <div class="Login-manage">
             <div class="manage-box">
               <div>
-                <strong><span class="login-txt">아이디 입력</span></strong><br />
-                <a class="profile-img">
-                  <strong class="login-tit"><input type="text" class="text" v-model="loginId" placeholder="아이디" style="width: 100%;"></strong>
+                <strong><span class="login-txt">이름 입력</span></strong>
+                <a class="Login-Abox">
+                  <strong class="login-tit"><input type="text" class="text" v-model="loginId" placeholder="이름"></strong>
                 </a>
               </div>
               <div style="margin-top: 30px;">
-                <strong><span class="login-txt">이름 입력</span></strong><br />
-                <a class="profile-img">
-                  <strong class="login-tit"><input type="text" class="text" v-model="name" placeholder="이름" style="width: 100%;"></strong>
+                <strong><span class="login-txt">아이디 입력</span></strong>
+                <a class="Login-Abox">
+                  <strong class="login-tit"><input type="text" class="text" v-model="name" placeholder="아이디"></strong>
                 </a>
               </div>
               <div style="margin-top: 30px;">
-                <strong><span class="login-txt">이메일 입력</span></strong><br />
-                <a class="profile-img">
-                  <strong class="login-tit"><input type="text" class="text" v-model="email" placeholder="이메일" style="width: 100%;"></strong>
+                <strong><span class="login-txt">이메일 입력</span></strong>
+                <a class="Login-Abox">
+                  <strong class="login-tit"><input type="text" class="text" v-model="email" placeholder="이메일"></strong>
                 </a>
               </div>
+              <p style="margin-top: 8px;">
+                <span style="cursor: pointer" @click="changeStatusId">아이디</span> &nbsp;|&nbsp; <span style="cursor: pointer" @click="changeStatusPwd">비밀번호</span>
+              </p>
             </div>
           </div>
         </div>
@@ -108,7 +112,7 @@ export default {
         email: this.email
       }
 
-      http.post("/profile/findpwd", {params})
+      http.post("/Login/findpwd", {params})
       .then(res => {
         if(res.data == "ok"){
           alert("이메일이 전송되었습니다.")
@@ -136,7 +140,7 @@ export default {
         email: this.email
       }
 
-      http.post("/profile/findid", {params})
+      http.post("/Login/findid", {params})
       .then(res => {
         console.log(res.data)
         if(res.data == "ok"){
@@ -169,33 +173,33 @@ export default {
   font-weight: normal;
   font-size: 20px;
 }
-.profile-manage {
+.Login-manage {
   margin-top: 10px;
   border-top: 1px solid #7c7c7c;
 }
 .manage-box {
   margin: 40px auto;
   text-align: center;
-  width: 300px;
+  width: 400px;
 }
-.profile-img {
+.Login-Abox {
   margin-top: 10px;
   text-decoration: none;
 }
-.profile-imgdiv {
+.Login-Aboxdiv {
   float: left;
   width: 80px;
   height: 80px;
   padding: auto 0;
   position: relative;
 }
-.profile-imgdiv img {
+.Login-Aboxdiv Abox {
   display: block; 
   width: 80px; 
   height: 80px; 
   border-radius: 50%;
 }
-.img-text {
+.Abox-text {
   overflow: hidden;
   display: block;
   font-size: 22px;
@@ -218,10 +222,9 @@ export default {
   width: 100%;
   text-align: center;
 }
-
-
-
-
+.send-button {
+  width: 25%;
+}
 
 .main{
   margin-top: 5vh;
@@ -237,7 +240,6 @@ export default {
 }
 .main .text{
   width: 20vw;
-  height: 3vh;
   margin: 1vh 0;
 }
 </style>
