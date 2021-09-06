@@ -1,42 +1,55 @@
 <template>
-<div class="manage-div">
+  <div class="manage-div">
     <div class="manage-div2">
       <h3 class="manage-text">쿠폰함</h3>
       <div class="profile-manage">
-        <div
-          class="row"
-          style="overflow: auto;"
-          v-if="couponToggle == true"
-        >
-        <!--쿠폰시작 -->
-        <div class="col coupon" v-for="coupon in coupons" :key="coupon.couponId">
-          <div class="card coupon-card">
-            <div class="coupon-main">
-              <div class="content">
-                <div class="row">
-                  <span style="color: burlywood;"><span style="font-size: 35px; font-weight: 600; font-family: Black Han Sans, sans-serif;">{{ coupon.total_discountPrice }}</span><span style="font-size: 20px;"> 원 할인권</span></span>
-                  <span class="d-inline m-1" style="font-size: 18px; "
-                    >{{ coupon.couponName }}
-                    <span class="badge bg-success m-1" v-if="coupon.status == 'Y'"
-                      >사용가능</span
+        <div class="row" style="overflow: auto" v-if="couponToggle == true">
+          <!--쿠폰시작 -->
+          <div
+            class="col coupon"
+            v-for="coupon in coupons"
+            :key="coupon.couponId"
+          >
+            <div class="card coupon-card">
+              <div class="coupon-main">
+                <div class="content">
+                  <div class="row">
+                    <span style="color: burlywood"
+                      ><span
+                        style="
+                          font-size: 35px;
+                          font-weight: 600;
+                          font-family: Black Han Sans, sans-serif;
+                        "
+                        >{{ coupon.total_discountPrice }}</span
+                      ><span style="font-size: 20px"> 원 할인권</span></span
                     >
-                    <span
-                      class="badge bg-danger m-1"
-                      v-else-if="coupon.status == 'N'"
-                      >사용불가</span
-                    ></span
+                    <span class="d-inline m-1" style="font-size: 18px"
+                      >{{ coupon.couponName }}
+                      <span
+                        class="badge bg-success m-1"
+                        v-if="coupon.couponUsed == 'N' && coupon.status == 'Y'"
+                        >사용가능</span
+                      >
+                      <span class="badge bg-danger m-1" v-else
+                        >사용불가</span
+                      ></span
                     >
                   </div>
 
                   <p>쿠폰번호 : {{ coupon.couponNumber }}</p>
-                  <p>사용기간 ~ {{ coupon.couponEnd[0] }}.{{ coupon.couponEnd[1] }}.{{ coupon.couponEnd[2] }} 까지</p>
+                  <p>
+                    사용기간 ~ {{ coupon.couponEnd[0] }}.{{
+                      coupon.couponEnd[1]
+                    }}.{{ coupon.couponEnd[2] }} 까지
+                  </p>
                 </div>
                 <div class="vertical"></div>
                 <div class="copy-button">
                   <button
                     type="button"
                     class="copybtn btn btn-primary position-relative"
-                    :class="[coupon.status == 'Y' ? '' : 'disabled']"
+                    :class="[coupon.couponUsed == 'N' ? '' : 'disabled']"
                     @click="moveToStoreInfo(coupon.store_id)"
                   >
                     사용
@@ -98,11 +111,10 @@ export default {
     dayLeft(time) {
       let now = new Date();
       var day = ("0" + now.getDate()).slice(-2);
-      let leftday = day - time[2];
-      if (leftday < 0) {
-        return "X";
-      }
-      return leftday + " 일";
+      console.log("데이" + now);
+      console.log("타임" + time);
+
+      return " 일";
     },
     moveToStoreInfo(storeId) {
       this.$router.push({ path: "/shopDetail", query: { shopInfo: storeId } });
@@ -133,15 +145,6 @@ export default {
   border-top: 1px solid #7c7c7c;
 }
 
-
-
-
-
-
-
-
-
-
 .coupon {
   display: flex;
   flex-direction: row;
@@ -158,7 +161,7 @@ export default {
   padding: 10px 10px;
   float: left;
   margin: 10px 10px;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 }
 .coupon-main {
   height: 100%;
