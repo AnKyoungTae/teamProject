@@ -34,7 +34,7 @@ body {
   font-family: "Poor Story", cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 21px;
+  font-size: 18px;
   text-align: center;
   background: white;
 }

@@ -37,7 +37,7 @@
           />
         </div>
         <!-- 핫한음식 배지달기 -->
-        <p class="price">{{ foodInfo.price }} 원</p>
+        <p class="price" style="font-size: 20px">{{ foodInfo.price }} 원</p>
         <div class="d-block">
           <div class="multiline-ellipsis" v-if="!isEditMode">
             {{ foodInfo.description }}

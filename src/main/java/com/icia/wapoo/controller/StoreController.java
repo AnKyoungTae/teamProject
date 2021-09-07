@@ -179,7 +179,7 @@ public class StoreController {
         }
         List<Map<String, Object>> list = storeService.getNearStoresList(latitude, longitude, radius, quantity, options, loadFrom);
         if(list.size() == 0) {
-            return new ResponseEntity(HttpStatus.FORBIDDEN);
+            return new ResponseEntity(list, HttpStatus.OK);
         }
         return new ResponseEntity(list, HttpStatus.OK);
     }

@@ -69,6 +69,7 @@ public class OrderController {
         Integer quantity = (Integer) orderInfo.get(1);
         Integer orderId = (Integer) orderInfo.get(2);
         int orderInfoId = orderService.createOrderInfo(orderId, quantity, foodId);
+
         if(orderInfoId >0){
             return new ResponseEntity(HttpStatus.OK);
         }

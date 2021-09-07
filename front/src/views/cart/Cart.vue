@@ -101,6 +101,7 @@
               :key="index"
               class="foodWrapper"
             >
+              <div style="width: 1px"></div>
               <div class="foodContainer d-block">
                 <div class="row">
                   <img :src="food.fileUrl" class="foodImage col-4" />
@@ -131,42 +132,48 @@
                       <div>
                         <span>{{ food.price }} 원</span>
                       </div>
-                      <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                          <li class="page-item">
-                            <a
-                              class="page-link"
-                              @click="decreaseQuantity(food.foodId)"
-                              >-</a
-                            >
-                          </li>
-                          <li class="page-item">
-                            <a class="page-link">{{
-                              foodQuantity(food.foodId)
-                            }}</a>
-                          </li>
+                      <div>
+                        <nav aria-label="Page navigation example">
+                          <ul class="pagination">
+                            <li class="page-item">
+                              <a
+                                class="page-link"
+                                @click="decreaseQuantity(food.foodId)"
+                                >-</a
+                              >
+                            </li>
+                            <li class="page-item">
+                              <a class="page-link">{{
+                                foodQuantity(food.foodId)
+                              }}</a>
+                            </li>
 
-                          <li class="page-item">
-                            <a
-                              class="page-link"
-                              @click="increaseQuantity(food.foodId)"
-                              >+</a
+                            <li class="page-item">
+                              <a
+                                class="page-link"
+                                @click="increaseQuantity(food.foodId)"
+                                >+</a
+                              >
+                            </li>
+                            <div
+                              class="btn btn-primary"
+                              @click="removeFood(food.foodId)"
+                              style="visibility: hidden"
                             >
-                          </li>
-                          <div
-                            class="btn btn-primary"
-                            @click="removeFood(food.foodId)"
-                          >
-                            삭제하기
-                          </div>
-                        </ul>
-                      </nav>
+                              삭제하기
+                            </div>
+                          </ul>
+                        </nav>
+                      </div>
                       <div>
                         총액 : {{ pricePerFood(food.foodId, food.price) }} 원
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
+              <div @click="removeFood(food.foodId)" class="close-button">
+                <img src="@/assets/close.png" class="delete_img" />
               </div>
             </div>
           </div>
@@ -176,12 +183,8 @@
           <div class="couponWrapper d-block">
             <!-- 사용할 수 있는 쿠폰이 있으면 불러오기 -->
             <!-- 사용기한, 체크박스로 체크하면 사용 -->
-            <div
-              v-if="
-                !couponLoaded || couponList.length == 0 || couponList[0] == ''
-              "
-            >
-              쿠폰정보가 없습니다
+            <div v-if="!couponLoaded || couponList.length == 0">
+              사용할 수 있는 쿠폰이 없습니다
             </div>
             <div v-else-if="couponLoaded">
               <div
@@ -228,7 +231,7 @@
           </div>
           <div
             class="calculatorWrapper d-block"
-            style="padding-top: 0px; margin-top: 100px"
+            style="padding-top: 0px; margin-top: 30px"
           >
             <div class="orderText">
               <h4>주문내역</h4>
@@ -382,6 +385,8 @@ export default {
             for (let food of res.data) {
               orderList.set(food.foodId, food.quantity);
               // foodId와 memberId로 사용가능한 쿠폰 가져오기
+              console.log("보낼 푸드아이디" + food.foodId);
+              console.log("멤버아이디" + memberId);
               http
                 .get("/coupon/getMemberCoupon", {
                   params: {
@@ -389,10 +394,11 @@ export default {
                     foodId: food.foodId,
                   },
                 })
-                .then((res) => {
-                  if (res.status === 200) {
-                    console.log("쿠폰정보들을 가져옵니다.");
-                    this.couponList.push(res.data);
+                .then((resp) => {
+                  if (resp.status === 200) {
+                    if (resp.data != "") {
+                      this.couponList = [...this.couponList, resp.data];
+                    }
                   }
                 });
             }
@@ -464,8 +470,6 @@ export default {
         couponIdList,
         memberId,
       };
-      console.log("==== 생성되어 들어가는 memeberId = " + memberId);
-      //DB에 오더 넣기.
       axios
         .create({ baseURL: "http://localhost:8083" })
         .post("/order/putOrder", orderData)
@@ -489,7 +493,6 @@ export default {
                   },
                 })
                 .post("/order/putOrderInfo", foodInfo);
-
             filteredOrderList
               .reduce((prevProm, list) => {
                 list.push(orderId);
@@ -617,7 +620,7 @@ export default {
 .foodWrapper {
   display: flex;
   border: 1px solid gainsboro;
-  justify-content: center;
+  justify-content: space-between;
 }
 .foodContainer {
   height: 9rem;
@@ -680,5 +683,21 @@ export default {
 .commandCancel {
   cursor: pointer;
   border: 1px solid gainsboro;
+}
+.delete_img {
+  width: 25px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.form-check-input {
+  margin-right: 50px;
+}
+.pagination {
+  display: flex;
+  padding-left: 70px;
+  list-style: none;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
 }
 </style>

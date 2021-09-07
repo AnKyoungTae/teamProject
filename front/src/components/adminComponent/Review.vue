@@ -120,7 +120,7 @@
       </ul>
     </nav>
   </div>
-  <div v-else>평점이 없습니다</div>
+  <div v-else>등록된 리뷰가 없습니다.</div>
   <hr />
   <!-- 리뷰끝 -->
   <!-- 페이지네이션 -->
@@ -135,7 +135,7 @@
 
 <script>
 import ReviewModal from "@/components/modal/Review.vue";
-import { normal, error, success } from "@/api/notification";
+import { normal, error } from "@/api/notification";
 import http from "@/api/http";
 import ReviewRow from "@/components/adminComponent/ReviewRow.vue";
 import { mapGetters } from "vuex";
@@ -218,39 +218,12 @@ export default {
     },
     requestPage(request) {
       this.pageLoaded = false;
-      console.log("요청페이지 : " + request);
-      this.requestListCount();
-      if (this.totalCount == 0) {
-        this.pageLoaded = true;
-        return;
-      }
-      let storeId = parseInt(this.storeId);
 
-      const data = {
-        
-        listPerPage: this.listPerPage,
-        currentPage: request,
-        storeId: storeId,
-        showOption: this.showOption,
-      };
-      http
-        .post("/review/getReviewList", data)
-        .then((response) => {
-          if (response.status === 200) {
-            console.log(response.data);
-            this.reviewList = response.data;
-            this.currentPage = request;
-            console.log("현재페이지 : " + this.currentPage);
-          }
-          this.pageLoaded = true;
-        })
-        .catch((err) => {
-          console.log(err);
-          error("오류가 발생했습니다. 다시 시도해주세요", this);
-        });
+      this.requestListCount(request);
+
     },
 
-    requestListCount() {
+    requestListCount(request) {
       const storeId = parseInt(this.storeId);
       http
         .get("/review/getReviewListCount", {
@@ -260,7 +233,32 @@ export default {
         })
         .then((response) => {
           this.totalCount = response.data;
-          console.log("등록된 리뷰의 총 갯수 : " + this.totalCount);
+          if (this.totalCount == 0) {
+            this.pageLoaded = true;
+            return;
+          }
+          let storeId = parseInt(this.storeId);
+
+          const data = {
+            listPerPage: this.listPerPage,
+            currentPage: request,
+            storeId: storeId,
+            showOption: this.showOption,
+          };
+          http
+            .post("/review/getReviewList", data)
+            .then((response) => {
+              if (response.status === 200) {
+                console.log(response.data);
+                this.reviewList = response.data;
+                this.currentPage = request;
+              }
+              this.pageLoaded = true;
+            })
+            .catch((err) => {
+              console.log(err);
+              error("오류가 발생했습니다. 다시 시도해주세요", this);
+            });
         })
         .catch((err) => {
           console.log(err);
@@ -314,10 +312,11 @@ export default {
 
     this.requestListHasReplyCount();
     if (this.getMyStore.owner_id == this.getUserId) {
-      console.log("주인이 맞습니다용");
-      this.isOwner = true;
+      const storeId = parseInt(this.storeId);
+      if (storeId == this.getMyStore.storeId) {
+        this.isOwner = true;
+      }
     }
-    console.log("마운트 끝");
   },
 };
 </script>
