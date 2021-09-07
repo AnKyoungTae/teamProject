@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 1200px;">
+    <div style="width: 1200px; margin: 3vh auto">
         <div style="font-size: 40px;">주문관리</div>
 
         <!-- 고객이 주문을 취소할때-->
@@ -11,22 +11,23 @@
                   <th>주문메뉴</th>
                   <th>주문일</th>
                   <th>음식가격</th>
-                  <th>할인가격</th>
-                  <th>총 결제금액</th>
+            
+                  <th>결제금액</th>
                   <th>주소</th>
                   <th>핸드폰번호</th>
                   <th>요청사항</th>
                   <th>주문관리</th>
+                  <th>총관리</th>
               </tr>
               <tr v-for="cancel,index in cancelStoreOrder" :key="index" >
-                  <td v-if="sameOrderId(index)">{{cancel.orderId}}</td>
+                  <td v-if="cancelStoreOrderId(index)">{{cancel.orderId}}</td>
                   <td v-else>
                     <i class="fas fa-long-arrow-alt-up"></i>
                   </td>
-                  <td>{{cancel.name}} {{cancel.quantity}}</td>
+                  <td>{{cancel.name}} {{cancel.quantity}}개</td>
                   <td>{{cancel.orderDate}}</td>
-                  <td>{{cancel.price}}</td>
-                  <td>{{cancel.discount}}</td>
+                  <td>{{cancel.price * cancel.quantity}}</td>
+           
                   <td>{{cancel.payment}}</td>
                   <td>{{cancel.address}}</td>
                   <td>{{cancel.phone}}</td>
@@ -36,6 +37,13 @@
                       <span class="badge bg-danger" @click="deleteOrder(cancel.orderInfoId, cancel.name, cancel.quantity, cancel.orderId)">주문취소</span>
                   </td>
                   <!--total button -->
+                  <td v-if="cancelStoreOrderId(index)">
+                    <span class="badge bg-danger" @click="deleteAllOrder(cancel.orderId)">전체주문취소</span>
+                  </td>
+                  <td v-else>
+                    <i class="fas fa-long-arrow-alt-up"></i>
+                  </td>
+
               </tr>
           </table>
         </div>
@@ -96,8 +104,8 @@
                   <th>주문메뉴</th>
                   <th>주문일</th>
                   <th>음식가격</th>
-                  <th>할인가격</th>
-                  <th>총 결제금액</th>
+                  
+                  <th>결제금액</th>
                   <th>주소</th>
                   <th>핸드폰번호</th>
                   <th>요청사항</th>
@@ -109,10 +117,10 @@
                   <td v-else>
                     <i class="fas fa-long-arrow-alt-up"></i>
                   </td>
-                  <td>{{li.name}} {{li.quantity}}</td>
+                  <td>{{li.name}} {{li.quantity}}개</td>
                   <td>{{li.orderDate}}</td>
-                  <td>{{li.price}}</td>
-                  <td>{{li.discount}}</td>
+                  <td>{{li.price * li.quantity}}</td>
+                 
                   <td>{{li.payment}}</td>
                   <td>{{li.address}}</td>
                   <td>{{li.phone}}</td>
@@ -142,8 +150,8 @@
                   <th>주문메뉴</th>
                   <th>주문일</th>
                   <th>음식가격</th>
-                  <th>할인가격</th>
-                  <th>총 결제금액</th>
+       
+                  <th>결제금액</th>
                   <th>주소</th>
                   <th>핸드폰번호</th>
                   <th>요청사항</th>
@@ -154,10 +162,10 @@
                   <td v-else>
                     <i class="fas fa-long-arrow-alt-up"></i>
                   </td>
-                  <td>{{li.name}} {{li.quantity}}</td>
+                  <td>{{li.name}} {{li.quantity}}개</td>
                   <td>{{li.orderDate}}</td>
-                  <td>{{li.price}}</td>
-                  <td>{{li.discount}}</td>
+                  <td>{{li.price * li.quantity}}</td>
+          
                   <td>{{li.payment}}</td>
                   <td>{{li.address}}</td>
                   <td>{{li.phone}}</td>
@@ -183,8 +191,8 @@
                   <th>주문메뉴</th>
                   <th>주문일</th>
                   <th>음식가격</th>
-                  <th>할인가격</th>
-                  <th>총 결제금액</th>
+
+                  <th>결제금액</th>
                   <th>주소</th>
                   <th>핸드폰번호</th>
                   <th>요청사항</th>
@@ -195,10 +203,10 @@
                   <td v-else>
                     <i class="fas fa-long-arrow-alt-up"></i>
                   </td>
-                  <td>{{li.name}} {{li.quantity}}</td>
+                  <td>{{li.name}} {{li.quantity}}개</td>
                   <td>{{li.orderDate}}</td>
-                  <td>{{li.price}}</td>
-                  <td>{{li.discount}}</td>
+                  <td>{{li.price * li.quantity}}</td>
+       
                   <td>{{li.payment}}</td>
                   <td>{{li.address}}</td>
                   <td>{{li.phone}}</td>
@@ -229,7 +237,8 @@ export default {
       status: 'S',
       total: 0,
       //취소 주문
-      cancelStoreOrder: []
+      cancelStoreOrder: [],
+      payCash: 0
 
     }
   },
@@ -237,14 +246,36 @@ export default {
   
   methods: {
     sameOrderId(index) {
+      //첫번째
       if(index == 0){
+        this.payCash = this.list[index].payment + this.list[index].discount - (this.list[index].price * this.list[index].quantity)
+        if( this.payCash >= 0){
+          this.list[index].payment = (this.list[index].price * this.list[index].quantity)
+        }else{
+          this.list[index].payment="결제 요류"
+        }
         return true
-      }
-      if(this.list[index].orderId == this.list[index - 1].orderId){
-        return false
-      }else{
-        return true
+      }//같은 주문일때
+      else if(this.list[index].orderId == this.list[index - 1].orderId){
         
+        this.payCash - (this.list[index].price * this.list[index].quantity)
+
+        if(this.payCash >= 0){
+          this.list[index].payment = (this.list[index].price * this.list[index].quantity)
+        }else{
+          this.list[index].payment="결제 요류"
+        }
+        return false
+      }//주문이 다를때
+      else{
+        this.payCash = this.list[index].payment + this.list[index].discount - (this.list[index].price * this.list[index].quantity)
+
+        if((this.payCash) >= 0){
+          this.list[index].payment = (this.list[index].price * this.list[index].quantity)
+        }else{
+          this.list[index].payment="결제 요류"
+        }
+        return true
       }
     },
     pluslOrder(index){
@@ -257,6 +288,41 @@ export default {
         return true
       }
       
+      
+    },
+    //고객 취소용
+    cancelStoreOrderId(index) {
+      //첫번째
+      if(index == 0){
+        this.payCash = this.cancelStoreOrder[index].payment + this.cancelStoreOrder[index].discount - (this.cancelStoreOrder[index].price * this.cancelStoreOrder[index].quantity)
+        if( this.payCash >= 0){
+          this.cancelStoreOrder[index].payment = (this.cancelStoreOrder[index].price * this.cancelStoreOrder[index].quantity)
+        }else{
+          this.cancelStoreOrder[index].payment="결제 요류"
+        }
+        return true
+      }//같은 주문일때
+      else if(this.cancelStoreOrder[index].orderId == this.cancelStoreOrder[index - 1].orderId){
+        
+        this.payCash - (this.cancelStoreOrder[index].price * this.cancelStoreOrder[index].quantity)
+
+        if(this.payCash >= 0){
+          this.cancelStoreOrder[index].payment = (this.cancelStoreOrder[index].price * this.cancelStoreOrder[index].quantity)
+        }else{
+          this.cancelStoreOrder[index].payment="결제 요류"
+        }
+        return false
+      }//주문이 다를때
+      else{
+        this.payCash = this.cancelStoreOrder[index].payment + this.cancelStoreOrder[index].discount - (this.cancelStoreOrder[index].price * this.cancelStoreOrder[index].quantity)
+
+        if((this.payCash) >= 0){
+          this.cancelStoreOrder[index].payment = (this.cancelStoreOrder[index].price * this.cancelStoreOrder[index].quantity)
+        }else{
+          this.cancelStoreOrder[index].payment="결제 요류"
+        }
+        return true
+      }
     },
     //주문 1개 삭제
     deleteOrder(orderInfoId, name, quantity, orderId) {
@@ -310,11 +376,16 @@ export default {
       this.status = satus
       http.post("/order/storeOrder", {satus})
       .then(res => {
-        
         console.log(this.status)
-        this.list = res.data.storeOrder
+        if(satus == "Y"){
+          this.list = res.data.storeOrder.reverse()
+        }else{
+          this.list = res.data.storeOrder
+        }
+        
         this.total = res.data.total
         this.cancelStoreOrder = res.data.cancelStoreOrder
+        
       })
      
     },

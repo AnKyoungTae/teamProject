@@ -49,8 +49,11 @@
                   <button
                     type="button"
                     class="copybtn btn btn-primary position-relative"
-                    :class="[coupon.couponUsed == 'N' ? '' : 'disabled']"
-                    @click="moveToStoreInfo(coupon.store_id)"
+                    :class="[
+                      coupon.couponUsed == 'N' ? '' : 'disabled',
+                      coupon.status == 'Y' ? '' : 'disabled',
+                    ]"
+                    @click="moveToStoreInfo(coupon)"
                   >
                     사용
                     <span
@@ -61,11 +64,25 @@
                         translate-middle
                         badge
                         rounded-pill
-                        bg-danger
+                        bg-success
                       "
+                      v-if="getLeftDay(coupon.couponEnd) >= 0"
                     >
                       {{ dayLeft(coupon.couponEnd) }}
-                      <span class="visually-hidden">unread messages</span>
+                    </span>
+                    <span
+                      class="
+                        position-absolute
+                        top-0
+                        start-100
+                        translate-middle
+                        badge
+                        rounded-pill
+                        bg-danger
+                      "
+                      v-else
+                    >
+                      {{ dayLeft(coupon.couponEnd) }}
                     </span>
                   </button>
                 </div>
@@ -84,6 +101,7 @@
 </template>
 <script>
 import http from "@/api/http";
+import { end } from "@popperjs/core";
 
 export default {
   data() {
@@ -109,15 +127,42 @@ export default {
         });
     },
     dayLeft(time) {
-      let now = new Date();
-      var day = ("0" + now.getDate()).slice(-2);
-      console.log("데이" + now);
-      console.log("타임" + time);
-
-      return " 일";
+      let btDay = this.getLeftDay(time);
+      if (btDay < 0) {
+        return "X";
+      }
+      return btDay + " 일 남음";
     },
-    moveToStoreInfo(storeId) {
-      this.$router.push({ path: "/shopDetail", query: { shopInfo: storeId } });
+    moveToStoreInfo(coupon) {
+      if (coupon.couponUsed != "N") {
+        alert("이미 사용한 쿠폰입니다.");
+        return;
+      }
+      if (coupon.status == "N") {
+        alert("만료된 쿠폰입니다.");
+        return;
+      }
+      let btDay = this.getLeftDay(coupon.couponEnd);
+      if (btDay < 0) {
+        alert("만료된 쿠폰입니다.");
+        return;
+      }
+      this.$router.push({
+        path: "/shopDetail",
+        query: { shopInfo: coupon.store_id },
+      });
+    },
+    getLeftDay(time) {
+      let now = new Date();
+      let year = now.getFullYear();
+      let month = now.getMonth();
+      let day = now.getDate();
+      console.log(now);
+      let today = new Date(year, month, day);
+      let endDay = new Date(time[0], time[1] - 1, time[2]);
+      let btMs = endDay.getTime() - today.getTime();
+      let btDay = btMs / (1000 * 60 * 60 * 24);
+      return btDay;
     },
   },
   mounted() {
@@ -215,9 +260,12 @@ export default {
 
 .copy-button button {
   padding: 5px 20px;
-  background-color: darkgray;
+  background-color: rgb(105, 150, 233);
   color: rgb(255, 255, 255);
   border: 1px solid transparent;
+}
+.disabled {
+  background-color: red;
 }
 .title {
   font-size: 23px;

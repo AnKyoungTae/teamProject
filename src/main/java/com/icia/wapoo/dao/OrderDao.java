@@ -1,6 +1,8 @@
 package com.icia.wapoo.dao;
 
 import com.icia.wapoo.model.Food;
+import com.icia.wapoo.model.GraphDay;
+import com.icia.wapoo.model.GraphFood;
 import com.icia.wapoo.model.Payment;
 import com.icia.wapoo.model.StoreOrder;
 
@@ -54,6 +56,12 @@ public interface OrderDao {
     
     //전체 주문 승인
     int approveOrder(int orderId);
+    
+    //가게 음식 판매 순위
+    List<GraphFood> getFoodSaleAmount(int storeId);
+    
+    //요일별 매출
+    List<GraphDay> getDayAmount(int storeId);
     
     
 }

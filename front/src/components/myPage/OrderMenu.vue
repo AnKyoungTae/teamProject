@@ -19,17 +19,13 @@
                     >
                   </div>
                   <div class="top-right">
-                    <span>주문번호:{{ orderList.order_id }}</span>
+                    <span>주문번호:{{ orderList.orderId }}</span>
                   </div>
                 </div>
                 <div class="menu-bottom">
                   <div class="bottom-left">
                     <router-link to="/food">
-                      <img
-                        class="shopImg"
-                        :src="orderList.image"
-                        :alt="orderList.orgName"
-                      />
+                      <img class="shopImg" :src="orderList.image" />
                     </router-link>
                   </div>
                   <div class="bottom-right">
@@ -38,7 +34,7 @@
                         <h4>{{ orderList.storeName }}</h4>
                         <div class="myMenu">
                           <h6>
-                            {{ orderList.foodName }} {{ orderList.quantity }}개
+                            {{ orderList.foodName }}x{{ orderList.quantity }}개
                           </h6>
                         </div>
                       </div>

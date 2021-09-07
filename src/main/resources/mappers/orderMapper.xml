@@ -164,8 +164,92 @@ SET	STATUS = 'Y'
 WHERE	order_id = #{orderId}
 </update>
 
+<!-- 가게 음식 판매 순위 -->
+<select id="getFoodSaleAmount"  resultType="GraphFood">
+SELECT	@rownum:= @rownum + 1 AS 'rowNum',
+	a.*
+FROM	(SELECT	b.name,
+			IFNULL(a.quantity, 0) AS 'quantity',
+			IFNULL(b.price * a.quantity, 0) AS 'price'
+			
+			FROM	(SELECT 
+					b.name AS 'name',
+					b.store_id AS 'storeId',
+					
+					IFNULL(a.quantity, 0) AS 'quantity',
+					IFNULL(b.price * a.quantity, 0) AS 'price'
+					
+					
+				FROM	`orderInfo` a RIGHT OUTER JOIN `food` b
+				ON	a.food_id = b.foodId
 
-    
+				WHERE	b.store_id = #{storeId}
+				AND	a.status = 'Y') a RIGHT OUTER JOIN (SELECT *
+								FROM `food`
+								WHERE store_id = #{storeId}) b
+		ON a.name =b.name 
+		ORDER BY a.quantity DESC) a
+WHERE (@rownum:=0)=0
+</select>
+
+<!-- 요일별 매출량 -->
+<select id="getDayAmount" resultType="GraphDay">
+SELECT CASE `day`
+
+			WHEN '1' THEN '일요일'
+
+			WHEN '2' THEN '월요일'
+
+			WHEN '3' THEN '화요일'
+
+			WHEN '4' THEN '수요일'
+
+			WHEN '5' THEN '목요일'
+
+			WHEN '6' THEN '금요일'
+
+			WHEN '7' THEN '토요일'
+
+			END AS 'WEEK', 
+			a.count AS 'totalOrder',
+			payment AS 'payment'
+FROM (
+	SELECT 
+		a.n AS 'day',
+		COUNT(DISTINCT b.orderInfoId) AS 'count',
+		IFNULL(b.orderInfoId, 0) AS 'orderId',
+		IFNULL(SUM(b.price * b.quantity), 0) AS 'payment',
+		IFNULL(b.price * b.quantity, 0) AS 'price',
+		IFNULL(b.quantity, 0) AS 'quantity'
+		
+		FROM (WITH RECURSIVE cte AS (
+			    SELECT 1 AS n
+			    UNION ALL
+			    SELECT n + 1 FROM cte WHERE n < 7)
+			SELECT n FROM cte) a LEFT OUTER JOIN
+			(SELECT	DAYOFWEEK( a.orderDate)  AS 'date',
+					a.orderInfoId AS 'orderInfoId',
+					a.quantity AS 'quantity',
+					a.orderDate AS 'orderDate',
+					b.name AS 'name',
+					b.price AS 'price',
+					store_id AS 'storeId'
+				FROM(SELECT	
+							a.orderDate AS 'orderDate',
+							a.orderId AS 'orderInfoId',
+							b.food_id AS 'foodId',
+							b.quantity AS 'quantity'
+							
+
+						FROM	`order` a, `orderInfo` b
+						WHERE	a.orderId = b.order_id
+						AND	b.status = 'Y'
+						AND DATE_FORMAT(a.orderDate, '%Y-%m-%d') = DATE_FORMAT(CURDATE(),  '%Y-%m-%d')) a, `food` b
+				WHERE a.foodId = b.foodId
+				AND	b.store_id = #{storeId}) b
+	ON a.n = b.date
+	GROUP BY a.n) a
+</select>
     
     
 </mapper>

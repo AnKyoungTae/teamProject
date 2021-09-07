@@ -2,6 +2,8 @@ package com.icia.wapoo.controller;
 
 import com.icia.wapoo.jwt.service.JwtService;
 import com.icia.wapoo.model.Food;
+import com.icia.wapoo.model.GraphDay;
+import com.icia.wapoo.model.GraphFood;
 import com.icia.wapoo.model.KakaoPayApproval;
 import com.icia.wapoo.model.KakaoPayReady;
 import com.icia.wapoo.model.Store;
@@ -183,6 +185,47 @@ public class OrderController {
     	
     	return new ResponseEntity("no", HttpStatus.OK);
     }
+    
+    
+    //가게 음식 판매 순위
+    @PostMapping("/getFoodSaleAmount")
+    public ResponseEntity getFoodSaleAmount(HttpServletRequest request)
+    {
+    	int memberId = getMemberIdByRequest(request);
+    	
+    	Store store = storeService.getStoreById(memberId);
+    	
+    	List<GraphFood> graphFood = orderService.getFoodSaleAmount(store.getStoreId());
+    	
+    	return new ResponseEntity(graphFood, HttpStatus.OK);
+    }
+    
+    //가게 요일별 매출
+    @PostMapping("/getDayAmount")
+    public ResponseEntity getDayAmount(HttpServletRequest request)
+    {
+    	int memberId = getMemberIdByRequest(request);
+    	
+    	Store store = storeService.getStoreById(memberId);
+    	
+    	List<GraphDay> graphDay = orderService.getDayAmount(store.getStoreId());
+    	
+    	return new ResponseEntity(graphDay, HttpStatus.OK);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
 }

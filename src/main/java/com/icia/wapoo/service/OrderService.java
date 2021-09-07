@@ -2,6 +2,8 @@ package com.icia.wapoo.service;
 
 import com.icia.wapoo.dao.CouponDao;
 import com.icia.wapoo.dao.OrderDao;
+import com.icia.wapoo.model.GraphDay;
+import com.icia.wapoo.model.GraphFood;
 import com.icia.wapoo.model.KakaoPayApproval;
 import com.icia.wapoo.model.KakaoPayReady;
 import com.icia.wapoo.model.Payment;
@@ -299,8 +301,39 @@ public class OrderService {
     	return count;
     }
     
+    //가게 음식 판매 순위
+    public List<GraphFood> getFoodSaleAmount(int storeId)
+    {
+    	List<GraphFood> graphFood = null;
+    			
+    	try
+    	{
+    		graphFood  = orderDao.getFoodSaleAmount(storeId);
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println("getFoodSaleAmount 오류: " + e);
+    	}
+    			
+    	return graphFood;
+    }
     
-    
+    //가게 요일별 매출
+    public List<GraphDay> getDayAmount(int storeId)
+    {
+    	List<GraphDay> graphDay = null;
+    	
+    	try
+    	{
+    		graphDay  = orderDao.getDayAmount(storeId);
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println("getDayAmount 오류: " + e);
+    	}
+    	
+    	return graphDay;
+    }
     
     
     

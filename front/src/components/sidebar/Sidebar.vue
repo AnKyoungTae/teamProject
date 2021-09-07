@@ -13,7 +13,9 @@
     <span v-else>
       <!-- 멤버 롤 마다 가는곳 다르게 -->
       <div v-if="!userRole || userRole == 'BUYER'">
-        <h2 @click="this.$router.push({ path: '/' })" class="logo">WAPOO</h2>
+        <span @click="this.$router.push({ path: '/' })" class="logo">
+          WAPOO
+        </span>
       </div>
       <div v-else-if="userRole != null && userRole == 'SELLER'">
         <h2 @click="this.$router.push({ path: '/' })" class="logo">판매자</h2>
@@ -42,16 +44,16 @@
       <SidebarLink
         to="/storeOrder"
         icon="fas fa-sort-amount-down">
-        주문표</SidebarLink
-      >
-      <SidebarLink
-        to="/storeMenus"
-        icon="fas fa-bars">
-        가게메뉴</SidebarLink
-      >
-      <SidebarLink to="/eventadd" icon="fas fa-ticket-alt"
-        >이벤트등록</SidebarLink
-      >
+        주문표</SidebarLink>
+      <SidebarLink to="/storeMenus" icon="fas fa-bars">
+        가게메뉴
+      </SidebarLink>
+      <SidebarLink to="/storeGraph" icon="fas fa-chart-pie">
+        매출관리
+      </SidebarLink>
+      <SidebarLink to="/eventadd" icon="fas fa-ticket-alt">
+        이벤트등록
+      </SidebarLink>
     </div>
     <div v-else>
       <SidebarLink to="/akinator" icon="fas fa-robot">아키네이터</SidebarLink>
@@ -98,15 +100,18 @@ export default {
       this.$store.commit("SET_serviceCenterToggle", false); //sidebar에서 serviceCenter 클릭시
     },
   },
+  data() {
+    return {};
+  },
 };
 </script>
 
 <style>
 /* 기본 테마 정의 - 참고: https://blog.thereis.xyz/136 */
 :root {
-  --sidebar-bg-color: #2f855a;
-  --sidebar-item-hover: #38a169;
-  --sidebar-item-active: #276749;
+  --sidebar-bg-color: #355f6e;
+  --sidebar-item-hover: #91afba;
+  --sidebar-item-active: #59a0ba;
 }
 </style>
 
@@ -127,6 +132,7 @@ export default {
 
   display: flex;
   flex-direction: column;
+  box-shadow: 4px 4px 4px 4px rgba(190, 190, 190, 0.6);
 }
 .profile {
   transition: opacity 0.1s;
