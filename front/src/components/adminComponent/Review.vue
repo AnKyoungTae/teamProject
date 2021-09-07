@@ -218,7 +218,9 @@ export default {
     },
     requestPage(request) {
       this.pageLoaded = false;
+
       this.requestListCount(request);
+
     },
 
     requestListCount(request) {
@@ -304,7 +306,7 @@ export default {
   },
   mounted() {
     normal("정보를 불러옵니다. 잠시만 기다려주세요..", this);
-    // 정보를 호출한다.
+    //정보를 호출한다.
     this.requestPage(1);
     this.getAverageScore();
 

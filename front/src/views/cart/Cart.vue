@@ -53,8 +53,11 @@
                     class="mt-2"
                     type="text"
                     placeholder="예) 010-2274-4895"
+                    maxlength="13"
                     style="width: 100%"
                     v-model="phone"
+                    @keyup="phoneCom"
+
                   />
                 </td>
               </tr>
@@ -360,6 +363,13 @@ export default {
   },
   methods: {
     ...mapMutations(["delCart", "clearCart", "SET_MODAL_MAP"]),
+    phoneCom() {
+      if(this.phone.length == 3){
+        this.phone += "-"
+      }else if(this.phone.length == 8){
+        this.phone += "-"
+      }
+    },
     getFoodList(foodIdSet) {
       // 페이지 초기화할때 카드에 저장된 음식 정보를 불러온다.
       const foodIdList = Array.from(foodIdSet);
@@ -411,7 +421,7 @@ export default {
       this.orderList.set(foodId, --q);
     },
     test() {
-      console.log(this.orderList);
+      error("ths",this)
     },
     foodQuantity(foodId) {
       return this.orderList.get(foodId);
@@ -437,7 +447,7 @@ export default {
         error("전화번호를 입력해주세요", this);
         return false;
       } else if (phoneValidation === false) {
-        error("전화번호는 숫자와 -(하이픈)만 입력 가능합니다.");
+        error("전화번호는 숫자와 -(하이픈)만 입력 가능합니다.",this);
         return;
       }
 
@@ -460,7 +470,6 @@ export default {
         couponIdList,
         memberId,
       };
-      // DB에 오더 넣기.
       axios
         .create({ baseURL: "http://localhost:8083" })
         .post("/order/putOrder", orderData)
