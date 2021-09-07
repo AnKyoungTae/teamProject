@@ -1,89 +1,57 @@
 <template>
-  <transition name="fade">
-    <div
-      class="card"
-      id="profile"
-      v-if="!collapsed"
-      :class="[collapsed ? 'isCollap' : '']"
-    >
-      <notifications
-        group="notifyApp"
-        position="bottom right"
-        style="margin-right: 30vh"
-      />
-      <!-- 프로필 -->
-      <div v-if="getNickname != 'unknown'">
-        <div style="text-align: center">
-          <div class="user m-2">
-            <img
-              :src="profilePicUrl"
-              :title="profilePicUrl"
-              class="profilePic"
-              @click="test"
-            />
-          </div>
-          {{ getNickname }}
-          <hr />
+  <div
+    class="card"
+    id="profile"
+    :class="[collapsed ? 'isCollap' : '']"
+    v-if="!collapsed"
+  >
+    <notifications
+      group="notifyApp"
+      position="bottom right"
+      style="margin-right: 30vh"
+    />
+    <!-- 프로필 -->
+    <div v-if="getNickname != 'unknown'">
+      <div style="text-align: center">
+        <div class="user m-2">
+          <img
+            :src="profilePicUrl"
+            :title="profilePicUrl"
+            class="profilePic"
+            @click="test"
+          />
         </div>
-        <div class="login">
-          <router-link to="/myPage" class="col-12">
-            <button type="button" class="btn btn-outline-success col-12">
-              마이페이지
-            </button>
-          </router-link>
-          <div
-            type="button"
-            class="btn btn-outline-danger d-block col-12 mt-1"
-            @click="this.$store.dispatch('auth/logout')"
-          >
-            로그아웃
-          </div>
-        </div>
-      </div>
-      <div v-else>
-        <div class="p-2">보다 다양한 WAPOO를 즐기려면 로그인하세요!</div>
-        <a
-          class="searchOrder"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseExample"
-          aria-expanded="false"
-          aria-controls="collapseExample"
-          >주문조회..</a
-        >
-        <div class="collapse mt-2" id="collapseExample">
-          <div class="card card-body">
-            <p class="card-text">주문번호를 입력하세요</p>
-            <div class="input-group mb-1">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="주문번호"
-                v-model="inputOrderNumber"
-                aria-label="Recipient's username"
-                aria-describedby="button-addon2"
-              />
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                id="button-addon2"
-                @click="checkOrderInfo"
-              >
-                조회
-              </button>
-            </div>
-          </div>
-        </div>
+        {{ getNickname }}
         <hr />
+      </div>
+      <div class="login">
+        <router-link to="/myPage" class="col-12">
+          <button type="button" class="btn btn-outline-success col-12">
+            마이페이지
+          </button>
+        </router-link>
         <div
           type="button"
-          class="btn btn-success d-inline col-12"
+          class="btn btn-outline-danger d-block col-12 mt-1"
+          @click="this.$store.dispatch('auth/logout')"
+        >
+          로그아웃
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <div class="p-2">
+        <span class="profileInfoA"> 보다 다양한 WAPOO를 즐기려면 </span>
+        <div
+          type="button"
+          class="btn btn-outline-danger btn-sm d-inline col-6 m-1"
           @click="SET_MODAL_LOGIN(true)"
         >
           로그인
         </div>
       </div>
     </div>
-  </transition>
+  </div>
   <LoginModal v-if="this.$store.state.loginModal == true" />
   <RegisterModal v-if="this.$store.state.registerModal == true" />
 </template>
@@ -194,10 +162,6 @@ export default {
   height: 150px;
 }
 
-.fade-enter,
-.fade-leave-to {
-  opacity: 0.5;
-}
 .profilePic {
   width: 100%;
   height: 155px;
@@ -220,11 +184,9 @@ export default {
   text-decoration-line: underline;
   text-underline-position: under;
 }
-.isCollap {
-  width: 0px;
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: all ease 0.2s 0s;
+.profileInfoA {
+  font-size: 14px;
+  text-underline-position: under;
+  text-decoration-line: underline;
 }
 </style>

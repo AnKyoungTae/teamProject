@@ -49,17 +49,20 @@
         SELECT COUNT(*) AS result
         FROM review
         WHERE store_id = #{storeId}
+        AND status != 'N'
     </select>
     <select id="selectAverageScore" resultType="float">
         SELECT IFNULL(ROUND(AVG(score),1), -1)
         FROM review
         WHERE store_id = #{storeId}
+        AND status != 'N'
     </select>
     <select id="selectReviewListHasReplyCount" resultType="int">
         SELECT COUNT(*) AS result
         FROM review
         WHERE store_id = #{storeId}
         AND reply IS NOT NULL
+        AND status != 'N'
     </select>
 
     <update id="updateReviewAddReply">

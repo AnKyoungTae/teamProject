@@ -19,7 +19,9 @@
         </span>
       </div>
       <div v-else-if="userRole != null && userRole == 'SELLER'">
-        <h2 @click="this.$router.push({ path: '/' })" class="logo">판매자</h2>
+        <h2 @click="this.$router.push({ path: '/store' })" class="logo">
+          판매자
+        </h2>
       </div>
       <div v-else-if="userRole != null && userRole == 'ADMIN'">
         <h2 @click="this.$router.push({ path: '/' })" class="logo">관리자</h2>
@@ -27,7 +29,7 @@
       <hr />
       <!-- 펼쳤을때 -->
     </span>
-    <Profile class="profile"></Profile>
+    <Profile></Profile>
     <Location icon="fas fa-compass" />
     <div v-if="userRole != null && userRole == 'ADMIN'">
       <!-- 관리자로 로그인 했을때 보이는 메뉴들 -->
@@ -82,8 +84,10 @@
     </div>
     <div
       class="findOrderWrapper"
-      :class="[collapsed ? 'hiddenOrderSearch' : '']"
-      v-if="findOrder"
+      :class="[
+        collapsed ? 'hiddenOrderSearch' : '',
+        findOrder ? 'hiddenFindOrderTab' : '',
+      ]"
     >
       <span><b>주문번호</b>를 입력해주세요!</span>
       <hr />
@@ -183,8 +187,6 @@ export default {
   flex-direction: column;
   box-shadow: 4px 4px 4px 4px rgba(190, 190, 190, 0.6);
 }
-.profile {
-}
 
 .burger {
   position: absolute;
@@ -216,6 +218,8 @@ export default {
   -khtml-user-select: none;
   -webkit-user-select: none;
   user-select: none;
+  transition: 0.4s;
+  opacity: 0.6;
 }
 .orderInfoSearch:hover {
   cursor: pointer;
@@ -223,6 +227,7 @@ export default {
   color: #ffe4d4;
   border: 1px solid #ffe4d4;
   box-shadow: 0px 2px 2px 1px (0, 0, 0, 0.7);
+  opacity: 1;
 }
 
 .findOrderWrapper {
@@ -237,7 +242,7 @@ export default {
   padding: 10px;
   border: 1px solid gray;
   box-shadow: 0px 2px 2px 1px (0, 0, 0, 0.7);
-  transition-property: all;
+  transition: 0.4s;
 }
 .findOrderWrapper > span {
   background: orange;
@@ -250,5 +255,10 @@ export default {
   visibility: hidden;
   width: 0px;
   overflow: hidden;
+}
+.hiddenFindOrderTab {
+  opacity: 0;
+  transition: height 0.4s ease;
+  height: 0px;
 }
 </style>
