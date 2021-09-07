@@ -5,6 +5,7 @@
         <div>와</div>
         <div>푸</div>
       </h1>
+      <hr />
       <span @click="toggleSidebar">
         <i class="fas fa-user-circle"></i>
       </span>
@@ -23,6 +24,7 @@
       <div v-else-if="userRole != null && userRole == 'ADMIN'">
         <h2 @click="this.$router.push({ path: '/' })" class="logo">관리자</h2>
       </div>
+      <hr />
       <!-- 펼쳤을때 -->
     </span>
     <Profile class="profile"></Profile>
@@ -67,6 +69,16 @@
       >고객센터</SidebarLink
     >
     <SidebarLink to="/event" icon="fas fa-utensils">이벤트</SidebarLink>
+    <hr />
+    <div
+      class="orderInfoSearch"
+      :class="[collapsed ? 'hiddenOrderSearch' : '']"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="주문번호를 입력하시면 주문조회가 가능합니다"
+    >
+      주문조회
+    </div>
     <span class="burger" @click="toggleSidebar">
       <BurgerButton />
     </span>
@@ -108,7 +120,7 @@ export default {
 :root {
   --sidebar-bg-color: #355f6e;
   --sidebar-item-hover: #91afba;
-  --sidebar-item-active: #59a0ba;
+  --sidebar-item-active: #ffefa3;
 }
 </style>
 
@@ -146,5 +158,29 @@ export default {
 
 .logo {
   cursor: pointer;
+}
+.orderInfoSearch {
+  background: #c3a28e;
+  position: fixed;
+  display: inline-block;
+  bottom: 2%;
+  left: 2%;
+  color: #fff4ed;
+  padding: 0px 10px;
+  border: 1px solid gray;
+  box-shadow: 0px 1px 1px 1px (0, 0, 0, 0.3);
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 400;
+}
+.orderInfoSearch:hover {
+  cursor: pointer;
+  background: #755b4a;
+  border: 1px solid #ffe4d4;
+  box-shadow: 0px 2px 2px 1px (0, 0, 0, 0.7);
+}
+
+.hiddenOrderSearch {
+  visibility: hidden;
 }
 </style>

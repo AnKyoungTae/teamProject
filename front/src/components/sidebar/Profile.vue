@@ -170,7 +170,8 @@ export default {
   font-weight: 400;
   user-select: none;
 
-  margin: 1em 0;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
   padding: 0.4em;
   border-radius: 0.25em;
   width: 200px;

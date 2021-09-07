@@ -71,10 +71,11 @@
         </div>
       </div>
     </div>
-    <div class="btn btn-outline-info moreShop" @click="requestShopList()">
-      더 보기
+    <div ref="scrollObserver" v-if="!noMoreShop">
+      <div class="spinner-grow m-2" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
-    <!-- <div class="btn btn-outline-info toTheTop" @click="toTheTop;">맨 위로</div> -->
   </div>
 </template>
 
@@ -102,32 +103,18 @@ export default {
     },
   },
   mounted() {
-    window.addEventListener("scroll", this.handleScroll);
     let keyword = this.$route.query.keyword;
-    if (!keyword) {
-      this.requestShopList("ALL");
-    } else {
-      this.requestShopList(keyword);
-    }
+    async () => {
+      if (!keyword) {
+        await this.requestShopList("ALL");
+      } else {
+        await this.requestShopList(keyword);
+      }
+    };
+    this.initIntersectionObserver();
   },
-  // updated() {
-  //   (() => {
-  //     let $shop = document.querySelector(".shopdiv:last-child");
-  //     const io = new IntersectionObserver(
-  //       (entry, observer) => {
-  //         const ioTarget = entry[0].target;
-  //         if (entry[0].isIntersecting) {
-  //           console.log("보임", ioTarget);
-  //           io.unobserve($shop);
-  //         }
-  //       },
-  //       { threshold: 0.5 }
-  //     );
-  //     io.observe($shop);
-  //   })();
-  // },
   methods: {
-    requestShopList(option) {
+    async requestShopList(option) {
       if (!this.GET_LAT || !this.GET_LON) {
         error("위치정보를 확인할수 없습니다. 다시 시도해주세요.", this);
         this.$router.push({ path: "/" });
@@ -137,15 +124,16 @@ export default {
         error("잘못된 요청입니다", this);
         return;
       }
-      if (this.noMoreShop == true) {
-        return;
-      }
+
       if (option != null) {
         this.option = option;
         this.shopList = [];
         this.quantity = 10;
         this.loadFrom = 0;
         this.noMoreShop = false;
+      }
+      if (this.noMoreShop == true) {
+        return;
       }
 
       const data = {
@@ -155,7 +143,7 @@ export default {
         loadFrom: this.loadFrom,
         options: this.option,
       };
-      http
+      await http
         .post("/store/getStoreListByLocation", data)
         .then((res) => {
           if (res.status === 200) {
@@ -166,47 +154,33 @@ export default {
             this.shopList = arr;
             this.loadFrom += this.quantity;
             this.dataLoaded = true;
-            success("▽", this);
           } else {
             this.noMoreShop = true;
           }
         })
         .catch((err) => {
-          console.log(err);
+          this.noMoreShop = true;
+          success("더 이상 불러올 가게 정보가 없습니다", this);
         });
     },
-    handleScroll(event) {
-      // console.log(
-      //   "innerHeight : " +
-      //     window.innerHeight +
-      //     "\nscrollY : " +
-      //     window.scrollY +
-      //     "\noffset : " +
-      //     document.body.offsetHeight
-      // );
-      if (
-        window.innerHeight + window.scrollY + 100 >=
-        document.body.offsetHeight
-      ) {
-        if (this.dataLoaded == false) {
-          return;
+    initIntersectionObserver() {
+      const io = new IntersectionObserver(
+        async ([entry], observer) => {
+          if (entry.isIntersecting) {
+            observer.unobserve(entry.target);
+            await this.requestShopList();
+            observer.observe(entry.target);
+          }
+        },
+        {
+          threshold: 0.5,
         }
-        if (this.dataLoaded == true) {
-          this.dataLoaded = false;
-          this.requestShopList();
-        }
-      }
-    },
-    toTheTop() {
-      window.scrollTo(0, 0);
+      );
+      io.observe(this.$refs.scrollObserver);
     },
   },
   components: {
     foodlist,
-  },
-  unmounted() {
-    console.log("파괴됨");
-    window.removeEventListener("scroll", this.handleScroll);
   },
 };
 </script>

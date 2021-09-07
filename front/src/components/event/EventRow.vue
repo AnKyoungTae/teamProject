@@ -203,6 +203,7 @@ export default {
   line-height: 60px;
   float: right;
   cursor: pointer;
+  margin-bottom: 15px;
 }
 .order-span {
   color: white;

@@ -79,8 +79,13 @@ public class OrderService {
 
     public int createOrderInfo(Integer orderId, Integer quantity, Integer foodId) {
         foodList = new ArrayList<>();
-        if(this.orderId == orderId) {
-            int result = orderDao.insertOrderInfo(this.orderId, quantity, foodId);
+        if(this.orderId.intValue() == orderId.intValue()) {
+            int result=0;
+            try{
+                result = orderDao.insertOrderInfo(this.orderId, quantity, foodId);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
             System.out.println(
                     "orderId : " +orderId + " 에 foodId : "+foodId+ " 가" + quantity+"개 포함됬습니다");
             if(result > 0) {

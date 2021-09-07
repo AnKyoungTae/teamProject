@@ -105,7 +105,7 @@
             <div class="foodInfo">
               <span class="foodName">{{ food.name }}</span>
               <span class="foodPrice">{{ food.price }} 원</span>
-              <p class="foodDistance">{{ food.distance }} Km</p>
+              <span class="foodDistance">{{ food.distance }} Km</span>
             </div>
           </div>
         </div>
@@ -652,7 +652,7 @@ export default {
   border-radius: 5px;
 }
 .foodDistance {
-  font-size: 10px;
+  font-size: 12px;
   text-align: right;
   margin-right: 5%;
   padding-top: 15%;
@@ -666,6 +666,7 @@ export default {
   justify-content: center;
 }
 .foodName {
+  margin-top: 20px;
   font-weight: bold;
 }
 .foodPrice {
@@ -696,5 +697,14 @@ export default {
   border: 2px solid orange;
   border-radius: 6px;
   transition: 0.2s;
+}
+
+.btn-outline-primary {
+  color: #2c656b;
+  border-color: #5a8c94;
+}
+.btn-outline-primary:hover {
+  background-color: #5a8c94;
+  color: #fff;
 }
 </style>

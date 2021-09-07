@@ -478,7 +478,6 @@ export default {
                   },
                 })
                 .post("/order/putOrderInfo", foodInfo);
-            console.log("여기서 오류는 안날듯");
             filteredOrderList
               .reduce((prevProm, list) => {
                 list.push(orderId);
