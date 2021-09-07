@@ -454,7 +454,6 @@ export default {
         couponIdList,
         memberId,
       };
-      console.log("==== 생성되어 들어가는 memeberId = " + memberId);
       // DB에 오더 넣기.
       axios
         .create({ baseURL: "http://localhost:8083" })
@@ -479,7 +478,7 @@ export default {
                   },
                 })
                 .post("/order/putOrderInfo", foodInfo);
-
+            console.log("여기서 오류는 안날듯");
             filteredOrderList
               .reduce((prevProm, list) => {
                 list.push(orderId);
