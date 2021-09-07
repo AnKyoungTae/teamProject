@@ -8,7 +8,7 @@
     position="bottom right"
     style="margin-right: 30vh"
   />
-  <div style="width: 600px; margin: 0 auto;">
+  <div style="width: 740px; margin: 0 auto;">
     <form action="" name="EventAdd">
       <table>
         <tr>

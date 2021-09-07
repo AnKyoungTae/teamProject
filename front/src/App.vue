@@ -2,7 +2,7 @@
   <div>
     <Sidebar />
     <transition name="page">
-      <div class="col-md-9" :style="{ 'margin-left': sidebarWidth }">
+      <div class="col-md-9" :style="{ 'margin-left': sidebarWidth }" style="margin: 0 auto;">
         <router-view />
       </div>
     </transition>
@@ -34,7 +34,7 @@ body {
   font-family: "Poor Story", cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 21px;
+  font-size: 18px;
   text-align: center;
   background: white;
 }
