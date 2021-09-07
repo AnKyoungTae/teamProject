@@ -76,8 +76,25 @@
       data-bs-toggle="tooltip"
       data-bs-placement="top"
       title="주문번호를 입력하시면 주문조회가 가능합니다"
+      @click="toggleFindOrder"
     >
       주문조회
+    </div>
+    <div class="findOrderWrapper" v-show="findOrder">
+      <span><b>주문번호</b>를 입력해주세요!</span>
+      <hr />
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control-sm"
+          id="floatingInput"
+          placeholder="주문번호"
+          v-model="inputOrderNumber"
+        />
+        <div class="btn btn-warning btn-sm m-1" @click="checkOrderInfo">
+          찾기
+        </div>
+      </div>
     </div>
     <span class="burger" @click="toggleSidebar">
       <BurgerButton />
@@ -108,9 +125,28 @@ export default {
       this.$store.commit("SET_serviceCenters", 1); //serviceCenter 안 버튼 상태
       this.$store.commit("SET_serviceCenterToggle", false); //sidebar에서 serviceCenter 클릭시
     },
+    toggleFindOrder() {
+      this.findOrder = !this.findOrder;
+    },
+    checkOrderInfo() {
+      if (!this.inputOrderNumber) {
+        alert("주문번호를 입력해 주세요");
+        this.toggleFindOrder();
+        return;
+      }
+      this.$router.push({
+        path: "/orderInfo",
+        query: { orderId: this.inputOrderNumber },
+      });
+      this.inputOrderNumber = null;
+      this.toggleFindOrder();
+    },
   },
   data() {
-    return {};
+    return {
+      findOrder: false,
+      inputOrderNumber: null,
+    };
   },
 };
 </script>
@@ -165,22 +201,50 @@ export default {
   display: inline-block;
   bottom: 2%;
   left: 2%;
-  color: #fff4ed;
+  color: #755b4a;
   padding: 0px 10px;
   border: 1px solid gray;
   box-shadow: 0px 1px 1px 1px (0, 0, 0, 0.3);
   border-radius: 8px;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: bolder;
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .orderInfoSearch:hover {
   cursor: pointer;
   background: #755b4a;
+  color: #ffe4d4;
   border: 1px solid #ffe4d4;
   box-shadow: 0px 2px 2px 1px (0, 0, 0, 0.7);
 }
 
 .hiddenOrderSearch {
   visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.findOrderWrapper {
+  background: #355f6e;
+  position: fixed;
+  left: 4px;
+  bottom: 8%;
+  width: 210px;
+  height: 120px;
+  transition: all 0.3s;
+  border-radius: 10px;
+  color: navy;
+  padding: 10px;
+  border: 1px solid gray;
+  box-shadow: 0px 2px 2px 1px (0, 0, 0, 0.7);
+}
+.findOrderWrapper > span {
+  background: orange;
+  padding: 5px;
+  border-radius: 5px;
 }
 </style>

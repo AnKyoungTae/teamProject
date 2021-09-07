@@ -53,6 +53,7 @@ export default {
 .link.active {
   background-color: var(--sidebar-item-active);
   color: black;
+  font-weight: bolder;
 }
 
 .link .icon {
