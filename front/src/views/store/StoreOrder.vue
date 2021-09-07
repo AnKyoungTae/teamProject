@@ -376,7 +376,7 @@ export default {
       this.status = satus
       http.post("/order/storeOrder", {satus})
       .then(res => {
-        console.log(this.status)
+        
         if(satus == "Y"){
           this.list = res.data.storeOrder.reverse()
         }else{

@@ -189,26 +189,30 @@ public class OrderController {
     
     //가게 음식 판매 순위
     @PostMapping("/getFoodSaleAmount")
-    public ResponseEntity getFoodSaleAmount(HttpServletRequest request)
+    public ResponseEntity getFoodSaleAmount(@RequestBody String date, HttpServletRequest request)
     {
+    	System.out.println("@RequestBody String totalOrderId :  " +date);
+    	
     	int memberId = getMemberIdByRequest(request);
     	
     	Store store = storeService.getStoreById(memberId);
     	
-    	List<GraphFood> graphFood = orderService.getFoodSaleAmount(store.getStoreId());
+    	List<GraphFood> graphFood = orderService.getFoodSaleAmount(store.getStoreId(), date);
     	
     	return new ResponseEntity(graphFood, HttpStatus.OK);
     }
     
     //가게 요일별 매출
     @PostMapping("/getDayAmount")
-    public ResponseEntity getDayAmount(HttpServletRequest request)
+    public ResponseEntity getDayAmount(@RequestBody String date, HttpServletRequest request)
     {
+    	System.out.println("@RequestBody String totalOrderId :  " +date);
+    	
     	int memberId = getMemberIdByRequest(request);
     	
     	Store store = storeService.getStoreById(memberId);
     	
-    	List<GraphDay> graphDay = orderService.getDayAmount(store.getStoreId());
+    	List<GraphDay> graphDay = orderService.getDayAmount(store.getStoreId(), date);
     	
     	return new ResponseEntity(graphDay, HttpStatus.OK);
     }

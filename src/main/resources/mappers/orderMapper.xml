@@ -166,29 +166,50 @@ WHERE	order_id = #{orderId}
 
 <!-- 가게 음식 판매 순위 -->
 <select id="getFoodSaleAmount"  resultType="GraphFood">
+
 SELECT	@rownum:= @rownum + 1 AS 'rowNum',
 	a.*
 FROM	(SELECT	b.name,
-			IFNULL(a.quantity, 0) AS 'quantity',
-			IFNULL(b.price * a.quantity, 0) AS 'price'
-			
-			FROM	(SELECT 
+	IFNULL(a.quantity, 0) AS 'quantity',
+	IFNULL(b.price * a.quantity, 0) AS 'price'
+		
+		FROM	(SELECT 
 					b.name AS 'name',
 					b.store_id AS 'storeId',
-					
-					IFNULL(a.quantity, 0) AS 'quantity',
+					b.foodId AS 'foodId',
+					IFNULL(SUM(a.quantity), 0) AS 'quantity',
 					IFNULL(b.price * a.quantity, 0) AS 'price'
 					
 					
-				FROM	`orderInfo` a RIGHT OUTER JOIN `food` b
-				ON	a.food_id = b.foodId
+				FROM	(SELECT	IFNULL(b.quantity, 0) AS 'quantity',
+						b.food_id AS 'foodId'
+						FROM `order` a, `orderInfo` b
+					WHERE a.orderId = b.order_id
+					AND	b.status = 'Y'
+					
+<choose>
+	<when test="date == 'week'">
+		AND DATE(a.orderDate) >= DATE(SUBDATE(NOW(), INTERVAL 1 WEEK))
+	</when>
+	<when test="date == 'day'">
+		AND DATE_FORMAT(a.orderDate, '%Y-%m-%d') = DATE_FORMAT(CURDATE(),  '%Y-%m-%d')
+	</when>
+	<when test="date == 'month'">
+		AND DATE(a.orderDate) >= DATE(SUBDATE(NOW(), INTERVAL 1 MONTH))
+	</when>
+	<otherwise>
+		AND DATE(a.orderDate) >= DATE(SUBDATE(NOW(), INTERVAL 1 YEAR))
+	</otherwise>
+</choose>
+			) a RIGHT OUTER JOIN `food` b
+				ON	a.foodId = b.foodId
 
-				WHERE	b.store_id = #{storeId}
-				AND	a.status = 'Y') a RIGHT OUTER JOIN (SELECT *
-								FROM `food`
-								WHERE store_id = #{storeId}) b
-		ON a.name =b.name 
-		ORDER BY a.quantity DESC) a
+				WHERE	b.store_id = 23
+				GROUP BY(b.name)) a RIGHT OUTER JOIN (SELECT *
+									FROM `food`
+									WHERE store_id = 23) b
+	ON a.name =b.name 
+	ORDER BY a.quantity DESC) a
 WHERE (@rownum:=0)=0
 </select>
 
@@ -225,7 +246,8 @@ FROM (
 		FROM (WITH RECURSIVE cte AS (
 			    SELECT 1 AS n
 			    UNION ALL
-			    SELECT n + 1 FROM cte WHERE n < 7)
+			    <![CDATA[SELECT n + 1 FROM cte WHERE n < 7]]> 
+			    )
 			SELECT n FROM cte) a LEFT OUTER JOIN
 			(SELECT	DAYOFWEEK( a.orderDate)  AS 'date',
 					a.orderInfoId AS 'orderInfoId',
@@ -244,7 +266,19 @@ FROM (
 						FROM	`order` a, `orderInfo` b
 						WHERE	a.orderId = b.order_id
 						AND	b.status = 'Y'
-						AND DATE_FORMAT(a.orderDate, '%Y-%m-%d') = DATE_FORMAT(CURDATE(),  '%Y-%m-%d')) a, `food` b
+<choose>
+	<when test="date == 'week'">
+		AND DATE(a.orderDate) >= DATE(SUBDATE(NOW(), INTERVAL 1 WEEK))
+	</when>
+	<when test="date == 'month'">
+		AND DATE(a.orderDate) >= DATE(SUBDATE(NOW(), INTERVAL 1 MONTH))
+		
+	</when>
+	<otherwise>
+		AND DATE(a.orderDate) >= DATE(SUBDATE(NOW(), INTERVAL 1 YEAR))
+	</otherwise>
+</choose>
+						) a, `food` b
 				WHERE a.foodId = b.foodId
 				AND	b.store_id = #{storeId}) b
 	ON a.n = b.date

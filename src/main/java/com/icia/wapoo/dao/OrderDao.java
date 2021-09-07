@@ -58,10 +58,10 @@ public interface OrderDao {
     int approveOrder(int orderId);
     
     //가게 음식 판매 순위
-    List<GraphFood> getFoodSaleAmount(int storeId);
+    List<GraphFood> getFoodSaleAmount(int storeId, String date);
     
     //요일별 매출
-    List<GraphDay> getDayAmount(int storeId);
+    List<GraphDay> getDayAmount(int storeId, String date);
     
     
 }

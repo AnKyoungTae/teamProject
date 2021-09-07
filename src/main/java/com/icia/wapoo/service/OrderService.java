@@ -302,13 +302,13 @@ public class OrderService {
     }
     
     //가게 음식 판매 순위
-    public List<GraphFood> getFoodSaleAmount(int storeId)
+    public List<GraphFood> getFoodSaleAmount(int storeId, String date)
     {
     	List<GraphFood> graphFood = null;
     			
     	try
     	{
-    		graphFood  = orderDao.getFoodSaleAmount(storeId);
+    		graphFood  = orderDao.getFoodSaleAmount(storeId, date);
     	}
     	catch(Exception e)
     	{
@@ -319,13 +319,13 @@ public class OrderService {
     }
     
     //가게 요일별 매출
-    public List<GraphDay> getDayAmount(int storeId)
+    public List<GraphDay> getDayAmount(int storeId, String date)
     {
     	List<GraphDay> graphDay = null;
     	
     	try
     	{
-    		graphDay  = orderDao.getDayAmount(storeId);
+    		graphDay  = orderDao.getDayAmount(storeId, date);
     	}
     	catch(Exception e)
     	{

@@ -1,7 +1,6 @@
 <template>
-<button @click="getDayAmount">dddddddddd</button>
   <div style="margin: 3vh;">
-    <table style="border: 1px solid red;">
+    <table style="border: 1px solid red; width: 50vw;">
       <tr style="border: 1px solid red;">
         <!-- 선택사항 -->
         <th colspan="2" style="border-right: 1px solid red;">
@@ -10,9 +9,9 @@
               {{dropDown}}
             </div>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <li class="dropdown-item" @click="changeDropdownButton('음식판매량')">음식판매량</li>
-              <li class="dropdown-item" @click="changeDropdownButton('요일별판매량')">요일별판매량</li>
-              <li class="dropdown-item" @click="changeDropdownButton('최근판매량')">최근판매량</li>
+              <li class="dropdown-item" @click="changeDropdownButton('음식판매량', 'week')">음식판매량</li>
+              <li class="dropdown-item" @click="changeDropdownButton('요일별판매량', 'week')">요일별판매량</li>
+              <li class="dropdown-item" @click="changeDropdownButton('최근판매량', 'week')">최근판매량</li>
             </ul>
           </div>
         </th>
@@ -30,8 +29,25 @@
         <th>당일매출</th>
         <th>당일매출 금액</th>
       </tr>
-      <!-- 종류별로 바낌-->
+    </table>
+    <!-- 종류별로 바낌-->
+    <!-- 음식판매량-->
+    <table style="width: 50vw;" v-if="dropDown == '음식판매량'">
       <tr style="border: 1px solid red;">
+        <td>
+          하루<input type="radio" name="date"  value="day" @click="clickRadio('day')" />
+        </td>
+        <td>
+          일주일<input type="radio" name="date" value="week" @click="clickRadio('week')" checked/>
+        </td>
+        <td>
+          한달<input type="radio" name="date" value="month" @click="clickRadio('month')"/>
+        </td>
+        <td>
+          일년<input type="radio" name="date" value="year" @click="clickRadio('month')"/>
+        </td>
+      </tr>
+      <tr style="border: 1px solid red;" >
         <th colspan="6">음식 판매량 순위</th>
       </tr>
       <tr style="border: 1px solid red;">
@@ -47,6 +63,36 @@
         <td colspan="2">{{graphFood.price}}</td>
       </tr>
     </table>
+
+    <!-- 요일별판매량-->
+    <table style="width: 50vw;" v-else-if="dropDown == '요일별판매량'">
+      <tr style="border: 1px solid red;">
+        <td>
+          일주일<input type="radio" name="date" value="week" @click="clickRadio('week')" checked/>
+        </td>
+        <td>
+          한달<input type="radio" name="date" value="month" @click="clickRadio('month')"/>
+        </td>
+        <td>
+          일년<input type="radio" name="date" value="year" @click="clickRadio('year')"/>
+        </td>
+      </tr>
+      <tr style="border: 1px solid red; "  >
+        <th colspan="3" style="border: 1px solid red;">요일별 판매량</th>
+      </tr>
+      <tr style="border: 1px solid red;">
+        <th style="border-right: 1px solid red;">요일</th>
+        <th style="border-right: 1px solid red;">주문수</th>
+        <th>매출합계</th>
+      </tr>
+      
+      <tr v-for=" graphDay,index in graphDays" :key="index" style="border: 1px solid red;">
+        <td style="border-right: 1px solid red;">{{graphDay.week}}</td>
+        <td style="border-right: 1px solid red;">{{graphDay.totalOrder}}</td>
+        <td style="border-right: 1px solid red;">{{graphDay.payment}}</td>
+      </tr>
+    </table>
+      
   </div>
 </template>
 
@@ -57,38 +103,58 @@ export default {
 data () {
   return{
     graphFoods: [],
-    dropDown: "음식판매량"
+    graphDays: [],
+    dropDown: "음식판매량",
+   
   }
 },
 methods: {
-  changeDropdownButton(word){
-    this.dropDown =word
-    if(word == "음식판매량"){
-      this.getFoodSaleAmount()
-    }else if(word == "요일별판매량"){
-      alert(word)
-    }else if(word == "최근판매량"){
-      alert(word)
+  clickRadio(date) {
+    if(this.dropDown == "음식판매량"){
+      this.getFoodSaleAmount(date)
+    }else if(this.dropDown == "요일별판매량"){
+      this.getDayAmount(date)
+    }else if(this.dropDown == "최근판매량"){
+      alert(this.dropDown)
     }
   },
 
+  //드랍 다운시 버튼
+  changeDropdownButton(word, date){
+    if(word == "음식판매량"){
+      this.getFoodSaleAmount(date)
+    }else if(word == "요일별판매량"){
+      this.getDayAmount(date)
+    }else if(word == "최근판매량"){
+      alert(word)
+    }
+    this.dropDown =word
+  },
+
   //음식판매량 통신
-  getFoodSaleAmount() {
-    http.post("/order/getFoodSaleAmount")
+  getFoodSaleAmount(date) {
+    http.post("/order/getFoodSaleAmount", date)
     .then(res => {
       this.graphFoods = res.data
     })
+    .catch(err=> {
+      console.log(err)
+    })
   },//요일별 매출 통신
-  getDayAmount(){
-    http.post("/order/getDayAmount")
+  getDayAmount(date){
+    http.post("/order/getDayAmount", date)
     .then(res => {
-      this.graphFoods = res.data
+      console.log(res.data)
+      this.graphDays = res.data
+    })
+    .catch(err=> {
+      console.log(err)
     })
   },
 },
 
 mounted() {
-  this.changeDropdownButton("음식판매량")
+  this.changeDropdownButton("음식판매량", 'week')
 }
 }
 </script>
