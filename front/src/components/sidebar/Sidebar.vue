@@ -80,7 +80,11 @@
     >
       주문조회
     </div>
-    <div class="findOrderWrapper" v-show="findOrder">
+    <div
+      class="findOrderWrapper"
+      :class="[collapsed ? 'hiddenOrderSearch' : '']"
+      v-if="findOrder"
+    >
       <span><b>주문번호</b>를 입력해주세요!</span>
       <hr />
       <div class="form-floating mb-3">
@@ -180,7 +184,6 @@ export default {
   box-shadow: 4px 4px 4px 4px rgba(190, 190, 190, 0.6);
 }
 .profile {
-  transition: opacity 0.1s;
 }
 
 .burger {
@@ -222,12 +225,6 @@ export default {
   box-shadow: 0px 2px 2px 1px (0, 0, 0, 0.7);
 }
 
-.hiddenOrderSearch {
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.3s;
-}
-
 .findOrderWrapper {
   background: #355f6e;
   position: fixed;
@@ -235,16 +232,23 @@ export default {
   bottom: 8%;
   width: 210px;
   height: 120px;
-  transition: all 0.3s;
   border-radius: 10px;
   color: navy;
   padding: 10px;
   border: 1px solid gray;
   box-shadow: 0px 2px 2px 1px (0, 0, 0, 0.7);
+  transition-property: all;
 }
 .findOrderWrapper > span {
   background: orange;
   padding: 5px;
   border-radius: 5px;
+}
+.hiddenOrderSearch {
+  transition: width 1s ease;
+  opacity: 0;
+  visibility: hidden;
+  width: 0px;
+  overflow: hidden;
 }
 </style>

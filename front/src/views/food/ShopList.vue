@@ -110,17 +110,17 @@ export default {
   },
   mounted() {
     let keyword = this.$route.query.keyword;
-    async () => {
-      if (!keyword) {
-        await this.requestShopList("ALL");
-      } else {
-        await this.requestShopList(keyword);
-      }
-    };
+
+    if (!keyword) {
+      this.options = "ALL";
+    } else {
+      this.options = keyword;
+    }
     this.initIntersectionObserver();
   },
   methods: {
     async requestShopList() {
+      this.dataLoaded = false;
       if (!this.GET_LAT || !this.GET_LON) {
         error("위치정보를 확인할수 없습니다. 다시 시도해주세요.", this);
         this.$router.push({ path: "/" });
@@ -155,24 +155,26 @@ export default {
             this.dataLoaded = true;
             if (res.data.length < this.quantity) {
               this.noMoreShop = true;
-              return;
+              this.io = null;
             }
           }
         })
         .catch((err) => {
           console.log("에러남 " + err);
+          this.io = null;
           this.noMoreShop = true;
           success("더 이상 불러올 가게 정보가 없습니다", this);
-          return;
         });
     },
     initIntersectionObserver() {
-      const io = new IntersectionObserver(
+      this.io = new IntersectionObserver(
         async ([entry], observer) => {
+          console.log("<인터섹팅>" + entry);
           if (entry.isIntersecting) {
+            console.log("!관찰됨!");
             observer.unobserve(entry.target);
             await this.requestShopList();
-            console.log("기다림의 끝");
+            console.log("--기다림의 끝--");
             observer.observe(entry.target);
           }
         },
@@ -181,9 +183,11 @@ export default {
           threshold: 0.5,
         }
       );
-      io.observe(this.$refs.scrollObserver);
+      console.log("관찰시작");
+      this.io.observe(this.$refs.scrollObserver);
     },
     setOptAndrequest(option) {
+      this.io = null;
       if (option != null) {
         this.dataLoaded = false;
         this.option = option;
@@ -192,7 +196,13 @@ export default {
         this.loadFrom = 0;
         this.noMoreShop = false;
       }
-      this.requestShopList();
+      let func = this.initIntersectionObserver;
+      // setTimeout(() => {
+      //   func();
+      // }, 500);
+      this.$nextTick(function () {
+        func();
+      });
     },
   },
   components: {

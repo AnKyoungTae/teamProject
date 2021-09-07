@@ -179,9 +179,7 @@ export default {
   background-color: white;
   text-decoration: none;
 }
-.isCollap {
-  width: 0px;
-}
+
 .login {
   display: flex;
   flex-direction: column;
@@ -195,14 +193,10 @@ export default {
   align-items: center;
   height: 150px;
 }
-.fade-enter-active,
-.fade-leave-active {
-  transition: all ease 0.2s 0s;
-}
 
 .fade-enter,
 .fade-leave-to {
-  opacity: 0;
+  opacity: 0.5;
 }
 .profilePic {
   width: 100%;
@@ -225,5 +219,12 @@ export default {
   cursor: pointer;
   text-decoration-line: underline;
   text-underline-position: under;
+}
+.isCollap {
+  width: 0px;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: all ease 0.2s 0s;
 }
 </style>
