@@ -47,6 +47,14 @@
           일년<input type="radio" name="date" value="year" @click="clickRadio('month')"/>
         </td>
       </tr>
+
+      <tr style="border: 1px solid red; ">
+        <th style="border: 1px solid red;">전체 수량</th>
+        <td>{{plusResentFoodQuantity}}</td>
+        <th  style="border: 1px solid red;">전체 매출</th>
+        <td>{{plusResentFoodPayment}}</td>
+      </tr>
+
       <tr style="border: 1px solid red;" >
         <th colspan="6">음식 판매량 순위</th>
       </tr>
@@ -77,6 +85,14 @@
           일년<input type="radio" name="date" value="year" @click="clickRadio('year')"/>
         </td>
       </tr>
+
+      <tr style="border: 1px solid red; ">
+        <th style="border: 1px solid red;">전체 수량</th>
+        <td>{{plusResentFoodQuantity}}</td>
+        <th  style="border: 1px solid red;">전체 매출</th>
+        <td>{{plusResentFoodPayment}}</td>
+      </tr>
+
       <tr style="border: 1px solid red; "  >
         <th colspan="3" style="border: 1px solid red;">요일별 판매량</th>
       </tr>
@@ -174,16 +190,40 @@ computed: {
   //전체 시간을 합한 수량
   plusResentFoodQuantity(){
     let quantity = 0
-    for(let i = 0; i < this.graphResentFoods.length; i++){
-      quantity +=  this.graphResentFoods[i].quantity
+
+    if(this.dropDown == "음식판매량"){
+      for(let i = 0; i < this.graphFoods.length; i++){
+        quantity +=  this.graphFoods[i].quantity
+      }
+    }else if(this.dropDown == "요일별판매량"){
+      for(let i = 0; i < this.graphDays.length; i++){
+        quantity +=  this.graphDays[i].totalOrder
+      }
+    }else if(this.dropDown == "최근판매량"){
+      for(let i = 0; i < this.graphResentFoods.length; i++){
+        quantity +=  this.graphResentFoods[i].quantity
+      }
     }
+    
     return quantity;
   },
   plusResentFoodPayment(){
     let payment = 0
-    for(let i = 0; i < this.graphResentFoods.length; i++){
+
+    if(this.dropDown == "음식판매량"){
+      for(let i = 0; i < this.graphFoods.length; i++){
+      payment +=  this.graphFoods[i].price
+    }
+    }else if(this.dropDown == "요일별판매량"){
+      for(let i = 0; i < this.graphDays.length; i++){
+      payment +=  this.graphDays[i].payment
+    }
+    }else if(this.dropDown == "최근판매량"){
+      for(let i = 0; i < this.graphResentFoods.length; i++){
       payment +=  this.graphResentFoods[i].payment
     }
+    }
+    
     return payment;
   }
 },
@@ -227,7 +267,7 @@ methods: {
   getDayAmount(date){
     http.post("/order/getDayAmount", date)
     .then(res => {
-      console.log(res.data)
+ 
       this.graphDays = res.data
     })
     .catch(err=> {
@@ -238,7 +278,7 @@ methods: {
   getResentFood(date, foodName) {
     http.post("/order/getResentFood", {date: date, name: foodName})
     .then(res => {
-      console.log(res)
+
       this.resentFoodList = res.data.list
       this.ResentDropdownButton = res.data.name
       this.graphResentFoods = res.data.graphResntFood
@@ -253,7 +293,7 @@ methods: {
   getPayment() {
     http.post("/order/getPayment")
     .then(res => {
-      console.log(res.data)
+     
       this.graphPayment = res.data
     })
   }
