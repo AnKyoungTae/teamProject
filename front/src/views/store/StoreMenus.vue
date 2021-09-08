@@ -310,4 +310,8 @@ export default {
 .available-link {
   cursor: pointer;
 }
+.col-10 {
+  width: 100%;
+  text-align: right;
+}
 </style>

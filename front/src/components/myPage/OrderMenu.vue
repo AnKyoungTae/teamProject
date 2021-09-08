@@ -15,21 +15,21 @@
                 <div class="menu-top">
                   <div class="top-left">
                     <span style="color: lightgray"
-                      >{{ orderList.orderDate }} · 배달중</span
+                      >{{ orderList.orderDate[0] }}.{{
+                        orderList.orderDate[1]
+                      }}.{{ orderList.orderDate[2] }}&nbsp;&nbsp;
+                      {{ orderList.orderDate[3] }}시
+                      {{ orderList.orderDate[4] }}분 · 배달중</span
                     >
                   </div>
                   <div class="top-right">
-                    <span>주문번호:{{ orderList.order_id }}</span>
+                    <span>주문번호:{{ orderList.orderId }}</span>
                   </div>
                 </div>
                 <div class="menu-bottom">
                   <div class="bottom-left">
                     <router-link to="/food">
-                      <img
-                        class="shopImg"
-                        :src="orderList.image"
-                        :alt="orderList.orgName"
-                      />
+                      <img class="shopImg" :src="orderList.image" />
                     </router-link>
                   </div>
                   <div class="bottom-right">
@@ -38,7 +38,7 @@
                         <h4>{{ orderList.storeName }}</h4>
                         <div class="myMenu">
                           <h6>
-                            {{ orderList.foodName }} {{ orderList.quantity }}개
+                            {{ orderList.foodName }}x{{ orderList.quantity }}개
                           </h6>
                         </div>
                       </div>
@@ -48,7 +48,7 @@
                 <div style="text-align: right">
                   <button
                     type="button"
-                    @Click="orderDel(orderList.order_id)"
+                    @Click="orderDel(orderList.orderId)"
                     class="btn btn-outline-danger"
                     style="font-size: 13px"
                   >

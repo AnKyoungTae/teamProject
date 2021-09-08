@@ -1,43 +1,59 @@
 <template>
-<div class="manage-div">
+  <div class="manage-div">
     <div class="manage-div2">
       <h3 class="manage-text">쿠폰함</h3>
       <div class="profile-manage">
-        <div
-          class="row"
-          style="overflow: auto;"
-          v-if="couponToggle == true"
-        >
-        <!--쿠폰시작 -->
-        <div class="col coupon" v-for="coupon in coupons" :key="coupon.couponId">
-          <div class="card coupon-card">
-            <div class="coupon-main">
-              <div class="content">
-                <div class="row">
-                  <span style="color: burlywood;"><span style="font-size: 35px; font-weight: 600; font-family: Black Han Sans, sans-serif;">{{ coupon.total_discountPrice }}</span><span style="font-size: 20px;"> 원 할인권</span></span>
-                  <span class="d-inline m-1" style="font-size: 18px; "
-                    >{{ coupon.couponName }}
-                    <span class="badge bg-success m-1" v-if="coupon.status == 'Y'"
-                      >사용가능</span
+        <div class="row" style="overflow: auto" v-if="couponToggle == true">
+          <!--쿠폰시작 -->
+          <div
+            class="col coupon"
+            v-for="coupon in coupons"
+            :key="coupon.couponId"
+          >
+            <div class="card coupon-card">
+              <div class="coupon-main">
+                <div class="content">
+                  <div class="row">
+                    <span style="color: burlywood"
+                      ><span
+                        style="
+                          font-size: 35px;
+                          font-weight: 600;
+                          font-family: Black Han Sans, sans-serif;
+                        "
+                        >{{ coupon.total_discountPrice }}</span
+                      ><span style="font-size: 20px"> 원 할인권</span></span
                     >
-                    <span
-                      class="badge bg-danger m-1"
-                      v-else-if="coupon.status == 'N'"
-                      >사용불가</span
-                    ></span
+                    <span class="d-inline m-1" style="font-size: 18px"
+                      >{{ coupon.couponName }}
+                      <span
+                        class="badge bg-success m-1"
+                        v-if="coupon.couponUsed == 'N' && coupon.status == 'Y'"
+                        >사용가능</span
+                      >
+                      <span class="badge bg-danger m-1" v-else
+                        >사용불가</span
+                      ></span
                     >
                   </div>
 
                   <p>쿠폰번호 : {{ coupon.couponNumber }}</p>
-                  <p>사용기간 ~ {{ coupon.couponEnd[0] }}.{{ coupon.couponEnd[1] }}.{{ coupon.couponEnd[2] }} 까지</p>
+                  <p>
+                    사용기간 ~ {{ coupon.couponEnd[0] }}.{{
+                      coupon.couponEnd[1]
+                    }}.{{ coupon.couponEnd[2] }} 까지
+                  </p>
                 </div>
                 <div class="vertical"></div>
                 <div class="copy-button">
                   <button
                     type="button"
                     class="copybtn btn btn-primary position-relative"
-                    :class="[coupon.status == 'Y' ? '' : 'disabled']"
-                    @click="moveToStoreInfo(coupon.store_id)"
+                    :class="[
+                      coupon.couponUsed == 'N' ? '' : 'disabled',
+                      coupon.status == 'Y' ? '' : 'disabled',
+                    ]"
+                    @click="moveToStoreInfo(coupon)"
                   >
                     사용
                     <span
@@ -48,11 +64,25 @@
                         translate-middle
                         badge
                         rounded-pill
-                        bg-danger
+                        bg-success
                       "
+                      v-if="getLeftDay(coupon.couponEnd) >= 0"
                     >
                       {{ dayLeft(coupon.couponEnd) }}
-                      <span class="visually-hidden">unread messages</span>
+                    </span>
+                    <span
+                      class="
+                        position-absolute
+                        top-0
+                        start-100
+                        translate-middle
+                        badge
+                        rounded-pill
+                        bg-danger
+                      "
+                      v-else
+                    >
+                      {{ dayLeft(coupon.couponEnd) }}
                     </span>
                   </button>
                 </div>
@@ -71,6 +101,7 @@
 </template>
 <script>
 import http from "@/api/http";
+import { end } from "@popperjs/core";
 
 export default {
   data() {
@@ -96,16 +127,42 @@ export default {
         });
     },
     dayLeft(time) {
-      let now = new Date();
-      var day = ("0" + now.getDate()).slice(-2);
-      let leftday = day - time[2];
-      if (leftday < 0) {
+      let btDay = this.getLeftDay(time);
+      if (btDay < 0) {
         return "X";
       }
-      return leftday + " 일";
+      return btDay + " 일 남음";
     },
-    moveToStoreInfo(storeId) {
-      this.$router.push({ path: "/shopDetail", query: { shopInfo: storeId } });
+    moveToStoreInfo(coupon) {
+      if (coupon.couponUsed != "N") {
+        alert("이미 사용한 쿠폰입니다.");
+        return;
+      }
+      if (coupon.status == "N") {
+        alert("만료된 쿠폰입니다.");
+        return;
+      }
+      let btDay = this.getLeftDay(coupon.couponEnd);
+      if (btDay < 0) {
+        alert("만료된 쿠폰입니다.");
+        return;
+      }
+      this.$router.push({
+        path: "/shopDetail",
+        query: { shopInfo: coupon.store_id },
+      });
+    },
+    getLeftDay(time) {
+      let now = new Date();
+      let year = now.getFullYear();
+      let month = now.getMonth();
+      let day = now.getDate();
+      console.log(now);
+      let today = new Date(year, month, day);
+      let endDay = new Date(time[0], time[1] - 1, time[2]);
+      let btMs = endDay.getTime() - today.getTime();
+      let btDay = btMs / (1000 * 60 * 60 * 24);
+      return btDay;
     },
   },
   mounted() {
@@ -133,15 +190,6 @@ export default {
   border-top: 1px solid #7c7c7c;
 }
 
-
-
-
-
-
-
-
-
-
 .coupon {
   display: flex;
   flex-direction: row;
@@ -158,7 +206,7 @@ export default {
   padding: 10px 10px;
   float: left;
   margin: 10px 10px;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 }
 .coupon-main {
   height: 100%;
@@ -212,9 +260,12 @@ export default {
 
 .copy-button button {
   padding: 5px 20px;
-  background-color: darkgray;
+  background-color: rgb(105, 150, 233);
   color: rgb(255, 255, 255);
   border: 1px solid transparent;
+}
+.disabled {
+  background-color: red;
 }
 .title {
   font-size: 23px;

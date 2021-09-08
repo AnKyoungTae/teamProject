@@ -49,26 +49,21 @@ WHERE	memberId = #{member_id}
 </insert>
 
 <!-- 주문 조회 -->
-<select id="selectAllOrders" resultType="Order">
-SELECT	A.orderId,
-	A.orderDate AS 'orderDate',
-	A.status AS 'status',
-	E.name AS 'storeName',
-	A.phone AS 'phone',
-	C.name AS 'foodName',
-	B.quantity AS 'quantity',
-	B.order_id,
-	D.name AS 'image',
-	D.orgName AS 'orgName'
-FROM	`order` A INNER JOIN  `orderInfo` B INNER JOIN `food` C INNER JOIN `store_file` D INNER JOIN `store` E
-ON	A.orderId = B.orderInfoId
-AND	B.food_id = C.foodId
-AND	C.store_id = D.store_id
-AND	C.store_id = E.storeId
-
-
-WHERE	A.status != 'S'
-AND	A.member_id= #{memberId}
+<select id="selectAllOrders" resultType="Map">
+	SELECT O.orderId,
+		   O.orderDate,
+		   O.status,
+		   S.name storeName,
+		   FI.name image,
+		   O.phone,
+		   I.quantity,
+		   F.name foodName
+	FROM orderInfo I, `order` O, food F, food_file FI, store S
+	WHERE I.order_id = O.orderId
+	  AND I.food_id = F.foodId
+	  AND F.foodId = FI.food_id
+	  AND F.store_id = S.storeId
+	  AND O.member_id = #{memberId}
 
 </select>
 
@@ -76,7 +71,7 @@ AND	A.member_id= #{memberId}
 	SELECT
 		A.couponNumber,
 		A.couponName,
-		B.coupon_used AS 'couponUsed',
+		B.coupon_used AS couponUsed,
 			A.couponEnd,
 		B.total_discountPrice,
 		A.status,
@@ -85,6 +80,8 @@ AND	A.member_id= #{memberId}
 	WHERE	A.couponId = B.coupon_id
 	  AND A.food_id = f.foodId
 	  AND B.coupon_holder = #{memberId}
+	  AND B.coupon_used = 'N'
+	order by regDate desc
 </select>
 
 <!-- 이미지 업로드 -->

@@ -60,59 +60,61 @@
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
-  <div v-else>
+  <div v-else-if="Array.isArray(reviewList) && reviewList.length > 0">
     <div v-for="(review, index) in reviewList" :key="index" class="m-2">
       <review-row :data="review" :isOwner="isOwner"></review-row>
     </div>
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" :class="{ disabled: !hasPreviousPage }">
+          <a
+            class="page-link"
+            aria-disabled="true"
+            @click="requestPage(firstPageOfthisIndex - 1)"
+            :class="{ 'available-link': hasPreviousPage }"
+            >이전목록</a
+          >
+          <!-- 현재 단락의 가장 첫번째 페이지 -1을 요청해야함. -->
+        </li>
+        <!-- 페이지순번 -->
+        <div v-for="(index, i) in maxIndex" :key="i">
+          <div v-if="index + (currentIndex - 1) * maxIndex <= totalPages">
+            <li
+              class="page-item"
+              v-if="
+                (this.currentIndex - 1) * this.showindex + index != currentPage
+              "
+            >
+              <a
+                class="page-link available-link"
+                @click="requestPage(index + (currentIndex - 1) * maxIndex)"
+                >{{ index + (currentIndex - 1) * maxIndex }}</a
+              >
+            </li>
+            <li class="page-item active" v-else>
+              <span class="page-link">{{
+                index + (currentIndex - 1) * maxIndex
+              }}</span>
+            </li>
+          </div>
+        </div>
+
+        <li class="page-item" :class="{ disabled: !hasNextPage }">
+          <a
+            class="page-link"
+            @click="requestPage(lastPageOfthisIndex + 1)"
+            :class="{ 'available-link': hasNextPage }"
+            >다음목록</a
+          >
+        </li>
+      </ul>
+    </nav>
   </div>
+  <div v-else>등록된 리뷰가 없습니다.</div>
   <hr />
   <!-- 리뷰끝 -->
   <!-- 페이지네이션 -->
-  <nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-      <li class="page-item" :class="{ disabled: !hasPreviousPage }">
-        <a
-          class="page-link"
-          aria-disabled="true"
-          @click="requestPage(firstPageOfthisIndex - 1)"
-          :class="{ 'available-link': hasPreviousPage }"
-          >이전목록</a
-        >
-        <!-- 현재 단락의 가장 첫번째 페이지 -1을 요청해야함. -->
-      </li>
-      <!-- 페이지순번 -->
-      <div v-for="(index, i) in maxIndex" :key="i">
-        <div v-if="index + (currentIndex - 1) * maxIndex <= totalPages">
-          <li
-            class="page-item"
-            v-if="
-              (this.currentIndex - 1) * this.showindex + index != currentPage
-            "
-          >
-            <a
-              class="page-link available-link"
-              @click="requestPage(index + (currentIndex - 1) * maxIndex)"
-              >{{ index + (currentIndex - 1) * maxIndex }}</a
-            >
-          </li>
-          <li class="page-item active" v-else>
-            <span class="page-link">{{
-              index + (currentIndex - 1) * maxIndex
-            }}</span>
-          </li>
-        </div>
-      </div>
 
-      <li class="page-item" :class="{ disabled: !hasNextPage }">
-        <a
-          class="page-link"
-          @click="requestPage(lastPageOfthisIndex + 1)"
-          :class="{ 'available-link': hasNextPage }"
-          >다음목록</a
-        >
-      </li>
-    </ul>
-  </nav>
   <!-- 모달 -->
   <review-modal
     :data="reviewModalData"
@@ -123,7 +125,7 @@
 
 <script>
 import ReviewModal from "@/components/modal/Review.vue";
-import { normal, error, success } from "@/api/notification";
+import { normal, error } from "@/api/notification";
 import http from "@/api/http";
 import ReviewRow from "@/components/adminComponent/ReviewRow.vue";
 import { mapGetters } from "vuex";
@@ -147,8 +149,8 @@ export default {
       showindex: 5, // 번호로 표시될 페이지 총 갯수
       showOption: "recent",
       pageLoaded: false,
-      averageScore: null,
-      totalCountHasReply: null,
+      averageScore: 0,
+      totalCountHasReply: 0,
       isOwner: false,
     };
   },
@@ -208,34 +210,12 @@ export default {
     },
     requestPage(request) {
       this.pageLoaded = false;
-      console.log("요청페이지 : " + request);
-      this.requestListCount();
-      let storeId = parseInt(this.storeId);
 
-      const data = {
-        listPerPage: this.listPerPage,
-        currentPage: request,
-        storeId: storeId,
-        showOption: this.showOption,
-      };
-      http
-        .post("/review/getReviewList", data)
-        .then((response) => {
-          if (response.status === 200) {
-            console.log(response.data);
-            this.reviewList = response.data;
-            this.currentPage = request;
-            console.log("현재페이지 : " + this.currentPage);
-            this.pageLoaded = true;
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          error("오류가 발생했습니다. 다시 시도해주세요", this);
-        });
+      this.requestListCount(request);
+
     },
 
-    requestListCount() {
+    requestListCount(request) {
       const storeId = parseInt(this.storeId);
       http
         .get("/review/getReviewListCount", {
@@ -245,7 +225,32 @@ export default {
         })
         .then((response) => {
           this.totalCount = response.data;
-          console.log("등록된 리뷰의 총 갯수 : " + this.totalCount);
+          if (this.totalCount == 0) {
+            this.pageLoaded = true;
+            return;
+          }
+          let storeId = parseInt(this.storeId);
+
+          const data = {
+            listPerPage: this.listPerPage,
+            currentPage: request,
+            storeId: storeId,
+            showOption: this.showOption,
+          };
+          http
+            .post("/review/getReviewList", data)
+            .then((response) => {
+              if (response.status === 200) {
+                console.log(response.data);
+                this.reviewList = response.data;
+                this.currentPage = request;
+              }
+              this.pageLoaded = true;
+            })
+            .catch((err) => {
+              console.log(err);
+              error("오류가 발생했습니다. 다시 시도해주세요", this);
+            });
         })
         .catch((err) => {
           console.log(err);
@@ -274,6 +279,7 @@ export default {
       this.requestPage(1);
     },
     getAverageScore() {
+      console.log("어버레지");
       const storeId = parseInt(this.storeId);
       http
         .get("/review/getAverageScore", {
@@ -292,14 +298,16 @@ export default {
   },
   mounted() {
     normal("정보를 불러옵니다. 잠시만 기다려주세요..", this);
-    // 정보를 호출한다.
+    //정보를 호출한다.
     this.requestPage(1);
     this.getAverageScore();
 
     this.requestListHasReplyCount();
     if (this.getMyStore.owner_id == this.getUserId) {
-      console.log("주인이 맞습니다용");
-      this.isOwner = true;
+      const storeId = parseInt(this.storeId);
+      if (storeId == this.getMyStore.storeId) {
+        this.isOwner = true;
+      }
     }
   },
 };

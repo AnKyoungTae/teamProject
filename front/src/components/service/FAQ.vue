@@ -127,9 +127,9 @@ export default {
 
       return this.$router.push({
         name: "BoardList",
-        query: { board: "notice", articleId: articleId },
+        query: { board: "faq", articleId: articleId },
       });
-      //location.href = "/boardList?board=notice&articleId=" + articleId;
+      
     },
     prevBotton(range1, rangeSize, listSize) {
       var page = (range1 - 2) * rangeSize + 1;

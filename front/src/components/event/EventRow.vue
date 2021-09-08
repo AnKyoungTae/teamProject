@@ -133,11 +133,12 @@ export default {
             this.couponInfo = res.data;
             if (this.couponInfo || this.couponInfo !== "") {
               // 쿠폰의 유효기간 확인
-              if (this.couponInfo.status === "Y") {
-                this.couponAvailable = true;
-              }
+              // if (this.couponInfo.status === "Y") {
+              //   this.couponAvailable = true;
+              // }
               if (this.data.status === "Y") {
                 this.eventAvailable = true;
+                this.couponAvailable = true;
               }
             }
           } else {
@@ -202,6 +203,7 @@ export default {
   line-height: 60px;
   float: right;
   cursor: pointer;
+  margin-bottom: 15px;
 }
 .order-span {
   color: white;

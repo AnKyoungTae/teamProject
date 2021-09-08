@@ -37,8 +37,7 @@ export default {
   position: relative;
   font-weight: 400;
   user-select: none;
-
-  margin: 0.2em 0;
+  margin: 0.1em 0;
   padding: 0.4em;
   border-radius: 0.25em;
   height: 2.5em;
@@ -53,6 +52,8 @@ export default {
 
 .link.active {
   background-color: var(--sidebar-item-active);
+  color: black;
+  font-weight: bolder;
 }
 
 .link .icon {

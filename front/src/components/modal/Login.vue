@@ -290,8 +290,9 @@ export default {
 .move-seller {
   color: #888888;
   text-align: center;
-  margin-right: 20%;
+  margin: 0 auto;
   padding-bottom: 10px;
+  font-size: 17px;
 }
 .move-seller-button {
   cursor: pointer;

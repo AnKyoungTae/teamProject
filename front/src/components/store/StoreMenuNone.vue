@@ -19,4 +19,10 @@ export default {};
   vertical-align: middle;
   display: table-cell;
 }
+.btn-primary {
+  background-color: #00a178;
+}
+.btn-primary:hover {
+  background-color: #75ab7f;
+}
 </style>
