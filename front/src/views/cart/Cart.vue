@@ -15,7 +15,7 @@
             <p>배달정보</p>
           </div>
           <div class="orderAddress p-4">
-            <table style="width: 100%;">
+            <table style="width: 100%">
               <tr>
                 <td style="width: 25%; text-align: center">
                   <span>주소</span>
@@ -31,13 +31,13 @@
                       >주소찾기</span
                     >
                     <div>
-                      <input 
-                        type="text" 
-                        class="address_input" 
-                        :value="finalAddress" 
-                        style="cursor: not-allowed; background-color: #eee;" 
-                        readonly 
-                      /> 
+                      <input
+                        type="text"
+                        class="address_input"
+                        :value="finalAddress"
+                        style="cursor: not-allowed; background-color: #eee"
+                        readonly
+                      />
                     </div>
                     <!-- 모달 취소를 했을 때, placeSelector를 false로 만들어야함 -->
                   </span>
@@ -63,7 +63,6 @@
                     style="width: 100%"
                     v-model="phone"
                     @keyup="phoneCom"
-
                   />
                 </td>
               </tr>
@@ -276,8 +275,12 @@
           </div>
           <div class="commandOrderWrapper" v-if="foodList.length > 0">
             <div class="row">
-              <div class="col commandOrder" @click="putOrder"><span>주문하기</span></div>
-              <div class="col commandCancel" @click="clearOrder"><span>취소하기</span></div>
+              <div class="col commandOrder" @click="putOrder">
+                <span>주문하기</span>
+              </div>
+              <div class="col commandCancel" @click="clearOrder">
+                <span>취소하기</span>
+              </div>
             </div>
           </div>
         </div>
@@ -370,10 +373,8 @@ export default {
   methods: {
     ...mapMutations(["delCart", "clearCart", "SET_MODAL_MAP"]),
     phoneCom() {
-      if(this.phone.length == 3){
-        this.phone += "-"
-      }else if(this.phone.length == 8){
-        this.phone += "-"
+      if (this.phone.length == 3) {
+        this.phone += "-";
       }
     },
     getFoodList(foodIdSet) {
@@ -427,7 +428,7 @@ export default {
       this.orderList.set(foodId, --q);
     },
     test() {
-      error("ths",this)
+      error("ths", this);
     },
     foodQuantity(foodId) {
       return this.orderList.get(foodId);
@@ -453,7 +454,7 @@ export default {
         error("전화번호를 입력해주세요", this);
         return false;
       } else if (phoneValidation === false) {
-        error("전화번호는 숫자와 -(하이픈)만 입력 가능합니다.",this);
+        error("전화번호는 숫자와 -(하이픈)만 입력 가능합니다.", this);
         return;
       }
 
@@ -709,8 +710,8 @@ export default {
 }
 
 .form-check .form-check-input {
-    float: none;
-    margin-left: -1.5em;
+  float: none;
+  margin-left: -1.5em;
 }
 .form-check-input {
   margin-right: 30px;

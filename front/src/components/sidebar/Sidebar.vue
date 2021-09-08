@@ -14,13 +14,11 @@
     <span v-else>
       <!-- 멤버 롤 마다 가는곳 다르게 -->
       <div v-if="!userRole || userRole == 'BUYER'">
-        <span
+        <img
           @click="this.$router.push({ path: '/' })"
           class="logo"
-          style="font-family: 'Lobster Two', cursive"
-        >
-          WAPOO
-        </span>
+          src="../../assets/logo.png"
+        />
       </div>
       <div v-else-if="userRole != null && userRole == 'SELLER'">
         <h2 @click="this.$router.push({ path: '/store' })" class="logo">
@@ -200,11 +198,13 @@ export default {
   right: 0.2em;
   padding: 0.75em;
 
-  color: gba(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
 
 .logo {
   cursor: pointer;
+  user-select: none;
+  width: 200px;
 }
 .orderInfoSearch {
   background: #c3a28e;
@@ -219,10 +219,6 @@ export default {
   border-radius: 8px;
   font-size: 16px;
   font-weight: bolder;
-  -ms-user-select: none;
-  -moz-user-select: -moz-none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
   user-select: none;
   transition: 0.4s;
   opacity: 0.6;
@@ -249,6 +245,7 @@ export default {
   border: 1px solid gray;
   box-shadow: 0px 2px 2px 1px (0, 0, 0, 0.7);
   transition: 0.4s;
+  user-select: none;
 }
 .findOrderWrapper > span {
   background: orange;

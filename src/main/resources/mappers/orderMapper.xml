@@ -18,7 +18,8 @@
         INSERT INTO `orderInfo`
         SET `order_id` = #{orderId},
             `food_id` = #{foodId},
-            `quantity` = #{quantity}
+            `quantity` = #{quantity},
+            `status` = 'S'
     </insert>
 
     <select id="selectPriceByFoodId" resultType="int">

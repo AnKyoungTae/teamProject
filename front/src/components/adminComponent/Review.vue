@@ -14,7 +14,7 @@
         <!-- 별 -->
         <i
           class="fas fa-star"
-          v-for="index of parseInt(averageScore)"
+          v-for="index in parseInt(averageScore)"
           :key="index"
         ></i>
       </div>
@@ -233,8 +233,9 @@ export default {
         })
         .then((response) => {
           this.totalCount = response.data;
-          console.log("2");
-          if (this.totalCount == 0) {
+          console.log(response.data);
+          console.log(this.totalCount);
+          if (this.totalCount == 0 || !this.totalCount) {
             this.pageLoaded = true;
             return;
           }
@@ -301,7 +302,12 @@ export default {
           },
         })
         .then((response) => {
-          this.averageScore = response.data;
+          if (response.data == -1) {
+            this.averageScore = 0;
+          } else {
+            this.averageScore = response.data;
+          }
+
           console.log("점수 평균값 : " + this.averageScore);
         })
         .catch((err) => {
@@ -406,7 +412,7 @@ export default {
 }
 .reviewWrite:hover {
   cursor: pointer;
-  background-color: #FFA799;
+  background-color: #ffa799;
 }
 
 .review2-p {

@@ -8,8 +8,8 @@
     <div>
       <div class="container-fluid px-4">
         <div class="row">
-          <nav style="width: 100%;">
-            <ul class="foodnum-ul" style="text-align: center;">
+          <nav style="width: 100%">
+            <ul class="foodnum-ul" style="text-align: center">
               <li>
                 <a @click="setOptAndrequest('ALL')" class="foodnum-a"
                   >전체보기</a
@@ -95,7 +95,7 @@ export default {
     return {
       shopList: [], // 불러온 가게리스트
       quantity: 10, // 몇개나 불러올건지?
-      option: "ALL", // 무엇을 불러올것인지?
+      options: "ALL", // 무엇을 불러올것인지?
       loadFrom: 0,
       dataLoaded: false,
       noMoreShop: false,
@@ -110,7 +110,6 @@ export default {
   },
   mounted() {
     let keyword = this.$route.query.keyword;
-
     if (!keyword) {
       this.options = "ALL";
     } else {
@@ -140,7 +139,7 @@ export default {
         lon: this.GET_LON,
         quantity: this.quantity,
         loadFrom: this.loadFrom,
-        options: this.option,
+        options: this.options,
       };
       await http
         .post("/store/getStoreListByLocation", data)
@@ -169,12 +168,9 @@ export default {
     initIntersectionObserver() {
       this.io = new IntersectionObserver(
         async ([entry], observer) => {
-          console.log("<인터섹팅>" + entry);
           if (entry.isIntersecting) {
-            console.log("!관찰됨!");
             observer.unobserve(entry.target);
             await this.requestShopList();
-            console.log("--기다림의 끝--");
             observer.observe(entry.target);
           }
         },
@@ -183,7 +179,6 @@ export default {
           threshold: 0.5,
         }
       );
-      console.log("관찰시작");
       this.io.observe(this.$refs.scrollObserver);
     },
     setOptAndrequest(option) {

@@ -21,11 +21,7 @@
       <div class="chatWrapper m-1 p-2" id="log">
         <!-- 답변들 -->
 
-        <div
-          class=""
-          v-for="(answer, index) of answers"
-          :key="index"
-        >
+        <div class="answer" v-for="(answer, index) of answers" :key="index">
           <div class="answerRollback" @click="rollback(answer)">
             <div></div>
             <div></div>
@@ -181,11 +177,11 @@ export default {
       });
     },
     hidden(index) {
-      if(this.isHidden[index] == false) {
+      if (this.isHidden[index] == false) {
         console.log(this.isHidden[index]);
-        this.isHidden[index] = true
+        this.isHidden[index] = true;
         console.log("1");
-      }else {
+      } else {
         console.log(this.isHidden[index]);
         this.isHidden[index] = false;
         console.log("2");
@@ -674,7 +670,7 @@ export default {
 .foodInfo {
   width: 40%;
   height: 100%;
-  padding-top: 15px; 
+  padding-top: 15px;
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -715,18 +711,17 @@ export default {
 }
 .alternative:hover {
   -webkit-transform: scale(1.05);
-     -moz-transform: scale(1.05);
-      -ms-transform: scale(1.05);
-       -o-transform: scale(1.05);
-          transform: scale(1.05);  
+  -moz-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  -o-transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .alternative span {
   -webkit-transition: all 0.1s linear;
-          transition: all 0.1s linear;
-          display:inline-block;
+  transition: all 0.1s linear;
+  display: inline-block;
 }
-
 
 .btn-outline-primary {
   color: #2c656b;
