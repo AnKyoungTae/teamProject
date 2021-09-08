@@ -8,23 +8,26 @@
         {{ shopInfo.storeInfo.name }}
       </div>
       <div
-        class="storeText"
+        class="row storeText"
         style="width: 100%; height: 300px; margin-top: 15px"
       >
-        <div
-          class="storeImg"
-          style="float: left; width: 45%; text-align: right"
-        >
-          <img
-            :src="shopInfo.fileList[0].name"
-            class="col-md-6 mt-2"
-            id="image"
-            style="width: 280px; height: 280px"
-          />
+        <div class="col-6">
+            <splide :options="primaryOptions" ref="primary" style="margin-bottom:1rem;">
+              <splide-slide v-for="file in shopInfo.fileList" :key="file">
+                <img class="splideImg" :src="file.name" alt="??">
+              </splide-slide>
+            </splide>
+            <!--
+            <splide :options="secondaryOptions" ref="secondary">
+              <splide-slide v-for="file in shopInfo.fileList" :key="file">
+                <img :src="file.name" alt="??">
+              </splide-slide>
+            </splide>
+            -->
         </div>
         <div
-          class="storeInf"
-          style="float: right; width: 50%; text-align: left"
+          class="col-6 storeInf "
+          style="text-align: left"
         >
           <p style="color: gray; margin-bottom: 35px; text-align: center">
             {{ shopInfo.storeInfo.storeKind }}
@@ -140,16 +143,27 @@ import shopMenu from "@/components/adminComponent/StoreMenu.vue";
 import shopMap from "@/components/adminComponent/StoreMap.vue";
 import review from "@/components/adminComponent/Review.vue";
 import Reviewicon from "@/components/shop/Reviewicon.vue";
+import { Splide, SplideSlide } from '@splidejs/vue-splide';
+import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 
 import { mapGetters } from "vuex";
 
 export default {
-  components: { shopMenu, shopMap, review, Reviewicon },
+  components: { 
+    Splide,
+    SplideSlide,
+    shopMenu, 
+    shopMap, 
+    review, 
+    Reviewicon,
+  },
   mounted() {
     this.storeId = this.$route.query.shopInfo;
     this.getStoreInfo(this.storeId);
     this.setComponent("shopMenu");
     this.getAverageScore();
+    // 슬라이드 sync가 안됨
+    //this.$refs.primary.sync( this.$refs.secondary.splide );
   },
   computed: {
     ...mapGetters({ myStore: "auth/getMyStore" }),
@@ -162,6 +176,27 @@ export default {
       averageScore: null,
       ownStore: false,
       storeId: null,
+      //슬라이드
+      primaryOptions: {
+        type      : 'loop',
+        width     : 500,
+        height    : 300,
+        pagination: false,
+      },
+      /*
+      secondaryOptions: {
+        type        : 'slide',
+        rewind      : true,
+        width       : 300,
+        gap         : '1rem',
+        pagination  : false,
+        fixedWidth  : 110,
+        fixedHeight : 70,
+        cover       : true,
+        focus       : 'center',
+        isNavigation: true,
+      },
+      */
     };
   },
   methods: {
@@ -176,6 +211,7 @@ export default {
           console.log(res.data);
           this.shopInfo = res.data;
           this.dataLoaded = true;
+          console.log(this.shopInfo.fileList);
         });
     },
     setComponent(comp) {
@@ -201,6 +237,10 @@ export default {
 </script>
 
 <style scoped>
+.storeText {
+  display: flex;
+  justify-content: center;
+}
 .storeBox {
   width: 80%;
 }
@@ -250,5 +290,9 @@ input {
 }
 .i-text {
   margin-left: 10px;
+}
+.splideImg{
+  width:100%; 
+  height:300px;
 }
 </style>

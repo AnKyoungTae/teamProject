@@ -7,17 +7,7 @@
       style="margin-right: 30vh"
     />
     <div class="review-left">
-      <!-- 평점 -->
-      <span style="font-weight: 600; font-size: 35px">{{ averageScore }}</span
-      ><span style="color: lightgray; font-size: 28px"> / 5</span>
-      <div style="font-size: 13px; margin-top: -10px">
-        <!-- 별 -->
-        <i
-          class="fas fa-star"
-          v-for="index of parseInt(averageScore)"
-          :key="index"
-        ></i>
-      </div>
+      <Reviewicon :averageScore="this.averageScore"></Reviewicon>
     </div>
   </div>
   <div class="review2">
@@ -137,6 +127,7 @@ import { normal, error, success } from "@/api/notification";
 import http from "@/api/http";
 import ReviewRow from "@/components/adminComponent/ReviewRow.vue";
 import { mapGetters } from "vuex";
+import Reviewicon from "@/components/shop/Reviewicon.vue";
 
 import { mapMutations } from "vuex";
 export default {
@@ -144,6 +135,7 @@ export default {
   components: {
     ReviewModal,
     ReviewRow,
+    Reviewicon,
   },
   data() {
     return {
