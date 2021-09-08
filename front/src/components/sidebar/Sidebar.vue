@@ -14,7 +14,11 @@
     <span v-else>
       <!-- 멤버 롤 마다 가는곳 다르게 -->
       <div v-if="!userRole || userRole == 'BUYER'">
-        <span @click="this.$router.push({ path: '/' })" class="logo">
+        <span
+          @click="this.$router.push({ path: '/' })"
+          class="logo"
+          style="font-family: 'Lobster Two', cursive"
+        >
           WAPOO
         </span>
       </div>
@@ -161,6 +165,7 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@1,700&display=swap");
 /* 기본 테마 정의 - 참고: https://blog.thereis.xyz/136 */
 :root {
   --sidebar-bg-color: #355f6e;

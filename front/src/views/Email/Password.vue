@@ -43,7 +43,7 @@
           </div>
         </div>
       </div>
-
+      
       <button @click="sendId" class="btn btn-outline-info send-button">
         보내기
       </button>
@@ -57,13 +57,7 @@
               <div>
                 <strong><span class="login-txt">이름 입력</span></strong>
                 <a class="Login-Abox">
-                  <strong class="login-tit"
-                    ><input
-                      type="text"
-                      class="text"
-                      v-model="loginId"
-                      placeholder="이름"
-                  /></strong>
+                  <strong class="login-tit"><input type="text" class="text" v-model="loginId" placeholder="이름"></strong>
                 </a>
               </div>
               <div style="margin-top: 30px">
@@ -101,13 +95,12 @@
               </p>
             </div>
           </div>
-        </div>
       </div>
-
       <button @click="sendEmail" class="btn btn-outline-info send-button">
         보내기
       </button>
-    </div>
+      </div>
+      </div>
   </div>
 </template>
 

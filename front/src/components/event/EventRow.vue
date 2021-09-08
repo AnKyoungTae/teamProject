@@ -202,6 +202,7 @@ export default {
   height: 60px;
   line-height: 60px;
   float: right;
+  margin-bottom: 15px;
   cursor: pointer;
   margin-bottom: 15px;
 }

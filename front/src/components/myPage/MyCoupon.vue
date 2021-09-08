@@ -183,7 +183,7 @@ export default {
 }
 .manage-text {
   font-weight: normal;
-  font-size: 20px;
+  font-size: 30px;
 }
 .profile-manage {
   margin-top: 10px;
