@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar" :style="{ width: sidebarWidth }">
     <span v-if="collapsed" @click="this.$router.push({ path: '/' })">
-      <h1 class="logo">
+      <h1 :class="collapsed ? '' : 'logo'">
         <div>와</div>
         <div>푸</div>
       </h1>
@@ -82,6 +82,7 @@
       data-bs-placement="top"
       title="주문번호를 입력하시면 주문조회가 가능합니다"
       @click="toggleFindOrder"
+      v-if="!userRole || userRole == 'BUYER'"
     >
       주문조회
     </div>
@@ -91,6 +92,7 @@
         collapsed ? 'hiddenOrderSearch' : '',
         findOrder ? 'hiddenFindOrderTab' : '',
       ]"
+      v-if="!userRole || userRole == 'BUYER'"
     >
       <span><b>주문번호</b>를 입력해주세요!</span>
       <hr />
@@ -168,7 +170,7 @@ export default {
 :root {
   --sidebar-bg-color: #355f6e;
   --sidebar-item-hover: #91afba;
-  --sidebar-item-active: #ffefa3;
+  --sidebar-item-active: #ffda77;
 }
 </style>
 
@@ -205,6 +207,7 @@ export default {
   cursor: pointer;
   user-select: none;
   width: 200px;
+  background: #355f6e;
 }
 .orderInfoSearch {
   background: #c3a28e;
@@ -240,7 +243,7 @@ export default {
   width: 210px;
   height: 120px;
   border-radius: 10px;
-  color: navy;
+  color: #fd3a69;
   padding: 10px;
   border: 1px solid gray;
   box-shadow: 0px 2px 2px 1px (0, 0, 0, 0.7);
@@ -248,9 +251,9 @@ export default {
   user-select: none;
 }
 .findOrderWrapper > span {
-  background: orange;
+  background: #ffda77;
   padding: 5px;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 .hiddenOrderSearch {
   transition: width 1s ease;
