@@ -17,7 +17,7 @@ export default {
 <style scoped>
 .food-list {
   padding: 5px;
-  max-width: 1020px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 .food-div {

@@ -83,10 +83,4 @@
         FROM food
         where foodId=#{foodId}
     </select>
-
-    <select id="selectCouponByEventId" resultType="Coupon">
-        SELECT *
-        FROM coupon
-        WHERE event_id = #{eventId}
-    </select>
 </mapper>

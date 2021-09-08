@@ -9,24 +9,44 @@
               <div>
                 <strong><span class="login-txt">이름 입력</span></strong>
                 <a class="Login-Abox">
-                  <strong class="login-tit"><input type="text" class="text" v-model="name" placeholder="이름" ></strong>
+                  <strong class="login-tit"
+                    ><input
+                      type="text"
+                      class="text"
+                      v-model="name"
+                      placeholder="이름"
+                  /></strong>
                 </a>
               </div>
-              <div style="margin-top: 30px;">
+              <div style="margin-top: 30px">
                 <strong><span class="login-txt">이메일 입력</span></strong>
                 <a class="Login-Abox">
-                  <strong class="login-tit"><input type="text" class="text" v-model="email" placeholder="이메일"></strong>
+                  <strong class="login-tit"
+                    ><input
+                      type="text"
+                      class="text"
+                      v-model="email"
+                      placeholder="이메일"
+                  /></strong>
                 </a>
               </div>
-              <p style="margin-top: 8px;">
-                <span style="cursor: pointer" @click="changeStatusId">아이디</span> &nbsp;|&nbsp; <span style="cursor: pointer" @click="changeStatusPwd">비밀번호</span>
+              <p style="margin-top: 8px">
+                <span style="cursor: pointer" @click="changeStatusId"
+                  >아이디</span
+                >
+                &nbsp;|&nbsp;
+                <span style="cursor: pointer" @click="changeStatusPwd"
+                  >비밀번호</span
+                >
               </p>
             </div>
           </div>
         </div>
       </div>
-
-      <button @click="sendId" class="btn btn-outline-info send-button">보내기</button>
+      
+      <button @click="sendId" class="btn btn-outline-info send-button">
+        보내기
+      </button>
     </div>
     <div v-else>
       <div class="manage-div">
@@ -40,31 +60,48 @@
                   <strong class="login-tit"><input type="text" class="text" v-model="loginId" placeholder="이름"></strong>
                 </a>
               </div>
-              <div style="margin-top: 30px;">
+              <div style="margin-top: 30px">
                 <strong><span class="login-txt">아이디 입력</span></strong>
                 <a class="Login-Abox">
-                  <strong class="login-tit"><input type="text" class="text" v-model="name" placeholder="아이디"></strong>
+                  <strong class="login-tit"
+                    ><input
+                      type="text"
+                      class="text"
+                      v-model="name"
+                      placeholder="아이디"
+                  /></strong>
                 </a>
               </div>
-              <div style="margin-top: 30px;">
+              <div style="margin-top: 30px">
                 <strong><span class="login-txt">이메일 입력</span></strong>
                 <a class="Login-Abox">
-                  <strong class="login-tit"><input type="text" class="text" v-model="email" placeholder="이메일"></strong>
+                  <strong class="login-tit"
+                    ><input
+                      type="text"
+                      class="text"
+                      v-model="email"
+                      placeholder="이메일"
+                  /></strong>
                 </a>
               </div>
-              <p style="margin-top: 8px;">
-                <span style="cursor: pointer" @click="changeStatusId">아이디</span> &nbsp;|&nbsp; <span style="cursor: pointer" @click="changeStatusPwd">비밀번호</span>
+              <p style="margin-top: 8px">
+                <span style="cursor: pointer" @click="changeStatusId"
+                  >아이디</span
+                >
+                &nbsp;|&nbsp;
+                <span style="cursor: pointer" @click="changeStatusPwd"
+                  >비밀번호</span
+                >
               </p>
             </div>
           </div>
-        </div>
       </div>
-
-      <button @click="sendEmail" class="btn btn-outline-info send-button">보내기</button>
-    </div>
-    
+      <button @click="sendEmail" class="btn btn-outline-info send-button">
+        보내기
+      </button>
+      </div>
+      </div>
   </div>
-  
 </template>
 
 <script>
@@ -73,91 +110,82 @@ import http from "@/api/http";
 export default {
   data() {
     return {
-      loginId: '',
-      name: '',
-      email: '',
+      loginId: "",
+      name: "",
+      email: "",
 
-
-      status: "id"
-    }
+      status: "id",
+    };
   },
   methods: {
-    changeStatusId(){
-      this.loginId = ""
-      this.name = ""
-      this.email=""
-      return this.status = "id"
+    changeStatusId() {
+      this.loginId = "";
+      this.name = "";
+      this.email = "";
+      return (this.status = "id");
     },
     changeStatusPwd() {
-      this.loginId = ""
-      this.name = ""
-      this.email=""
-      return this.status = "pwd"
+      this.loginId = "";
+      this.name = "";
+      this.email = "";
+      return (this.status = "pwd");
     },
     //비밀번호
     sendEmail() {
-      if(this.loginId == ""){
-        return alert("아이디를 입력하세요.")
-      }else if(this.name == ""){
-        return alert("이름을 입력하세요.")
-      }else if(this.email == ""){
-        return alert("이메일을 입력하세요.")
+      if (this.loginId == "") {
+        return alert("아이디를 입력하세요.");
+      } else if (this.name == "") {
+        return alert("이름을 입력하세요.");
+      } else if (this.email == "") {
+        return alert("이메일을 입력하세요.");
       }
-
-
 
       let params = {
         loginId: this.loginId,
         name: this.name,
-        email: this.email
-      }
+        email: this.email,
+      };
 
-      http.post("/Login/findpwd", {params})
-      .then(res => {
-        if(res.data == "ok"){
-          alert("이메일이 전송되었습니다.")
-          location.href="/"
-        }else if(res.data == "id"){
-          alert("아이디가 알맞지 않습니다.")
-        }else if(res.data == "email"){
-          alert("이름 또는 이메일이 알맞지 않습니다.")
-        }else{
-          alert("이메일 전송 실패")
+      http.post("/Login/findpwd", { params }).then((res) => {
+        if (res.data == "ok") {
+          alert("이메일이 전송되었습니다.");
+          location.href = "/";
+        } else if (res.data == "id") {
+          alert("아이디가 알맞지 않습니다.");
+        } else if (res.data == "email") {
+          alert("이름 또는 이메일이 알맞지 않습니다.");
+        } else {
+          alert("이메일 전송 실패");
         }
-      })
-
+      });
     },
     //아이디
     sendId() {
-      if(this.name == ""){
-        return alert("이름을 입력하세요.")
-      }else if(this.email == ""){
-        return alert("이메일을 입력하세요.")
+      if (this.name == "") {
+        return alert("이름을 입력하세요.");
+      } else if (this.email == "") {
+        return alert("이메일을 입력하세요.");
       }
 
       let params = {
         name: this.name,
-        email: this.email
-      }
+        email: this.email,
+      };
 
-      http.post("/Login/findid", {params})
-      .then(res => {
-        console.log(res.data)
-        if(res.data == "ok"){
-          alert("이메일이 전송되었습니다.")
-          location.href="/"
-        }else if(res.data != "no"){
-          alert(  "이름 또는 이메일이 알맞지 않습니다.")
-        }else{
-          alert("이메일 전송 실패")
+      http.post("/Login/findid", { params }).then((res) => {
+        console.log(res.data);
+        if (res.data == "ok") {
+          alert("이메일이 전송되었습니다.");
+          location.href = "/";
+        } else if (res.data != "no") {
+          alert("이름 또는 이메일이 알맞지 않습니다.");
+        } else {
+          alert("이메일 전송 실패");
         }
-      })
-
-
+      });
     },
-    
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -194,9 +222,9 @@ export default {
   position: relative;
 }
 .Login-Aboxdiv Abox {
-  display: block; 
-  width: 80px; 
-  height: 80px; 
+  display: block;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
 }
 .Abox-text {
@@ -226,19 +254,19 @@ export default {
   width: 25%;
 }
 
-.main{
+.main {
   margin-top: 5vh;
 }
-.main .touch{
+.main .touch {
   margin: 0 3vw;
 }
-.title{
+.title {
   margin: 5vh 0 15px 0;
 }
-.main .tab{
+.main .tab {
   margin: 0 auto;
 }
-.main .text{
+.main .text {
   width: 20vw;
   margin: 1vh 0;
 }

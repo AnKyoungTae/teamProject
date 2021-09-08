@@ -100,4 +100,10 @@ export default {
   cursor: pointer;
   background-color: #E85349;
 }
+
+.row-cols-2 {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
 </style>

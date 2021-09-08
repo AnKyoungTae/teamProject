@@ -15,7 +15,11 @@
                 <div class="menu-top">
                   <div class="top-left">
                     <span style="color: lightgray"
-                      >{{ orderList.orderDate[0]}}.{{ orderList.orderDate[1]}}.{{ orderList.orderDate[2]}} · 배달중</span
+                      >{{ orderList.orderDate[0] }}.{{
+                        orderList.orderDate[1]
+                      }}.{{ orderList.orderDate[2] }}&nbsp;&nbsp;
+                      {{ orderList.orderDate[3] }}시
+                      {{ orderList.orderDate[4] }}분 · 배달중</span
                     >
                   </div>
                   <div class="top-right">

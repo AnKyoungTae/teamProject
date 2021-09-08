@@ -204,6 +204,7 @@ export default {
   float: right;
   margin-bottom: 15px;
   cursor: pointer;
+  margin-bottom: 15px;
 }
 .order-span {
   color: white;

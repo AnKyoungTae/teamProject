@@ -124,7 +124,7 @@ a {
   height: 4px;
   left: 50%;
   position: absolute;
-  background: #FFEFA3;
+  background: #ffefa3;
   transition: width 0.3s ease 0s, left 0.3s ease 0s;
   width: 0;
 }

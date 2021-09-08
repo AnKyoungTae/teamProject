@@ -10,7 +10,7 @@
   />
   <div style="width: 740px; margin: 0 auto;">
     <form action="" name="EventAdd">
-      <table>
+      <table style="width: 700px; margin: auto">
         <tr>
           <td class="td1">행사 제목</td>
           <td class="td2" colspan="3" style="text-align: left">
@@ -342,6 +342,7 @@ table {
 .td1 {
   background-color: lightgray;
   padding: 10px;
+  width: 110px;
   border-bottom: 1px solid rgb(199, 198, 198);
 }
 .td2 {
