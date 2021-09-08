@@ -4,6 +4,7 @@ import com.icia.wapoo.jwt.service.JwtService;
 import com.icia.wapoo.model.Food;
 import com.icia.wapoo.model.GraphDay;
 import com.icia.wapoo.model.GraphFood;
+import com.icia.wapoo.model.GraphResntFood;
 import com.icia.wapoo.model.KakaoPayApproval;
 import com.icia.wapoo.model.KakaoPayReady;
 import com.icia.wapoo.model.Store;
@@ -207,7 +208,6 @@ public class OrderController {
     @PostMapping("/getDayAmount")
     public ResponseEntity getDayAmount(@RequestBody String date, HttpServletRequest request)
     {
-    	System.out.println("@RequestBody String totalOrderId :  " +date);
     	
     	int memberId = getMemberIdByRequest(request);
     	
@@ -218,12 +218,64 @@ public class OrderController {
     	return new ResponseEntity(graphDay, HttpStatus.OK);
     }
     
+    //최근 판매한 음식 매출량 
+    @PostMapping("/getResentFood")
+    public ResponseEntity getResentFood(@RequestBody Map<String, Object> params,  HttpServletRequest request)
+    {
+    	int memberId = getMemberIdByRequest(request);
+    	
+    	Store store = storeService.getStoreById(memberId);
+    	
+    	List<String> list = orderService.getStoreAllFood(store.getStoreId());
+    	
+    	
+    	
+    	String date = (String) params.get("date");
+
+    	String name = (String) params.get("name");
+    	
+    	Map<String, Object> map = new HashMap<>();
+    	
+    	List<GraphResntFood> graphResntFood = null;
     
+    	if(name == "")
+    	{
+    		System.out.println("첫번째 클릭");
+    		
+    		name = list.get(0);
+    		
+    		graphResntFood = orderService.getResentFood(store.getStoreId(), date, name);
+    	}
+    	else
+    	{	
+    		graphResntFood = orderService.getResentFood(store.getStoreId(), date, name);
+    		
+    	}
+    	
+    	map.put("list", list);
+    	map.put("graphResntFood", graphResntFood);
+    	map.put("name", name);
+    	
+    	
+    	return new ResponseEntity(map, HttpStatus.OK);
+    }
     
-    
-    
-    
-    
+    //getPayment
+    @PostMapping("/getPayment")
+    public ResponseEntity getPayment(HttpServletRequest request)
+    {
+    	int memberId = getMemberIdByRequest(request);
+    	
+    	Store store = storeService.getStoreById(memberId);
+    	
+    	Map<String, Object> map = new HashMap<>();
+    	
+    	map = orderService.getPayment(store.getStoreId());
+    	
+    	System.out.println(map);
+    	
+    	return new ResponseEntity(map, HttpStatus.OK);
+    }
     
     
     

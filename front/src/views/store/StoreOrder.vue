@@ -249,6 +249,7 @@ export default {
       //첫번째
       if(index == 0){
         this.payCash = this.list[index].payment + this.list[index].discount - (this.list[index].price * this.list[index].quantity)
+
         if( this.payCash >= 0){
           this.list[index].payment = (this.list[index].price * this.list[index].quantity)
         }else{
@@ -258,7 +259,7 @@ export default {
       }//같은 주문일때
       else if(this.list[index].orderId == this.list[index - 1].orderId){
         
-        this.payCash - (this.list[index].price * this.list[index].quantity)
+        this.payCash = this.list[index].payment + this.list[index].discount - (this.list[index].price * this.list[index].quantity)
 
         if(this.payCash >= 0){
           this.list[index].payment = (this.list[index].price * this.list[index].quantity)
@@ -268,7 +269,7 @@ export default {
         return false
       }//주문이 다를때
       else{
-        this.payCash = this.list[index].payment + this.list[index].discount - (this.list[index].price * this.list[index].quantity)
+        this.payCash = this.list[index].payment  - (this.list[index].price * this.list[index].quantity)
 
         if((this.payCash) >= 0){
           this.list[index].payment = (this.list[index].price * this.list[index].quantity)
@@ -376,7 +377,7 @@ export default {
       this.status = satus
       http.post("/order/storeOrder", {satus})
       .then(res => {
-        
+        console.log(res.data)
         if(satus == "Y"){
           this.list = res.data.storeOrder.reverse()
         }else{
