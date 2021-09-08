@@ -83,4 +83,207 @@
         FROM food
         where foodId=#{foodId}
     </select>
+
+    <select id="selectCouponByEventId" resultType="Coupon">
+        SELECT *
+        FROM coupon
+        WHERE event_id = #{eventId}
+    </select>
+    
+    
+<!-- 주문표 -->
+<select id="storeOrder" resultType="StoreOrder">
+SELECT	a.name AS 'name',
+	a.store_id AS 'storeId',
+	a.price AS 'price',
+	b.quantity AS 'quantity',
+	b.status AS 'status',
+	b.orderDate AS 'orderDate',
+	b.totalPrice AS 'totalPrice',
+	b.discount AS 'discount',
+	b.payment AS 'payment',
+	b.address AS 'address',
+	b.phone AS 'phone',
+	b.requests AS 'requests',
+	b.orderId AS 'orderId',
+	b.orderInfoId AS 'orderInfoId'
+	
+FROM	food a, (SELECT	a.food_id AS 'foodId',
+	a.quantity AS 'quantity',
+	a.status AS 'status',
+	b.orderDate AS 'orderDate',
+	b.totalPrice AS 'totalPrice',
+	b.discount AS 'discount',
+	b.payment AS 'payment',
+	a.order_id AS 'orderId',
+	b.address AS 'address',
+	b.phone AS 'phone',
+	b.requests AS 'requests',
+	a.orderInfoId AS 'orderInfoId'
+	
+	
+	FROM	orderInfo a, `order` b
+	WHERE	a.order_id = b.orderId) b
+WHERE	b.foodId = a.foodId
+AND	a.store_id = #{storeId}
+
+AND b.status = #{status}
+
+
+
+</select>
+
+<!-- 가게별 주문 총합 -->
+<select id="getTotalOrder" resultType="int">
+SELECT COUNT(DISTINCT a.order_id)
+FROM	`orderInfo` a, `food` b
+WHERE	a.food_id = b.foodId
+AND	a.status = #{status}
+AND	b.store_id = #{storeId}
+
+</select>
+
+<!-- 주문 음식 1개 삭제 -->
+<update id="deleteOrder">
+UPDATE	`orderInfo`
+SET	STATUS = 'N'
+WHERE	orderInfoId = #{orderInfoId}
+</update>
+
+<!-- 주문1건 삭제 -->
+<update id="deleteAllOrder">
+UPDATE	`orderInfo`
+SET	STATUS = 'N'
+WHERE	order_id = #{orderId}
+</update>
+
+<!-- 전체 주문 승인 -->
+<update id="approveOrder">
+UPDATE	`orderInfo`
+SET	STATUS = 'Y'
+WHERE	order_id = #{orderId}
+</update>
+
+<!-- 가게 음식 판매 순위 -->
+<select id="getFoodSaleAmount"  resultType="GraphFood">
+
+SELECT	@rownum:= @rownum + 1 AS 'rowNum',
+	a.*
+FROM	(SELECT	b.name,
+	IFNULL(a.quantity, 0) AS 'quantity',
+	IFNULL(b.price * a.quantity, 0) AS 'price'
+		
+		FROM	(SELECT 
+					b.name AS 'name',
+					b.store_id AS 'storeId',
+					b.foodId AS 'foodId',
+					IFNULL(SUM(a.quantity), 0) AS 'quantity',
+					IFNULL(b.price * a.quantity, 0) AS 'price'
+					
+					
+				FROM	(SELECT	IFNULL(b.quantity, 0) AS 'quantity',
+						b.food_id AS 'foodId'
+						FROM `order` a, `orderInfo` b
+					WHERE a.orderId = b.order_id
+					AND	b.status = 'Y'
+					
+<choose>
+	<when test="date == 'week'">
+		AND DATE(a.orderDate) >= DATE(SUBDATE(NOW(), INTERVAL 1 WEEK))
+	</when>
+	<when test="date == 'day'">
+		AND DATE_FORMAT(a.orderDate, '%Y-%m-%d') = DATE_FORMAT(CURDATE(),  '%Y-%m-%d')
+	</when>
+	<when test="date == 'month'">
+		AND DATE(a.orderDate) >= DATE(SUBDATE(NOW(), INTERVAL 1 MONTH))
+	</when>
+	<otherwise>
+		AND DATE(a.orderDate) >= DATE(SUBDATE(NOW(), INTERVAL 1 YEAR))
+	</otherwise>
+</choose>
+			) a RIGHT OUTER JOIN `food` b
+				ON	a.foodId = b.foodId
+
+				WHERE	b.store_id = 23
+				GROUP BY(b.name)) a RIGHT OUTER JOIN (SELECT *
+									FROM `food`
+									WHERE store_id = 23) b
+	ON a.name =b.name 
+	ORDER BY a.quantity DESC) a
+WHERE (@rownum:=0)=0
+</select>
+
+<!-- 요일별 매출량 -->
+<select id="getDayAmount" resultType="GraphDay">
+SELECT CASE `day`
+
+			WHEN '1' THEN '일요일'
+
+			WHEN '2' THEN '월요일'
+
+			WHEN '3' THEN '화요일'
+
+			WHEN '4' THEN '수요일'
+
+			WHEN '5' THEN '목요일'
+
+			WHEN '6' THEN '금요일'
+
+			WHEN '7' THEN '토요일'
+
+			END AS 'WEEK', 
+			a.count AS 'totalOrder',
+			payment AS 'payment'
+FROM (
+	SELECT 
+		a.n AS 'day',
+		COUNT(DISTINCT b.orderInfoId) AS 'count',
+		IFNULL(b.orderInfoId, 0) AS 'orderId',
+		IFNULL(SUM(b.price * b.quantity), 0) AS 'payment',
+		IFNULL(b.price * b.quantity, 0) AS 'price',
+		IFNULL(b.quantity, 0) AS 'quantity'
+		
+		FROM (WITH RECURSIVE cte AS (
+			    SELECT 1 AS n
+			    UNION ALL
+			    <![CDATA[SELECT n + 1 FROM cte WHERE n < 7]]> 
+			    )
+			SELECT n FROM cte) a LEFT OUTER JOIN
+			(SELECT	DAYOFWEEK( a.orderDate)  AS 'date',
+					a.orderInfoId AS 'orderInfoId',
+					a.quantity AS 'quantity',
+					a.orderDate AS 'orderDate',
+					b.name AS 'name',
+					b.price AS 'price',
+					store_id AS 'storeId'
+				FROM(SELECT	
+							a.orderDate AS 'orderDate',
+							a.orderId AS 'orderInfoId',
+							b.food_id AS 'foodId',
+							b.quantity AS 'quantity'
+							
+
+						FROM	`order` a, `orderInfo` b
+						WHERE	a.orderId = b.order_id
+						AND	b.status = 'Y'
+<choose>
+	<when test="date == 'week'">
+		AND DATE(a.orderDate) >= DATE(SUBDATE(NOW(), INTERVAL 1 WEEK))
+	</when>
+	<when test="date == 'month'">
+		AND DATE(a.orderDate) >= DATE(SUBDATE(NOW(), INTERVAL 1 MONTH))
+		
+	</when>
+	<otherwise>
+		AND DATE(a.orderDate) >= DATE(SUBDATE(NOW(), INTERVAL 1 YEAR))
+	</otherwise>
+</choose>
+						) a, `food` b
+				WHERE a.foodId = b.foodId
+				AND	b.store_id = #{storeId}) b
+	ON a.n = b.date
+	GROUP BY a.n) a
+</select>
+    
+    
 </mapper>

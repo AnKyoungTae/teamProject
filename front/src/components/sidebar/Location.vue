@@ -106,7 +106,7 @@ export default {
 
 <style scoped>
 .isCollapsed {
-  background-color: tomato;
+  background-color: #fa9f84;
   left: 10%;
 }
 .link {
@@ -118,16 +118,19 @@ export default {
   font-weight: 400;
   user-select: none;
   width: 80%;
+
+  margin: 0.6em 0;
+
   padding: 0.8em;
-  border-radius: 0.25em;
-  height: 2rem;
+  border-radius: 0.6em;
+  height: 1.4rem;
   color: white;
   text-decoration: none;
   font-size: 12px;
 }
 
 .link:hover {
-  background-color: rgb(216, 120, 91);
+  background-color: #ad7565;
 }
 
 .link .icon {
