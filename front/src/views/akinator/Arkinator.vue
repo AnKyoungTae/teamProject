@@ -8,26 +8,36 @@
           <span class="visually-hidden">Loading...</span>
         </div>
       </div>
-      <div
-        class="question"
-        :class="{ collapsedQuetionWidth: collapsed }"
-        v-else-if="this.stageAkinator.length != 0"
-      >
-        <p>Akinator</p>
-        <span>
-          {{ question }}
-        </span>
-      </div>
+
       <div class="chatWrapper m-1 p-2" id="log">
         <!-- 답변들 -->
 
-        <div class="answer" v-for="(answer, index) of answers" :key="index">
-          <div class="answerRollback" @click="rollback(answer)">
-            <div></div>
-            <div></div>
+        <div
+          class="answer"
+          v-for="(answer, index) of answers"
+          :key="index"
+          @click="rollback(answer)"
+        >
+          <div class="questionText">
+            <span>
+              {{ questionText(answer.question_id) }}
+            </span>
           </div>
+          <div class="answerText">
+            <span>
+              {{ answer.answerText }}
+            </span>
+          </div>
+        </div>
+
+        <div
+          class="question"
+          :class="{ collapsedQuetionWidth: collapsed }"
+          v-if="this.stageAkinator.length != 0"
+        >
           <span>
-            {{ answer.answerText }}
+            <p style="margin-right: 10px">Akinator 의 질문 ></p>
+            {{ question }}
           </span>
         </div>
       </div>
@@ -65,10 +75,10 @@
             v-model="foodFilter"
           />
           <span
-            class="input-group-text btn btn-outline-primary p-1"
+            class="input-group-text btn btn-outline-primary p-3"
             id="food-filter"
-            >검색</span
-          >
+            ><i class="fas fa-search"></i
+          ></span>
         </div>
       </div>
       <div class="foodListWrapper p-2">
@@ -108,7 +118,17 @@
       </div>
       <div class="choicesWrapper m-1">
         <!-- 버튼탭 -->
-        <div class="btn btn-outline-success" @click="toFoodDetail">선택</div>
+        <div
+          class="btn btn-outline-success"
+          @click="toFoodDetail"
+          :style="
+            selectedFood != null
+              ? 'font-size: 22px; transition: 0.5s; font-weight: bolder'
+              : ''
+          "
+        >
+          선택
+        </div>
         <div class="btn btn-outline-danger" @click="toHome">나가기</div>
       </div>
     </div>
@@ -176,17 +196,13 @@ export default {
         }
       });
     },
-    hidden(index) {
-      if (this.isHidden[index] == false) {
-        console.log(this.isHidden[index]);
-        this.isHidden[index] = true;
-        console.log("1");
-      } else {
-        console.log(this.isHidden[index]);
-        this.isHidden[index] = false;
-        console.log("2");
-      }
-    },
+    // hidden(index) {
+    //   if (this.isHidden[index] == false) {
+    //     this.isHidden[index] = true;
+    //   } else {
+    //     this.isHidden[index] = false;
+    //   }
+    // },
     choiceAkinator(alternative) {
       // 선택했을 때,
       this.answers.push(alternative);
@@ -309,8 +325,18 @@ export default {
       });
     },
     selectFood(food) {
+      if (this.selectedFood == food) {
+        this.selectedFood = null;
+        return;
+      }
       // 음식 클릭 했을 때,
       this.selectedFood = food;
+    },
+    questionText(question_id) {
+      let poo = this.executedAkinators.find((akinator) => {
+        return akinator.questionId == question_id ? true : false;
+      });
+      return poo.query;
     },
   },
   computed: {
@@ -393,6 +419,7 @@ export default {
   flex-flow: row wrap;
   height: 100%;
   min-width: 480px;
+  user-select: none;
 }
 .right {
   /* 가운데 중심으로 오른쪽 탭들 */
@@ -401,6 +428,7 @@ export default {
   min-width: 100px;
   /* 스크롤에 화면 안밀리게 */
   height: 100%;
+  user-select: none;
 }
 
 /* 채팅화면 설정 */
@@ -425,6 +453,48 @@ export default {
   visibility: hidden;
 }
 
+.question {
+  position: relative;
+  width: 100%;
+  min-width: 320px;
+  padding: 0.2em 1em;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+}
+.question > span:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 0;
+  height: 0;
+  border: 1em solid transparent;
+  border-right-color: #fd3a69;
+  border-left: 0;
+  border-bottom: 0;
+  margin-top: -1.5em;
+  margin-left: 0em;
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.1);
+}
+
+.question > span > p {
+  color: springgreen;
+}
+.question > span {
+  display: flex;
+  font-size: 1.2em;
+  font-weight: bolder;
+  background: #fd3a69;
+  border: #7f7f7f solid 1px;
+  padding: 0.4em 1em 0em 1em;
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  color: white;
+}
 .chatWrapper {
   /* 채팅화면탭 */
   background: rgb(166, 213, 252);
@@ -436,73 +506,24 @@ export default {
   flex-wrap: nowrap;
   align-items: flex-end;
   justify-content: end;
-  overflow: hidden;
-  border: 1px solid gray;
-  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
-}
-.question {
-  position: absolute;
-  width: 35%;
-  min-width: 320px;
-  left: 300px;
-  font-size: 20px;
-  top: 50px;
-  padding: 5px;
-  background: #ffffff;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  border: #7f7f7f solid 1px;
-  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
-}
-
-.question:after {
-  content: "";
-  position: absolute;
-  border-style: solid;
-  border-width: 0 19px 15px 0;
-  border-color: transparent #ffffff;
-  display: block;
-  width: 0;
-  z-index: 1;
-  left: -19px;
-  top: 8px;
-}
-
-.question:before {
-  content: "";
-  position: absolute;
-  border-style: solid;
-  border-width: 0 22px 17px 0;
-  border-color: transparent #7f7f7f;
-  display: block;
-  width: 0;
-  z-index: 1;
-  left: -22px;
-  top: 7px;
-}
-.question > p {
-  display: inline;
-  color: #5c79f8;
-}
-.question > span {
-  display: block;
-  padding-top: 25px;
-  top: 20px;
-  font-size: 20px;
-  font-weight: bolder;
+  overflow: auto;
+  border: 1px solid #91afba;
+  box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.4);
+  background: #355f6e;
 }
 .answer {
   position: relative;
-  background: #fffb1c;
   border-radius: 0.4em;
-  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
-  right: 5%;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex-flow: column;
+  padding: 0em 1em;
 }
 .collapsedQuetionWidth {
   left: 135px;
 }
-.answer:after {
+.answer > .answerText:after {
   content: "";
   position: absolute;
   right: 0;
@@ -510,63 +531,63 @@ export default {
   width: 0;
   height: 0;
   border: 1em solid transparent;
-  border-left-color: #fffb1c;
+  border-left-color: #ffda77;
   border-right: 0;
   border-bottom: 0;
-  margin-top: -0.5em;
-  margin-right: -1em;
+  margin-top: 1em;
+  margin-right: 0em;
   box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.1);
 }
-/* 답변 엑스박스 */
-.answerRollback {
+.answer > .questionText:after {
+  content: "";
   position: absolute;
-  width: 20px;
-  height: 20px;
-  background: orange;
-  box-shadow: 0px 3px 2px 2px rgb(184, 184, 184);
-  left: -25px;
-  border-radius: 6px;
-  transition: 250ms ease;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 1em solid transparent;
+  border-right-color: #fd3a69;
+  border-left: 0;
+  border-bottom: 0;
+  margin-top: -1.5em;
+  margin-left: 0em;
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.1);
+}
+.answer > .questionText {
+  display: flex;
+  flex-wrap: wrap;
+  opacity: 0.8;
+}
+.answer > .answerText {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+  opacity: 0.8;
+}
+.answer:hover .answerText,
+.answer:hover .questionText {
   cursor: pointer;
-  opacity: 0.2;
-}
-.answerRollback:hover {
-  background: tomato;
-  box-shadow: 0px 3px 2px 2px rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
   opacity: 1;
+  font-size: 1.1em;
+  text-decoration-line: line-through;
 }
-.answerRollback div {
-  transition: 250ms ease;
+.questionText > span {
+  background: #fd3a69;
+  padding: 0.5em 1em;
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  color: white;
 }
-.answerRollback div:first-of-type {
-  width: 14px;
-  height: 2px;
-  background-color: #fff;
-  border-radius: 2px;
-  position: absolute;
-  top: 10px;
-  left: 10%;
-  transform: rotate(-125deg);
-}
-.answerRollback div:last-of-type {
-  width: 14px;
-  height: 2px;
-  background-color: #fff;
-  border-radius: 2px;
-  position: absolute;
-  top: 10px;
-  left: 10%;
-  transform: rotate(125deg);
+.answerText > span {
+  background: #ffda77;
+  padding: 0.5em 1em;
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 
-.answer > span {
-  padding: 2px 10px;
-  display: block;
-}
 .alternativesWrapper {
   /* 답변목록탭 */
-  background: lightgray;
+  background: #91afba;
   border: 1px solid gray;
   width: 100%;
   height: 25%;
@@ -576,11 +597,11 @@ export default {
   flex-direction: column;
   flex-wrap: wrap;
   overflow: auto;
-  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.4);
 }
 .alternative {
   font-size: 18px;
-  background: #fffb1c;
+  background: #ffda77;
   display: inline-block;
   box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
@@ -639,6 +660,7 @@ export default {
   border-radius: 8px;
   border: 1px solid gray;
   padding: 8px;
+  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.4);
 }
 .emptyFood {
   /* 음식목록이 비어있을 때 가운데정렬 */
@@ -654,6 +676,9 @@ export default {
   width: 100%;
   height: 100%;
   display: flex;
+}
+.foodWrapper:hover {
+  background: #91afba;
 }
 .foodImg {
   width: 50%;
@@ -705,7 +730,7 @@ export default {
 }
 /* 선택되었을 때 */
 .choicedFoodList {
-  border: 2px solid orange;
+  border: 4px solid #fd3a69;
   border-radius: 6px;
   transition: 0.2s;
 }
