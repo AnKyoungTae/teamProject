@@ -25,7 +25,7 @@
             <!--메인 이름, 지도, 가게 리스트 -->
             <div class="container-fluid px-4">
               <!--메인 이름 WA POO -->
-              <h1 class="mt-4">주변가게보기</h1>
+              <h1 class="m-4">주변가게보기</h1>
               <div class="row">
                 <!--지도 -->
                 <div class="col-xl-7">
@@ -139,7 +139,7 @@ export default {
           i = 0;
         }
       }
-      setInterval(typing, 200);
+      setInterval(typing, 350);
     },
     showAkinator() {
       this.$router.push({ path: "akinator" });
@@ -172,13 +172,21 @@ export default {
   height: 800px;
   scroll-snap-align: center;
 }
+@font-face {
+  font-family: "BMDOHYEON";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .text_box {
-  font-size: 2rem;
+  font-size: 4rem;
   text-align: center;
   padding-top: 300px;
   color: white;
-  font-size: 3em;
   font-weight: bolder;
+  font-family: BMDOHYEON;
 }
 
 .blink {
@@ -204,19 +212,27 @@ export default {
 .heightBox {
   height: 200px;
 }
+@font-face {
+  font-family: "BMEULJIRO";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/BMEULJIRO.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 .shortCut {
-  background: #ffda77;
-  font-weight: bold;
-  font-size: 1.4em;
+  font-weight: bolder;
+  font-size: 1.6em;
   color: #fd3a69;
   width: 400px;
   margin: 30px;
-  padding: 10px;
-  border: 4px outset white;
-  border-radius: 30px;
+  padding: 0.5em 0.6em;
+  border: 5px solid #ffda77;
+  border-radius: 15px 15px 15px 0;
+  -webkit-text-stroke: 0.2px white;
+  font-family: BMDOHYEON;
 }
 .shortCut:hover {
   cursor: pointer;
-  border: 4px inset whitesmoke;
+  border: 4px inset #ffda77;
 }
 </style>

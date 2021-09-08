@@ -185,7 +185,7 @@ export default {
       this.io = null;
       if (option != null) {
         this.dataLoaded = false;
-        this.option = option;
+        this.options = option;
         this.shopList = [];
         this.quantity = 10;
         this.loadFrom = 0;
@@ -212,6 +212,7 @@ export default {
   text-decoration: none;
   color: #000000;
   padding: 4px;
+  position: sticky;
 }
 .foodnum-a:hover {
   cursor: pointer;

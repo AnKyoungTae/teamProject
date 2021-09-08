@@ -191,7 +191,7 @@ export default {
 
   display: flex;
   flex-direction: column;
-  box-shadow: 4px 4px 4px 4px rgba(190, 190, 190, 0.6);
+  box-shadow: 2px 2px 2px 2px rgba(39, 144, 185, 0.377);
 }
 
 .burger {
