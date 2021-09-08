@@ -4,6 +4,7 @@ import com.icia.wapoo.dao.CouponDao;
 import com.icia.wapoo.dao.OrderDao;
 import com.icia.wapoo.model.GraphDay;
 import com.icia.wapoo.model.GraphFood;
+import com.icia.wapoo.model.GraphResntFood;
 import com.icia.wapoo.model.KakaoPayApproval;
 import com.icia.wapoo.model.KakaoPayReady;
 import com.icia.wapoo.model.Payment;
@@ -96,7 +97,7 @@ public class OrderService {
                 // foodId로 storeId 얻기
                 foodList.add(foodId);
                 totalQuantity += quantity;
-                totalPrice += orderDao.selectPriceByFoodId(foodId);
+                totalPrice += orderDao.selectPriceByFoodId(foodId) * quantity;
                 return result;
             }
             return 0;
@@ -192,7 +193,7 @@ public class OrderService {
             int result = orderDao.updateOrderState(payment.getOrder_id(), "Y");
             orderDao.updateOrderPayment(payment.getOrder_id(), kakaoPayApprovalVO.getAmount().getTotal());
             System.out.println("적용된 order 레코드 수 : "+ result);
-            result = orderDao.updateOrderInfosStatus(payment.getOrder_id(), "Y");
+            result = orderDao.updateOrderInfosStatus(payment.getOrder_id(), "S");
             System.out.println("적용된 orderInfo 레코드 수 : " + result);
             return payment.getOrder_id();
 
@@ -339,6 +340,69 @@ public class OrderService {
     	
     	return graphDay;
     }
+    
+    //가게에 있는 모든 음식 메뉴
+    public List<String> getStoreAllFood(int storeId)
+    {
+    	List<String> list = null;
+    	
+    	try
+    	{
+    		list  = orderDao.getStoreAllFood(storeId);
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println("getStoreAllFood 오류: " + e);
+    	}
+    	
+    	return list;
+    }
+    
+    
+    //최근 판매한 음식 매출량 
+    public List<GraphResntFood> getResentFood(int storeId, String date, String foodName)
+    {
+    	List<GraphResntFood> graphResntFood = null;
+    	
+    	try
+    	{
+    		graphResntFood  = orderDao.getResentFood(storeId, date, foodName);
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println("getResentFood 오류: " + e);
+    	}
+    	
+    	return graphResntFood;
+    }
+    
+    // 최근 판매한 음식 매출량 
+    public Map getPayment(int storeId)
+    {
+    	Map<String, Object> map = new HashMap<>();
+    	
+    	try
+    	{
+    		map = orderDao.getPayment(storeId);
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println("getPayment 오류: " + e);
+    	}
+    	
+    	return map;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
