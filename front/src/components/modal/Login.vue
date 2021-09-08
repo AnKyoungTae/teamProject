@@ -148,7 +148,7 @@ export default {
               if (this.userRole === "SELLER") {
                 this.$router.push({ path: "/store" });
               } else if (this.userRole === "ADMIN") {
-                this.$router.push({ path: "/admin" });
+                this.$router.push({ path: "/manageMember" });
               }
             }
 

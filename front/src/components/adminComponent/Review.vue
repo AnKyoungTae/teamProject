@@ -220,11 +220,11 @@ export default {
       this.pageLoaded = false;
 
       this.requestListCount(request);
-
     },
 
     requestListCount(request) {
       const storeId = parseInt(this.storeId);
+      console.log("1");
       http
         .get("/review/getReviewListCount", {
           params: {
@@ -233,11 +233,13 @@ export default {
         })
         .then((response) => {
           this.totalCount = response.data;
+          console.log("2");
           if (this.totalCount == 0) {
             this.pageLoaded = true;
             return;
           }
           let storeId = parseInt(this.storeId);
+          console.log("3");
 
           const data = {
             listPerPage: this.listPerPage,
@@ -245,9 +247,11 @@ export default {
             storeId: storeId,
             showOption: this.showOption,
           };
+
           http
             .post("/review/getReviewList", data)
             .then((response) => {
+              console.log("4");
               if (response.status === 200) {
                 console.log(response.data);
                 this.reviewList = response.data;
@@ -261,6 +265,7 @@ export default {
             });
         })
         .catch((err) => {
+          console.log("5");
           console.log(err);
         });
     },

@@ -24,9 +24,10 @@
         </h2>
       </div>
       <div v-else-if="userRole != null && userRole == 'ADMIN'">
-        <h2 @click="this.$router.push({ path: '/' })" class="logo">관리자</h2>
+        <h2 @click="this.$router.push({ path: '/manageMember' })" class="logo">
+          관리자
+        </h2>
       </div>
-      <hr />
       <!-- 펼쳤을때 -->
     </span>
     <Profile></Profile>
@@ -45,13 +46,10 @@
     <div v-else-if="userRole != null && userRole == 'SELLER'">
       <!-- 판매자로 로그인 했을때 보이는 메뉴들 -->
       <SidebarLink to="/store" icon="fas fa-store"> 내 가게</SidebarLink>
-      <SidebarLink
-        to="/storeOrder"
-        icon="fas fa-sort-amount-down">
-        주문표</SidebarLink>
-      <SidebarLink to="/storeMenus" icon="fas fa-bars">
-        가게메뉴
-      </SidebarLink>
+      <SidebarLink to="/storeOrder" icon="fas fa-sort-amount-down">
+        주문표</SidebarLink
+      >
+      <SidebarLink to="/storeMenus" icon="fas fa-bars"> 가게메뉴 </SidebarLink>
       <SidebarLink to="/storeGraph" icon="fas fa-chart-pie">
         매출관리
       </SidebarLink>
