@@ -157,7 +157,7 @@ export default {
   },
   data() {
     return {
-      findOrder: false,
+      findOrder: true,
       inputOrderNumber: null,
     };
   },

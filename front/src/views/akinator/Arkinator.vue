@@ -225,6 +225,7 @@ export default {
               this.akinatorLoaded = true;
               this.foodDataLoaded = true;
               this.setStage();
+              // 교수님요청, 첫질문일경우 아무값이나 넣기.
               if (this.isFirst == true) {
                 let firstRandChoice =
                   this.alternatives[
@@ -399,6 +400,7 @@ export default {
       );
     }
     this.requestAkinators();
+    document.querySelector(".wrapper").scrollIntoView();
   },
   setup() {
     return { collapsed };
