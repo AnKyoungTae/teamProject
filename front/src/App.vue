@@ -2,7 +2,7 @@
   <div>
     <Sidebar />
     <transition name="page">
-      <div class="col-md-9" :style="{ 'margin-left': sidebarWidth }">
+      <div class="col-md-9" :style="{ 'margin-left': sidebarWidth }" style="margin: 0 auto;">
         <router-view />
       </div>
     </transition>

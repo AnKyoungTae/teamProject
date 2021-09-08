@@ -14,8 +14,8 @@
           <div class="orderText">
             <p>배달정보</p>
           </div>
-          <div class="orderAddress row p-4">
-            <table>
+          <div class="orderAddress p-4">
+            <table style="width: 100%;">
               <tr>
                 <td style="width: 25%; text-align: center">
                   <span>주소</span>
@@ -23,22 +23,28 @@
                 <td style="padding-left: 10px">
                   <!-- 주소가 맞지 않을 수 있으니 수정할수있도록 할것 -->
                   <span>
-                    <div>
-                      {{ finalAddress }}
-                    </div>
-                    <!-- 모달 취소를 했을 때, placeSelector를 false로 만들어야함 -->
                     <span
                       class="badge bg-info text-dark m-1"
                       style="cursor: pointer"
                       @click="openMap"
                       @close="closeMap"
                       >주소찾기</span
-                    ></span
-                  >
+                    >
+                    <div>
+                      <input 
+                        type="text" 
+                        class="address_input" 
+                        :value="finalAddress" 
+                        style="cursor: not-allowed; background-color: #eee;" 
+                        readonly 
+                      /> 
+                    </div>
+                    <!-- 모달 취소를 했을 때, placeSelector를 false로 만들어야함 -->
+                  </span>
                   <input
                     type="text"
                     placeholder="(필수) 상세주소 입력"
-                    style="width: 100%"
+                    class="address_input"
                     v-model="addressDetail"
                     @input="type_addressDetail"
                   />
@@ -270,8 +276,8 @@
           </div>
           <div class="commandOrderWrapper" v-if="foodList.length > 0">
             <div class="row">
-              <div class="col commandOrder" @click="putOrder">주문하기</div>
-              <div class="col commandCancel" @click="clearOrder">취소하기</div>
+              <div class="col commandOrder" @click="putOrder"><span>주문하기</span></div>
+              <div class="col commandCancel" @click="clearOrder"><span>취소하기</span></div>
             </div>
           </div>
         </div>
@@ -679,19 +685,20 @@ export default {
   height: 50px;
   cursor: pointer;
   border: 1px solid gainsboro;
+  line-height: 50px;
 }
 .commandCancel {
   cursor: pointer;
   border: 1px solid gainsboro;
+  line-height: 50px;
 }
 .delete_img {
   width: 25px;
   margin-right: 10px;
   cursor: pointer;
+  margin-top: 10px;
 }
-.form-check-input {
-  margin-right: 50px;
-}
+
 .pagination {
   display: flex;
   padding-left: 70px;
@@ -699,5 +706,23 @@ export default {
   flex-direction: row;
   justify-content: center;
   flex-wrap: nowrap;
+}
+
+.form-check .form-check-input {
+    float: none;
+    margin-left: -1.5em;
+}
+.form-check-input {
+  margin-right: 30px;
+}
+
+.address_input {
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  font-size: 18px;
+  color: #555;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
 }
 </style>

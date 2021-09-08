@@ -401,7 +401,7 @@ export default {
 }
 .reviewWrite:hover {
   cursor: pointer;
-  background-color: tomato;
+  background-color: #FFA799;
 }
 
 .review2-p {

@@ -103,8 +103,8 @@ export default {
 
   display: inline-block;
 
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
 
   margin: 5px;
   text-align: left;
@@ -141,53 +141,52 @@ export default {
   border: 2px solid teal;
 }
 .first {
-  width: 250px;
-  left: -3px;
-  top: 44px;
+  width: 240px;
+  left: -0.5px;
 }
 .first1 {
-  width: 220px;
-  left: -5px;
-}
-.first2 {
-  width: 220px;
-  left: -10px;
-}
-.first3 {
-  width: 230px;
-  left: -20px;
-}
-.first4 {
-  width: 300px;
-  left: -10px;
-  top: 35px;
-}
-.first5 {
-  width: 225px;
-  left: -7px;
-}
-.first6 {
-  width: 210px;
-  left: -8px;
-}
-.first7 {
-  width: 220px;
-  left: -6px;
-}
-.first8 {
-  width: 197px;
+  width: 280px;
   left: -1px;
 }
+.first2 {
+  width: 278px;
+  left: -30px;
+}
+.first3 {
+  width: 278px;
+  left: -12px;
+}
+.first4 {
+  width: 370px;
+  left: -3px;
+  top: 46px;
+}
+.first5 {
+  width: 278px;
+  left: -27px;
+}
+.first6 {
+  width: 270px;
+  left: -11px;
+}
+.first7 {
+  width: 278px;
+  left: 0px;
+}
+.first8 {
+  width: 248px;
+  left: 0px;
+}
 .first9 {
-  width: 220px;
-  left: -7px;
+  width: 278px;
+  left: 0px;
 }
 .first10 {
-  width: 220px;
-  left: -5px;
+  width: 278px;
+  left: -20px;
 }
 .first11 {
-  width: 220px;
-  left: -7px;
+  width: 280px;
+  left: -24px;
 }
 </style>

@@ -118,7 +118,9 @@ export default {
   font-weight: 400;
   user-select: none;
   width: 80%;
+
   margin: 0.6em 0;
+
   padding: 0.8em;
   border-radius: 0.6em;
   height: 1.4rem;
