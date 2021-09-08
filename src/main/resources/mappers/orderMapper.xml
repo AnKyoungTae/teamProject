@@ -85,11 +85,6 @@
         where foodId=#{foodId}
     </select>
 
-    <select id="selectCouponByEventId" resultType="Coupon">
-        SELECT *
-        FROM coupon
-        WHERE event_id = #{eventId}
-    </select>
     
     
 <!-- 주문표 -->
@@ -205,10 +200,10 @@ FROM	(SELECT	b.name,
 			) a RIGHT OUTER JOIN `food` b
 				ON	a.foodId = b.foodId
 
-				WHERE	b.store_id = 23
+				WHERE	b.store_id = #{storeId}
 				GROUP BY(b.name)) a RIGHT OUTER JOIN (SELECT *
 									FROM `food`
-									WHERE store_id = 23) b
+									WHERE store_id = #{storeId}) b
 	ON a.name =b.name 
 	ORDER BY a.quantity DESC) a
 WHERE (@rownum:=0)=0
@@ -285,6 +280,140 @@ FROM (
 	ON a.n = b.date
 	GROUP BY a.n) a
 </select>
-    
+
+<!-- 가게에 있는 모든 음식 -->
+<select id="getStoreAllFood" resultType="String">
+
+SELECT `name`
+FROM	`food`
+WHERE	store_id = #{storeId}
+
+</select>
+
+<!-- 최근 판매한 음식 매출량  -->
+<select id="getResentFood" resultType="GraphResntFood">
+SELECT CASE a.n
+
+			WHEN '13' THEN '0~2'
+
+			WHEN '2' THEN '2~4'
+
+			WHEN '3' THEN '4~6'
+
+			WHEN '4' THEN '6~8'
+
+			WHEN '5' THEN '8~10'
+
+			WHEN '6' THEN '10~12'
+
+			WHEN '7' THEN '12~14'
+			
+			WHEN '8' THEN '14~16'
+			
+			WHEN '9' THEN '16~18'
+			
+			WHEN '10' THEN '18~20'
+			
+			WHEN '11' THEN '20~22'
+			
+			WHEN '12' THEN '22~24'
+
+			END AS 'time', 
+			IFNULL(a.name, 'X') AS 'name',
+			IFNULL(a.price, 0) AS 'price',
+			IFNULL(a.quantity, 0) AS 'quantity',
+			IFNULL(a.price*a.quantity, 0) AS 'payment'
+
+FROM	(SELECT	*
+
+		FROM	(WITH RECURSIVE cte AS (
+			    SELECT 2 AS n
+			    UNION ALL
+			    <![CDATA[SELECT n + 1 FROM cte WHERE n < 13]]> 
+			    )
+			SELECT n FROM cte) a LEFT OUTER JOIN 
+			(SELECT	
+				FLOOR(DATE_FORMAT(b.orderDate,"%H")/2)+1 AS 'time',
+			
+				c.name,
+				
+				c.price,
+				b.orderId,
+				SUM(a.quantity) AS 'quantity',
+				COUNT(b.orderDate) AS 'num'
+				
+				FROM	`orderInfo` a, `order` b, `food` c
+			WHERE	a.order_id = b.orderId
+			AND	a.food_id = c.foodId
+			AND	a.status = 'Y'
+<choose>
+	<when test="date == 'day'">
+		AND DATE_FORMAT(b.orderDate, '%Y-%m-%d') = DATE_FORMAT(CURDATE(),  '%Y-%m-%d')
+	</when>
+	<when test="date == 'week'">
+		AND DATE(b.orderDate) >= DATE(SUBDATE(NOW(), INTERVAL 1 WEEK))
+	</when>
+	<otherwise>
+		AND DATE(b.orderDate) >= DATE(SUBDATE(NOW(), INTERVAL 1 MONTH))
+	</otherwise>
+</choose>
+
+			AND	c.store_id = #{storeId}
+			AND	c.name=#{foodName}
+			GROUP BY `time`) b
+		ON	a.n = b.time) a
+ORDER BY a.n ASC
+</select>
+
+<!-- 전월매출 등 -->
+<select id="getPayment" resultType="Map">
+SELECT	IFNULL(a.beforeMonthPayment, 0) AS 'beforeMonthPayment',
+	IFNULL(b.payment, 0) AS 'payment',
+	IFNULL(c.beforeDayPayment, 0) AS 'beforeDayPayment',
+	IFNULL(d.dayPayment, 0) AS 'dayPayment',
+	IFNULL(e.discount, 0) AS 'discount'
+	FROM (SELECT SUM(payment)  AS 'beforeMonthPayment'
+		FROM (SELECT	
+				a.quantity * c.price AS 'payment'
+			FROM	`orderInfo` a, `order` b, `food` c
+			WHERE	a.order_id = b.orderId
+			AND	DATE_FORMAT(b.orderDate, '%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m') 
+			AND	store_id = #{storeId}
+			AND	a.food_id = c.foodId) a) a, 
+		(SELECT SUM(payment) AS 'payment'
+		FROM (SELECT	
+				a.quantity * c.price AS 'payment'
+			FROM	`orderInfo` a, `order` b, `food` c
+			WHERE	a.order_id = b.orderId
+			AND	DATE_FORMAT(b.orderDate, '%Y-%m') = DATE_FORMAT(NOW() , '%Y-%m')
+			AND	store_id = #{storeId}
+			AND	a.food_id = c.foodId) a) b,
+		(SELECT SUM(payment) AS 'beforeDayPayment'
+			FROM (SELECT	
+					a.quantity * c.price AS 'payment'
+				FROM	`orderInfo` a, `order` b, `food` c
+				WHERE	a.order_id = b.orderId
+				AND	DATE_FORMAT(b.orderDate, '%Y-%m-%d') = DATE_FORMAT(NOW() - INTERVAL 1 DAY, '%Y-%m-%d')
+				AND	store_id = #{storeId}
+				AND	a.food_id = c.foodId) a) c,
+		(SELECT SUM(payment) AS 'dayPayment'
+			FROM (SELECT	
+					a.quantity * c.price AS 'payment'
+				FROM	`orderInfo` a, `order` b, `food` c
+				WHERE	a.order_id = b.orderId
+				AND	DATE_FORMAT(b.orderDate, '%Y-%m-%d') = DATE_FORMAT(NOW() , '%Y-%m-%d')
+				AND	store_id = #{storeId}
+				AND	a.food_id = c.foodId) a) d,
+		(SELECT FLOOR(discount/num) AS 'discount'
+			FROM(SELECT 	
+				SUM(a.discount) AS 'discount',
+				COUNT(*) AS 'num'
+				FROM `order` a, `orderInfo` b, `food` c
+			WHERE	a.orderId = b.order_id
+			AND	c.foodId = b.food_id
+			AND	c.store_id = #{storeId}) a) e
+</select>
+
+
     
 </mapper>
