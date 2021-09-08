@@ -8,8 +8,8 @@
     <div>
       <div class="container-fluid px-4">
         <div class="row">
-          <nav>
-            <ul class="foodnum-ul" style="position: sticky">
+          <nav style="width: 100%;">
+            <ul class="foodnum-ul" style="text-align: center;">
               <li>
                 <a @click="setOptAndrequest('ALL')" class="foodnum-a"
                   >전체보기</a
@@ -222,22 +222,31 @@ export default {
   cursor: pointer;
   background-color: lightblue;
 }
-
+.foodnum-ul li a:hover {
+  color: white;
+}
 /* nav tag */
+
+nav {
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+  background-color: white;
+  box-shadow: 0px 5px 5px gray;
+}
 
 .foodnum-ul {
   font-style: bold;
-  font-size: 15px;
+  font-size: 18px;
   top: 4px;
-  width: 1000px;
   padding: 0px;
   padding-top: 16px;
 }
 
 .foodnum-ul li {
   display: inline;
-  border-left: 1px solid #999; /* 메뉴의 왼쪽에 "|" 표시 */
-  padding: 0 10px; /* 각 메뉴 간격 */
+  border-left: 1px solid #999;
+  padding: 0 10px;
 }
 .foodnum-ul li:first-child {
   border-left: none;

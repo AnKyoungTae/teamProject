@@ -90,7 +90,7 @@ export default {
   cursor: pointer;
 }
 #profileMenu .col:hover {
-  background: turquoise;
+  background: #5A8C94;
   color: #fff;
   cursor: pointer;
 }
@@ -107,7 +107,7 @@ a {
 .choicedMenu {
   text-decoration: underline;
   text-underline-position: under;
-  color: teal;
+  color: #2C656B;
 }
 .spread-underline {
   color: #333;

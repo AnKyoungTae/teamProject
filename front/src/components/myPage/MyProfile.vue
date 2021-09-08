@@ -263,7 +263,7 @@ export default {
 }
 .manage-text {
   font-weight: normal;
-  font-size: 20px;
+  font-size: 30px;
 }
 .profile-manage {
   margin-top: 10px;
@@ -307,7 +307,7 @@ export default {
 }
 .login-txt {
   float: right;
-  color: #5066aa;
+  color: #5A8C94;
   font-size: 20px;
 }
 .m-2 {

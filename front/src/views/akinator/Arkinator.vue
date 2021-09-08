@@ -22,7 +22,7 @@
         <!-- 답변들 -->
 
         <div
-          class="answer p-1 m-1"
+          class=""
           v-for="(answer, index) of answers"
           :key="index"
         >
@@ -180,6 +180,17 @@ export default {
         }
       });
     },
+    hidden(index) {
+      if(this.isHidden[index] == false) {
+        console.log(this.isHidden[index]);
+        this.isHidden[index] = true
+        console.log("1");
+      }else {
+        console.log(this.isHidden[index]);
+        this.isHidden[index] = false;
+        console.log("2");
+      }
+    },
     choiceAkinator(alternative) {
       // 선택했을 때,
       this.answers.push(alternative);
@@ -222,6 +233,7 @@ export default {
         alert("적어도 한개의 아키네이터 정보는 필요합니다!");
         return;
       }
+
       // 선택된 답장에 맞는 Akinator 돌려주기 from executed
       // answerId 가 겹치는게 있는 arkinator 를 akinatorList에 넣는다.
       const retrieve = this.executedAkinators.find((akinator) => {
@@ -408,7 +420,7 @@ export default {
 }
 #log > div {
   position: relative;
-  margin-top: 20px;
+  margin-top: 10px;
   /* 애니메이션속성 */
   animation: fadeInUp 0.5s ease forwards;
 }
@@ -437,7 +449,7 @@ export default {
   width: 35%;
   min-width: 320px;
   left: 300px;
-  min-height: 120px;
+  font-size: 20px;
   top: 50px;
   padding: 5px;
   background: #ffffff;
@@ -452,26 +464,26 @@ export default {
   content: "";
   position: absolute;
   border-style: solid;
-  border-width: 15px 19px 15px 0;
+  border-width: 0 19px 15px 0;
   border-color: transparent #ffffff;
   display: block;
   width: 0;
   z-index: 1;
   left: -19px;
-  top: 27px;
+  top: 8px;
 }
 
 .question:before {
   content: "";
   position: absolute;
   border-style: solid;
-  border-width: 15px 19px 15px 0;
+  border-width: 0 22px 17px 0;
   border-color: transparent #7f7f7f;
   display: block;
   width: 0;
-  z-index: 0;
-  left: -20px;
-  top: 27px;
+  z-index: 1;
+  left: -22px;
+  top: 7px;
 }
 .question > p {
   display: inline;
@@ -630,6 +642,7 @@ export default {
   height: 28%;
   border-radius: 8px;
   border: 1px solid gray;
+  padding: 8px;
 }
 .emptyFood {
   /* 음식목록이 비어있을 때 가운데정렬 */
@@ -656,11 +669,12 @@ export default {
   text-align: right;
   margin-right: 5%;
   padding-top: 15%;
+  margin: 0px;
 }
 .foodInfo {
   width: 40%;
   height: 100%;
-  padding: 10px 0px;
+  padding-top: 15px; 
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -673,6 +687,7 @@ export default {
   font-weight: lighter;
   color: rgb(77, 77, 77);
   font-size: 0.8rem;
+  font-size: 14px;
 }
 /* 스크롤바 */
 .foodListWrapper::-webkit-scrollbar {
@@ -698,6 +713,20 @@ export default {
   border-radius: 6px;
   transition: 0.2s;
 }
+.alternative:hover {
+  -webkit-transform: scale(1.05);
+     -moz-transform: scale(1.05);
+      -ms-transform: scale(1.05);
+       -o-transform: scale(1.05);
+          transform: scale(1.05);  
+}
+
+.alternative span {
+  -webkit-transition: all 0.1s linear;
+          transition: all 0.1s linear;
+          display:inline-block;
+}
+
 
 .btn-outline-primary {
   color: #2c656b;

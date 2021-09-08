@@ -259,11 +259,11 @@ input {
 .btn-outline-primary.active,
 .btn-outline-primary.dropdown-toggle.show,
 .btn-outline-primary:active {
-  color: rgb(255, 194, 115);
+  color: #FFEFA3;
   background-color: white;
   border-color: lightgray;
   font-weight: bold;
-  border-bottom: 5px solid rgb(255, 205, 139);
+  border-bottom: 5px solid #FFEFA3;
   box-shadow: none;
   z-index: 0;
 }

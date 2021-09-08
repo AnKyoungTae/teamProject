@@ -8,12 +8,12 @@
     position="bottom right"
     style="margin-right: 30vh"
   />
-  <div style="width: 100%" class="m-4">
+  <div style="width: 740px; margin: 0 auto;">
     <form action="" name="EventAdd">
       <table style="width: 700px; margin: auto">
         <tr>
           <td class="td1">행사 제목</td>
-          <td class="td2" colspan="10" style="text-align: left">
+          <td class="td2" colspan="3" style="text-align: left">
             <input
               type="text"
               class="eventadd-input"
@@ -26,7 +26,7 @@
         </tr>
         <tr>
           <td class="td1">행사 기간</td>
-          <td class="td2" colspan="7" style="text-align: left">
+          <td class="td2" colspan="3" style="text-align: left">
             <span class="time-ex">시작일: </span
             ><input
               type="date"
@@ -49,7 +49,7 @@
         </tr>
         <tr>
           <td class="td1">설명</td>
-          <td class="td2" colspan="7">
+          <td class="td2" colspan="3">
             <textarea
               class="form-control"
               style="resize: none"

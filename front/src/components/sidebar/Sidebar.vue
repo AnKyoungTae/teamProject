@@ -14,7 +14,7 @@
     <span v-else>
       <!-- 멤버 롤 마다 가는곳 다르게 -->
       <div v-if="!userRole || userRole == 'BUYER'">
-        <span @click="this.$router.push({ path: '/' })" class="logo">
+        <span @click="this.$router.push({ path: '/' })" class="logo" style="font-family: 'Lobster Two', cursive;">
           WAPOO
         </span>
       </div>
@@ -46,6 +46,7 @@
       <!-- 판매자로 로그인 했을때 보이는 메뉴들 -->
       <SidebarLink to="/store" icon="fas fa-store"> 내 가게</SidebarLink>
       <SidebarLink
+
         to="/storeOrder"
         icon="fas fa-sort-amount-down">
         주문표</SidebarLink>
@@ -58,6 +59,7 @@
       <SidebarLink to="/eventadd" icon="fas fa-ticket-alt">
         이벤트등록
       </SidebarLink>
+
     </div>
     <div v-else>
       <SidebarLink to="/akinator" icon="fas fa-robot">아키네이터</SidebarLink>
@@ -163,6 +165,7 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@1,700&display=swap');
 /* 기본 테마 정의 - 참고: https://blog.thereis.xyz/136 */
 :root {
   --sidebar-bg-color: #355f6e;

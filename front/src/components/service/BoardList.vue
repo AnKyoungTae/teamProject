@@ -48,7 +48,23 @@
     </div>
     <br />
     <!-- 타이틀 -->
-    <table style="border: 2px solid gray">
+    <div style="border: 2px solid gray;">
+      <div class="boardTitle" style="border-bottom: 1px solid gainsboro; text-align: left; padding: 20px; font-weight: 700">
+        <span v-if="list.boardId == 3">기타</span>
+        <span v-else-if="list.boardId == 4">주문</span>
+        <span v-else-if="list.boardId == 5">딜리버리 주문</span>
+        <span v-else-if="list.boardId == 6">제품/품질/서비스</span>
+        <span v-else-if="list.boardId == 7">답글</span>
+        <span v-else>작성글</span>
+        <span style="padding-left: 50px; font-size: 25px;">{{list.title}}</span>
+      </div>
+      <div style="width: 100%; font-weight: 600; height: 40px; line-height: 40px;">
+        <div style="float: left; width:30%; text-align: left; padding-left: 20px;"><span>{{list.nickname}}</span></div>
+        <div style="float: left; width:55%; text-align: right; padding-right: 30px;"><span><i class="far fa-clock"></i>&nbsp;&nbsp;{{ list.regDate }}</span></div>
+        <span><i class="far fa-eye"></i>&nbsp;&nbsp;{{ list.hit }}</span>
+      </div>
+    </div>
+    <!-- <table style="border: 2px solid gray">
       <thead id="title" style="text-align: center">
         <tr style="border-bottom: 1px solid gainsboro">
           <th
@@ -79,18 +95,18 @@
           </th>
         </tr>
       </thead>
-    </table>
+    </table> -->
     <!-- 본문 -->
     <div id="textarea" class="input-group" style="text-align: left">
-      <div class="form-control" style="padding: 30px">
+      <div class="form-control" style="padding: 30px; ">
         <!-- 이미지 -->
         <div v-if="images != null" class="w-full h-full flex items-center">
           <div
             v-for="image in images"
             :key="image.articlefileId"
-            style="padding-bottom: 30px"
+            style="padding-bottom: 30px;"
           >
-            <img :src="image.name" alt="image.orgName" />
+            <img :src="image.name" alt="image.orgName" style="max-width: 874px;"/>
           </div>
         </div>
         <!-- 이미지 끝 -->
