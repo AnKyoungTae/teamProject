@@ -132,6 +132,8 @@ public class OrderService {
 
         params.add("quantity", String.valueOf(totalQuantity));
         params.add("total_amount", String.valueOf(totalPrice-discount));
+        System.out.println("totalPrice " + totalPrice);
+        System.out.println("discount " + discount);
         params.add("tax_free_amount", "0");
         params.add("approval_url", "http://localhost:8081/kakaoPaySuccess");
         params.add("cancel_url", "http://localhost:8081/kakaoPayCancel");
@@ -192,9 +194,9 @@ public class OrderService {
 
             int result = orderDao.updateOrderState(payment.getOrder_id(), "Y");
             orderDao.updateOrderPayment(payment.getOrder_id(), kakaoPayApprovalVO.getAmount().getTotal());
-            System.out.println("적용된 order 레코드 수 : "+ result);
+
             result = orderDao.updateOrderInfosStatus(payment.getOrder_id(), "S");
-            System.out.println("적용된 orderInfo 레코드 수 : " + result);
+
             return payment.getOrder_id();
 
         } catch (RestClientException e) {
