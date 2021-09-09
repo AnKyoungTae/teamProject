@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="wrapper m-4 container-fluid p-2" style="width: 1000px;">
+  <div class="cartContainer">
+    <div class="wrapper m-4 container-fluid p-2" style="width: 1000px">
       <!-- 노티피케이션 -->
       <notifications
         group="notifyApp"
@@ -14,22 +14,41 @@
             <h4>배달정보</h4>
           </div>
           <div class="orderAddress">
-            <table style="width: 100%;">
+            <table style="width: 100%">
               <tr>
-                <td style="width: 150px; text-align: right; padding-right: 25px; vertical-align: top; padding-top: 5px;">
-                  <span style="font-weight: 700; font-size: 20px;">주소</span>
+                <td
+                  style="
+                    width: 150px;
+                    text-align: right;
+                    padding-right: 25px;
+                    vertical-align: top;
+                    padding-top: 5px;
+                  "
+                >
+                  <span style="font-weight: 700; font-size: 20px">주소</span>
                 </td>
                 <td style="padding-left: 10px">
                   <!-- 주소가 맞지 않을 수 있으니 수정할수있도록 할것 -->
                   <span>
                     <div>
-                      <input 
-                        type="text" 
-                        class="address_input1" 
-                        :value="finalAddress" 
-                        style="cursor: not-allowed; background-color: #eee; width: 78.5%;" 
-                        readonly 
-                      /> <input type="button" value="주소찾기" @click="openMap" @close="closeMap" style="font-size:18px; padding: 6px 12px;"/>
+                      <input
+                        type="text"
+                        class="address_input1"
+                        :value="finalAddress"
+                        style="
+                          cursor: not-allowed;
+                          background-color: #eee;
+                          width: 78.5%;
+                        "
+                        readonly
+                      />
+                      <input
+                        type="button"
+                        value="주소찾기"
+                        @click="openMap"
+                        @close="closeMap"
+                        style="font-size: 18px; padding: 6px 12px"
+                      />
                     </div>
                     <!-- 모달 취소를 했을 때, placeSelector를 false로 만들어야함 -->
                   </span>
@@ -39,35 +58,51 @@
                     class="address_input"
                     v-model="addressDetail"
                     @input="type_addressDetail"
-                    style="margin-bottom: 0px; margin-bottom: 15px;"
+                    style="margin-bottom: 0px; margin-bottom: 15px"
                   />
                 </td>
               </tr>
               <tr>
-                <td style="text-align: right; padding-right: 25px; padding-bottom: 20px;">
-                  <span class="mt-2" style="font-weight: 700; font-size: 20px;">전화번호</span>
+                <td
+                  style="
+                    text-align: right;
+                    padding-right: 25px;
+                    padding-bottom: 20px;
+                  "
+                >
+                  <span class="mt-2" style="font-weight: 700; font-size: 20px"
+                    >전화번호</span
+                  >
                 </td>
                 <td style="padding-left: 10px">
                   <input
                     class="mt-2-1"
                     type="text"
                     placeholder="예) 010-2274-4895"
-                    style="width: 90%; padding: 6px 12px;"
+                    style="width: 90%; padding: 6px 12px"
                     v-model="phone"
                     @keyup="phoneCom"
                   />
                 </td>
               </tr>
               <tr>
-                <td style="text-align: right; vertical-align: top; padding: 8px 25px;">
-                  <span class="mt-2" style="font-weight: 700; font-size: 20px;">요청사항</span>
+                <td
+                  style="
+                    text-align: right;
+                    vertical-align: top;
+                    padding: 8px 25px;
+                  "
+                >
+                  <span class="mt-2" style="font-weight: 700; font-size: 20px"
+                    >요청사항</span
+                  >
                 </td>
                 <td style="padding-left: 10px">
                   <textarea
                     class="mt-2-1"
                     type="text"
                     placeholder="경비실에 맡겨주세요"
-                    style="width: 90%; padding: 6px 12px; margin-bottom: 0px;"
+                    style="width: 90%; padding: 6px 12px; margin-bottom: 0px"
                     v-model="orderRequest"
                   />
                 </td>
@@ -135,23 +170,26 @@
                             <li class="page-item">
                               <a
                                 class="page-link"
-                                style="width: 30px; height: 30px;"
+                                style="width: 30px; height: 30px"
                                 @click="decreaseQuantity(food.foodId)"
-                                ><span style="font-size: 20px;">-</span></a
+                                ><span style="font-size: 20px">-</span></a
                               >
                             </li>
                             <li class="page-item">
-                              <a class="page-link" style="border: none; margin: 0 10px;">
-                                <span>{{foodQuantity(food.foodId)}}</span>
+                              <a
+                                class="page-link"
+                                style="border: none; margin: 0 10px"
+                              >
+                                <span>{{ foodQuantity(food.foodId) }}</span>
                               </a>
                             </li>
 
                             <li class="page-item">
                               <a
                                 class="page-link"
-                                style="width: 30px; height: 30px;"
+                                style="width: 30px; height: 30px"
                                 @click="increaseQuantity(food.foodId)"
-                                ><span style="font-size: 20px;">+</span></a
+                                ><span style="font-size: 20px">+</span></a
                               >
                             </li>
                             <div
@@ -212,9 +250,19 @@
             <div class="orderText">
               <h4>결제수단 선택</h4>
             </div>
-            <div class="orderPay mt-2" style="padding: 15px;">
-              <div style="width: 100%; text-align: left; padding-left: 20px; margin-bottom: 10px;">
-                <span style="font-size: 24px; font-weight: 600">WAPOO 결제</span><span style="color: gray; font-size: 15px; margin-left: 10px;">웹에서 미리 결제</span><br />
+            <div class="orderPay mt-2" style="padding: 15px">
+              <div
+                style="
+                  width: 100%;
+                  text-align: left;
+                  padding-left: 20px;
+                  margin-bottom: 10px;
+                "
+              >
+                <span style="font-size: 24px; font-weight: 600">WAPOO 결제</span
+                ><span style="color: gray; font-size: 15px; margin-left: 10px"
+                  >웹에서 미리 결제</span
+                ><br />
                 <!-- <span style="color: red; font-size: 16px;">* 현재 카카오페이 결제밖에 지원되지 않습니다.</span> -->
               </div>
               <!-- <label class="btn order-label">
@@ -246,10 +294,10 @@
           </div>
           <div
             class="calculatorWrapper d-block"
-            style="padding-top: 0px; margin-top: 30px;"
+            style="padding-top: 0px; margin-top: 30px"
           >
-            <div class="orderText" style="background-color:black;">
-              <h4 style="color: white;">주문내역</h4>
+            <div class="orderText" style="background-color: black">
+              <h4 style="color: white">주문내역</h4>
             </div>
             <div class="orderList mt-1">
               <div v-for="(food, index) in foodList" :key="index">
@@ -275,11 +323,31 @@
               <!-- 총액 -->
               <hr />
               <div>
-                <div class="col-8 food-List mt-2" style="float: left; border-top: 1px dashed lightgray; padding-top: 20px; padding-bottom: 20px;">
-                  <strong style="font-size: 20px;">총 결제 금액</strong>
+                <div
+                  class="col-8 food-List mt-2"
+                  style="
+                    float: left;
+                    border-top: 1px dashed lightgray;
+                    padding-top: 20px;
+                    padding-bottom: 20px;
+                  "
+                >
+                  <strong style="font-size: 20px">총 결제 금액</strong>
                 </div>
-                <div class="col-4 food-List2 mt-2" style="float: right; border-top: 1px dashed lightgray; padding-top: 20px; padding-bottom: 20px;">
-                  <span><strong style="font-size: 20px;">{{ totalPriceAppliedCoupons }}원</strong></span>
+                <div
+                  class="col-4 food-List2 mt-2"
+                  style="
+                    float: right;
+                    border-top: 1px dashed lightgray;
+                    padding-top: 20px;
+                    padding-bottom: 20px;
+                  "
+                >
+                  <span
+                    ><strong style="font-size: 20px"
+                      >{{ totalPriceAppliedCoupons }}원</strong
+                    ></span
+                  >
                 </div>
               </div>
             </div>
@@ -596,6 +664,10 @@ export default {
 </script>
 
 <style scoped>
+.cartContainer {
+  display: flex;
+  justify-content: center;
+}
 .orderText {
   background-color: lightgray;
   padding: 10px;
@@ -632,6 +704,7 @@ export default {
 .wrapper {
   height: 100%;
   width: 100%;
+  left: 50%;
 }
 .cart {
   border: 2px solid lightgray;
@@ -745,7 +818,6 @@ export default {
   border: 1px solid #ccc;
   width: 90%;
   margin-bottom: 5px;
-  
 }
 .mt-2-1 {
   margin-bottom: 15px;
@@ -767,12 +839,12 @@ export default {
   margin-left: 5px;
   margin-right: 5px;
   margin-bottom: 5px;
-  width: calc(50% - 10px); 
-  padding: 15px 12px; 
-  margin-bottom: 8px; 
-  border: 1px solid #ddd; 
-  background-color: #f0f0f0; 
-  color: #999; 
+  width: calc(50% - 10px);
+  padding: 15px 12px;
+  margin-bottom: 8px;
+  border: 1px solid #ddd;
+  background-color: #f0f0f0;
+  color: #999;
   font-size: 24px;
 }
 .order-label svg {

@@ -6,8 +6,8 @@
         <router-view />
       </div>
     </transition>
+    <Footer></Footer>
   </div>
-  <Footer></Footer>
 </template>
 
 <script>
@@ -18,7 +18,7 @@ import Footer from "@/components/footer/Footer";
 export default {
   components: {
     Sidebar,
-    Footer,
+    Footer
   },
   setup() {
     return { sidebarWidth };
@@ -35,6 +35,9 @@ body {
 @media (min-width: 768px) {
 .col-md-12 {
     width: 100;
+}
+Footer {
+  background-color: #355f6e;
 }
 }
 .App-box {
@@ -74,7 +77,5 @@ body {
 .page-enter,
 .page-leave-to {
   opacity: 0;
-}
-.col-md-9 {
 }
 </style>
