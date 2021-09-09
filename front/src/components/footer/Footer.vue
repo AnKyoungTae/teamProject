@@ -64,6 +64,7 @@
   margin: 10px auto 0 auto;
   padding-left: 100px;
   padding-right: 100px;
+  background-color: #355f6e;
 }
 .wapoo-info1 {
   float: left;

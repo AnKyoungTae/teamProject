@@ -187,7 +187,6 @@ export default {
         .post("/event/getEventList", data)
         .then((response) => {
           if (response.status === 200) {
-            console.log(response.data);
             this.eventList = response.data;
             this.currentPage = request;
             console.log("현재페이지 : " + this.currentPage);

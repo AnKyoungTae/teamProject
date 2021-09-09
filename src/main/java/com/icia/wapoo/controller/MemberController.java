@@ -199,6 +199,8 @@ public class MemberController {
         memberService.updateMemberStatus(memberId, status);
         return new ResponseEntity(HttpStatus.OK);
     }
+    
+    
 
     
 }
