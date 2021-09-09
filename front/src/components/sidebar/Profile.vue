@@ -26,13 +26,13 @@
       </div>
       <div class="login">
         <router-link to="/myPage" class="col-12">
-          <button type="button" class="btn btn-outline-success col-12">
+          <button type="button" class="btn btn-outline-success btn-sm col-12">
             마이페이지
           </button>
         </router-link>
         <div
           type="button"
-          class="btn btn-outline-danger d-block col-12 mt-1"
+          class="btn btn-outline-danger btn-sm d-block col-12 mt-1"
           @click="this.$store.dispatch('auth/logout')"
         >
           로그아웃

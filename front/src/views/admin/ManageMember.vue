@@ -69,7 +69,7 @@
         <!-- 테이블 내용 -->
         <tbody>
           <tr v-if="totalCount === 0">
-            <td class="table-danger" colspan="8">등록된 쿠폰가 없습니다.</td>
+            <td class="table-danger" colspan="8">등록된 사용자가 없습니다.</td>
           </tr>
           <tr
             v-for="(list, index) in memberList"

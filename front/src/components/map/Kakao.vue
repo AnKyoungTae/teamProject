@@ -36,7 +36,9 @@ export default {
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
-      this.initMap();
+      this.$nextTick(function () {
+        this.initMap();
+      });
     } else {
       const script = document.createElement("script");
       script.onload = () => kakao.maps.load(this.initMap);

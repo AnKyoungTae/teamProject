@@ -66,7 +66,17 @@
               placeholder="상세주소를 다시 설정해주세요"
         />
       </div>
-      <!-- 사진 -->
+      <!-- 기존사진 -->
+    <div>
+      <span style="text-align: center;">기존 사진</span>
+      <div class="imgEditList">
+        <div v-for="files in storeFiles" :key="files">
+          <img class="imgEditFile" :src="files.name" />
+        </div>
+      </div>
+      삭제버튼추가
+    </div>
+      <!-- 사진추가 -->
       <div class="store-deal-information-container">
         <div class="store-deal-information-title" style="text-align: center; margin-top:20px;">사진 등록</div>
         <div class="store-picture-notice">
@@ -122,7 +132,7 @@
             <!-- v-else -->
             <div class="imageFile-preview-container">
               <div
-                v-for="(imageFile, index) in storeFiles"
+                v-for="(imageFile, index) in files"
                 :key="index"
                 class="imageFile-preview-wrapper"
               >
@@ -159,10 +169,6 @@
       <button type="button" @Click="edit()" style="margin-right:25px;" class="btn btn-dark">수정</button>
       <button type="button" @Click="edit()" style="margin-left:25px;" class="btn btn-danger">취소</button>
     </div>
-    <div v-for="files in storeFiles" :key="files">
-      <img style="width:200px; height:200px;" :src="files.name" />
-    </div>
-    {{storeFiles}}
   </div>
 </template>
 
@@ -196,22 +202,6 @@ export default {
     this.body = this.storeInfo.body
   },
   mounted() {
-    let num = -1;
-    for(let i = 0; i < this.storeFiles.length; i++) {
-      this.files = [
-        ...this.files,
-        {
-          imageFile: this.storeFiles[i],
-
-          preview: this.imageFile.name[i],
-
-          number: i,
-        },
-      ];
-      num = i;
-    }
-    this.uploadImageIndex = num + 1; //이미지 index의 마지막 값 + 1 저장
-    console.log(this.files);
   },
   methods: {
     ...mapMutations(["SET_MODAL_MAP"]),
@@ -307,6 +297,19 @@ export default {
 }
 tr {
   margin:10px;
+}
+.imgEditList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  
+}
+.imgEditFile {
+  width: 150px;
+  height: 100px;
+  margin-right: 19px;
+  margin-bottom: 19px;
 }
 /***********   이미지   ***********/
 .store-imageFile-upload-example {

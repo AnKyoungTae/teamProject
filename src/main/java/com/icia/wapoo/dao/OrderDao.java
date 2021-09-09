@@ -3,6 +3,7 @@ package com.icia.wapoo.dao;
 import com.icia.wapoo.model.Food;
 import com.icia.wapoo.model.GraphDay;
 import com.icia.wapoo.model.GraphFood;
+import com.icia.wapoo.model.GraphResntFood;
 import com.icia.wapoo.model.Payment;
 import com.icia.wapoo.model.StoreOrder;
 
@@ -63,5 +64,12 @@ public interface OrderDao {
     //요일별 매출
     List<GraphDay> getDayAmount(int storeId, String date);
     
+    //가게에 있는 모든 음식
+    List<String> getStoreAllFood(int storeId);
     
+    //최근 판매한 음식 매출량 
+    List<GraphResntFood> getResentFood(int storeId, String date, String foodName);
+    
+    //최근 판매한 음식 매출량 
+    Map getPayment(int storeId);
 }
