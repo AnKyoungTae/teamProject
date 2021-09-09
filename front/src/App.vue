@@ -29,6 +29,11 @@ html,
 body {
   background: white;
 }
+@media (min-width: 768px) {
+.col-md-12 {
+    width: 100;
+}
+}
 #app {
   font-family: "Poor Story", cursive;
   -webkit-font-smoothing: antialiased;
@@ -53,6 +58,7 @@ body {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
 .page-enter-active,
 .page-leave-active {
   transition: opacity 0.1s;
