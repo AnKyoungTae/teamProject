@@ -215,7 +215,9 @@ export default {
   margin-bottom: 10px;
   /* margin-left: 60px; */
   justify-content: center;
-  padding-left: 20px;
+  padding: 5px 10px 5px 10px;
+  background: #ffda77;
+  border-radius: 10px 10px 10px 0px;
 }
 
 .login-selector > div {
@@ -225,7 +227,7 @@ export default {
 .selectedLogin {
   font-weight: bold;
   padding-bottom: 2px;
-  border-bottom: 2px solid #1a5ae8;
+  border-bottom: 2px solid #fd3a69;
 }
 .login-input-wrapper {
   margin: 0 auto;
@@ -255,7 +257,7 @@ export default {
 }
 
 .login-check-wrapper > * {
-  color: #888888;
+  color: #91afba;
   font-size: 14px;
 }
 .find-password-button {
@@ -268,14 +270,21 @@ export default {
   cursor: pointer;
   width: 100%;
   height: 60px;
-  background-color: #1a5ae8;
+  background-color: #ffda77;
   border: 0;
-  color: #fff;
+  color: #fd3a69;
+  font-weight: bolder;
+  border: 1px solid #fd3a69;
+  border-radius: 10px;
+}
+.login-button:hover {
+  color: white;
+  background: orange;
 }
 
 .register-wrapper {
   text-align: center;
-  color: #888888;
+  color: #91afba;
   padding: 24px 0 5px 0;
   font-size: 14px;
 }
@@ -283,12 +292,12 @@ export default {
 .register-button {
   cursor: pointer;
   margin-left: 6px;
-  color: #1564f9;
+  color: #fd3a69;
   border: 0;
 }
 
 .move-seller {
-  color: #888888;
+  color: #91afba;
   text-align: center;
   margin: 0 auto;
   padding-bottom: 10px;
@@ -298,8 +307,10 @@ export default {
   cursor: pointer;
   margin-top: 10px;
   padding: 10px 20px;
-  border: 1px solid #888888;
+  border: 1px solid #fd3a69;
   font-size: 16px;
+  background: #ffda77;
+  color: #fd3a69;
   /* border: 0; */
 }
 
@@ -331,8 +342,8 @@ export default {
 }
 
 .checkbox > input:checked {
-  border: 1px solid #1564f9;
-  background-color: #1564f9;
+  border: 1px solid #fd3a69;
+  background-color: #fd3a69;
 }
 
 .checkbox > input:checked + span::before {

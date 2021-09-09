@@ -41,10 +41,10 @@
     </div>
     <div v-else>
       <div class="p-2">
-        <span class="profileInfoA"> 보다 다양한 WAPOO를 즐기려면 </span>
+        <span class="profileInfoA mb-1"> 보다 다양한 WAPOO를 즐기려면 </span>
         <div
           type="button"
-          class="btn btn-outline-danger btn-sm d-inline col-6 m-1"
+          class="btn btn-sm d-inline col-6 m-1 loginBtn mt-2"
           @click="SET_MODAL_LOGIN(true)"
         >
           로그인
@@ -188,5 +188,15 @@ export default {
   font-size: 14px;
   text-underline-position: under;
   text-decoration-line: underline;
+}
+.loginBtn {
+  background: #ffda77;
+  border: 1px solid #fd3a69;
+  border-radius: 15px;
+  color: #fd3a69;
+}
+.loginBtn:hover {
+  color: white;
+  background: orange;
 }
 </style>

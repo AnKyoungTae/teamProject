@@ -127,7 +127,7 @@ export default {
       console.log(storeId);
     },
     runTyping() {
-      const content = "오늘 뭐 먹지? \n -WAPOO";
+      const content = "오늘 뭐 먹지? \n -WAPOO                 ";
       const text = document.querySelector(".text");
       let i = 0;
 
