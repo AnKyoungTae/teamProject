@@ -55,7 +55,6 @@
   overflow: hidden;
   width: 100%;
   background-color: #355f6e;
-  height: 20vh;
 }
 .wapoo-wrap {
   position: relative;

@@ -2,20 +2,23 @@
   <div>
     <Sidebar />
     <transition name="page">
-      <div class="col-md-12" :style="{ 'margin-left': sidebarWidth }">
+      <div class="container" :style="{ 'margin-left': sidebarWidth }">
         <router-view />
       </div>
     </transition>
   </div>
+  <Footer></Footer>
 </template>
 
 <script>
 import Sidebar from "@/components/sidebar/Sidebar";
+import Footer from "@/components/footer/Footer.vue";
 import { sidebarWidth } from "@/components/sidebar/state";
 
 export default {
   components: {
     Sidebar,
+    Footer,
   },
   setup() {
     return { sidebarWidth };
@@ -28,11 +31,6 @@ export default {
 html,
 body {
   background: white;
-}
-@media (min-width: 768px) {
-.col-md-12 {
-    width: 100;
-}
 }
 #app {
   font-family: "Poor Story", cursive;
