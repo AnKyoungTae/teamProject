@@ -89,7 +89,7 @@ export default {
   components: {
     Kakao,
     ShopList,
-    Footer
+    Footer,
   },
   computed: {
     ...mapGetters({ LAT: "GET_LAT", LON: "GET_LON", OBS: "GET_OBSERVED" }),
