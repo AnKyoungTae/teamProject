@@ -96,15 +96,15 @@
     >
       <span><b>주문번호</b>를 입력해주세요!</span>
       <hr />
-      <div class="form-floating mb-3">
+      <div class="form-floating mb-3 orderSearchForm">
         <input
           type="text"
-          class="form-control-sm"
+          class="form-control-sm col-6"
           id="floatingInput"
           placeholder="주문번호"
           v-model="inputOrderNumber"
         />
-        <div class="btn btn-warning btn-sm m-1" @click="checkOrderInfo">
+        <div class="btn btn-sm m-1 orderSearchBtn" @click="checkOrderInfo">
           찾기
         </div>
       </div>
@@ -266,5 +266,26 @@ export default {
   opacity: 0;
   transition: height 0.4s ease;
   height: 0px;
+}
+h1 > div {
+  user-select: none;
+}
+h1 > div:hover {
+  cursor: pointer;
+}
+.orderSearchForm {
+  display: flex;
+  justify-content: center;
+}
+.orderSearchBtn {
+  background: #ffda77;
+  border: 1px solid #fd3a69;
+  border-radius: 15px;
+  color: #fd3a69;
+  width: 54px;
+}
+.orderSearchBtn:hover {
+  color: white;
+  background: orange;
 }
 </style>
