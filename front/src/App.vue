@@ -62,4 +62,6 @@ body {
 .page-leave-to {
   opacity: 0;
 }
+.col-md-9 {
+}
 </style>

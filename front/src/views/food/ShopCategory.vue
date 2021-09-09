@@ -2,14 +2,17 @@
   <div class="food-list">
     <fooddiv></fooddiv>
   </div>
+  <Footer></Footer>
 </template>
 
 <script>
 import fooddiv from "../../components/food/fooddiv.vue";
+import Footer from "@/components/footer/Footer.vue";
 
 export default {
   components: {
     fooddiv,
+    Footer,
   },
 };
 </script>

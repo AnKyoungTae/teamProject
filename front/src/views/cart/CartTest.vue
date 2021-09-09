@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="wrapper m-4 container-fluid p-2" style="width: 1000px;">
+    <div class="wrapper m-4 container-fluid p-2">
       <!-- 노티피케이션 -->
       <notifications
         group="notifyApp"
@@ -9,27 +9,35 @@
       />
       <div class="cart">
         <h1 class="m-2">장바구니</h1>
+        <hr />
         <div class="cartOrder">
           <div class="orderText">
-            <h4>배달정보</h4>
+            <p>배달정보</p>
           </div>
-          <div class="orderAddress">
+          <div class="orderAddress p-4">
             <table style="width: 100%;">
               <tr>
-                <td style="width: 150px; text-align: right; padding-right: 25px; vertical-align: top; padding-top: 5px;">
-                  <span style="font-weight: 700; font-size: 20px;">주소</span>
+                <td style="width: 25%; text-align: center">
+                  <span>주소</span>
                 </td>
                 <td style="padding-left: 10px">
                   <!-- 주소가 맞지 않을 수 있으니 수정할수있도록 할것 -->
                   <span>
+                    <span
+                      class="badge bg-info text-dark m-1"
+                      style="cursor: pointer"
+                      @click="openMap"
+                      @close="closeMap"
+                      >주소찾기</span
+                    >
                     <div>
                       <input 
                         type="text" 
-                        class="address_input1" 
+                        class="address_input" 
                         :value="finalAddress" 
-                        style="cursor: not-allowed; background-color: #eee; width: 78.5%;" 
+                        style="cursor: not-allowed; background-color: #eee;" 
                         readonly 
-                      /> <input type="button" value="주소찾기" @click="openMap" @close="closeMap" style="font-size:18px; padding: 6px 12px;"/>
+                      /> 
                     </div>
                     <!-- 모달 취소를 했을 때, placeSelector를 false로 만들어야함 -->
                   </span>
@@ -39,35 +47,33 @@
                     class="address_input"
                     v-model="addressDetail"
                     @input="type_addressDetail"
-                    style="margin-bottom: 0px; margin-bottom: 15px;"
                   />
                 </td>
               </tr>
               <tr>
-                <td style="text-align: right; padding-right: 25px; padding-bottom: 20px;">
-                  <span class="mt-2" style="font-weight: 700; font-size: 20px;">전화번호</span>
+                <td style="width: 25%; text-align: center">
+                  <span class="mt-2">전화번호</span>
                 </td>
                 <td style="padding-left: 10px">
                   <input
-                    class="mt-2-1"
+                    class="mt-2"
                     type="text"
                     placeholder="예) 010-2274-4895"
-                    style="width: 90%; padding: 6px 12px;"
+                    style="width: 100%"
                     v-model="phone"
-                    @keyup="phoneCom"
                   />
                 </td>
               </tr>
               <tr>
-                <td style="text-align: right; vertical-align: top; padding: 8px 25px;">
-                  <span class="mt-2" style="font-weight: 700; font-size: 20px;">요청사항</span>
+                <td style="width: 25%; text-align: center">
+                  <span class="mt-2">요청사항</span>
                 </td>
                 <td style="padding-left: 10px">
                   <textarea
-                    class="mt-2-1"
+                    class="mt-2"
                     type="text"
                     placeholder="경비실에 맡겨주세요"
-                    style="width: 90%; padding: 6px 12px; margin-bottom: 0px;"
+                    style="width: 100%"
                     v-model="orderRequest"
                   />
                 </td>
@@ -76,7 +82,7 @@
           </div>
         </div>
         <div class="orderText">
-          <h4>주문내역</h4>
+          <p>주문내역</p>
         </div>
         <!-- 로딩이 안됐을땐, -->
         <div v-if="!onloaded">
@@ -135,23 +141,21 @@
                             <li class="page-item">
                               <a
                                 class="page-link"
-                                style="width: 30px; height: 30px;"
                                 @click="decreaseQuantity(food.foodId)"
-                                ><span style="font-size: 20px;">-</span></a
+                                >-</a
                               >
                             </li>
                             <li class="page-item">
-                              <a class="page-link" style="border: none; margin: 0 10px;">
-                                <span>{{foodQuantity(food.foodId)}}</span>
-                              </a>
+                              <a class="page-link">{{
+                                foodQuantity(food.foodId)
+                              }}</a>
                             </li>
 
                             <li class="page-item">
                               <a
                                 class="page-link"
-                                style="width: 30px; height: 30px;"
                                 @click="increaseQuantity(food.foodId)"
-                                ><span style="font-size: 20px;">+</span></a
+                                >+</a
                               >
                             </li>
                             <div
@@ -177,7 +181,7 @@
             </div>
           </div>
           <div class="orderText" style="margin-top: 30px">
-            <h4>할인 쿠폰</h4>
+            <p>할인 쿠폰</p>
           </div>
           <div class="couponWrapper d-block">
             <!-- 사용할 수 있는 쿠폰이 있으면 불러오기 -->
@@ -210,25 +214,9 @@
           <!-- 결제수단 선택 -->
           <div class="cartOrder">
             <div class="orderText">
-              <h4>결제수단 선택</h4>
+              <p>결제수단 선택</p>
             </div>
-            <div class="orderPay mt-2" style="padding: 15px;">
-              <div style="width: 100%; text-align: left; padding-left: 20px; margin-bottom: 10px;">
-                <span style="font-size: 24px; font-weight: 600">WAPOO 결제</span><span style="color: gray; font-size: 15px; margin-left: 10px;">웹에서 미리 결제</span><br />
-                <!-- <span style="color: red; font-size: 16px;">* 현재 카카오페이 결제밖에 지원되지 않습니다.</span> -->
-              </div>
-              <!-- <label class="btn order-label">
-                <i class="fas fa-credit-card"></i>
-                <span>신용카드</span>
-              </label>
-              <label class="btn order-label">
-                <i class="fas fa-mobile-alt"></i>
-                <span>휴대전화</span>
-              </label>
-              <label class="btn order-label label-click" style="cursor: pointer; background-color: #fff; color: #666;">
-                <i class="fas fa-comment"></i>
-                <span>카카오페이</span>
-              </label> -->
+            <div class="orderPay mt-2">
               <div>
                 <span style="font-weight: 550; font-size: 18px"
                   >카카오페이로 결제</span
@@ -246,53 +234,47 @@
           </div>
           <div
             class="calculatorWrapper d-block"
-            style="padding-top: 0px; margin-top: 30px;"
+            style="padding-top: 0px; margin-top: 30px"
           >
-            <div class="orderText" style="background-color:black;">
-              <h4 style="color: white;">주문내역</h4>
+            <div class="orderText">
+              <h4>주문내역</h4>
             </div>
             <div class="orderList mt-1">
               <div v-for="(food, index) in foodList" :key="index">
-                <div class="col-8 food-List" style="float: left">
+                <div class="col-8" style="float: left">
                   {{ food.name }} X {{ foodQuantity(food.foodId) }} 개
                 </div>
-                <div class="col-4 food-List2" style="float: right">
+                <div class="col-4" style="float: right">
                   {{ pricePerFood(food.foodId, food.price) }} 원
                 </div>
               </div>
               <!-- 쿠폰할인 -->
               <hr />
               <div v-if="checkedCoupon.length > 0">
-                <div class="col-8 food-List mt-2" style="float: left">
+                <div class="col-8 mt-2" style="float: left">
                   <strong>쿠폰할인</strong>
                 </div>
                 <div v-for="(couponId, index) in checkedCoupon" :key="index">
-                  <div class="col-4 food-List2 mt-2" style="float: right">
+                  <div class="col-4 mt-2" style="float: right">
                     <span>-{{ getCouponDiscountPrice(couponId) }} 원</span>
                   </div>
                 </div>
               </div>
               <!-- 총액 -->
               <hr />
-              <div>
-                <div class="col-8 food-List mt-2" style="float: left; border-top: 1px dashed lightgray; padding-top: 20px; padding-bottom: 20px;">
-                  <strong style="font-size: 20px;">총 결제 금액</strong>
-                </div>
-                <div class="col-4 food-List2 mt-2" style="float: right; border-top: 1px dashed lightgray; padding-top: 20px; padding-bottom: 20px;">
-                  <span><strong style="font-size: 20px;">{{ totalPriceAppliedCoupons }}원</strong></span>
-                </div>
+              <div class="col-8 mt-2" style="float: left">
+                <strong>총 결제 금액</strong>
+              </div>
+              <div class="col-4 mt-2" style="float: right">
+                <span>{{ totalPriceAppliedCoupons }}</span>
               </div>
             </div>
             <!-- orderList 에 대한 총액정리 쿠폰 적용 후. -->
           </div>
           <div class="commandOrderWrapper" v-if="foodList.length > 0">
             <div class="row">
-              <div class="col commandOrder" @click="putOrder">
-                <span>주문하기</span>
-              </div>
-              <div class="col commandCancel" @click="clearOrder">
-                <span>취소하기</span>
-              </div>
+              <div class="col commandOrder" @click="putOrder"><span>주문하기</span></div>
+              <div class="col commandCancel" @click="clearOrder"><span>취소하기</span></div>
             </div>
           </div>
         </div>
@@ -384,11 +366,6 @@ export default {
   },
   methods: {
     ...mapMutations(["delCart", "clearCart", "SET_MODAL_MAP"]),
-    phoneCom() {
-      if (this.phone.length == 3) {
-        this.phone += "-";
-      }
-    },
     getFoodList(foodIdSet) {
       // 페이지 초기화할때 카드에 저장된 음식 정보를 불러온다.
       const foodIdList = Array.from(foodIdSet);
@@ -440,7 +417,7 @@ export default {
       this.orderList.set(foodId, --q);
     },
     test() {
-      error("ths", this);
+      console.log(this.orderList);
     },
     foodQuantity(foodId) {
       return this.orderList.get(foodId);
@@ -466,7 +443,7 @@ export default {
         error("전화번호를 입력해주세요", this);
         return false;
       } else if (phoneValidation === false) {
-        error("전화번호는 숫자와 -(하이픈)만 입력 가능합니다.", this);
+        error("전화번호는 숫자와 -(하이픈)만 입력 가능합니다.");
         return;
       }
 
@@ -489,6 +466,7 @@ export default {
         couponIdList,
         memberId,
       };
+      // DB에 오더 넣기.
       axios
         .create({ baseURL: "http://localhost:8083" })
         .post("/order/putOrder", orderData)
@@ -597,7 +575,7 @@ export default {
 
 <style scoped>
 .orderText {
-  background-color: lightgray;
+  background-color: aliceblue;
   padding: 10px;
 }
 .orderText p {
@@ -634,7 +612,7 @@ export default {
   width: 100%;
 }
 .cart {
-  border: 2px solid lightgray;
+  border: 2px solid tomato;
 }
 .foodWrapper {
   display: flex;
@@ -653,7 +631,7 @@ export default {
   border: 1px solid gainsboro;
   display: flex;
   align-items: center;
-  background-color: #fff8eb;
+  padding: 50px;
 }
 .emptyContainer {
   padding: 50px;
@@ -722,8 +700,8 @@ export default {
 }
 
 .form-check .form-check-input {
-  float: none;
-  margin-left: -1.5em;
+    float: none;
+    margin-left: -1.5em;
 }
 .form-check-input {
   margin-right: 30px;
@@ -731,68 +709,11 @@ export default {
 
 .address_input {
   display: block;
-  width: 90%;
+  width: 100%;
   padding: 6px 12px;
   font-size: 18px;
   color: #555;
   border: 1px solid #ccc;
   margin-bottom: 15px;
-}
-.address_input1 {
-  padding: 6px 12px;
-  font-size: 18px;
-  color: #555;
-  border: 1px solid #ccc;
-  width: 90%;
-  margin-bottom: 5px;
-  
-}
-.mt-2-1 {
-  margin-bottom: 15px;
-}
-.food-List2 {
-  width: 50%;
-  text-align: left;
-  padding-left: 20%;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-.food-List {
-  width: 50%;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-.order-label {
-  float: left;
-  margin-left: 5px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-  width: calc(50% - 10px); 
-  padding: 15px 12px; 
-  margin-bottom: 8px; 
-  border: 1px solid #ddd; 
-  background-color: #f0f0f0; 
-  color: #999; 
-  font-size: 24px;
-}
-.order-label svg {
-  margin-right: 20px;
-}
-.label-click:active {
-  border-color: red;
-  background-color: #fff;
-  color: black;
-}
-.label-click i:active {
-  color: yellow;
-}
-
-.page-item:first-child .page-link {
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-}
-.page-link {
-  color: black;
-  padding: 0;
 }
 </style>
