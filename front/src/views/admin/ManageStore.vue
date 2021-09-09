@@ -400,9 +400,8 @@ export default {
   z-index: 2;
   position: absolute;
   top: 4rem;
-  left: 5rem;
-  width: 100%;
-  height: 100%;
+  left: 15rem;
+  width: 80%;
   background-color: aliceblue;
   padding: 0.2rem;
 }

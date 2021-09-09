@@ -1,52 +1,100 @@
 <template>
 <center v-if="dataLoaded == true">
-  <table class="storeDetailList">
-    <tr>
-      <th>가게 아이디</th>
-      <td>{{data.storeId}}</td>
-    </tr>
-    <tr>
-      <th>가게 이름</th>
-      <td>{{data.storename}}</td>
-    </tr>
-    <tr>
-      <th>판매자</th>
-      <td>{{data.membername}}</td>
-    </tr>
-    <tr>
-      <th>가게 상태</th>
-      <td>{{data.status}}</td>
-    </tr>
-    <tr>
-      <th>가게 등록일</th>
-      <td>{{parsingDate(data.regDate)}}</td>
-    </tr>
-    <tr>
-      <th>가게 주소</th>
-      <td>{{data.address}}</td>
-    </tr>
-  </table>
-  <div v-if="foodList != null">
+  <div class="store-list">
+    <table>
+      <tr>
+        <td colspan="2" align=center>
+          <h2 class="store-title"><strong>{{storeInfo.name}}</strong></h2>
+        </td>
+      </tr>
+      <tr>
+        <th style="vertical-align: bottom;"><div class="store-th" style="vertical-align: bottom;">업체정보</div></th>
+        <td style="vertical-align: bottom;"><div class="store-td" style="vertical-align: bottom; font-size:20px;">{{ storeInfo.storeKind }}</div></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div style="padding:0px; border-bottom: 1px solid gray;"></div>
+        </td>
+      </tr>
+      <tr>
+        <th style="padding-top:20px;"><div class="store-th">가게등록일</div></th>
+        <td style="padding-top:20px;"><div class="store-td">{{parsingDate(data.regDate)}}</div></td>
+      </tr>
+      <tr>
+        <th class="store-th" style="padding: 5px 0px;"></th>
+      </tr>
+      <tr>
+        <th><div class="store-th">가게주소</div></th>
+        <td><div class="store-td">{{storeInfo.address}}</div></td>
+      </tr>
+      <tr>
+        <th class="store-th" style="padding: 5px 0px;"></th>
+      </tr>
+      <tr>
+        <th><div class="store-th">상세주소</div></th>
+        <td><div class="store-td">{{storeInfo.addressDetail}}</div></td>
+      </tr>
+      <tr>
+        <th class="store-th" style="padding: 5px 0px;"></th>
+      </tr>
+      <tr>
+        <th><div class="store-th">가게번호</div></th>
+        <td><div class="store-td">{{ storeInfo.phone }}</div></td>
+      </tr>
+      <tr>
+        <th class="store-th" style="padding: 5px 0px;"></th>
+      </tr>
+      <tr>
+        <th><div class="store-th">가게설명</div></th>
+        <td colspan="2"><div class="store-td" style="width:auto;">{{ storeInfo.body }}</div></td>
+      </tr>
+    </table>
+  </div>
+  <div style="margin:50px; border-top:1px solid black;"></div>
+  <h2><strong>가게 사진</strong></h2>
+  <div v-if="storeFiles != null">
+    <div class="imgList">
+      <div v-for="file in storeFiles" :key="file">
+        <img class="imgFile" :src="file.name" />
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <span style="font-size: 25px;">가게사진이 없습니다!</span>
+  </div>
+  <div style="margin:50px; border-top:1px solid black;"></div>
+  <h2><strong>가게 메뉴</strong></h2>
+  <div class="foodList" v-if="foodList != null">
     <div v-for="list in foodList" :key="list">
-      <div class="card" style="width: 18rem;">
+      <div class="card" style="width: 18rem; margin:20px;">
         <img :src="list.fileUrl" class="card-img-top" alt="..." />
         <div class="card-body">
           <p class="card-text">
-              가격: {{list.price}},
-              이름: {{list.name}},
-              설명: {{list.description}}
-              상태: {{list.status}}
+            <table>
+              <tr>
+                <th style="text-align:center; font-size:25px;">{{list.name}}</th>
+              </tr>
+              <tr>
+                <th align=right style="text-align:right;">{{list.price}}원</th>
+              </tr>
+              <tr>
+                <td>{{list.description}}</td>
+              </tr>
+            </table>
           </p>
         </div>
       </div>
     </div>
   </div>
-  {{foodList}}
-  <!--
-  {{storeFiles}}
-  {{shopInfo}}
-  {{storeInfo}}-->
+  <div v-if="foodList == null">
+    <span style="font-size: 25px;">메뉴가 없습니다!</span>
+  </div>
 </center>
+<div v-if="dataLoaded ==false">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
 </template>
 
 <script>
@@ -117,7 +165,7 @@ export default {
         .then((res) => {
           console.log(res.data);
           this.shopInfo = res.data;
-          console.log("shopInfo 들어옴");
+          console.log("shopInfo 받음");
           this.storeInfo = this.shopInfo.storeInfo;
           this.foodList = this.shopInfo.foodList;
           console.log("shopInfo 나눔");
@@ -127,29 +175,55 @@ export default {
     },
   },
   mounted() {
-    this.getStoreInfo(this.storeId);
+    this.$nextTick(()=>
+    this.getStoreInfo(this.storeId)
+    )
   }
 };
 </script>
 
 <style>
-.storeDetailList {
-  width:600px;
-  font-size:25px;
-  vertical-align: top;
+.store-th {
+  width:300px;
+  padding: 0px 50px;
+  text-align: center;
+}
+.store-td {
+  padding: 0px 50px;
+  word-break:break-all;
   text-align: left;
+}
+.store-list table tr th, 
+.store-list table tr td {
+  vertical-align: top;
+}
+.store-list{
+  width: 960px;
+  font-size: 25px;
   align-content: center;
 }
-.storeDetailList tr th {
-  width: 120px;
+.store-title{
+  margin: 20px;
 }
-.storeDetailList tr td {
-  width: 480px;
-  word-break:break-all;
-  padding-left:50px;
+.storeHeader {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 10px;
 }
-.storeDetailList tr th,
-.storeDetailList tr td {
-  padding-bottom:15px;
+.foodList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.imgList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.imgFile {
+  width: 300px;
+  height: 200px;
+  margin: 14px;
 }
 </style>
