@@ -88,8 +88,9 @@
       <!-- 순서 버튼 -->
       <nav
         aria-label="Page navigation example "
-        class="mt-5 mb-5 position-relative .center-block"
+        class="mt-5 position-relative .center-block"
         v-if="myCount"
+        style="margin:0px; margin-bottom: 100px;"
       >
         <ul class="pagination position-absolute" style="left: 30vw">
           <!-- 이전 순서 버튼 -->

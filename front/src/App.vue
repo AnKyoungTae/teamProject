@@ -2,21 +2,23 @@
   <div>
     <Sidebar />
     <transition name="page">
-      <div class="col-md-12" :style="{ 'margin-left': sidebarWidth }">
+      <div class="App-box" :style="{ 'margin-left': sidebarWidth }">
         <router-view />
       </div>
     </transition>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import Sidebar from "@/components/sidebar/Sidebar";
-
 import { sidebarWidth } from "@/components/sidebar/state";
+import Footer from "@/components/footer/Footer";
 
 export default {
   components: {
     Sidebar,
+    Footer
   },
   setup() {
     return { sidebarWidth };
@@ -29,6 +31,13 @@ export default {
 html,
 body {
   background: white;
+}
+Footer {
+  background-color: #355f6e;
+}
+.App-box {
+  flex: 0 0 auto;
+  min-height: 70vh;
 }
 #app {
   font-family: "Poor Story", cursive;
