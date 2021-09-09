@@ -1,10 +1,8 @@
 <template>
-  <div class="container" style="width: 1000px">
+  <div class="container" style="width: 1000px;">
     <div class="m-4">
       <h1>주문상세정보페이지</h1>
       <p>주문번호 : {{ orderId }}</p>
-      <hr />
-      <hr />
       <div v-if="loaded == false">
         <div class="spinner-border" role="status">
           <span class="visually-hidden">Loading...</span>
@@ -35,7 +33,7 @@
           :key="foodList"
           style="height: 130px; border-bottom: 2px solid black"
         >
-          <div style="font-size: 20px; width: 600px; text-align: left">
+          <div style="font-size: 20px; width: 600px; text-align: left; margin-left: 20px;">
             <img
               :src="foodList.fileUrl"
               style="width: 100px; height: 100px; margin-right: 30px"

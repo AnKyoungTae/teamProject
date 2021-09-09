@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">
+  <div class="footer-div">
     <div class="wapoo-wrap">
       <div class="wapoo-logo">
         <div>
@@ -49,11 +49,12 @@
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap");
-.footer {
+.footer-div {
   padding-bottom: 20px;
   color: #91afba;
   overflow: hidden;
   width: 100%;
+  position: absolute;
   background-color: #355f6e;
 }
 .wapoo-wrap {
