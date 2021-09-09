@@ -1,5 +1,5 @@
 <template>
-<center v-if="data">
+<center v-if="dataLoaded == true">
   <table class="storeDetailList">
     <tr>
       <th>가게 아이디</th>
@@ -26,8 +26,26 @@
       <td>{{data.address}}</td>
     </tr>
   </table>
-  {{storeInfo}}
+  <div v-if="foodList != null">
+    <div v-for="list in foodList" :key="list">
+      <div class="card" style="width: 18rem;">
+        <img :src="list.fileUrl" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <p class="card-text">
+              가격: {{list.price}},
+              이름: {{list.name}},
+              설명: {{list.description}}
+              상태: {{list.status}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{foodList}}
+  <!--
   {{storeFiles}}
+  {{shopInfo}}
+  {{storeInfo}}-->
 </center>
 </template>
 
@@ -40,11 +58,17 @@ export default {
   props: ["data"],
   data() {
     return {
-      storeInfo: null,
+      shopInfo: null,
       storeFiles: [],
       dataLoaded: false,
       authorized: false,
+      storeId: null,
+      foodList: [],
+      storeInfo: null,
     }
+  },
+  created() {
+    this.storeId = this.data.storeId
   },
   computed: {
     ...mapGetters({
@@ -64,7 +88,7 @@ export default {
       http
         .get("/store/getStoreFiles", {
           params: {
-            storeId: this.data.storeId,
+            storeId: storeId,
           },
         })
         .then((response) => {
@@ -81,40 +105,29 @@ export default {
           // this.$store.dispatch("auth/logout");
           // this.$router.push({ path: "/" });
         });
+      
     },
-    edit(request) {
-      this.correction = request;
+    getStoreInfo(storeId) {
+      http
+        .get("/store/getStoreInfos", {
+          params: {
+            storeId: storeId,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.shopInfo = res.data;
+          console.log("shopInfo 들어옴");
+          this.storeInfo = this.shopInfo.storeInfo;
+          this.foodList = this.shopInfo.foodList;
+          console.log("shopInfo 나눔");
+          console.log(this.shopInfo.fileList);
+          this.getStoreFiles(this.storeId);
+        });
     },
   },
   mounted() {
-    normal("가게정보를 검색합니다...", this);
-    http
-      .post("/store/findStore")
-      .then((response) => {
-        if (response.status === 200) {
-          console.log("들어옴");
-          console.log(response.data);
-          this.storeInfo = response.data;
-          if (this.storeInfo.status != null) {
-            console.log("값이있네");
-            success("등록된 가게정보를 찾았습니다!", this);
-            // 전역변수에 가게 등록로직
-            this.setMyStore(this.storeInfo);
-            this.getStoreFiles(this.storeInfo.storeId);
-            this.authorized = true;
-            console.log("완성");
-            return;
-          }
-          error("등록된 가게가 없습니다!", this);
-          this.dataLoaded = true;
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        error("오류가 발생했습니다. 다시 시도해주세요", this);
-        this.$store.dispatch("auth/logout");
-        this.$router.push({ path: "/" });
-      });
+    this.getStoreInfo(this.storeId);
   }
 };
 </script>
