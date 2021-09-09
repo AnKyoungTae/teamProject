@@ -44,6 +44,9 @@ public interface OrderDao {
     void updateOrderPayment(@Param("order_id") int order_id,
                             @Param("total") Integer total);
     
+    //order 상태변경 N
+    void updateOrder(int storeId);
+    
     //주문표
     List<StoreOrder> storeOrder(int storeId, String status);
     

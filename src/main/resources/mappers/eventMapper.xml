@@ -80,6 +80,20 @@
 
     </update>
     
+    <select id="adminEventcount" resultType="int">
+    SELECT	
+		COUNT(*) AS 'result'
+		
+		
+		FROM `coupon` a, `event` b
+	WHERE	a.event_id = b.eventId
+
+<if test="!option.equals('ALL')">
+		AND	b.status = #{option}
+</if>
+	
+    </select>
+    
     
     
 </mapper>

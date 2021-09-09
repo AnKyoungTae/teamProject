@@ -90,7 +90,7 @@
         </thead>
         <!-- 테이블 내용 -->
         <tbody>
-          <tr v-if="totalCount === 0">
+          <tr v-if="totalCount === 1">
             <td class="table-danger" colspan="8">등록된 쿠폰가 없습니다.</td>
           </tr>
           <tr
@@ -192,9 +192,9 @@ export default {
     return {
       couponList: [],
       currentPage: 1, // 현재 페이지
-      listPerPage: 10, // 한번에 보여줄 리스트숫자
+      listPerPage: 3, // 한번에 보여줄 리스트숫자
       totalCount: 0, // 총 게시글 수
-      showindex: 5, // 번호로 표시될 페이지 총 갯수
+      showindex: 2, // 번호로 표시될 페이지 총 갯수
       statusOption: "ALL",
       selectedCoupon: "",
     };
@@ -267,6 +267,7 @@ export default {
       http
         .post("/admin/adminEvent", data)
         .then((response) => {
+          console.log(response);
           if (response.status === 200) {
             success("데이터 로딩 완료!", this);
             this.couponList = response.data;
@@ -281,7 +282,7 @@ export default {
     },
     requestListCount() {
       http
-        .get("/event/getEventListCount", {
+        .get("/admin/adminEventcount", {
           params: {
             option: this.statusOption,
           },

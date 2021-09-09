@@ -219,6 +219,7 @@ public class OrderService {
     }
 
     public int setOrderStatus(Integer orderId, String status) {
+    	orderDao.updateOrderInfosStatus(orderId, status);
         return orderDao.updateOrderState(orderId, status);
     }
     
@@ -283,6 +284,7 @@ public class OrderService {
     	try
     	{
     		count  = orderDao.deleteAllOrder(orderId);
+    		orderDao.updateOrder(orderId);
     	}
     	catch(Exception e)
     	{
