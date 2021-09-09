@@ -62,7 +62,7 @@
                     maxlength="13"
                     style="width: 100%"
                     v-model="phone"
-                    @keyup="phoneCom"
+                    @keydown="phoneCom"
                   />
                 </td>
               </tr>

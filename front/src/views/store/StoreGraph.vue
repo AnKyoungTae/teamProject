@@ -87,7 +87,7 @@
       </tr>
 
       <tr style="border: 1px solid red; ">
-        <th style="border: 1px solid red;">전체 수량</th>
+        <th style="border: 1px solid red;">전체 주문양</th>
         <td>{{plusResentFoodQuantity}}</td>
         <th  style="border: 1px solid red;">전체 매출</th>
         <td>{{plusResentFoodPayment}}</td>
