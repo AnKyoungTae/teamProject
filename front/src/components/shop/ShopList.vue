@@ -127,7 +127,7 @@ export default {
 .storeReview {
   text-align: right;
   padding: 5px 0 0;
-  width: 150px;
+  width: 160px;
 }
 .address {
   text-align: left;

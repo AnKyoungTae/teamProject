@@ -133,7 +133,7 @@
                 >
                   x
                 </div>
-                <img :src="storeFiles.name" />
+                <img :src="imageFile.preview" />
               </div>
               <div class="imageFile-preview-wrapper-upload">
                 <div class="image-box">
@@ -159,6 +159,10 @@
       <button type="button" @Click="edit()" style="margin-right:25px;" class="btn btn-dark">수정</button>
       <button type="button" @Click="edit()" style="margin-left:25px;" class="btn btn-danger">취소</button>
     </div>
+    <div v-for="files in storeFiles" :key="files">
+      <img style="width:200px; height:200px;" :src="files.name" />
+    </div>
+    {{storeFiles}}
   </div>
 </template>
 
@@ -190,6 +194,24 @@ export default {
     this.addressDetail = this.storeInfo.addressDetail
     this.storeKind = this.storeInfo.storeKind
     this.body = this.storeInfo.body
+  },
+  mounted() {
+    let num = -1;
+    for(let i = 0; i < this.storeFiles.length; i++) {
+      this.files = [
+        ...this.files,
+        {
+          imageFile: this.storeFiles[i],
+
+          preview: this.imageFile.name[i],
+
+          number: i,
+        },
+      ];
+      num = i;
+    }
+    this.uploadImageIndex = num + 1; //이미지 index의 마지막 값 + 1 저장
+    console.log(this.files);
   },
   methods: {
     ...mapMutations(["SET_MODAL_MAP"]),

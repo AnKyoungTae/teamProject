@@ -2,66 +2,79 @@
   <div class="container storeDetail" style="width:1000px;">
     <br>
     <!-- 업체정보 -->
-    <h2 class="store-title">{{storeInfo.name}}</h2>
     <div class="row storeHeader">
-      <div class="col" style="width:500px; height:410px;">
-        <div>
-          <!-- Main slider -->
-          <splide :options="primaryOptions" ref="primary" style="margin-bottom:1rem;">
-            <splide-slide v-for="file in storeFiles" :key="file">
-              <img :src="file.name" class="splideImg" alt="??">
-            </splide-slide>
-          </splide>
+      <div>
+          <div class="store-list">
+            <table>
+              <tr>
+                <td colspan="2" align=center>
+                  <h2 class="store-title">{{storeInfo.name}}</h2>
+                </td>
+                <td rowspan="10" align=center>
+                  <button type="button" @Click="edit()" class="btn btn-dark edit">수정하기</button>
+                  <div v-if="storeFiles != null" style="width:400px;">
+                    <!-- Main slider -->
+                    <splide :options="primaryOptions" ref="primary" style="margin-bottom:1rem;">
+                      <splide-slide v-for="file in storeFiles" :key="file">
+                        <img :src="file.name" class="splideImg" alt="??">
+                      </splide-slide>
+                    </splide>
 
-          <!-- Thumbnail slider -->
-          <splide :options="secondaryOptions" ref="secondary">
-            <splide-slide v-for="file in storeFiles" :key="file">
-              <img :src="file.name" alt="??">
-            </splide-slide>
-          </splide>
+                    <!-- Thumbnail slider -->
+                    <splide :options="secondaryOptions" ref="secondary">
+                      <splide-slide v-for="file in storeFiles" :key="file">
+                        <img :src="file.name" alt="??">
+                      </splide-slide>
+                    </splide>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th style="vertical-align: bottom;"><div class="store-th" style="vertical-align: bottom;">업체정보</div></th>
+                <td style="vertical-align: bottom;"><div class="store-td" style="vertical-align: bottom; font-size:20px;">{{ storeInfo.storeKind }}</div></td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <div style="width:500px; padding:0px; border-bottom: 1px solid gray;"></div>
+                </td>
+              </tr>
+              <tr>
+                <th style="padding-top:20px;"><div class="store-th">가게등록일</div></th>
+                <td style="padding-top:20px;"><div class="store-td">{{storeInfo.regDate}}</div></td>
+              </tr>
+              <tr>
+                <th class="store-th" style="padding: 5px 0px;"></th>
+              </tr>
+              <tr>
+                <th><div class="store-th">가게주소</div></th>
+                <td><div class="store-td">{{storeInfo.address}}</div></td>
+              </tr>
+              <tr>
+                <th class="store-th" style="padding: 5px 0px;"></th>
+              </tr>
+              <tr>
+                <th><div class="store-th">상세주소</div></th>
+                <td><div class="store-td">{{storeInfo.addressDetail}}</div></td>
+              </tr>
+              <tr>
+                <th class="store-th" style="padding: 5px 0px;"></th>
+              </tr>
+              <tr>
+                <th><div class="store-th">가게번호</div></th>
+                <td><div class="store-td">{{ storeInfo.phone }}</div></td>
+              </tr>
+              <tr>
+                <th class="store-th" style="padding: 5px 0px;"></th>
+              </tr>
+              <tr>
+                <th><div class="store-th">가게설명</div></th>
+                <td colspan="2"><div class="store-td" style="width:auto;">{{ storeInfo.body }}</div></td>
+              </tr>
+            </table>
+          </div>
         </div>
-      </div>  
-      <div class="col" style="width:500px; height:410px;">
-        <p style="color: gray; margin-bottom: 20px; padding-right:20px; text-align: center">
-          {{ storeInfo.storeKind }}
-        </p>
-        <span style="float: left; padding-left:20px; padding-bottom:10px; font-weight: 600; font-size: 17px">
-          업체정보
-        </span>
-        <hr style="margin-top: 5px; width: 90%" />
-        <div>
-          <table class="store-list">
-            <tr>
-              <th class="store-th">가게등록일</th>
-              <td class="store-td">{{storeInfo.regDate}}</td>
-            </tr>
-            <tr>
-              <th class="store-th">가게주소</th>
-              <td class="store-td">{{storeInfo.address}}</td>
-            </tr>
-            <tr>
-              <th class="store-th">상세주소</th>
-              <td class="store-td">{{storeInfo.addressDetail}}</td>
-            </tr>
-            <tr>
-              <th class="store-th">가게번호</th>
-              <td class="store-td">{{ storeInfo.phone }}</td>
-            </tr>
-            <tr>
-              <th class="store-th">가게평점</th>
-              <td class="store-td">
-                <Reviewicon :averageScore="this.averageScore"></Reviewicon>
-              </td>
-            </tr>
-            <tr>
-              <th class="store-th">가게설명:</th>
-              <td class="store-td">{{ storeInfo.body }}</td>
-            </tr>
-          </table>
-        </div>
-        <br>
-        <button type="button" @Click="edit()" class="btn btn-dark edit">수정</button>
-      </div>
+        
+      <!-- 버튼 -->
       <div
         class="btn-group"
         role="group"
@@ -89,6 +102,7 @@
         />
         <label class="btn btn-outline-primary" for="btnradio2">후기</label>
       </div>
+      <!-- 내용 -->
       <shopMap
         :localx="storeInfo.localx"
         :localy="storeInfo.localy"
@@ -101,8 +115,6 @@
 </template>
 
 <script>
-import http from "@/api/http";
-import Reviewicon from "@/components/shop/Reviewicon.vue";
 import shopMap from "@/components/adminComponent/StoreMap.vue";
 import review from "@/components/adminComponent/Review.vue";
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
@@ -114,7 +126,6 @@ export default {
   components: {
     Splide,
     SplideSlide,
-    Reviewicon,
     shopMap,
     review, 
   },
@@ -124,43 +135,29 @@ export default {
         currentComp: "shopMap",
         storeId: null,
         primaryOptions: {
-	      	type      : 'loop',
-		      width     : 500,
-          height    : 300,
-					pagination: false,
-          arrows    : false,
+	      	type       : 'loop',
+		      width       : 400,
+          height      : 250,
+					pagination  : false,
 	      },
 	      secondaryOptions: {
 		      type        : 'slide',
 		      rewind      : true,
-		      width       : 500,
+		      width       : 400,
 		      gap         : '1rem',
 					pagination  : false,
 		      fixedWidth  : 110,
           fixedHeight : 70,
           cover       : true,
-		      focus       : 'center',
 		      isNavigation: true,
+          arrows      : false,
 	      },
 			};
 	},
   mounted() {
-    // 슬라이드
-    this.storeId = this.$route.query.storeInfo;
+    this.storeId = this.storeInfo.storeId;
     this.$refs.primary.sync( this.$refs.secondary.splide );
     this.setComponent("shopMap");
-    http
-      .get("/review/getAverageScore", {
-        params: {
-          storeId: this.storeInfo.storeId,
-        },
-      })
-      .then((response) => {
-        this.averageScore = response.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   },
   methods: {
     //수정버튼
@@ -170,7 +167,7 @@ export default {
     setComponent(comp) {
       this.currentComp = comp;
     },
-  }
+  },
 };
 </script>
 
@@ -178,29 +175,37 @@ export default {
 .storeDetail {
   background: rgba(234, 240, 237, 0.466);
 }
-.store-td{
-  padding-left: 50px;
+.store-th {
+  width: 120px;
+}
+.store-td {
+  padding-left: 20px;
+  padding-right: 50px;
+  width: 400px;
+  word-break:break-all;
+}
+.store-list table tr th, 
+.store-list table tr td {
+  vertical-align: top;
 }
 .store-list{
-  margin: 20px;
-  font-size: 20px;
+  width: 960px;
+  font-size: 25px;
   align-content: center;
   text-align: left;
 }
-div img{
-  width: 100%;
-}
 .store-title{
   margin: 20px;
+}
+.splideImg {
+  width:400px; 
+  height:250px;
 }
 .storeHeader {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-}
-.splideImg{
-  width:500px; 
-  height:300px;
+  padding: 10px;
 }
 input {
   background-color: gray;
@@ -240,7 +245,7 @@ input {
   padding: 10px;
 }
 .edit {
-  margin:11px;
-  margin-right:25px;
+  margin:20px;
+  font-size: 20px;
 }
 </style>

@@ -16,7 +16,7 @@
     </div>
     <div v-else>
       <!-- 가게상세정보 -->
-      <div v-if="correction == true">
+      <div v-if="correction == false">
         <store-detail
           :storeFiles="storeFiles"
           :storeInfo="storeInfo"
@@ -25,7 +25,7 @@
           v-if="storeInfo.status != null"
         ></store-detail>
       </div>
-      <div v-if="correction == false">
+      <div v-if="correction == true">
         <edit-Store
           :storeFiles="storeFiles"
           :storeInfo="storeInfo"
@@ -69,7 +69,7 @@ export default {
     return {
       userInfo: null,
       storeInfo: null,
-      storeFiles: null,
+      storeFiles: [],
       dataLoaded: false,
       authorized: false,
       correction: true,

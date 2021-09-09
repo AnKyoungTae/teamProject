@@ -84,6 +84,7 @@
       data-bs-placement="top"
       title="주문번호를 입력하시면 주문조회가 가능합니다"
       @click="toggleFindOrder"
+      
     >
       주문조회
     </div>
@@ -91,7 +92,7 @@
       class="findOrderWrapper"
       :class="[
         collapsed ? 'hiddenOrderSearch' : '',
-        findOrder ? 'hiddenFindOrderTab' : '',
+        findOrder ? '' : 'hiddenFindOrderTab',
       ]"
     >
       <span><b>주문번호</b>를 입력해주세요!</span>
