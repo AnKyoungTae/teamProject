@@ -39,9 +39,10 @@
     </insert>
 
     <update id="updateOrderState"> 
-        UPDATE `orderInfo`
+	UPDATE `order`
         SET `status` = #{status}
-        WHERE orderInfoId = #{orderId}
+        WHERE orderId = #{orderId}      
+
     </update>
 
     <update id="updateOrderPayment">
@@ -84,6 +85,12 @@
         FROM food
         where foodId=#{foodId}
     </select>
+    
+    <update id="updateOrder" >
+    UPDATE	`order`
+SET	STATUS= 'N'
+WHERE	orderId = #{storeId}
+    </update>
 
     
     

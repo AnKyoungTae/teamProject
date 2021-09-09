@@ -45,8 +45,26 @@
                     </div>
                   </div>
                 </div>
-                <div style="text-align: right">
-                  <button
+                <div style="text-align: right" >
+                  
+                  <button v-if="orderList.status == 'N'"
+                    type="button"
+                    
+                    class="btn "
+                    style="font-size: 13px"
+                  >
+                    주문취소완료
+                  </button>
+
+                  <button v-else-if="orderList.status == 'C'"
+                    type="button"
+                    
+                    class="btn "
+                    style="font-size: 13px"
+                  >
+                    주문취소중입니다
+                  </button>
+                  <button v-else
                     type="button"
                     @Click="orderDel(orderList.orderId)"
                     class="btn btn-outline-danger"
@@ -78,6 +96,7 @@ export default {
   },
   methods: {
     orderDel(orderId) {
+      
       http
         .post("/order/requestCancel", {
           orderId: orderId,
@@ -104,7 +123,7 @@ export default {
         })
         .then((res) => {
           console.log(res.data);
-          this.orderLists = res.data;
+          this.orderLists = res.data.reverse();
           this.orderListLoaded = true;
         })
         .catch((err) => {
