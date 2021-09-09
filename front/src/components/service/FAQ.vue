@@ -55,7 +55,7 @@
       <nav
         aria-label="Page navigation example"
         class="mt-5 position-relative .center-block"
-        style=""
+        style="margin-bottom: 100px;"
       >
         <ul class="pagination position-absolute" style="left: 30vw">
           <!-- 이전 순서 버튼 -->

@@ -32,13 +32,8 @@ html,
 body {
   background: white;
 }
-@media (min-width: 768px) {
-.col-md-12 {
-    width: 100;
-}
 Footer {
   background-color: #355f6e;
-}
 }
 .App-box {
   flex: 0 0 auto;
