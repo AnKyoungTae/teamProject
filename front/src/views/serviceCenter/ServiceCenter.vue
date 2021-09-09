@@ -2,47 +2,26 @@
   <div class="service-center m-5">
     <div class="service-group mb-5">
       <router-link
-        class="btn btn-success me-5 col-2 serviceMenu"
+        class="btn me-5 col-2 serviceMenu"
         :to="{ name: 'Notice' }"
         @click="clickPages(1)"
-        v-if="this.$store.state.serviceCenters == 1"
-        >공지사항</router-link
-      >
-      <router-link
-        class="btn btn-warning me-5 col-2 serviceMenu"
-        :to="{ name: 'Notice' }"
-        @click="clickPages(1)"
-        v-else
+        :class="this.$store.state.serviceCenters == 1 ? 'active' : ''"
         >공지사항</router-link
       >
 
       <router-link
-        class="btn btn-success mx-5 col-2 serviceMenu"
+        class="btn mx-5 col-2 serviceMenu"
         :to="{ name: 'Q&A' }"
         @click="clickPages(2)"
-        v-if="this.$store.state.serviceCenters == 2"
-        >Q&A</router-link
-      >
-      <router-link
-        class="btn btn-warning mx-5 col-2 serviceMenu"
-        :to="{ name: 'Q&A' }"
-        @click="clickPages(2)"
-        v-else
+        :class="this.$store.state.serviceCenters == 2 ? 'active' : ''"
         >Q&A</router-link
       >
 
       <router-link
-        class="btn btn-success ms-5 col-2 serviceMenu"
+        class="btn ms-5 col-2 serviceMenu"
         :to="{ name: 'FAQ' }"
         @click="clickPages(3)"
-        v-if="this.$store.state.serviceCenters == 3"
-        >FAQ</router-link
-      >
-      <router-link
-        class="btn btn-warning ms-5 col-2 serviceMenu"
-        :to="{ name: 'FAQ' }"
-        @click="clickPages(3)"
-        v-else
+        :class="this.$store.state.serviceCenters == 3 ? 'active' : ''"
         >FAQ</router-link
       >
     </div>
@@ -55,32 +34,38 @@
 import notice from "@/components/service/Notice.vue";
 
 export default {
-  components:{notice},
+  components: { notice },
   data() {
-    return {
-      
-    };
+    return {};
   },
-  
+
   methods: {
-    //클릭시 현재 페이지 표시 
-    clickPages(num) {   
-      this.$store.commit("SET_serviceCenters", num)         // 주소찾기에서 선택한 주소
-      this.$store.commit("SET_serviceCenterToggle", true)  //sidebar에서 serviceCenter 클릭시
+    //클릭시 현재 페이지 표시
+    clickPages(num) {
+      this.$store.commit("SET_serviceCenters", num); // 주소찾기에서 선택한 주소
+      this.$store.commit("SET_serviceCenterToggle", true); //sidebar에서 serviceCenter 클릭시
     },
-
-    
-    
-    
   },
-  
-
-}
+};
 </script>
 
 <style scoped>
 .serviceMenu {
-  font-size: 20px;
+  font-size: 1.5em;
   padding: 10px;
+  font-weight: bolder;
+  background: #ffda77;
+  border: 2px solid #fd3a69;
+  color: black;
+  border-radius: 10px 10px 10px 0px;
+}
+.serviceMenu:hover {
+  background: orange;
+  color: white;
+}
+.active {
+  color: #fd3a69;
+  text-decoration-line: underline;
+  text-underline-position: under;
 }
 </style>

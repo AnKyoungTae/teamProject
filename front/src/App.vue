@@ -11,6 +11,7 @@
 
 <script>
 import Sidebar from "@/components/sidebar/Sidebar";
+
 import { sidebarWidth } from "@/components/sidebar/state";
 
 export default {
@@ -53,6 +54,7 @@ body {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
 .page-enter-active,
 .page-leave-active {
   transition: opacity 0.1s;
@@ -61,7 +63,5 @@ body {
 .page-enter,
 .page-leave-to {
   opacity: 0;
-}
-.col-md-9 {
 }
 </style>
