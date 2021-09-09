@@ -2,20 +2,23 @@
   <div>
     <Sidebar />
     <transition name="page">
-      <div class="col-md-12" :style="{ 'margin-left': sidebarWidth }">
+      <div class="container" :style="{ 'margin-left': sidebarWidth }">
         <router-view />
       </div>
     </transition>
   </div>
+  <Footer></Footer>
 </template>
 
 <script>
 import Sidebar from "@/components/sidebar/Sidebar";
+import Footer from "@/components/footer/Footer.vue";
 import { sidebarWidth } from "@/components/sidebar/state";
 
 export default {
   components: {
     Sidebar,
+    Footer,
   },
   setup() {
     return { sidebarWidth };
@@ -53,6 +56,7 @@ body {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
 .page-enter-active,
 .page-leave-active {
   transition: opacity 0.1s;
