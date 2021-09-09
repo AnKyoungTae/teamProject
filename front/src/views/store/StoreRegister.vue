@@ -217,6 +217,7 @@ export default {
       store_contact: "",
       store_type: "",
       store_desc: "",
+      addressDetail: "",
       localx: "",
       localy: "",
     };

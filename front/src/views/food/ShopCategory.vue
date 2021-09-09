@@ -2,7 +2,6 @@
   <div class="food-list">
     <fooddiv></fooddiv>
   </div>
-  <Footer></Footer>
 </template>
 
 <script>
@@ -12,7 +11,6 @@ import Footer from "@/components/footer/Footer.vue";
 export default {
   components: {
     fooddiv,
-    Footer,
   },
 };
 </script>
