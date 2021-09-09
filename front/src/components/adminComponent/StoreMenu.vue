@@ -1,5 +1,6 @@
 <template>
   <ul class="wrapper">
+    <div class="title">MENUS</div>
     <li v-for="food in foodList" :key="food">
       <ListItem :list="food" @click="popOrderModal(food)"></ListItem>
     </li>
@@ -65,5 +66,14 @@ li {
   margin: 2px 0 2px 0;
   border-radius: 2px;
   padding: 0 10px 0 10px;
+}
+.title {
+  width: 80%;
+  text-align: end;
+  padding: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  border-bottom: 8px solid orange;
+  font-size: 2em;
 }
 </style>
