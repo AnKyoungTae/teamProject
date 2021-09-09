@@ -81,7 +81,7 @@ export default {
       http
         .post("/order/requestCancel", {
           orderId: orderId,
-          status: "S",
+          status: "C",
         })
         .then((res) => {
           if (res.status === 200) {

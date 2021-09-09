@@ -66,4 +66,9 @@ public class AdminService {
     }
     
     
+    public int adminEventcount(String option) {
+        return eventDao.adminEventcount(option);
+    }
+    
+    
 }

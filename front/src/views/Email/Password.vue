@@ -57,7 +57,7 @@
               <div>
                 <strong><span class="login-txt">이름 입력</span></strong>
                 <a class="Login-Abox">
-                  <strong class="login-tit"><input type="text" class="text" v-model="loginId" placeholder="이름"></strong>
+                  <strong class="login-tit"><input type="text" class="text" v-model="name" placeholder="이름"></strong>
                 </a>
               </div>
               <div style="margin-top: 30px">
@@ -67,7 +67,7 @@
                     ><input
                       type="text"
                       class="text"
-                      v-model="name"
+                      v-model="loginId"
                       placeholder="아이디"
                   /></strong>
                 </a>
@@ -146,7 +146,7 @@ export default {
         email: this.email,
       };
 
-      http.post("/Login/findpwd", { params }).then((res) => {
+      http.post("/profile/findpwd", { params }).then((res) => {
         if (res.data == "ok") {
           alert("이메일이 전송되었습니다.");
           location.href = "/";
@@ -172,7 +172,7 @@ export default {
         email: this.email,
       };
 
-      http.post("/Login/findid", { params }).then((res) => {
+      http.post("/profile/findid", { params }).then((res) => {
         console.log(res.data);
         if (res.data == "ok") {
           alert("이메일이 전송되었습니다.");

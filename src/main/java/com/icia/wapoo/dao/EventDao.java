@@ -32,4 +32,7 @@ public interface EventDao {
     
     //이벤트 수정
     int updateEventStatus(int eventId, String status);
+    
+    
+    int adminEventcount(@Param("option") String option);
 }

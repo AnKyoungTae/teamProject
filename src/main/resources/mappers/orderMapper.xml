@@ -38,10 +38,10 @@
             order_id = #{order_id}
     </insert>
 
-    <update id="updateOrderState">
-        UPDATE `order`
+    <update id="updateOrderState"> 
+        UPDATE `orderInfo`
         SET `status` = #{status}
-        WHERE orderId = #{orderId};
+        WHERE orderInfoId = #{orderId}
     </update>
 
     <update id="updateOrderPayment">
