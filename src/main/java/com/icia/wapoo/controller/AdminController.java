@@ -1,6 +1,7 @@
 package com.icia.wapoo.controller;
 
 import com.icia.wapoo.jwt.service.JwtService;
+import com.icia.wapoo.model.AdminEvent;
 import com.icia.wapoo.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,4 +51,40 @@ public class AdminController {
         adminService.updateStoreStatus(storeId, status);
         return new ResponseEntity(HttpStatus.OK);
     }
+    
+    @PostMapping("/adminEvent")
+    public ResponseEntity adminEvent(@RequestBody Map<String, Object> data)
+    {
+    	int listPerPage = ((Integer) data.get("listPerPage")).intValue();
+        int currentPage = ((Integer) data.get("currentPage")).intValue();
+        String option = (String) data.get("statusOption");
+        
+        System.out.println("option :  "+ option);
+        
+        
+        List<AdminEvent> list = adminService.adminEvent(listPerPage, currentPage, option);
+        
+        System.out.println("list :  "+ list);
+        
+       return new ResponseEntity(list, HttpStatus.OK);
+    }
+    
+    @PostMapping("/updateEventStatus")
+    public ResponseEntity updateEventStatus(@RequestBody Map<String, Object> data)
+    {
+    	int eventId = ((Integer) data.get("eventId")).intValue();
+        String status = (String) data.get("status");
+        if(status == null || eventId < 1){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        System.out.println("준비");
+        if(adminService.updateEventStatus(eventId, status) > 0)
+        {
+        	System.out.println("끝");
+        	return new ResponseEntity("ok",HttpStatus.OK);
+        }
+        System.out.println("아직");
+    	return new ResponseEntity("no",HttpStatus.OK);
+    }
+    
 }

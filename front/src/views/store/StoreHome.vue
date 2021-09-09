@@ -16,13 +16,23 @@
     </div>
     <div v-else>
       <!-- 가게상세정보 -->
-      <div>
+      <div v-if="correction == true">
         <store-detail
           :storeFiles="storeFiles"
           :storeInfo="storeInfo"
           :isMyStore="authorized"
+          @trueEdit="edit"
           v-if="storeInfo.status != null"
         ></store-detail>
+      </div>
+      <div v-if="correction == false">
+        <edit-Store
+          :storeFiles="storeFiles"
+          :storeInfo="storeInfo"
+          :isMyStore="authorized"
+          @trueEdit="edit"
+          v-if="storeInfo.status != null"
+        ></edit-Store>
       </div>
       <!-- 가게가 없을때 -->
       <div id="storeWrapper" class="container" v-if="storeInfo.status == null">
@@ -48,18 +58,21 @@ import { mapGetters, mapMutations } from "vuex";
 import { error, success, normal } from "@/api/notification";
 import http from "@/api/http";
 import storeDetail from "@/components/store/StoreDetail.vue";
+import EditStore from "@/components/store/EditStore.vue";
 
 export default {
   components: {
     storeDetail,
+    EditStore,
   },
   data() {
     return {
       userInfo: null,
       storeInfo: null,
-      storeFiles: null,
+      storeFiles: [],
       dataLoaded: false,
       authorized: false,
+      correction: true,
     };
   },
   computed: {
@@ -93,6 +106,9 @@ export default {
           // this.$store.dispatch("auth/logout");
           // this.$router.push({ path: "/" });
         });
+    },
+    edit(request) {
+      this.correction = request;
     },
   },
   mounted() {

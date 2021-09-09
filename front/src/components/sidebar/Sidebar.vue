@@ -90,7 +90,7 @@
       class="findOrderWrapper"
       :class="[
         collapsed ? 'hiddenOrderSearch' : '',
-        findOrder ? 'hiddenFindOrderTab' : '',
+        findOrder ? '' : 'hiddenFindOrderTab',
       ]"
       v-if="!userRole || userRole == 'BUYER'"
     >

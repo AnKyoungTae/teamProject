@@ -50,6 +50,7 @@ public class StoreService {
                 String fileURL = null;
                 try {
                     fileURL = s3Service.upload(file, "store_"+store.getStoreId());
+                    System.out.println("써비스 쓰로우 됨");
                 } catch (IOException e) {
                     throw new RuntimeException("S3 업로드중 오류발생!");
                 }
@@ -60,7 +61,9 @@ public class StoreService {
                 storeImageFile.setName(fileURL);
                 storeImageFile.setOrgName(file.getName());
                 storeDao.insertStoreFile(storeImageFile);
+                System.out.println("써비스 쓰로우지나감");
             }
+            System.out.println("써비스 쓰로우지나감222");
             return result;
 
         } else {
