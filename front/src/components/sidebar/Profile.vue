@@ -21,7 +21,9 @@
             @click="test"
           />
         </div>
-        {{ getNickname }}
+        <p class="nicknameP">
+          {{ getNickname }}
+        </p>
         <hr />
       </div>
       <div class="login">
@@ -119,6 +121,9 @@ export default {
       });
       this.inputOrderNumber = null;
     },
+    test() {
+      this.$router.push({ path: "/mypage" });
+    },
   },
   components: {
     LoginModal,
@@ -198,5 +203,8 @@ export default {
 .loginBtn:hover {
   color: white;
   background: orange;
+}
+.nicknameP {
+  font-weight: bold;
 }
 </style>

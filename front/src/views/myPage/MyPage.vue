@@ -77,8 +77,11 @@ export default {
 </script>
 
 <style>
+center {
+  width: 90vw;
+}
 #profileMenu {
-  width: 90%;
+  width: 100%;
 }
 #profileMenu .col {
   float: left;
@@ -88,9 +91,10 @@ export default {
   border: 1px solid black;
   overflow: hidden;
   cursor: pointer;
+  font-size: 1.5em;
 }
 #profileMenu .col:hover {
-  background: #5a8c94;
+  background: #91afba;
   color: #fff;
   cursor: pointer;
 }
@@ -107,7 +111,7 @@ a {
 .choicedMenu {
   text-decoration: underline;
   text-underline-position: under;
-  color: #2c656b;
+  color: #fd3a69;
 }
 .spread-underline {
   color: #333;

@@ -31,9 +31,9 @@
     <select id="selectEventListCount" resultType="int">
         SELECT COUNT(*) AS result
         FROM event
-        AND e.`status` != 'S'
+        AND `status` != 'S'
         <if test="!option.equals('ALL')">
-            WHERE status = #{option}
+            WHERE `status` = #{option}
         </if>
     </select>
     

@@ -94,7 +94,7 @@ export default {
             console.log(res);
             if (res.status === 200) {
               console.log();
-              alert("이벤트에 참여하여, 쿠폰이 지급되었습니다. 쿠폰사용은...");
+              alert("이벤트에 참여하여, 쿠폰이 지급되었습니다.");
             } else {
               alert("알수없는 서버오류! 다시 시도해주세요..");
             }
@@ -128,12 +128,12 @@ export default {
         if (res.status === 200) {
           // 올바르게 통신했을때
           this.couponLoaded = true;
-console.log(res.data);
-              console.log(this.data.status);
+          console.log(res.data);
+          console.log(this.data.status);
           if (res.data !== "") {
             // 쿠폰이 있을 때
             this.couponInfo = res.data;
-              
+
             if (this.couponInfo || this.couponInfo !== "") {
               // 쿠폰의 유효기간 확인
               if (this.couponInfo.status === "Y") {
