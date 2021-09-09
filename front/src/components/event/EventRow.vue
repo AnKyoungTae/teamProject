@@ -128,10 +128,12 @@ export default {
         if (res.status === 200) {
           // 올바르게 통신했을때
           this.couponLoaded = true;
-
+console.log(res.data);
+              console.log(this.data.status);
           if (res.data !== "") {
             // 쿠폰이 있을 때
             this.couponInfo = res.data;
+              
             if (this.couponInfo || this.couponInfo !== "") {
               // 쿠폰의 유효기간 확인
               if (this.couponInfo.status === "Y") {

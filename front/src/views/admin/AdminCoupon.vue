@@ -8,9 +8,21 @@
       style="margin-right: 30vh"
     />
 
-    
+      
       <div class="row align-items-center">
         <div class="col-7">
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="inlineRadio2"
+              value="ALL"
+              checked
+              @click="setStatusOption('S')"
+            />
+            <label class="form-check-label" for="inlineRadio2">대기중</label>
+          </div>
           <div class="form-check form-check-inline">
             <input
               class="form-check-input"
@@ -90,22 +102,13 @@
             <td class="table-light">{{ startListNum + index + 1 }}</td>
             <td class="table-light text-wrap fw-light" style="width: 10rem">
               {{
-                list.publishedDate[0] +
-                "년 " +
-                list.publishedDate[1] +
-                "월" +
-                list.publishedDate[2] +
-                "일"
+                list.regDate
+                
               }}
             </td>
             <td class="table-light text-wrap fw-light" style="width: 10rem">
               {{
-                list.couponEnd[0] +
-                "년 " +
-                list.couponEnd[1] +
-                "월" +
-                list.couponEnd[2] +
-                "일"
+                list.dueDate
               }}
             </td>
             <td class="table-light" style="width: 8rem;">{{ list.couponNumber }}</td>
@@ -262,10 +265,9 @@ export default {
         statusOption: this.statusOption,
       };
       http
-        .post("/coupon/getcouponList", data)
+        .post("/admin/adminEvent", data)
         .then((response) => {
           if (response.status === 200) {
-            console.log(response.data);
             success("데이터 로딩 완료!", this);
             this.couponList = response.data;
             this.currentPage = request;
@@ -279,12 +281,13 @@ export default {
     },
     requestListCount() {
       http
-        .get("/coupon/getcouponListCount", {
+        .get("/event/getEventListCount", {
           params: {
             option: this.statusOption,
           },
         })
         .then((response) => {
+          console.log(response);
           this.totalCount = response.data;
           console.log("등록된 쿠폰의 총 갯수 : " + this.totalCount);
         })
@@ -294,16 +297,19 @@ export default {
     },
     requestChangeCouponStatus(couponId, status) {   //상태변경
       const data = {
-        couponId: couponId,
+        eventId: couponId,
         status: status,
       };
       http
-        .post("http://localhost:8083/coupon/updatecouponStatus", data)
+        .post("/admin/updateEventStatus", data)
         .then((response) => {
-          if (response.status === 200) {
+          if (response.data === "ok") {
             console.log(response.data);
+         
             success("쿠폰 상태변경 완료!", this);
             this.clearDetail();
+          }else if(response.data === "no"){
+            success("쿠폰 상태변경  실패!", this);
           }
         })
         .catch((err) => {
@@ -322,12 +328,17 @@ export default {
 
            if(confirmflag){
              if(this.selectedcoupon.status === 'Y') {
-               console.log(this.selectedcoupon.couponId);
-               this.requestChangeCouponStatus(this.selectedcoupon.couponId, "N");
+               console.log(this.selectedcoupon.eventId);
+               if(confirm("진행중인 이벤트입니다\n 취소하시겠습니까?")){
+                 this.requestChangeCouponStatus(this.selectedcoupon.eventId, "N");
+               }
+               
+             }else if(this.selectedcoupon.status === 'N'){
+               alert("종료된 이벤트 입니다.")
              }
              else {
-               console.log(this.selectedcoupon.couponId);
-               this.requestChangeCouponStatus(this.selectedcoupon.couponId, "Y");
+               console.log(this.selectedcoupon.eventId);
+               this.requestChangeCouponStatus(this.selectedcoupon.eventId, "Y");
              }
            }else{
              console.log("취소");

@@ -37,7 +37,7 @@ Footer {
 }
 .App-box {
   flex: 0 0 auto;
-  min-height: 65vh;
+  min-height: 70vh;
 }
 #app {
   font-family: "Poor Story", cursive;
