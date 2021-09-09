@@ -3,11 +3,16 @@
         <div class="wapoo-wrap">
             <div class="wapoo-logo">
                 <div>
-                    <a href="#">
+                    <span @click="this.$router.push({ path: '/' })">
                         와푸
-                    </a>
+                    </span>
+                    <img
+                        @click="this.$router.push({ path: '/' })"
+                        class="logo"
+                        src="../../assets/logo.png"
+                    />
                 </div>
-                <p class="logo-p">뭘 먹어야할지 고민일 때, 배달 주문 플렛폼 서비스 와푸</p>
+                <p class="logo-p">뭘 먹어야할지 고민일 때, <br />배달 주문 플렛폼 서비스 와푸</p>
             </div>
             <div class="wapoo-info1">
                 <p style="padding-top: 30px; text-align: left">
@@ -21,13 +26,17 @@
                 </p>
                 <span>GitHub</span><br />
                 <span>Vue.js</span><br />
-                <span>Kakao Map</span>
+                <span>Kakao Map</span><br/>
+                <span>axios</span>
             </div>
             <div class="wapoo-last">
                 <p style="padding-top: 30px;">
                     <strong>WAPOO</strong>
                 </p>
-                <span>공지사항</span>
+                <span @click="this.$router.push({ path: '/cart' })">장바구니</span><br/>
+                <span @click="this.$router.push({ path: '/shopCategory' })">음식/가게</span><br/>
+                <span @click="this.$router.push({ path: '/serviceCenter' })">고객센터</span><br/>
+                <span @click="this.$router.push({ path: '/event' })">이벤트</span>
             </div>
         </div>
     </div>
@@ -37,21 +46,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap");
     .footer {
         background-color: #355f6e;
-        padding-bottom: 65px;
+        padding-bottom: 20px;
         color: #91afba;
+        overflow:hidden;
+        width: 100%;
     }
     .wapoo-wrap {
         position: relative;
         max-width: 1200px; 
-        margin: 32px auto 0 auto;
+        margin: 10px auto 0 auto;
+        padding-left: 100px;
+        padding-right: 100px;
     }
     .wapoo-info1 {
         float: left;
-        padding-left: 50px;
+        padding-left: 80px;
     }
     .wapoo-info1 p {
         font-size: 24px;
-        color: white;
+        color: #ffda77;
+    }
+    .wapoo-info1 span {
+        font-size: 20px;
     }
     .wapoo-logo {
         top: 0;
@@ -60,35 +76,48 @@
         text-align: left;
         width: 250px;
     }
-    .wapoo-logo a {
-        display: block;
+    .logo {
+        width: 150px;
+    }
+    .wapoo-logo span {
         height: 29px;
         text-decoration: none;
+        vertical-align: middle;
         font-size: 50px;
         font-weight: 600;
-        font-family: "Black Han Sans", sans-serif;
+        color:#fd3a69;
+        /* font-family: "Black Han Sans", sans-serif; */
     }
     .logo-p {
-        margin-top: 50px;
-        font-size: 22px;
+        font-size: 20px;
     }
     .wapoo-info {
         display: block;
         color: #91afba;
         line-height: 1.6;
-        padding-left: 80px;
+        padding-left: 100px;
         text-align: right;
         float: left;
+        padding-right: 30px;
     }
     .wapoo-info strong {
         display: inline-block;
-        color: white;
+        color: #ffda77;
+        font-size: 20px;
+    }
+    .wapoo-info span {
         font-size: 20px;
     }
     .wapoo-last {
     }
     .wapoo-last strong {
-        color: white;
+        color: #ffda77;
         font-size: 20px;
+    }
+    .wapoo-last span {
+        font-size: 20px;
+    }
+    span {
+        cursor: pointer;
     }
 </style>

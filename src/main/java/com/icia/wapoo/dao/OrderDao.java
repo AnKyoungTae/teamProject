@@ -1,7 +1,12 @@
 package com.icia.wapoo.dao;
 
 import com.icia.wapoo.model.Food;
+import com.icia.wapoo.model.GraphDay;
+import com.icia.wapoo.model.GraphFood;
+import com.icia.wapoo.model.GraphResntFood;
 import com.icia.wapoo.model.Payment;
+import com.icia.wapoo.model.StoreOrder;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -38,4 +43,33 @@ public interface OrderDao {
 
     void updateOrderPayment(@Param("order_id") int order_id,
                             @Param("total") Integer total);
+    
+    //주문표
+    List<StoreOrder> storeOrder(int storeId, String status);
+    
+    //가게별 주문 수
+    int getTotalOrder(int storeId, String status);
+  //주문 음식 1개 삭제
+    int deleteOrder (int orderInfoId);
+    
+    //주문 1건 삭제
+    int deleteAllOrder(int orderId);
+    
+    //전체 주문 승인
+    int approveOrder(int orderId);
+    
+    //가게 음식 판매 순위
+    List<GraphFood> getFoodSaleAmount(int storeId, String date);
+    
+    //요일별 매출
+    List<GraphDay> getDayAmount(int storeId, String date);
+    
+    //가게에 있는 모든 음식
+    List<String> getStoreAllFood(int storeId);
+    
+    //최근 판매한 음식 매출량 
+    List<GraphResntFood> getResentFood(int storeId, String date, String foodName);
+    
+    //최근 판매한 음식 매출량 
+    Map getPayment(int storeId);
 }

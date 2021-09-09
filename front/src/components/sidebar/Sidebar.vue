@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar" :style="{ width: sidebarWidth }">
     <span v-if="collapsed" @click="this.$router.push({ path: '/' })">
-      <h1 class="logo">
+      <h1 :class="collapsed ? '' : 'logo'">
         <div>와</div>
         <div>푸</div>
       </h1>
@@ -14,20 +14,25 @@
     <span v-else>
       <!-- 멤버 롤 마다 가는곳 다르게 -->
       <div v-if="!userRole || userRole == 'BUYER'">
-        <span @click="this.$router.push({ path: '/' })" class="logo" style="font-family: 'Lobster Two', cursive;">
-          WAPOO
-        </span>
+        <img
+          @click="this.$router.push({ path: '/' })"
+          class="logo"
+          src="../../assets/logo.png"
+        />
       </div>
       <div v-else-if="userRole != null && userRole == 'SELLER'">
-        <h2 @click="this.$router.push({ path: '/' })" class="logo">판매자</h2>
+        <h2 @click="this.$router.push({ path: '/store' })" class="logo">
+          판매자
+        </h2>
       </div>
       <div v-else-if="userRole != null && userRole == 'ADMIN'">
-        <h2 @click="this.$router.push({ path: '/' })" class="logo">관리자</h2>
+        <h2 @click="this.$router.push({ path: '/manageMember' })" class="logo">
+          관리자
+        </h2>
       </div>
-      <hr />
       <!-- 펼쳤을때 -->
     </span>
-    <Profile class="profile"></Profile>
+    <Profile></Profile>
     <Location icon="fas fa-compass" />
     <div v-if="userRole != null && userRole == 'ADMIN'">
       <!-- 관리자로 로그인 했을때 보이는 메뉴들 -->
@@ -43,17 +48,16 @@
     <div v-else-if="userRole != null && userRole == 'SELLER'">
       <!-- 판매자로 로그인 했을때 보이는 메뉴들 -->
       <SidebarLink to="/store" icon="fas fa-store"> 내 가게</SidebarLink>
-      <SidebarLink
-        to="/storeMenus"
-        icon="fas fa-bars"
-        v-if="userRole == 'SELLER'"
+      <SidebarLink to="/storeOrder" icon="fas fa-sort-amount-down">
+        주문표</SidebarLink
       >
-        가게메뉴</SidebarLink
-      >
-      <SidebarLink to="/eventadd" icon="fas fa-ticket-alt"
-        >이벤트등록</SidebarLink
-      >
-      <SidebarLink to="/ordersell" icon="fas fa-ticket-alt">주문관리</SidebarLink>
+      <SidebarLink to="/storeMenus" icon="fas fa-bars"> 가게메뉴 </SidebarLink>
+      <SidebarLink to="/storeGraph" icon="fas fa-chart-pie">
+        매출관리
+      </SidebarLink>
+      <SidebarLink to="/eventadd" icon="fas fa-ticket-alt">
+        이벤트등록
+      </SidebarLink>
     </div>
     <div v-else>
       <SidebarLink to="/akinator" icon="fas fa-robot">아키네이터</SidebarLink>
@@ -78,10 +82,18 @@
       data-bs-placement="top"
       title="주문번호를 입력하시면 주문조회가 가능합니다"
       @click="toggleFindOrder"
+      v-if="!userRole || userRole == 'BUYER'"
     >
       주문조회
     </div>
-    <div class="findOrderWrapper" v-show="findOrder">
+    <div
+      class="findOrderWrapper"
+      :class="[
+        collapsed ? 'hiddenOrderSearch' : '',
+        findOrder ? 'hiddenFindOrderTab' : '',
+      ]"
+      v-if="!userRole || userRole == 'BUYER'"
+    >
       <span><b>주문번호</b>를 입력해주세요!</span>
       <hr />
       <div class="form-floating mb-3">
@@ -145,7 +157,7 @@ export default {
   },
   data() {
     return {
-      findOrder: false,
+      findOrder: true,
       inputOrderNumber: null,
     };
   },
@@ -153,12 +165,12 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@1,700&display=swap");
 /* 기본 테마 정의 - 참고: https://blog.thereis.xyz/136 */
 :root {
   --sidebar-bg-color: #355f6e;
   --sidebar-item-hover: #91afba;
-  --sidebar-item-active: #ffefa3;
+  --sidebar-item-active: #ffda77;
 }
 </style>
 
@@ -179,10 +191,7 @@ export default {
 
   display: flex;
   flex-direction: column;
-  box-shadow: 4px 4px 4px 4px rgba(190, 190, 190, 0.6);
-}
-.profile {
-  transition: opacity 0.1s;
+  box-shadow: 2px 2px 2px 2px rgba(39, 144, 185, 0.377);
 }
 
 .burger {
@@ -191,11 +200,14 @@ export default {
   right: 0.2em;
   padding: 0.75em;
 
-  color: gba(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
 
 .logo {
   cursor: pointer;
+  user-select: none;
+  width: 200px;
+  background: #355f6e;
 }
 .orderInfoSearch {
   background: #c3a28e;
@@ -210,11 +222,9 @@ export default {
   border-radius: 8px;
   font-size: 16px;
   font-weight: bolder;
-  -ms-user-select: none;
-  -moz-user-select: -moz-none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
   user-select: none;
+  transition: 0.4s;
+  opacity: 0.6;
 }
 .orderInfoSearch:hover {
   cursor: pointer;
@@ -222,12 +232,7 @@ export default {
   color: #ffe4d4;
   border: 1px solid #ffe4d4;
   box-shadow: 0px 2px 2px 1px (0, 0, 0, 0.7);
-}
-
-.hiddenOrderSearch {
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.3s;
+  opacity: 1;
 }
 
 .findOrderWrapper {
@@ -237,16 +242,29 @@ export default {
   bottom: 8%;
   width: 210px;
   height: 120px;
-  transition: all 0.3s;
   border-radius: 10px;
-  color: navy;
+  color: #fd3a69;
   padding: 10px;
   border: 1px solid gray;
   box-shadow: 0px 2px 2px 1px (0, 0, 0, 0.7);
+  transition: 0.4s;
+  user-select: none;
 }
 .findOrderWrapper > span {
-  background: orange;
+  background: #ffda77;
   padding: 5px;
-  border-radius: 5px;
+  border-radius: 10px;
+}
+.hiddenOrderSearch {
+  transition: width 1s ease;
+  opacity: 0;
+  visibility: hidden;
+  width: 0px;
+  overflow: hidden;
+}
+.hiddenFindOrderTab {
+  opacity: 0;
+  transition: height 0.4s ease;
+  height: 0px;
 }
 </style>

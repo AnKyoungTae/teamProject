@@ -54,6 +54,7 @@
                     placeholder="예) 010-2274-4895"
                     style="width: 90%; padding: 6px 12px;"
                     v-model="phone"
+                    @keyup="phoneCom"
                   />
                 </td>
               </tr>
@@ -286,8 +287,12 @@
           </div>
           <div class="commandOrderWrapper" v-if="foodList.length > 0">
             <div class="row">
-              <div class="col commandOrder" @click="putOrder"><span>주문하기</span></div>
-              <div class="col commandCancel" @click="clearOrder"><span>취소하기</span></div>
+              <div class="col commandOrder" @click="putOrder">
+                <span>주문하기</span>
+              </div>
+              <div class="col commandCancel" @click="clearOrder">
+                <span>취소하기</span>
+              </div>
             </div>
           </div>
         </div>
@@ -379,6 +384,11 @@ export default {
   },
   methods: {
     ...mapMutations(["delCart", "clearCart", "SET_MODAL_MAP"]),
+    phoneCom() {
+      if (this.phone.length == 3) {
+        this.phone += "-";
+      }
+    },
     getFoodList(foodIdSet) {
       // 페이지 초기화할때 카드에 저장된 음식 정보를 불러온다.
       const foodIdList = Array.from(foodIdSet);
@@ -430,7 +440,7 @@ export default {
       this.orderList.set(foodId, --q);
     },
     test() {
-      console.log(this.orderList);
+      error("ths", this);
     },
     foodQuantity(foodId) {
       return this.orderList.get(foodId);
@@ -456,7 +466,7 @@ export default {
         error("전화번호를 입력해주세요", this);
         return false;
       } else if (phoneValidation === false) {
-        error("전화번호는 숫자와 -(하이픈)만 입력 가능합니다.");
+        error("전화번호는 숫자와 -(하이픈)만 입력 가능합니다.", this);
         return;
       }
 
@@ -479,7 +489,6 @@ export default {
         couponIdList,
         memberId,
       };
-      // DB에 오더 넣기.
       axios
         .create({ baseURL: "http://localhost:8083" })
         .post("/order/putOrder", orderData)
@@ -713,8 +722,8 @@ export default {
 }
 
 .form-check .form-check-input {
-    float: none;
-    margin-left: -1.5em;
+  float: none;
+  margin-left: -1.5em;
 }
 .form-check-input {
   margin-right: 30px;

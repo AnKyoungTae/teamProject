@@ -8,8 +8,8 @@
     <div>
       <div class="container-fluid px-4">
         <div class="row">
-          <nav style="width: 100%;">
-            <ul class="foodnum-ul" style="text-align: center;">
+          <nav style="width: 100%">
+            <ul class="foodnum-ul" style="text-align: center">
               <li>
                 <a @click="setOptAndrequest('ALL')" class="foodnum-a"
                   >전체보기</a
@@ -95,7 +95,7 @@ export default {
     return {
       shopList: [], // 불러온 가게리스트
       quantity: 10, // 몇개나 불러올건지?
-      option: "ALL", // 무엇을 불러올것인지?
+      options: "ALL", // 무엇을 불러올것인지?
       loadFrom: 0,
       dataLoaded: false,
       noMoreShop: false,
@@ -110,17 +110,16 @@ export default {
   },
   mounted() {
     let keyword = this.$route.query.keyword;
-    async () => {
-      if (!keyword) {
-        await this.requestShopList("ALL");
-      } else {
-        await this.requestShopList(keyword);
-      }
-    };
+    if (!keyword) {
+      this.options = "ALL";
+    } else {
+      this.options = keyword;
+    }
     this.initIntersectionObserver();
   },
   methods: {
     async requestShopList() {
+      this.dataLoaded = false;
       if (!this.GET_LAT || !this.GET_LON) {
         error("위치정보를 확인할수 없습니다. 다시 시도해주세요.", this);
         this.$router.push({ path: "/" });
@@ -140,7 +139,7 @@ export default {
         lon: this.GET_LON,
         quantity: this.quantity,
         loadFrom: this.loadFrom,
-        options: this.option,
+        options: this.options,
       };
       await http
         .post("/store/getStoreListByLocation", data)
@@ -155,24 +154,23 @@ export default {
             this.dataLoaded = true;
             if (res.data.length < this.quantity) {
               this.noMoreShop = true;
-              return;
+              this.io = null;
             }
           }
         })
         .catch((err) => {
           console.log("에러남 " + err);
+          this.io = null;
           this.noMoreShop = true;
           success("더 이상 불러올 가게 정보가 없습니다", this);
-          return;
         });
     },
     initIntersectionObserver() {
-      const io = new IntersectionObserver(
+      this.io = new IntersectionObserver(
         async ([entry], observer) => {
           if (entry.isIntersecting) {
             observer.unobserve(entry.target);
             await this.requestShopList();
-            console.log("기다림의 끝");
             observer.observe(entry.target);
           }
         },
@@ -181,18 +179,25 @@ export default {
           threshold: 0.5,
         }
       );
-      io.observe(this.$refs.scrollObserver);
+      this.io.observe(this.$refs.scrollObserver);
     },
     setOptAndrequest(option) {
+      this.io = null;
       if (option != null) {
         this.dataLoaded = false;
-        this.option = option;
+        this.options = option;
         this.shopList = [];
         this.quantity = 10;
         this.loadFrom = 0;
         this.noMoreShop = false;
       }
-      this.requestShopList();
+      let func = this.initIntersectionObserver;
+      // setTimeout(() => {
+      //   func();
+      // }, 500);
+      this.$nextTick(function () {
+        func();
+      });
     },
   },
   components: {
@@ -207,6 +212,7 @@ export default {
   text-decoration: none;
   color: #000000;
   padding: 4px;
+  position: sticky;
 }
 .foodnum-a:hover {
   cursor: pointer;

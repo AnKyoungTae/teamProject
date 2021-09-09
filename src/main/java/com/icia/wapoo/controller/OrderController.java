@@ -2,8 +2,13 @@ package com.icia.wapoo.controller;
 
 import com.icia.wapoo.jwt.service.JwtService;
 import com.icia.wapoo.model.Food;
+import com.icia.wapoo.model.GraphDay;
+import com.icia.wapoo.model.GraphFood;
+import com.icia.wapoo.model.GraphResntFood;
 import com.icia.wapoo.model.KakaoPayApproval;
 import com.icia.wapoo.model.KakaoPayReady;
+import com.icia.wapoo.model.Store;
+import com.icia.wapoo.model.StoreOrder;
 import com.icia.wapoo.service.OrderService;
 import com.icia.wapoo.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -100,4 +106,183 @@ public class OrderController {
         }
         return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    
+    //주문표
+    @PostMapping("/storeOrder")
+    public ResponseEntity storeOrder(@RequestBody Map<String, Object> orderStatus, HttpServletRequest request)
+    {
+    	int memberId = getMemberIdByRequest(request);
+    	
+    	String status = (String) orderStatus.get("satus");
+    	
+    	//getStoreById
+    	List<StoreOrder> storeOrder = null;
+    	
+    	Store store = storeService.getStoreById(memberId);
+    	//주문표
+    	storeOrder = orderService.storeOrder(store.getStoreId(), status);
+    	//가게별 주문 포탈
+    	int total = orderService.getTotalOrder(store.getStoreId(), status);
+    	//고객 취소 주문 
+    	List<StoreOrder> cancelStoreOrder = orderService.storeOrder(store.getStoreId(), "C");
+    	
+    	Map<String, Object> map = new HashMap<>();
+    	
+    	map.put("storeOrder", storeOrder);
+    	map.put("total", total);
+    	map.put("cancelStoreOrder", cancelStoreOrder);
+    	
+    	return new ResponseEntity(map, HttpStatus.OK);
+    }
+    
+    //주문 음식 1개 취소
+    @PostMapping("/deleteOrder")
+    public ResponseEntity deleteOrder(@RequestBody String orderStoreId, HttpServletRequest request)
+    {
+    	int orderInfoId = Integer.parseInt(orderStoreId);
+    	
+   
+    	
+    	if(orderInfoId > 0)
+    	{
+    		if(orderService.deleteOrder(orderInfoId) > 0)
+    		{
+    			return new ResponseEntity("ok", HttpStatus.OK);
+    		}
+    	}
+    	
+    	return new ResponseEntity("no", HttpStatus.OK);
+    }
+    
+  //주문 1건 취소
+    @PostMapping("/deleteAllOrder")
+    public ResponseEntity deleteAllOrder(@RequestBody String totalOrderId, HttpServletRequest request)
+    {
+    	int orderId = Integer.parseInt(totalOrderId);
+    	
+    	if(orderId > 0)
+    	{
+    		if(orderService.deleteAllOrder(orderId) > 0)
+    		{
+    			return new ResponseEntity("ok", HttpStatus.OK);
+    		}
+    	}
+    	
+    	return new ResponseEntity("no", HttpStatus.OK);
+    }
+    
+    //전제 주문 승인 
+    @PostMapping("/approveOrder")
+    public ResponseEntity approveOrder(@RequestBody String totalOrderId, HttpServletRequest request)
+    {
+    	int orderId = Integer.parseInt(totalOrderId);
+    	
+    	if(orderId > 0)
+    	{
+    		if(orderService.approveOrder(orderId) > 0)
+    		{
+    			return new ResponseEntity("ok", HttpStatus.OK);
+    		}
+    	}
+    	
+    	return new ResponseEntity("no", HttpStatus.OK);
+    }
+    
+    
+    //가게 음식 판매 순위
+    @PostMapping("/getFoodSaleAmount")
+    public ResponseEntity getFoodSaleAmount(@RequestBody String date, HttpServletRequest request)
+    {
+    	System.out.println("@RequestBody String totalOrderId :  " +date);
+    	
+    	int memberId = getMemberIdByRequest(request);
+    	
+    	Store store = storeService.getStoreById(memberId);
+    	
+    	List<GraphFood> graphFood = orderService.getFoodSaleAmount(store.getStoreId(), date);
+    	
+    	return new ResponseEntity(graphFood, HttpStatus.OK);
+    }
+    
+    //가게 요일별 매출
+    @PostMapping("/getDayAmount")
+    public ResponseEntity getDayAmount(@RequestBody String date, HttpServletRequest request)
+    {
+    	
+    	int memberId = getMemberIdByRequest(request);
+    	
+    	Store store = storeService.getStoreById(memberId);
+    	
+    	List<GraphDay> graphDay = orderService.getDayAmount(store.getStoreId(), date);
+    	
+    	return new ResponseEntity(graphDay, HttpStatus.OK);
+    }
+    
+    //최근 판매한 음식 매출량 
+    @PostMapping("/getResentFood")
+    public ResponseEntity getResentFood(@RequestBody Map<String, Object> params,  HttpServletRequest request)
+    {
+    	int memberId = getMemberIdByRequest(request);
+    	
+    	Store store = storeService.getStoreById(memberId);
+    	
+    	List<String> list = orderService.getStoreAllFood(store.getStoreId());
+    	
+    	
+    	
+    	String date = (String) params.get("date");
+
+    	String name = (String) params.get("name");
+    	
+    	Map<String, Object> map = new HashMap<>();
+    	
+    	List<GraphResntFood> graphResntFood = null;
+    
+    	if(name == "")
+    	{
+    		System.out.println("첫번째 클릭");
+    		
+    		name = list.get(0);
+    		
+    		graphResntFood = orderService.getResentFood(store.getStoreId(), date, name);
+    	}
+    	else
+    	{	
+    		graphResntFood = orderService.getResentFood(store.getStoreId(), date, name);
+    		
+    	}
+    	
+    	map.put("list", list);
+    	map.put("graphResntFood", graphResntFood);
+    	map.put("name", name);
+    	
+    	
+    	return new ResponseEntity(map, HttpStatus.OK);
+    }
+    
+    //getPayment
+    @PostMapping("/getPayment")
+    public ResponseEntity getPayment(HttpServletRequest request)
+    {
+    	int memberId = getMemberIdByRequest(request);
+    	
+    	Store store = storeService.getStoreById(memberId);
+    	
+    	Map<String, Object> map = new HashMap<>();
+    	
+    	map = orderService.getPayment(store.getStoreId());
+    	
+    	System.out.println(map);
+    	
+    	return new ResponseEntity(map, HttpStatus.OK);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
