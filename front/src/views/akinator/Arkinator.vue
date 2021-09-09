@@ -683,8 +683,8 @@ export default {
   height: 100%;
   display: flex;
 }
-.foodWrapper:hover {
-  background: #91afba;
+.foodWrapper:hover > .foodInfo > .foodName {
+  color: #fd3a69;
 }
 .foodImg {
   width: 50%;

@@ -48,13 +48,22 @@ export default {
 <style scoped>
 .wrapper {
   list-style: none;
-  background-color: lightgray;
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 ul {
   list-style: none;
   padding-left: 0px;
+}
+li {
+  border: 1px solid #91afba;
+  width: 80%;
+  margin: 2px 0 2px 0;
+  border-radius: 2px;
+  padding: 0 10px 0 10px;
 }
 </style>

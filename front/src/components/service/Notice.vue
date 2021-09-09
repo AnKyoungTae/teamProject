@@ -12,13 +12,12 @@
           <strong>제목</strong>
         </li>
         <li class="list-group-item noticeTitle" style="width: 200px">
-          <strong>시간</strong>
+          <strong>작성일</strong>
         </li>
       </ul>
       <!-- 리스트 시작 -->
       <ul
         class="list-group list-group-horizontal notice"
-        style="cursor: pointer; border-top: 2px solid gray"
         @click="listPage(notice.articleId)"
         v-for="notice in this.notices"
         :key="notice.id"
@@ -212,8 +211,15 @@ export default {
   padding-top: 15px;
   padding-bottom: 15px;
   font-size: 18px;
+  user-select: none;
 }
-.notice:hover {
-  background: #7f7f7f;
+.notice {
+  border: 1px solid lightgray;
+  border-radius: 2px;
+}
+.notice:hover > li {
+  background: lightblue;
+  cursor: pointer;
+  transition: 0.2s;
 }
 </style>

@@ -29,16 +29,14 @@
       <notice v-if="this.$store.state.serviceCenterToggle == false"></notice>
       <router-view v-else></router-view>
     </div>
-    <Footer />
   </div>
 </template>
 
 <script>
 import notice from "@/components/service/Notice.vue";
-import Footer from "@/components/footer/Footer.vue";
 
 export default {
-  components: { notice, Footer },
+  components: { notice },
   data() {
     return {};
   },

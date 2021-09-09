@@ -125,9 +125,6 @@ export default {
         },
       })
       .then((res) => {
-        console.log("1111111111111111111");
-        console.log(res);
-
         if (res.status === 200) {
           // 올바르게 통신했을때
           this.couponLoaded = true;

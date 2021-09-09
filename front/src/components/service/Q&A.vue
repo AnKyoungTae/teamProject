@@ -48,6 +48,7 @@
             <th>공개 여부</th>
           </tr>
           <tr
+            class="listRow"
             style="cursor: pointer"
             v-for="(qn, index) in this.queAn"
             :key="index"
@@ -90,7 +91,7 @@
         aria-label="Page navigation example "
         class="mt-5 position-relative .center-block"
         v-if="myCount"
-        style="margin:0px; margin-bottom: 100px;"
+        style="margin: 0px; margin-bottom: 100px"
       >
         <ul class="pagination position-absolute" style="left: 30vw">
           <!-- 이전 순서 버튼 -->
@@ -326,5 +327,10 @@ export default {
 button {
   width: 100px;
   float: right;
+}
+.listRow:hover {
+  background: lightblue;
+  cursor: pointer;
+  transition: 0.2s;
 }
 </style>

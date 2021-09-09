@@ -31,10 +31,11 @@
     <select id="selectEventListCount" resultType="int">
         SELECT COUNT(*) AS result
         FROM event
-        AND `status` != 'S'
+        WHERE 1
         <if test="!option.equals('ALL')">
-            WHERE `status` = #{option}
+            AND `status` = #{option}
         </if>
+        AND `status` != 'S'
     </select>
     
     <!--  -->
