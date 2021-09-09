@@ -4,76 +4,75 @@
     <!-- 업체정보 -->
     <div class="row storeHeader">
       <div>
-          <div class="store-list">
-            <table>
-              <tr>
-                <td colspan="2" align=center>
-                  <h2 class="store-title">{{storeInfo.name}}</h2>
-                </td>
-                <td rowspan="10" align=center>
-                  <button type="button" @Click="edit()" class="btn btn-dark edit">수정하기</button>
-                  <div v-if="storeFiles != null" style="width:400px;">
-                    <!-- Main slider -->
-                    <splide :options="primaryOptions" ref="primary" style="margin-bottom:1rem;">
-                      <splide-slide v-for="file in storeFiles" :key="file">
-                        <img :src="file.name" class="splideImg" alt="??">
-                      </splide-slide>
-                    </splide>
+        <div class="store-list">
+          <table>
+            <tr>
+              <td colspan="2" align=center>
+                <h2 class="store-title">{{storeInfo.name}}</h2>
+              </td>
+              <td rowspan="10" align=center>
+                <button type="button" @Click="edit()" class="btn btn-dark edit">수정하기</button>
+                <div v-if="storeFiles != null" style="width:400px;">
+                  <!-- Main slider -->
+                  <splide :options="primaryOptions" ref="primary" style="margin-bottom:1rem;">
+                    <splide-slide v-for="file in storeFiles" :key="file">
+                      <img :src="file.name" class="splideImg" alt="??">
+                    </splide-slide>
+                  </splide>
 
-                    <!-- Thumbnail slider -->
-                    <splide :options="secondaryOptions" ref="secondary">
-                      <splide-slide v-for="file in storeFiles" :key="file">
-                        <img :src="file.name" alt="??">
-                      </splide-slide>
-                    </splide>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th style="vertical-align: bottom;"><div class="store-th" style="vertical-align: bottom;">업체정보</div></th>
-                <td style="vertical-align: bottom;"><div class="store-td" style="vertical-align: bottom; font-size:20px;">{{ storeInfo.storeKind }}</div></td>
-              </tr>
-              <tr>
-                <td colspan="2">
-                  <div style="width:500px; padding:0px; border-bottom: 1px solid gray;"></div>
-                </td>
-              </tr>
-              <tr>
-                <th style="padding-top:20px;"><div class="store-th">가게등록일</div></th>
-                <td style="padding-top:20px;"><div class="store-td">{{storeInfo.regDate}}</div></td>
-              </tr>
-              <tr>
-                <th class="store-th" style="padding: 5px 0px;"></th>
-              </tr>
-              <tr>
-                <th><div class="store-th">가게주소</div></th>
-                <td><div class="store-td">{{storeInfo.address}}</div></td>
-              </tr>
-              <tr>
-                <th class="store-th" style="padding: 5px 0px;"></th>
-              </tr>
-              <tr>
-                <th><div class="store-th">상세주소</div></th>
-                <td><div class="store-td">{{storeInfo.addressDetail}}</div></td>
-              </tr>
-              <tr>
-                <th class="store-th" style="padding: 5px 0px;"></th>
-              </tr>
-              <tr>
-                <th><div class="store-th">가게번호</div></th>
-                <td><div class="store-td">{{ storeInfo.phone }}</div></td>
-              </tr>
-              <tr>
-                <th class="store-th" style="padding: 5px 0px;"></th>
-              </tr>
-              <tr>
-                <th><div class="store-th">가게설명</div></th>
-                <td colspan="2"><div class="store-td" style="width:auto;">{{ storeInfo.body }}</div></td>
-              </tr>
-            </table>
-          </div>
+                  <!-- Thumbnail slider -->
+                  <splide :options="secondaryOptions" ref="secondary">
+                    <splide-slide v-for="file in storeFiles" :key="file">
+                      <img :src="file.name" alt="??">
+                    </splide-slide>
+                  </splide>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th style="vertical-align: bottom;"><div class="store-th" style="vertical-align: bottom;">업체정보</div></th>
+              <td style="vertical-align: bottom;"><div class="store-td" style="vertical-align: bottom; font-size:20px;">{{ storeInfo.storeKind }}</div></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div style="width:500px; padding:0px; border-bottom: 1px solid gray;"></div>
+              </td>
+            </tr>
+            <tr>
+              <th style="padding-top:20px;"><div class="store-th">가게등록일</div></th>
+              <td style="padding-top:20px;"><div class="store-td">{{storeInfo.regDate}}</div></td>
+            </tr>
+            <tr>
+              <th class="store-th" style="padding: 5px 0px;"></th>
+            </tr>
+            <tr>
+              <th><div class="store-th">가게주소</div></th>
+              <td><div class="store-td">{{storeInfo.address}}</div></td>
+            </tr>
+            <tr>
+              <th class="store-th" style="padding: 5px 0px;"></th>
+            </tr>
+            <tr>
+              <th><div class="store-th">상세주소</div></th>
+              <td><div class="store-td">{{storeInfo.addressDetail}}</div></td>
+            </tr>
+            <tr>
+              <th class="store-th" style="padding: 5px 0px;"></th>
+            </tr>
+            <tr>
+              <th><div class="store-th">가게번호</div></th>
+              <td><div class="store-td">{{ storeInfo.phone }}</div></td>
+            </tr>
+            <tr>
+              <th class="store-th" style="padding: 5px 0px;"></th>
+            </tr>
+            <tr>
+              <th><div class="store-th">가게설명</div></th>
+              <td colspan="2"><div class="store-td" style="width:auto;">{{ storeInfo.body }}</div></td>
+            </tr>
+          </table>
         </div>
-        
+      </div>
       <!-- 버튼 -->
       <div
         class="btn-group"
