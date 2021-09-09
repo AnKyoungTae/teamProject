@@ -81,7 +81,7 @@
                     placeholder="예) 010-2274-4895"
                     style="width: 90%; padding: 6px 12px"
                     v-model="phone"
-                    @keyup="phoneCom"
+                    @keydown="phoneCom"
                   />
                 </td>
               </tr>

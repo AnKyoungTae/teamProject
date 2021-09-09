@@ -94,9 +94,8 @@ public class CouponController {
 	        }
 	        System.out.println("요청페이지 : " + currentPage + ", 요청게시물 수 : "+listPerPage);
 	        // 가게페이지를 가져옵니다.
-	        System.out.println(option);
 
-	        List<Map<String, Object>> result = couponService.getCouponList(listPerPage, currentPage, option);
+	        List<Coupon> result = couponService.getCouponList(listPerPage, currentPage, option);
 	        return new ResponseEntity(result, HttpStatus.OK);
 	    }
 	    @GetMapping("/getcouponListCount")
