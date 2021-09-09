@@ -414,7 +414,7 @@ export default {
   height: 100vh;
   /* 전체 아키네이터의 최소크기설정 */
   min-width: 300px;
-  width: 90vw;
+  width: 80vw;
 }
 .left {
   /* 가운데 중심으로 왼쪽탭들 */
@@ -608,9 +608,11 @@ export default {
   background: #ffda77;
   display: inline-block;
   box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 10px 10px 0px 10px;
 }
 .alternative:hover {
   background: orange;
+  border: 1px solid #fd3a69;
 }
 .alternative > span {
   padding: 2px 10px;
@@ -750,6 +752,9 @@ export default {
   -webkit-transition: all 0.1s linear;
   transition: all 0.1s linear;
   display: inline-block;
+  font-weight: bold;
+  margin: 0em 0.4em;
+  font-size: 1.2em;
 }
 
 .btn-outline-primary {

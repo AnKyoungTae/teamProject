@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="width: 1000px">
+  <div class="container">
     <div class="m-4">
       <h1>이벤트 페이지</h1>
       <hr />
@@ -224,6 +224,10 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  width: 1000px;
+  margin-left: 200px;
+}
 .available-link {
   cursor: pointer;
 }

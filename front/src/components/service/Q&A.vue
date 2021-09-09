@@ -191,7 +191,6 @@ export default {
         });
     },
     listPage(articleId) {
-
       //페이지 이동
       let params = {
         articleId: articleId,
@@ -245,15 +244,12 @@ export default {
           this.queAn = res.data.list.reverse();
           this.pageList = [];
           this.pageLists(res.data.paging.startPage, res.data.paging.endPage);
-          
+
           //리스트 번호처리
-          let num = Math.abs(res.data.paging.total -((page - 1) * 10))
-          
-          
-          for(let i = 0 ;i < this.queAn.length ;i++){
-            
-              this.queAn[i].nickname = num--
-              
+          let num = Math.abs(res.data.paging.total - (page - 1) * 10);
+
+          for (let i = 0; i < this.queAn.length; i++) {
+            this.queAn[i].nickname = num--;
           }
         });
     },
@@ -288,15 +284,12 @@ export default {
           this.queAn = res.data.list.reverse();
           this.pageList = [];
           this.pageLists(res.data.paging.startPage, res.data.paging.endPage);
-          
+
           //리스트 번호처리
-          let num = Math.abs(res.data.paging.total -((page - 1) * 10))
-          
-          
-          for(let i = 0 ;i < this.queAn.length ;i++){
-            
-              this.queAn[i].nickname = num--
-              
+          let num = Math.abs(res.data.paging.total - (page - 1) * 10);
+
+          for (let i = 0; i < this.queAn.length; i++) {
+            this.queAn[i].nickname = num--;
           }
         })
         .catch((err) => {

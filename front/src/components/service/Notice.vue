@@ -17,7 +17,7 @@
       </ul>
       <!-- 리스트 시작 -->
       <ul
-        class="list-group list-group-horizontal"
+        class="list-group list-group-horizontal notice"
         style="cursor: pointer; border-top: 2px solid gray"
         @click="listPage(notice.articleId)"
         v-for="notice in this.notices"
@@ -52,57 +52,59 @@
       <!-- 끝 -->
       <div style="border-top: 2px solid gray"></div>
       <!-- 순서 버튼 -->
-      <nav
-        aria-label="Page navigation example"
-        class="mt-5 position-relative .center-block"
-        style=""
-      >
-        <ul class="pagination position-absolute" style="left: 30vw">
-          <!-- 이전 순서 버튼 -->
-          <li
-            class="page-item"
-            v-if="this.paging.prev == true"
-            @click="prevBotton(paging.range, this.rangeSize, this.listSize)"
-          >
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <!-- 숫자 순서 버튼 -->
-          <li class="page-item" v-for="num in this.pageList" :key="num">
-            <a
-              class="page-link"
-              href="#"
-              @click="
-                numPage(num, this.paging.range, this.rangeSize, this.listSize)
-              "
-              v-if="paging.page != num"
-              >{{ num }}</a
+      <div class="nav_bar">
+        <div
+          aria-label="Page navigation example"
+          class="mt-5 position-relative center-block"
+          style=""
+        >
+          <ul class="pagination position-absolute" style="left: 30vw">
+            <!-- 이전 순서 버튼 -->
+            <li
+              class="page-item"
+              v-if="this.paging.prev == true"
+              @click="prevBotton(paging.range, this.rangeSize, this.listSize)"
             >
-            <a
-              class="page-link"
-              href="#"
-              @click="
-                numPage(num, this.paging.range, this.rangeSize, this.listSize)
-              "
-              style="background-color: #0d6efd; color: #fff"
-              v-else
-              >{{ num }}</a
-            >
-          </li>
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <!-- 숫자 순서 버튼 -->
+            <li class="page-item" v-for="num in this.pageList" :key="num">
+              <a
+                class="page-link"
+                href="#"
+                @click="
+                  numPage(num, this.paging.range, this.rangeSize, this.listSize)
+                "
+                v-if="paging.page != num"
+                >{{ num }}</a
+              >
+              <a
+                class="page-link"
+                href="#"
+                @click="
+                  numPage(num, this.paging.range, this.rangeSize, this.listSize)
+                "
+                style="background-color: #0d6efd; color: #fff"
+                v-else
+                >{{ num }}</a
+              >
+            </li>
 
-          <!-- 다음 순서 버튼 -->
-          <li
-            class="page-item"
-            v-if="this.paging.next == true"
-            @click="nextBotton(paging.range, this.rangeSize, this.listSize)"
-          >
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+            <!-- 다음 순서 버튼 -->
+            <li
+              class="page-item"
+              v-if="this.paging.next == true"
+              @click="nextBotton(paging.range, this.rangeSize, this.listSize)"
+            >
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
       <!-- 끝 -->
     </div>
   </div>
@@ -129,7 +131,6 @@ export default {
         name: "BoardList",
         query: { board: "faq", articleId: articleId },
       });
-      
     },
     prevBotton(range1, rangeSize, listSize) {
       var page = (range1 - 2) * rangeSize + 1;
@@ -149,16 +150,13 @@ export default {
         this.notices = res.data.list.reverse();
         this.pageList = [];
         this.pageLists(res.data.paging.startPage, res.data.paging.endPage);
-        
+
         //리스트 번호처리
-          let num = Math.abs(res.data.paging.total -((page - 1) * 10))
-          
-          
-          for(let i = 0 ;i < this.notices.length ;i++){
-            
-              this.notices[i].nickname = num--
-              
-          }
+        let num = Math.abs(res.data.paging.total - (page - 1) * 10);
+
+        for (let i = 0; i < this.notices.length; i++) {
+          this.notices[i].nickname = num--;
+        }
       });
     },
     //Q&A 리스트 불러오기
@@ -174,16 +172,12 @@ export default {
           //페이징 리스트
           this.pageList = [];
           this.pageLists(res.data.paging.startPage, res.data.paging.endPage);
-          
 
           //리스트 번호처리
-          let num = Math.abs(res.data.paging.total -((page - 1) * 10))
-          
-          
-          for(let i = 0 ;i < this.notices.length ;i++){
-            
-              this.notices[i].nickname = num--
-              
+          let num = Math.abs(res.data.paging.total - (page - 1) * 10);
+
+          for (let i = 0; i < this.notices.length; i++) {
+            this.notices[i].nickname = num--;
           }
         })
         .catch((err) => {
@@ -218,5 +212,8 @@ export default {
   padding-top: 15px;
   padding-bottom: 15px;
   font-size: 18px;
+}
+.notice:hover {
+  background: #7f7f7f;
 }
 </style>

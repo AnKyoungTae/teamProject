@@ -1,40 +1,44 @@
 <template>
-  <div class="service-center m-5">
-    <div class="service-group mb-5">
-      <router-link
-        class="btn me-5 col-2 serviceMenu"
-        :to="{ name: 'Notice' }"
-        @click="clickPages(1)"
-        :class="this.$store.state.serviceCenters == 1 ? 'active' : ''"
-        >공지사항</router-link
-      >
+  <div class="wrapper">
+    <div class="service-center m-2 upper">
+      <div class="service-group mb-5">
+        <router-link
+          class="btn me-5 col-2 serviceMenu"
+          :to="{ name: 'Notice' }"
+          @click="clickPages(1)"
+          :class="this.$store.state.serviceCenters == 1 ? 'active' : ''"
+          >공지사항</router-link
+        >
 
-      <router-link
-        class="btn mx-5 col-2 serviceMenu"
-        :to="{ name: 'Q&A' }"
-        @click="clickPages(2)"
-        :class="this.$store.state.serviceCenters == 2 ? 'active' : ''"
-        >Q&A</router-link
-      >
+        <router-link
+          class="btn mx-5 col-2 serviceMenu"
+          :to="{ name: 'Q&A' }"
+          @click="clickPages(2)"
+          :class="this.$store.state.serviceCenters == 2 ? 'active' : ''"
+          >Q&A</router-link
+        >
 
-      <router-link
-        class="btn ms-5 col-2 serviceMenu"
-        :to="{ name: 'FAQ' }"
-        @click="clickPages(3)"
-        :class="this.$store.state.serviceCenters == 3 ? 'active' : ''"
-        >FAQ</router-link
-      >
+        <router-link
+          class="btn ms-5 col-2 serviceMenu"
+          :to="{ name: 'FAQ' }"
+          @click="clickPages(3)"
+          :class="this.$store.state.serviceCenters == 3 ? 'active' : ''"
+          >FAQ</router-link
+        >
+      </div>
+      <notice v-if="this.$store.state.serviceCenterToggle == false"></notice>
+      <router-view v-else></router-view>
     </div>
-    <notice v-if="this.$store.state.serviceCenterToggle == false"></notice>
-    <router-view v-else></router-view>
+    <Footer />
   </div>
 </template>
 
 <script>
 import notice from "@/components/service/Notice.vue";
+import Footer from "@/components/footer/Footer.vue";
 
 export default {
-  components: { notice },
+  components: { notice, Footer },
   data() {
     return {};
   },
@@ -67,5 +71,13 @@ export default {
   color: #fd3a69;
   text-decoration-line: underline;
   text-underline-position: under;
+}
+.service-center {
+  width: 90vw;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
 }
 </style>

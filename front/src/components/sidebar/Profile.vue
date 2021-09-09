@@ -16,7 +16,7 @@
         <div class="user m-2">
           <img
             :src="profilePicUrl"
-            :title="profilePicUrl"
+            title="마이페이지로 이동하기"
             class="profilePic"
             @click="test"
           />
@@ -28,13 +28,13 @@
       </div>
       <div class="login">
         <router-link to="/myPage" class="col-12">
-          <button type="button" class="btn btn-outline-success btn-sm col-12">
+          <button type="button" class="btn btn-sm col-12 myPageBtn">
             마이페이지
           </button>
         </router-link>
         <div
           type="button"
-          class="btn btn-outline-danger btn-sm d-block col-12 mt-1"
+          class="btn btn-sm d-block col-12 mt-1 logoutBtn"
           @click="this.$store.dispatch('auth/logout')"
         >
           로그아웃
@@ -201,6 +201,26 @@ export default {
   color: #fd3a69;
 }
 .loginBtn:hover {
+  color: white;
+  background: orange;
+}
+.logoutBtn {
+  background: #ffda77;
+  color: #fd3a69;
+  border: 1px solid #fd3a69;
+  border-radius: 15px 15px 0px 15px;
+}
+.logoutBtn:hover {
+  color: white;
+  background: orange;
+}
+.myPageBtn {
+  background: #ffda77;
+  color: #fd3a69;
+  border: 1px solid #fd3a69;
+  border-radius: 15px 15px 0px 15px;
+}
+.myPageBtn:hover {
   color: white;
   background: orange;
 }

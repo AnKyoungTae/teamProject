@@ -88,10 +88,12 @@ center {
   height: 60px;
   line-height: 40px;
   text-align: center;
-  border: 1px solid black;
+  border: 2px solid #fd3a69;
   overflow: hidden;
   cursor: pointer;
   font-size: 1.5em;
+  border-radius: 10px 10px 10px 0;
+  background: #ffda77;
 }
 #profileMenu .col:hover {
   background: #91afba;
