@@ -46,6 +46,7 @@ public class StoreController {
             , @RequestPart(value = "fileList", required = false) List<MultipartFile> files, HttpServletRequest request){
         store.setOwner_id(getMemberIdByRequest(request));
         int result = storeService.registerStore(store, files);
+        System.out.println("컨트롤러 이거 되는거임");
         return new ResponseEntity(result, HttpStatus.OK);
     }
 

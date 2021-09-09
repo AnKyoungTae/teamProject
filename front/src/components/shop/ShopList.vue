@@ -3,6 +3,7 @@
     @click="storePage(shopInfo.storeId)"
     class="storeList"
     title="클릭시 상세페이지로 이동합니다"
+    style="border:1px solid gray;"
   >
     <div class="storeHeader">
       <div class="headerTitle">
@@ -126,7 +127,7 @@ export default {
 .storeReview {
   text-align: right;
   padding: 5px 0 0;
-  width: 150px;
+  width: 160px;
 }
 .address {
   text-align: left;
