@@ -78,7 +78,7 @@ export default {
 
 <style>
 #profileMenu {
-  width: 100%;
+  width: 90%;
 }
 #profileMenu .col {
   float: left;
@@ -90,7 +90,7 @@ export default {
   cursor: pointer;
 }
 #profileMenu .col:hover {
-  background: #5A8C94;
+  background: #5a8c94;
   color: #fff;
   cursor: pointer;
 }
@@ -107,7 +107,7 @@ a {
 .choicedMenu {
   text-decoration: underline;
   text-underline-position: under;
-  color: #2C656B;
+  color: #2c656b;
 }
 .spread-underline {
   color: #333;

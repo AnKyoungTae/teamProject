@@ -154,6 +154,7 @@ export default {
 }
 .storeList:hover {
   outline: 1px solid orange;
+  background: #91afba;
 }
 @media screen and (min-width: 1200px) {
   .imgList {

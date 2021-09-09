@@ -24,7 +24,7 @@
           <!--메인 이름, 지도, 가게 리스트 -->
           <div class="container-fluid px-4">
             <!--메인 이름 WA POO -->
-            <h1 class="m-4">주변가게보기</h1>
+            <h1 class="m-4 nearShopTitle">주변가게보기</h1>
             <div class="row">
               <!--지도 -->
               <div class="col-xl-7">
@@ -207,7 +207,6 @@ export default {
 }
 main {
   width: 90vw;
-  background: #fd3a69;
   margin: 50px;
 }
 .p2 {
@@ -241,5 +240,12 @@ main {
 .shortCut:hover {
   cursor: pointer;
   border: 4px inset #ffda77;
+}
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
 }
 </style>
