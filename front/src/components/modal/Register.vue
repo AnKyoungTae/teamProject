@@ -126,16 +126,11 @@
       <div
         v-if="selectRegister === 'BUYER'"
         @click="registerUser"
-        class="register-button"
+        class="register-button-buyer"
       >
         회원가입(일반 회원)
       </div>
-      <div
-        v-else
-        @click="registerUser"
-        class="register-button"
-        style="background-color: tomato"
-      >
+      <div v-else @click="registerUser" class="register-button-seller">
         회원가입(판매자)
       </div>
     </template>
@@ -464,17 +459,33 @@ select::-ms-expand {
   text-align: center;
 }
 
-.register-button {
+.register-button-buyer {
   width: 100%;
   height: 70px;
-  background-color: #1a5ae8;
-  color: white;
+  background-color: #ffda77;
+  color: #fd3a69;
   font-size: 17px;
   margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  border: 1px solid #fd3a69;
+  border-radius: 10px;
+}
+.register-button-seller {
+  width: 100%;
+  height: 70px;
+  background-color: #ffda77;
+  color: black;
+  font-size: 17px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #fd3a69;
+  border-radius: 10px;
 }
 
 .invalid {

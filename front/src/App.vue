@@ -2,7 +2,7 @@
   <div>
     <Sidebar />
     <transition name="page">
-      <div class="col-md-10" :style="{ 'margin-left': sidebarWidth }">
+      <div class="col-md-12" :style="{ 'margin-left': sidebarWidth }">
         <router-view />
       </div>
     </transition>
@@ -11,6 +11,7 @@
 
 <script>
 import Sidebar from "@/components/sidebar/Sidebar";
+
 import { sidebarWidth } from "@/components/sidebar/state";
 
 export default {
@@ -53,6 +54,7 @@ body {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
 .page-enter-active,
 .page-leave-active {
   transition: opacity 0.1s;

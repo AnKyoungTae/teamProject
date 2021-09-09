@@ -21,6 +21,7 @@
         SELECT *
         FROM `event` e, `member` m
         WHERE e.provider_id = m.memberId
+          AND e.`status` != 'S'
         <if test="!option.equals('ALL')">
             AND e.`status` = #{option}
         </if>
@@ -30,6 +31,7 @@
     <select id="selectEventListCount" resultType="int">
         SELECT COUNT(*) AS result
         FROM event
+        AND e.`status` != 'S'
         <if test="!option.equals('ALL')">
             WHERE status = #{option}
         </if>

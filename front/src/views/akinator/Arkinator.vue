@@ -401,6 +401,7 @@ export default {
     }
     this.requestAkinators();
     document.querySelector(".wrapper").scrollIntoView();
+    window.scrollTo(0, 0);
   },
   setup() {
     return { collapsed };
@@ -413,6 +414,7 @@ export default {
   height: 100vh;
   /* 전체 아키네이터의 최소크기설정 */
   min-width: 300px;
+  width: 90vw;
 }
 .left {
   /* 가운데 중심으로 왼쪽탭들 */
@@ -508,7 +510,7 @@ export default {
   flex-wrap: nowrap;
   align-items: flex-end;
   justify-content: end;
-  overflow: auto;
+  overflow: hidden;
   border: 1px solid #91afba;
   box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.4);
   background: #355f6e;
