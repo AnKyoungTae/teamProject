@@ -77,6 +77,9 @@ export default {
 </script>
 
 <style>
+center {
+  width: 90vw;
+}
 #profileMenu {
   width: 100%;
 }
@@ -85,12 +88,15 @@ export default {
   height: 60px;
   line-height: 40px;
   text-align: center;
-  border: 1px solid black;
+  border: 2px solid #fd3a69;
   overflow: hidden;
   cursor: pointer;
+  font-size: 1.5em;
+  border-radius: 10px 10px 10px 0;
+  background: #ffda77;
 }
 #profileMenu .col:hover {
-  background: #5A8C94;
+  background: #91afba;
   color: #fff;
   cursor: pointer;
 }
@@ -107,7 +113,7 @@ a {
 .choicedMenu {
   text-decoration: underline;
   text-underline-position: under;
-  color: #2C656B;
+  color: #fd3a69;
 }
 .spread-underline {
   color: #333;

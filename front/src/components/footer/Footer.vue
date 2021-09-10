@@ -1,26 +1,34 @@
 <template>
-  <div class="footer-div">
+  <div class="emptyspace"></div>
+  <div class="footer">
     <div class="wapoo-wrap">
-      <div class="wapoo-logo">
-        <div>
-          <span @click="this.$router.push({ path: '/' })"> 와푸 </span>
+      <div class="wapoo-logo" style="width:25%">
+        <div style="margin-top: 30px;">
           <img
             @click="this.$router.push({ path: '/' })"
             class="logo"
-            src="../../assets/logo.png"
+            src="../../assets/logo_copy.png"
           />
         </div>
         <p class="logo-p">
           뭘 먹어야할지 고민일 때, <br />배달 주문 플렛폼 서비스 와푸
         </p>
       </div>
-      <div class="wapoo-info1">
+      <div class="wapoo-info1" style="width:75%;">
         <p style="padding-top: 30px; text-align: left">
-          <strong>인천일보아카데미</strong>
+          <strong>(주)인천일보아카데미</strong>
         </p>
-        <span>인천 미추홀구 매소홀로488번길 6-32 태승빌딩 5층</span><br />
+        <div class="info1-span">
+          <span>인천 미추홀구 매소홀로488번길 6-32 태승빌딩 5층</span> | 대표이사 : 조성호<br />
+        </div>
+        <br />
+        <div>
+          <span style="color: #91afba;">
+            와푸는 통신판매중개자이며 통신판매의 당사자가 아닙니다. 따라서 상품/ 거래정보 및 거래와 관련하여 와푸에 등록된 판매자의 고의 또는 과실로 소비자에게 발생하는 손해에 대해 와푸는 책임을 지지 않습니다. 상품 및 거래에 관하여 보다 정확한 정보는 해당 판매자에게 직접 확인하여 주시기 바랍니다.
+          </span>
+        </div>
       </div>
-      <div class="wapoo-info">
+      <!-- <div class="wapoo-info">
         <p style="padding-top: 30px">
           <strong>CONNECT</strong>
         </p>
@@ -28,38 +36,37 @@
         <span>Vue.js</span><br />
         <span>Kakao Map</span><br />
         <span>axios</span>
-      </div>
-      <div class="wapoo-last">
-        <p style="padding-top: 30px">
-          <strong>WAPOO</strong>
-        </p>
-        <span @click="this.$router.push({ path: '/cart' })">장바구니</span
-        ><br />
-        <span @click="this.$router.push({ path: '/shopCategory' })"
-          >음식/가게</span
-        ><br />
-        <span @click="this.$router.push({ path: '/serviceCenter' })"
-          >고객센터</span
-        ><br />
-        <span @click="this.$router.push({ path: '/event' })">이벤트</span>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
+
+<script>
+import { sidebarWidth } from "@/components/sidebar/state";
+
+export default {
+  components: {
+  },
+  setup() {
+    return { sidebarWidth };
+  },
+};
+</script>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap");
 .footer-div {
   padding-bottom: 20px;
   color: #91afba;
-  overflow: hidden;
+  overflow: auto;
   width: 100%;
   position: absolute;
   background-color: #355f6e;
+  bottom: 0%;
 }
 .wapoo-wrap {
   position: relative;
-  max-width: 1200px;
+  overflow: auto;
   margin: 10px auto 0 auto;
   padding-left: 100px;
   padding-right: 100px;
@@ -67,14 +74,15 @@
 }
 .wapoo-info1 {
   float: left;
-  padding-left: 80px;
+  padding-left: 30px;
+  text-align: left;
 }
 .wapoo-info1 p {
   font-size: 24px;
   color: #ffda77;
 }
-.wapoo-info1 span {
-  font-size: 20px;
+.info1-span {
+  color: #91afba;
 }
 .wapoo-logo {
   top: 0;
@@ -97,6 +105,7 @@
 }
 .logo-p {
   font-size: 20px;
+  color: #91afba;
 }
 .wapoo-info {
   display: block;
@@ -104,7 +113,6 @@
   line-height: 1.6;
   padding-left: 100px;
   text-align: right;
-  float: left;
   padding-right: 30px;
 }
 .wapoo-info strong {
@@ -115,16 +123,10 @@
 .wapoo-info span {
   font-size: 20px;
 }
-.wapoo-last {
-}
-.wapoo-last strong {
-  color: #ffda77;
-  font-size: 20px;
-}
-.wapoo-last span {
-  font-size: 20px;
-}
 span {
   cursor: pointer;
+}
+.emptyspace {
+  height: 200px;
 }
 </style>

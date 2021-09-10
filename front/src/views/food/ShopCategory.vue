@@ -1,6 +1,8 @@
 <template>
-  <div class="food-list">
-    <fooddiv></fooddiv>
+  <div class="wrapper">
+    <div class="food-list">
+      <fooddiv></fooddiv>
+    </div>
   </div>
   <Footer></Footer>
   
@@ -19,6 +21,9 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  width: 90vw;
+}
 .food-list {
   padding: 5px;
   max-width: 1200px;

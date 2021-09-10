@@ -31,10 +31,11 @@
     <select id="selectEventListCount" resultType="int">
         SELECT COUNT(*) AS result
         FROM event
-        AND e.`status` != 'S'
+        WHERE 1
         <if test="!option.equals('ALL')">
-            WHERE status = #{option}
+            AND `status` = #{option}
         </if>
+        AND `status` != 'S'
     </select>
     
     <!--  -->
@@ -79,6 +80,20 @@
 		WHERE eventId = #{eventId}
 
     </update>
+    
+    <select id="adminEventcount" resultType="int">
+    SELECT	
+		COUNT(*) AS 'result'
+		
+		
+		FROM `coupon` a, `event` b
+	WHERE	a.event_id = b.eventId
+
+<if test="!option.equals('ALL')">
+		AND	b.status = #{option}
+</if>
+	
+    </select>
     
     
     

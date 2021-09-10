@@ -24,11 +24,11 @@
           <!--메인 이름, 지도, 가게 리스트 -->
           <div class="container-fluid px-4">
             <!--메인 이름 WA POO -->
-            <h1 class="m-4">주변가게보기</h1>
+            <h1 class="nearShopTitle">주변가게보기</h1>
             <div class="row">
               <!--지도 -->
               <div class="col-xl-7">
-                <div class="card mb-4">
+                <div class="card">
                   <kakao style="z-index: 0" :shopList="nearShopList"></kakao>
                 </div>
               </div>
@@ -40,7 +40,7 @@
                 </div>
               </div>
               <div class="col-xl-5">
-                <div class="card mb-4">
+                <div class="card">
                   <!-- 가게가 있을 때 -->
                   <div v-if="showList">
                     <div class="list-group" v-if="nearShopList">
@@ -60,8 +60,6 @@
               </div>
             </div>
           </div>
-          <!-- 메뉴 리스트 시작-->
-          <div class="card mb-4"></div>
         </main>
       </div>
     </div>
@@ -202,14 +200,13 @@ export default {
 }
 .shopList {
   background: white;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
 main {
   width: 90vw;
-  background: #fd3a69;
   margin: 50px;
 }
 .p2 {
@@ -243,5 +240,12 @@ main {
 .shortCut:hover {
   cursor: pointer;
   border: 4px inset #ffda77;
+}
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
 }
 </style>

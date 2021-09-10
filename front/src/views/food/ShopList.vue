@@ -78,9 +78,7 @@
         </div>
       </div>
     </div>
-    {{ loadFrom }}
-    {{ quantity }}
-    {{ noMoreShop }}
+    <hr />
   </div>
 </template>
 

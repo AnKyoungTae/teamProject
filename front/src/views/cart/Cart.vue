@@ -669,6 +669,7 @@ export default {
 .cartContainer {
   display: flex;
   justify-content: center;
+  width: 90vw;
 }
 .orderText {
   background-color: lightgray;
@@ -705,7 +706,7 @@ export default {
 
 .wrapper {
   height: 100%;
-  width: 100%;
+  width: 80vw;
   left: 50%;
 }
 .cart {

@@ -1,34 +1,28 @@
-<template style="background-color: #fafafa">
-  <div v-if="dataLoaded">
-    <div class="storeBox" style="background-color: #fafafa">
-      <div
-        class="storeName"
-        style="font-weight: 800; font-size: 30px; padding-top: 20px"
-      >
-        {{ shopInfo.storeInfo.name }}
+<template>
+  <div v-if="dataLoaded" class="wrapper">
+    <div class="storeBox">
+      <div class="storeName">
+        <span>
+          {{ shopInfo.storeInfo.name }}
+        </span>
       </div>
+      <hr />
       <div
         class="row storeText"
         style="width: 100%; height: 300px; margin-top: 15px"
       >
-        <div class="col-6">
-            <splide :options="primaryOptions" ref="primary" style="margin-bottom:1rem;">
-              <splide-slide v-for="file in shopInfo.fileList" :key="file">
-                <img class="splideImg" :src="file.name" alt="??">
-              </splide-slide>
-            </splide>
-            <!--
-            <splide :options="secondaryOptions" ref="secondary">
-              <splide-slide v-for="file in shopInfo.fileList" :key="file">
-                <img :src="file.name" alt="??">
-              </splide-slide>
-            </splide>
-            -->
+        <div class="col-md-6">
+          <splide
+            :options="primaryOptions"
+            ref="primary"
+            style="margin-bottom: 1rem"
+          >
+            <splide-slide v-for="file in shopInfo.fileList" :key="file">
+              <img class="splideImg" :src="file.name" alt="??" />
+            </splide-slide>
+          </splide>
         </div>
-        <div
-          class="col-6 storeInf "
-          style="text-align: left"
-        >
+        <div class="col-md-6 storeInf" style="text-align: left">
           <p style="color: gray; margin-bottom: 35px; text-align: center">
             {{ shopInfo.storeInfo.storeKind }}
           </p>
@@ -72,12 +66,18 @@
           </table>
         </div>
       </div>
+      <hr />
 
       <div
         class="btn-group"
         role="group"
         aria-label="Basic radio toggle button group"
-        style="width: 100%; height: 45px; background-color: #fafafa"
+        style="
+          width: 100%;
+          height: 45px;
+          background-color: #fafafa;
+          margin-bottom: 25px;
+        "
       >
         <input
           type="radio"
@@ -116,12 +116,13 @@
         :searchId="this.$route.query.foodIdsearch"
         v-if="currentComp === 'shopMenu'"
       ></shopMenu>
-      <shopMap
-        :localx="shopInfo.storeInfo.localx"
-        :localy="shopInfo.storeInfo.localy"
-        :shopname="shopInfo.storeInfo.name"
-        v-else-if="currentComp === 'shopMap'"
-      ></shopMap>
+      <div v-else-if="currentComp === 'shopMap'" class="mapContainer">
+        <shopMap
+          :localx="shopInfo.storeInfo.localx"
+          :localy="shopInfo.storeInfo.localy"
+          :shopname="shopInfo.storeInfo.name"
+        ></shopMap>
+      </div>
       <review v-else-if="currentComp === 'review'" :storeId="storeId"></review>
       <div v-else>
         <div class="spinner-border" role="status">
@@ -143,18 +144,18 @@ import shopMenu from "@/components/adminComponent/StoreMenu.vue";
 import shopMap from "@/components/adminComponent/StoreMap.vue";
 import review from "@/components/adminComponent/Review.vue";
 import Reviewicon from "@/components/shop/Reviewicon.vue";
-import { Splide, SplideSlide } from '@splidejs/vue-splide';
-import '@splidejs/splide/dist/css/themes/splide-default.min.css';
+import { Splide, SplideSlide } from "@splidejs/vue-splide";
+import "@splidejs/splide/dist/css/themes/splide-default.min.css";
 
 import { mapGetters } from "vuex";
 
 export default {
-  components: { 
+  components: {
     Splide,
     SplideSlide,
-    shopMenu, 
-    shopMap, 
-    review, 
+    shopMenu,
+    shopMap,
+    review,
     Reviewicon,
   },
   mounted() {
@@ -178,9 +179,9 @@ export default {
       storeId: null,
       //슬라이드
       primaryOptions: {
-        type      : 'loop',
-        width     : 500,
-        height    : 300,
+        type: "loop",
+        width: 500,
+        height: 300,
         pagination: false,
       },
       /*
@@ -237,12 +238,42 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+@font-face {
+  font-family: "BMHANNAPro";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.0/BMHANNAPro.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+.storeName {
+  font-family: BMHANNAPro;
+  font-weight: bolder;
+  font-size: 3em;
+  margin: 25px;
+}
+.storeName > span {
+  border-bottom: 12px solid #ffda77;
+  padding: 0 0 0.2em 0;
+}
 .storeText {
   display: flex;
   justify-content: center;
+  margin-bottom: 1em;
+}
+.slide {
 }
 .storeBox {
   width: 80%;
+  border-right: 1px solid #91afba;
+  border-left: 1px solid #91afba;
+  padding: 10px;
 }
 input {
   background-color: gray;
@@ -259,11 +290,11 @@ input {
 .btn-outline-primary.active,
 .btn-outline-primary.dropdown-toggle.show,
 .btn-outline-primary:active {
-  color: #FFEFA3;
+  color: #ffefa3;
   background-color: white;
   border-color: lightgray;
   font-weight: bold;
-  border-bottom: 5px solid #FFEFA3;
+  border-bottom: 5px solid #ffefa3;
   box-shadow: none;
   z-index: 0;
 }
@@ -291,8 +322,8 @@ input {
 .i-text {
   margin-left: 10px;
 }
-.splideImg{
-  width:100%; 
-  height:300px;
+.splideImg {
+  width: 100%;
+  height: 300px;
 }
 </style>

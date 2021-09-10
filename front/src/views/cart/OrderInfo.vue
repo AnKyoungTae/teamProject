@@ -125,7 +125,11 @@
             {{ order.phone }}
           </div>
         </div>
-        <button
+        
+        
+        <div  style="margin: 50px" v-if="this.foodList[0].paySuccess == 'N'">취소된 주문</div>
+        <div  style="margin: 50px" v-else-if="this.foodList[0].paySuccess == 'C'">취소중입니다</div>
+        <button v-else
           type="button"
           class="btn btn-outline-danger"
           style="margin: 50px"
@@ -157,28 +161,35 @@ export default {
       alert("잘못된 요청입니다");
     }
     console.log(this.orderId);
-    http
+    this.getOrderedFoodList()
+      
+  },
+  methods: {
+    getOrderedFoodList() {
+      http
       .get("/order/getOrderedFoodList", {
         params: {
           orderId: this.orderId,
         },
       })
       .then((res) => {
+        console.log(res.data);
         this.order = res.data.order;
         this.foodList = res.data.foodList;
         this.loaded = true;
+        console.log(this.foodList[0].paySuccess);
       });
-  },
-  methods: {
+    },
     cancelOrder() {
       const orderId = parseInt(this.orderId);
       http
         .post("/order/requestCancel", {
           orderId: orderId,
-          status: "S",
+          status: "C",
         })
         .then((res) => {
           if (res.status === 200) {
+            this.getOrderedFoodList()
             alert("주문 취소를 요청하였습니다!");
           } else {
             alert("알수없는 오류입니다. 관리자에게 문의하세요");
