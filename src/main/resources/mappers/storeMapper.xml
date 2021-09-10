@@ -19,7 +19,7 @@
         `body` = #{body},
         owner_id = #{owner_id}
     </insert>
-    <insert id="insertStoreFile" parameterType="imageFile">
+    <insert id="insertStoreFile" parameterType="ImageFile">
         INSERT INTO store_file
         SET
         storefileId = #{fileId},
@@ -81,7 +81,7 @@
             price = #{price},
             store_id = #{store_id}
     </insert>
-    <insert id="insertFoodFile" parameterType="imageFile">
+    <insert id="insertFoodFile" parameterType="ImageFile">
         INSERT INTO food_file
         SET
             foodfileId = #{fileId},
@@ -92,8 +92,14 @@
             filesize = #{filesize},
             food_id = #{ref_id}
     </insert>
-    <select id="selectStoreFileList" parameterType="int" resultType="imageFile">
-        SELECT *
+    <select id="selectStoreFileList" parameterType="int" resultType="ImageFile">
+        SELECT storefileId fileId,
+               regDate,
+               orgName,
+               `name`,
+               filetype,
+               filesize,
+               store_id ref_id
         FROM store_file
         WHERE store_id = #{storeId}
     </select>
@@ -209,4 +215,9 @@
         WHERE fo.foodId = fi.food_id
         AND fo.foodId = #{foodId}
     </select>
+    <update id="deleteStoreFile">
+        UPDATE store_file
+        SET store_id = 1
+        WHERE storefileId = #{fileId}
+    </update>
 </mapper>

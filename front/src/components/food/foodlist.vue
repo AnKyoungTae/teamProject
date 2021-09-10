@@ -40,10 +40,9 @@
               </p>
               <!--주소-->
               <p class="menu-p">
-                <!-- 전화번호 -->
-                {{ shop.phone }}&nbsp;&nbsp;<span class="details">{{
-                  shop.distance
-                }}</span>
+                <!-- 전화번호 --><span class="details"
+                  >{{ shop.phone }}&nbsp;&nbsp;</span
+                >
               </p>
             </div>
           </div>

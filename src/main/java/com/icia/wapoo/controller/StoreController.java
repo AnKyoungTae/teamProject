@@ -1,6 +1,5 @@
 package com.icia.wapoo.controller;
 
-import com.icia.wapoo.S3.S3Service;
 import com.icia.wapoo.jwt.service.JwtService;
 import com.icia.wapoo.model.Food;
 import com.icia.wapoo.model.ImageFile;
@@ -9,9 +8,7 @@ import com.icia.wapoo.service.AkinatorService;
 import com.icia.wapoo.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.ILoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -46,8 +42,29 @@ public class StoreController {
             , @RequestPart(value = "fileList", required = false) List<MultipartFile> files, HttpServletRequest request){
         store.setOwner_id(getMemberIdByRequest(request));
         int result = storeService.registerStore(store, files);
-        System.out.println("컨트롤러 이거 되는거임");
         return new ResponseEntity(result, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/modifyStore")
+    public ResponseEntity modifyStore(@RequestParam("delFileIdList") List<String> delFileIdList,
+            @RequestParam(value = "fileList", required = false) List<MultipartFile> fileList, MultipartHttpServletRequest request) {
+
+//        if(delFileIdList.size() > 0) {
+//            // store_file의 status를 만들 수 없기 때문에, store_id 를 1로 돌린다. 1번상점은 테스트용. 비활성화.
+//            delFileIdList.forEach((fildId)->{
+//                storeService.removeFile(Integer.valueOf(fildId));
+//            });
+//        }
+
+        //상점 번호 따기.
+//        Store store = storeService.getStoreById(getMemberIdByRequest(request));
+//        Integer storeId = store.getStoreId();
+//        int result = 0;
+//        if(fileList !=null && fileList.size() > 0 ) {
+//            result = storeService.uploadStoreFile(storeId, fileList);
+//        }
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/findStore")

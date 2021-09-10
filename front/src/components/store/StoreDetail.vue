@@ -1,250 +1,495 @@
 <template>
-  <div class="container storeDetail" style="width:1000px;">
-    <br>
-    <!-- 업체정보 -->
-    <div class="row storeHeader">
-      <div>
-        <div class="store-list">
-          <table>
-            <tr>
-              <td colspan="2" align=center>
-                <h2 class="store-title">{{storeInfo.name}}</h2>
-              </td>
-              <td rowspan="10" align=center>
-                <button type="button" @Click="edit()" class="btn btn-dark edit">수정하기</button>
-                <div v-if="storeFiles != null" style="width:400px;">
-                  <!-- Main slider -->
-                  <splide :options="primaryOptions" ref="primary" style="margin-bottom:1rem;">
-                    <splide-slide v-for="file in storeFiles" :key="file">
-                      <img :src="file.name" class="splideImg" alt="??">
-                    </splide-slide>
-                  </splide>
-
-                  <!-- Thumbnail slider -->
-                  <splide :options="secondaryOptions" ref="secondary">
-                    <splide-slide v-for="file in storeFiles" :key="file">
-                      <img :src="file.name" alt="??">
-                    </splide-slide>
-                  </splide>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th style="vertical-align: bottom;"><div class="store-th" style="vertical-align: bottom;">업체정보</div></th>
-              <td style="vertical-align: bottom;"><div class="store-td" style="vertical-align: bottom; font-size:20px;">{{ storeInfo.storeKind }}</div></td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <div style="width:500px; padding:0px; border-bottom: 1px solid gray;"></div>
-              </td>
-            </tr>
-            <tr>
-              <th style="padding-top:20px;"><div class="store-th">가게등록일</div></th>
-              <td style="padding-top:20px;"><div class="store-td">{{storeInfo.regDate}}</div></td>
-            </tr>
-            <tr>
-              <th class="store-th" style="padding: 5px 0px;"></th>
-            </tr>
-            <tr>
-              <th><div class="store-th">가게주소</div></th>
-              <td><div class="store-td">{{storeInfo.address}}</div></td>
-            </tr>
-            <tr>
-              <th class="store-th" style="padding: 5px 0px;"></th>
-            </tr>
-            <tr>
-              <th><div class="store-th">상세주소</div></th>
-              <td><div class="store-td">{{storeInfo.addressDetail}}</div></td>
-            </tr>
-            <tr>
-              <th class="store-th" style="padding: 5px 0px;"></th>
-            </tr>
-            <tr>
-              <th><div class="store-th">가게번호</div></th>
-              <td><div class="store-td">{{ storeInfo.phone }}</div></td>
-            </tr>
-            <tr>
-              <th class="store-th" style="padding: 5px 0px;"></th>
-            </tr>
-            <tr>
-              <th><div class="store-th">가게설명</div></th>
-              <td colspan="2"><div class="store-td" style="width:auto;">{{ storeInfo.body }}</div></td>
-            </tr>
-          </table>
+  <div class="outLineWrapper">
+    <div class="wrapper">
+      <div class="btn" @click="toggleEdit">
+        <div v-if="isEditMode">
+          <span class="editBtns">수정완료</span>
+          <span class="editBtns">취소하기</span>
+        </div>
+        <div v-else>
+          <span class="editBtns">수정하기</span>
         </div>
       </div>
-      <!-- 버튼 -->
-      <div
-        class="btn-group"
-        role="group"
-        aria-label="Basic radio toggle button group"
-        style="padding: 0px; width: 1000px; height: 45px; background-color: #fafafa"
-      >
-        <input
-          type="radio"
-          class="btn-check"
-          name="btnradio"
-          id="btnradio1"
-          autocomplete="off"
-          @click="setComponent('shopMap')"
-          checked
-        />
-        <label class="btn btn-outline-primary" for="btnradio1">지도보기</label>
-
-        <input
-          type="radio"
-          class="btn-check"
-          name="btnradio"
-          id="btnradio2"
-          autocomplete="off"
-          @click="setComponent('review')"
-        />
-        <label class="btn btn-outline-primary" for="btnradio2">후기</label>
+      <hr />
+      <div class="nameContainer">
+        <span class="nameWrap">
+          <p v-if="dataLoaded">{{ storeInfo.name }}</p>
+        </span>
       </div>
-      <!-- 내용 -->
-      <shopMap
-        :localx="storeInfo.localx"
-        :localy="storeInfo.localy"
-        :shopname="storeInfo.name"
-        v-if="currentComp === 'shopMap'"
-      ></shopMap>
-      <review v-else-if="currentComp === 'review'" :storeId="storeId"></review>
+
+      <div class="shopImagesContainer">
+        <div class="previewContainer">
+          <div class="previewBottomTap"></div>
+          <div class="previewWrapper">
+            <div class="previewChangeWapper">
+              <span @click="showNextImage" class="arrow left"></span>
+            </div>
+            <div class="previewWindow">
+              <img :src="selectedImage.path" />
+            </div>
+            <div class="previewChangeWapper">
+              <span @click="showNextImage" class="arrow right"></span>
+            </div>
+          </div>
+          <div class="previewBottomTap">
+            <span
+              @click="delFile"
+              v-if="isEditMode"
+              class="btn btn-outline-danger m-1 p-2"
+              >삭제</span
+            >
+          </div>
+        </div>
+        <!-- 수정하기모드일때 -->
+        <div class="imageListContainer" v-if="isEditMode">
+          <div class="addImageListWrapper">
+            <input type="file" id="file" @input="addFile" />
+            <label for="file">추가하기</label>
+          </div>
+          <!-- 존재하는 파일 -->
+          <div
+            class="imageListWrapper"
+            v-for="(file, index) in FileList"
+            :key="index"
+            @click="selectImage(index)"
+            :class="selectedIndex == index ? 'selectedImage' : ''"
+          >
+            <div class="imageWrapper">
+              <img :src="file.path" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nameContainer">
+        <span class="nameWrap">
+          <p>가게 정보</p>
+        </span>
+      </div>
+
+      <div class="shopInfoContainer">
+        <div class="infoWrap">
+          <div class="infoRow">
+            <div class="left">등록일</div>
+            <div class="right">{{ dateFormat(storeInfo.regDate) }}</div>
+          </div>
+          <div class="infoRow">
+            <div class="left">마지막 정보 수정일</div>
+            <div class="right">{{ dateFormat(storeInfo.updateDate) }}</div>
+          </div>
+          <div class="infoRow">
+            <div class="left">현재 영업상태</div>
+            <div class="right" v-if="!isEditMode">{{ storeInfo.status }}</div>
+            <div class="right" v-else>드롭박스</div>
+          </div>
+          <div class="infoRow">
+            <div class="left">가게 연락처</div>
+            <div class="right" v-if="!isEditMode">{{ storeInfo.phone }}</div>
+            <div class="right" v-else>드롭박스</div>
+          </div>
+          <div class="infoRow">
+            <div class="left">가게 설명</div>
+            <div class="right" v-if="!isEditMode">{{ storeInfo.body }}</div>
+            <div class="right" v-else>드롭박스</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nameContainer">
+        <span class="nameWrap">
+          <p>지도</p>
+        </span>
+      </div>
+      <div class="shopMapContainer">
+        <div class="addressContainer">
+          {{ storeInfo.address }}, {{ storeInfo.addressDetail }}
+        </div>
+        <div id="staticMap"></div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import shopMap from "@/components/adminComponent/StoreMap.vue";
-import review from "@/components/adminComponent/Review.vue";
-import { Splide, SplideSlide } from '@splidejs/vue-splide';
-import '@splidejs/splide/dist/css/themes/splide-default.min.css';
+import http from "@/api/http";
 
 export default {
   props: ["storeInfo", "storeFiles", "isMyStore"],
-  // isMyStore == true 일때 자신의 가게임.
-  components: {
-    Splide,
-    SplideSlide,
-    shopMap,
-    review, 
-  },
+  components: {},
   data() {
-			return {
-        averageScore: null,
-        currentComp: "shopMap",
-        storeId: null,
-        primaryOptions: {
-	      	type       : 'loop',
-		      width       : 400,
-          height      : 250,
-					pagination  : false,
-	      },
-	      secondaryOptions: {
-		      type        : 'slide',
-		      rewind      : true,
-		      width       : 400,
-		      gap         : '1rem',
-					pagination  : false,
-		      fixedWidth  : 110,
-          fixedHeight : 70,
-          cover       : true,
-		      isNavigation: true,
-          arrows      : false,
-	      },
-			};
-	},
+    return {
+      dataLoaded: true, // 데이터로딩
+      selectedImage: "",
+      selectedIndex: 0, // 데이터 로드되면 selectImage 실행
+      FileList: [],
+      needDelFileIdList: [],
+      isEditMode: true,
+    };
+  },
   mounted() {
-    this.storeId = this.storeInfo.storeId;
-    this.$refs.primary.sync( this.$refs.secondary.splide );
-    this.setComponent("shopMap");
+    if (window.kakao && window.kakao.maps) {
+      //
+    } else {
+      const script = document.createElement("script");
+      script.onload = () => kakao.maps.load(this.initMap);
+      script.src =
+        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0feaa40f6d94ad4428a4f4f8a6cab340&libraries=services,clusterer,drawing";
+      document.head.appendChild(script);
+    }
+    this.$nextTick(() => {
+      if (this.storeFiles != null) {
+        this.initFileList(this.storeFiles);
+        this.selectImage(0);
+        this.initMap();
+      }
+    });
   },
   methods: {
-    //수정버튼
-    edit() {
-      this.$emit("trueEdit", false)
+    selectImage(index) {
+      this.selectedIndex = index;
+      this.selectedImage = this.FileList[index];
     },
-    setComponent(comp) {
-      this.currentComp = comp;
+    showNextImage() {
+      if (this.FileList.length > this.selectedIndex + 1) {
+        this.selectImage(this.selectedIndex + 1);
+      } else {
+        this.selectImage(0);
+      }
+    },
+    showPrevImage() {
+      this.selectedIndex == 0
+        ? this.selectImage(this.FileList.length - 1)
+        : this.selectImage(this.selectedIndex - 1);
+    },
+    addFile(e) {
+      this.FileList = [
+        ...this.FileList,
+        {
+          file: e.target.files[0],
+          path: URL.createObjectURL(e.target.files[0]),
+          num: this.FileList.length,
+        },
+      ];
+    },
+    delFile() {
+      let pointer = this.FileList[this.selectedIndex];
+      // 이미 있는 파일일때, 삭제예정배열에 아이디만 저장해놓고, 업로드에정인것인 fileList에서 제거.
+      if (pointer.file.fileId) {
+        // 이미 존재한다면, fileId 가있음.
+        this.needDelFileIdList.push(pointer.file.fileId);
+      }
+      // 업로드 예정 취소라면,
+      this.FileList.splice(this.selectedIndex, 1);
+      this.selectedImage = "";
+    },
+    initFileList(storeFiles) {
+      for (let i = 0; i < storeFiles.length; i++) {
+        this.FileList.push({
+          file: storeFiles[i],
+          path: storeFiles[i].name,
+          num: i,
+        });
+      }
+    },
+    modifyImages() {
+      const formData = new FormData();
+      let addedFiles = this.FileList.filter((file) => {
+        if (file.file.fileId) {
+          return false;
+        }
+        return true;
+      }).map((data) => {
+        return data.file;
+      });
+      formData.append("delFileIdList", this.needDelFileIdList);
+      console.log(addedFiles);
+      console.log(this.needDelFileIdList);
+      addedFiles.forEach((file) => {
+        formData.append("fileList", file);
+      });
+      http
+        .post("/store/modifyStore", formData, {
+          headers: {
+            "Content-Type": false,
+            processData: false,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+        });
+    },
+    initMap() {
+      var marker = {
+        position: new kakao.maps.LatLng(
+          this.storeInfo.localy,
+          this.storeInfo.localx
+        ),
+        text: this.storeInfo.name,
+      };
+
+      var staticMapContainer = document.getElementById("staticMap"), // 이미지 지도를 표시할 div
+        staticMapOption = {
+          center: new kakao.maps.LatLng(
+            this.storeInfo.localy,
+            this.storeInfo.localx
+          ), // 이미지 지도의 중심좌표
+          level: 3, // 이미지 지도의 확대 레벨
+          marker: marker, // 이미지 지도에 표시할 마커
+        };
+
+      // 이미지 지도를 생성합니다
+      var staticMap = new kakao.maps.StaticMap(
+        staticMapContainer,
+        staticMapOption
+      );
+    },
+    toggleEdit() {
+      this.isEditMode = !this.isEditMode;
+    },
+    dateFormat(date) {
+      let arr = date.split(" ");
+      let YMD = arr[0].split("-");
+      if (YMD[1].length > 1) {
+        YMD[1] = YMD[1].split("")[1];
+      }
+      return YMD[0] + " 년 " + YMD[1] + " 월 " + YMD[2] + " 일 ";
     },
   },
+  computed: {},
 };
 </script>
 
 <style scoped>
-.storeDetail {
-  background: rgba(234, 240, 237, 0.466);
+@font-face {
+  font-family: "BMHANNAPro";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.0/BMHANNAPro.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
-.store-th {
-  width: 120px;
+.outLineWrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 20px;
+  min-width: 900px;
 }
-.store-td {
-  padding-left: 20px;
-  padding-right: 50px;
-  width: 400px;
-  word-break:break-all;
+.wrapper {
+  width: 80%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
 }
-.store-list table tr th, 
-.store-list table tr td {
-  vertical-align: top;
-}
-.store-list{
-  width: 960px;
-  font-size: 25px;
-  align-content: center;
-  text-align: left;
-}
-.store-title{
+.nameContainer {
+  width: 100%;
+  height: 100px;
+  margin: 5px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
   margin: 20px;
 }
-.splideImg {
-  width:400px; 
-  height:250px;
+.nameWrap {
+  padding: 0 20px 0 20px;
+  font-family: BMHANNAPro;
+  font-weight: bolder;
+  font-size: 3em;
+  margin: 25px;
 }
-.storeHeader {
+.nameWrap > p {
+  border-bottom: 12px solid #ffda77;
+  padding: 0 0 0.2em 0;
+}
+.shopImagesContainer {
+  width: 100%;
+  margin: 5px;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
+  overflow: hidden;
+  flex-flow: row wrap;
+  height: 600px;
+}
+.previewContainer {
+  width: 500px;
+  margin: 20px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.previewWrapper {
+  background: tan;
+  width: 500px;
+  height: 400px;
+  display: flex;
+}
+.previewWindow {
+  background: wheat;
+  width: 400px;
+}
+.previewWindow > img {
+  display: block;
+  width: 100%;
+  height: 100%;
   padding: 10px;
+  transition: 2s;
 }
-input {
-  background-color: gray;
+.previewChangeWapper {
+  width: 50px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.btn-group {
-  background-color: white;
+.arrow {
+  position: absolute;
+  width: 3vmin;
+  height: 3vmin;
+  background: transparent;
+  border-top: 1vmin solid white;
+  border-right: 1vmin solid white;
+  box-shadow: 0 0 0 lightgray;
+  transition: all 200ms ease;
 }
-.btn-outline-primary {
-  border-radius: 0px;
+.arrow.left {
+  transform: translate3d(0, -50%, 0) rotate(-135deg);
 }
-/* (메뉴, 지도보기, 후기)버튼 클릭했을 때 */
-.btn-check:active + .btn-outline-primary,
-.btn-check:checked + .btn-outline-primary,
-.btn-outline-primary.active,
-.btn-outline-primary.dropdown-toggle.show,
-.btn-outline-primary:active {
-  color: rgb(255, 194, 115);
-  background-color: white;
-  border-color: lightgray;
-  font-weight: bold;
-  border-bottom: 5px solid rgb(255, 205, 139);
-  box-shadow: none;
-  z-index: 0;
+.arrow.right {
+  transform: translate3d(0, -50%, 0) rotate(45deg);
 }
-.btn-outline-primary {
-  border-color: lightgray;
-  color: black;
+.arrow:hover {
+  border-color: orange;
+  box-shadow: 0.5vmin -0.5vmin 0 white;
 }
-/* 마우스커서가 올라갔을 때 */
-.btn-outline-primary:hover {
-  color: black;
-  background-color: white;
-  border-color: lightgray;
-  border: 2px solid lightgray;
+.arrow:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -60%) rotate(45deg);
+  width: 200%;
+  height: 200%;
 }
-.btn-outline-primary {
+.previewBottomTap {
+  width: 100%;
+  height: 10%;
+}
+.imageListContainer {
+  width: 400px;
+  margin: 20px;
+  height: 520px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.selectedImage {
+  border: 2px solid red;
+  transition: 0.5s;
+}
+.addImageListWrapper {
+  background: tan;
+  width: 360px;
+  padding: 5px;
+  height: 150px;
+  margin: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.addImageListWrapper input[type="file"] {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+.imageListWrapper {
+  background: tan;
+  width: 360px;
+  padding: 5px;
+  height: 150px;
+  margin: 2px;
+}
+.imageWrapper {
+  overflow: hidden;
+}
+.imageWrapper > img {
+  width: 360px;
+}
+.shopInfoContainer {
+  width: 100%;
+  margin: 50px 0 100px 0;
+  display: flex;
+  justify-content: center;
+}
+.infoWrap {
+  width: 80%;
+}
+.infoRow {
+  background: rgb(215, 237, 245);
+  min-height: 50px;
+  display: flex;
+  justify-content: center;
+  align-content: flex-start;
+  align-items: flex-start;
+}
+.infoRow > .left {
+  margin: 20px;
+  width: 100%;
+  text-align: end;
+  padding: 0 20px 0 20px;
+  font-family: BMHANNAPro;
+  font-weight: bolder;
+  font-size: 2em;
+  margin: 20px;
+  border-bottom: 4px solid orange;
+}
+.infoRow > .right {
+  margin: 20px;
+  width: 100%;
   padding: 10px;
+  font-family: BMHANNAPro;
+  font-weight: 400;
+  font-size: 1.2em;
 }
-.edit {
-  margin:20px;
-  font-size: 20px;
+.shopMapContainer {
+  width: 100%;
+  height: 800px;
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.addressContainer {
+  margin: 20px;
+  width: 100%;
+  padding: 10px;
+  font-family: BMHANNAPro;
+  font-weight: 400;
+  font-size: 1.2em;
+}
+#staticMap {
+  width: 80%;
+  height: 80%;
+  text-align: center;
+  border: 1px solid gray;
+}
+.editBtns {
+  font-size: 1.5em;
+  padding: 0.4em 1em 0.4em 1em;
+  font-weight: bolder;
+  background: #ffda77;
+  border: 2px solid #fd3a69;
+  color: black;
+  border-radius: 10px 10px 10px 0px;
+  margin: 20px;
+  transition: 0.2s;
+}
+.editBtns:hover {
+  background: orange;
+  color: white;
 }
 </style>

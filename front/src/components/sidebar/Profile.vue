@@ -12,6 +12,7 @@
     />
     <!-- 프로필 -->
     <div v-if="getNickname != 'unknown'">
+      <!-- 로그인 상태일 때 -->
       <div style="text-align: center">
         <div class="user m-2">
           <img
@@ -41,6 +42,7 @@
         </div>
       </div>
     </div>
+    <!-- 로그인 상태가 아닐 때 -->
     <div v-else>
       <div class="p-2">
         <span class="profileInfoA mb-1"> 보다 다양한 WAPOO를 즐기려면 </span>

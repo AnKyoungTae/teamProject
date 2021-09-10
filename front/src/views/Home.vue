@@ -24,7 +24,9 @@
           <!--메인 이름, 지도, 가게 리스트 -->
           <div class="container-fluid px-4">
             <!--메인 이름 WA POO -->
-            <h1 class="nearShopTitle">주변가게보기</h1>
+            <h1 class="nearShopTitle">
+              <p>주변가게보기</p>
+            </h1>
             <div class="row">
               <!--지도 -->
               <div class="col-xl-7">
@@ -148,6 +150,7 @@ export default {
   mounted() {
     this.showStoreList();
     this.runTyping();
+    window.scrollTo(0, 0);
   },
 };
 </script>
@@ -184,6 +187,7 @@ export default {
   color: white;
   font-weight: bolder;
   font-family: BMDOHYEON;
+  user-select: none;
 }
 
 .blink {
@@ -234,6 +238,7 @@ main {
   border-radius: 15px 15px 15px 0;
   -webkit-text-stroke: 0.2px white;
   font-family: BMDOHYEON;
+  user-select: none;
 }
 .shortCut:hover {
   cursor: pointer;
@@ -245,5 +250,13 @@ main {
   margin-bottom: 20px;
   color: #91afba;
   font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
 }
 </style>
