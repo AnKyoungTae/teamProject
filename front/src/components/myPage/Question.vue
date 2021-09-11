@@ -1,4 +1,7 @@
 <template>
+  <h3 class="manage-text" style="margin: 50px auto 10px; border-bottom: ">
+    질문내역
+  </h3>
   <div
     class="container"
     style="width: 800px; border-style: solid; border-width: 1px 1px 0px 1px"
@@ -37,9 +40,8 @@
       </div>
     </div>
   </div>
-
   <div
-    style="width: 800px; border-style: solid; border-width: 1px 1px 0px 1px"
+    style="padding: 20px; border-top: 1px solid #7c7c7c; max-width: 560px"
     v-else
   >
     글이 없습니다.
@@ -103,8 +105,10 @@ export default {
         .then((res) => {
           if (res.status === 200) {
             this.questions = res.data;
-            console.log(res.data);
-            this.questionToggle = true;
+            console.log(this.questions);
+            if (this.questions.length != 0) {
+              this.questionToggle = true;
+            }
           }
         })
         .catch((err) => {
