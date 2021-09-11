@@ -1,8 +1,8 @@
 <template>
-  <div style="margin-top: 50px;">
+  <div class="manage-text" style="margin: 50px">
     <h1 class="nearShopTitle">
-              <p>질문내역</p>
-            </h1>
+      <p>질문내역</p>
+    </h1>
   </div>
   <div
     class="container"
@@ -42,9 +42,8 @@
       </div>
     </div>
   </div>
-
   <div
-    style="width: 800px; border-style: solid; border-width: 1px 1px 0px 1px"
+    style="padding: 20px; border-top: 1px solid #7c7c7c; max-width: 560px"
     v-else
   >
     글이 없습니다.
@@ -108,8 +107,10 @@ export default {
         .then((res) => {
           if (res.status === 200) {
             this.questions = res.data;
-            console.log(res.data);
-            this.questionToggle = true;
+            console.log(this.questions);
+            if (this.questions.length != 0) {
+              this.questionToggle = true;
+            }
           }
         })
         .catch((err) => {
@@ -155,6 +156,7 @@ export default {
   user-select: none;
   display: flex;
   justify-content: end;
+  width: 85%;
 }
 .nearShopTitle > p {
   width: 30%;

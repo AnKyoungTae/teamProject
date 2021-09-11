@@ -1,8 +1,8 @@
 <template>
-  <div style="margin-top: 50px;">
+  <div style="margin-top: 50px">
     <h1 class="nearShopTitle">
-              <p>주문내역</p>
-            </h1>
+      <p>주문내역</p>
+    </h1>
   </div>
   <div style="width: 100%">
     <div class="manage-div">
@@ -49,26 +49,26 @@
                     </div>
                   </div>
                 </div>
-                <div style="text-align: right" >
-                  
-                  <button v-if="orderList.status == 'N'"
+                <div style="text-align: right">
+                  <button
+                    v-if="orderList.status == 'N'"
                     type="button"
-                    
-                    class="btn "
+                    class="btn"
                     style="font-size: 13px"
                   >
                     주문취소완료
                   </button>
 
-                  <button v-else-if="orderList.status == 'C'"
+                  <button
+                    v-else-if="orderList.status == 'C'"
                     type="button"
-                    
-                    class="btn "
+                    class="btn"
                     style="font-size: 13px"
                   >
                     주문취소중입니다
                   </button>
-                  <button v-else
+                  <button
+                    v-else
                     type="button"
                     @Click="orderDel(orderList.orderId)"
                     class="btn btn-outline-danger"
@@ -100,7 +100,6 @@ export default {
   },
   methods: {
     orderDel(orderId) {
-      
       http
         .post("/order/requestCancel", {
           orderId: orderId,
@@ -203,6 +202,7 @@ export default {
   user-select: none;
   display: flex;
   justify-content: end;
+  width: 80%;
 }
 .nearShopTitle > p {
   width: 30%;

@@ -1,110 +1,136 @@
 <template>
-  <div style="margin-top: 50px;">
+  <div style="margin-top: 50px" class="wrapper">
     <h1 class="nearShopTitle">
-              <p>내정보</p>
-            </h1>
+      <p>내정보</p>
+    </h1>
     <div v-if="correction == true">
       <div v-if="profile != null">
-  <div class="manage-div">
-    <div class="manage-div2">
-      <div class="profile-manage">
-        <div class="manage-box">
-          <strong>프로필</strong>
-          <p class="profile-comm">WHAT POO에서 등록한 프로필입니다.</p>
-          <a class="profile-img">
-            <div>
-              <div class="nicknamebox">
-                <div class="profile-imgdiv" style="margin-right: 10px;">
-                  <img
-                  :src='profile.profileUrl'
-                  style="position: relative"
-                  />
-                  
-                </div>
-                <span class="img-text">
-                  {{ profile.nickname }}
-                </span>
+        <div class="manage-div">
+          <div class="manage-div2">
+            <div class="profile-manage">
+              <div class="manage-box">
+                <strong>프로필</strong>
+                <p class="profile-comm">WHAT POO에서 등록한 프로필입니다.</p>
+                <a class="profile-img">
+                  <div>
+                    <div class="nicknamebox">
+                      <div class="profile-imgdiv" style="margin-right: 10px">
+                        <img
+                          :src="profile.profileUrl"
+                          style="position: relative"
+                        />
+                      </div>
+                      <span class="img-text">
+                        {{ profile.nickname }}
+                      </span>
+                    </div>
+                    <div class="filebox">
+                      <label for="ex_file">업로드</label>
+                      <input
+                        type="file"
+                        id="ex_file"
+                        ref="files"
+                        @change="changeImage"
+                      />
+                      <span
+                        class="m-2"
+                        v-if="profileImage != null"
+                        @click="updateIamge"
+                        >수정</span
+                      >
+                    </div>
+                  </div>
+                </a>
               </div>
-              <div class="filebox">
-                <label for="ex_file" >업로드</label>
-                <input type="file" id="ex_file" ref="files" @change="changeImage"/>
-                <span class="m-2" v-if="profileImage != null" @click="updateIamge">수정</span>
+              <hr style="padding: 0px" />
+              <div class="manage-box">
+                <strong>로그인정보</strong>
+                <p class="profile-comm">
+                  WHAT POO에서 로그인에 사용되는 정보입니다.
+                </p>
+                <a class="profile-img">
+                  <strong class="login-tit">아이디</strong>
+                  <span class="login-txt">{{ profile.loginId }}</span>
+                </a>
+                <hr style="padding: 0px" />
+
+                <a class="profile-img">
+                  <strong class="login-tit">이메일</strong>
+                  <span class="login-txt">{{ profile.email }}</span>
+                </a>
+                <hr style="padding: 0px" />
+
+                <a class="profile-img">
+                  <strong class="login-tit">이름</strong>
+                  <span class="login-txt">{{ profile.name }}</span>
+                </a>
+                <hr style="padding: 0px" />
+
+                <a class="profile-img">
+                  <strong class="login-tit">핸드폰번호</strong>
+                  <span class="login-txt">{{ profile.tel }}</span>
+                </a>
+                <hr style="padding: 0px" />
               </div>
             </div>
-          </a>
-        </div>
-        <hr style="padding: 0px;"/>
-        <div class="manage-box">
-          <strong>로그인정보</strong>
-          <p class="profile-comm">WHAT POO에서 로그인에 사용되는 정보입니다.</p>
-          <a class="profile-img">
-            <strong class="login-tit">아이디</strong>
-            <span class="login-txt">{{ profile.loginId }}</span>
-          </a>
-          <hr style="padding: 0px;"/>
-
-          <a class="profile-img">
-            <strong class="login-tit">이메일</strong>
-            <span class="login-txt">{{ profile.email }}</span>
-          </a>
-          <hr style="padding: 0px;"/>
-        
-          <a class="profile-img">
-            <strong class="login-tit">이름</strong>
-            <span class="login-txt">{{ profile.name }}</span>
-          </a>
-          <hr style="padding: 0px;"/>
-
-          <a class="profile-img">
-            <strong class="login-tit">핸드폰번호</strong>
-            <span class="login-txt">{{ profile.tel }}</span>
-          </a>
-          <hr style="padding: 0px;"/>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  </div>
 
       <div v-if="profile == null">
         <div>정말 탈퇴 하시겠습니까?</div>
-        <br>
+        <br />
         <div>탈퇴하려면 비밀번호가 필요합니다.</div>
-        <input class="m-5 " type="password" v-model="deletePassword" placeholder="비밀번호를 입력하세요" />
-      
+        <input
+          class="m-5"
+          type="password"
+          v-model="deletePassword"
+          placeholder="비밀번호를 입력하세요"
+        />
       </div>
-    
     </div>
     <div v-if="correction == false">
-        <EditProfile @trueEdit="edit" :message="profile"  ></EditProfile>
-      </div>
-</div>
+      <EditProfile @trueEdit="edit" :message="profile"></EditProfile>
+    </div>
+  </div>
 
   <div class="container" style="width: 800px">
-    
-
-    
-
     <div class="button" v-if="profileDelete == false">
       <div v-if="correction == true">
-        <button type="button"  @Click="edit(false)" class="btn btn-secondary">
+        <button type="button" @Click="edit(false)" class="btn btn-secondary">
           <span style="font-size: 20px">수정하기</span>
         </button>
       </div>
-      
-      <button v-if="correction == true" type="button" @Click="secession()" class="btn btn-secondary" style="margin-left: 50px;">
+
+      <button
+        v-if="correction == true"
+        type="button"
+        @Click="secession()"
+        class="btn btn-secondary"
+        style="margin-left: 50px"
+      >
         <span style="font-size: 20px">탈퇴하기</span>
       </button>
     </div>
     <!-- 탈퇴 버튼-->
     <div v-else>
-      <button  type="button" @click="reallyDelete" class="btn btn-secondary" style="position: fixed">
+      <button
+        type="button"
+        @click="reallyDelete"
+        class="btn btn-secondary"
+        style="position: fixed"
+      >
         <span style="font-size: 20px">탈퇴하기</span>
       </button>
 
-      <button type="button" @click="secession()" class="btn btn-secondary" style="margin-left: 150px;">
-          <span style="font-size: 20px">취소</span>
-        </button>
+      <button
+        type="button"
+        @click="secession()"
+        class="btn btn-secondary"
+        style="margin-left: 150px"
+      >
+        <span style="font-size: 20px">취소</span>
+      </button>
     </div>
   </div>
 </template>
@@ -117,114 +143,105 @@ export default {
   components: { EditProfile },
   data() {
     return {
-      correction : null,
-      profile: '',       //프로필 null이면 삭제화면
-      profileDelete: false,//삭제 토글
+      correction: null,
+      profile: "", //프로필 null이면 삭제화면
+      profileDelete: false, //삭제 토글
       deletePassword: "", //삭제시 필요한 비밀번호
-      profileImage:null
-
+      profileImage: null,
     };
   },
   methods: {
     //수정버튼
     edit(request) {
       this.correction = request;
-  
-      if(this.correction == false)
-      {
+
+      if (this.correction == false) {
         console.log("프로필 수정을 완료했습니다.");
-      }
-      else
-      {
-        this.profile = ''
-        this.upload()
+      } else {
+        this.profile = "";
+        this.upload();
         console.log("프로필 수정창으로 이동합니다.");
       }
     },
     // 탈퇴로직 작성
     secession() {
-      if(this.profileDelete == false){
-        this.profile = null
-        this.profileDelete = true
-      }else{
-        this.upload()
-        this.profileDelete = false
+      if (this.profileDelete == false) {
+        this.profile = null;
+        this.profileDelete = true;
+      } else {
+        this.upload();
+        this.profileDelete = false;
       }
-      
     },
     //삭제하기
-    reallyDelete(){
-      if( this.deletePassword == ""){
-        return alert("비밀번호를 입력하세요")
+    reallyDelete() {
+      if (this.deletePassword == "") {
+        return alert("비밀번호를 입력하세요");
       }
 
-      http.post("/profile/deleteprofile",  this.deletePassword)
-      .then(res => {
-        console.log(res)
-        if(res.data == "ok"){
-          alert("삭제되었습니다.")
-          this.$router.push({name: 'Home'})
-          
+      http.post("/profile/deleteprofile", this.deletePassword).then((res) => {
+        console.log(res);
+        if (res.data == "ok") {
+          alert("삭제되었습니다.");
+          this.$router.push({ name: "Home" });
+
           //위치
-        }else if(res.data == "no"){
-          alert("비번이 다릅니다.")
-        }else{
-          alert("서버문제입니다.")
+        } else if (res.data == "no") {
+          alert("비번이 다릅니다.");
+        } else {
+          alert("서버문제입니다.");
         }
-      })
+      });
     },
 
     //이미지 change
     changeImage() {
-      console.log(this.$refs)
-      console.log(this.$refs.files)
-       console.log(this.$refs.files.files[0])
-      this.profileImage = {   //실제 파일
-              file: this.$refs.files.files[0],
-      }
+      console.log(this.$refs);
+      console.log(this.$refs.files);
+      console.log(this.$refs.files.files[0]);
+      this.profileImage = {
+        //실제 파일
+        file: this.$refs.files.files[0],
+      };
       //이미지 프리뷰
-      this.profile.profileUrl = URL.createObjectURL(this.$refs.files.files[0])
+      this.profile.profileUrl = URL.createObjectURL(this.$refs.files.files[0]);
     },
     //이미지 DB수정
     updateIamge() {
-      let image = this.profileImage.file
+      let image = this.profileImage.file;
 
-      var form = new FormData()
-      form.append("image", image)
+      var form = new FormData();
+      form.append("image", image);
 
       http
-      .post("/profile/insertImage", form, {headers: {'Content-Type': 'multipart/form-data'},
-       
-      })
-      .then(res => {
-        console.log(res)
-        if(res.data == 'ok'){
-          return alert("변경되었습니다."), location.href="/myPage"
-        }else if(res.data == 'no'){
-          return alert("변경안됨")
-        }else{
-           return alert("문제")
-        }
-      })
+        .post("/profile/insertImage", form, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.data == "ok") {
+            return alert("변경되었습니다."), (location.href = "/myPage");
+          } else if (res.data == "no") {
+            return alert("변경안됨");
+          } else {
+            return alert("문제");
+          }
+        });
     },
     //프로필 가져오기
     upload() {
       http
         .get("/profile/myProfile")
         .then((response) => {
-          console.log(response.data)
+          console.log(response.data);
           if (response.status === 200) {
-            
             this.profile = response.data;
             if (this.profile != null) {
-              if (this.profile.status == "Y")
-              {
+              if (this.profile.status == "Y") {
                 success("프로필을 불러왔습니다.", this);
                 this.correction = true;
                 return;
-              }
-              else
-              {
+              } else {
                 error("정지된 아이디입니다.", this);
                 this.$store.dispatch("auth/logout");
               }
@@ -246,11 +263,11 @@ export default {
           // 만약 500 오류가 나면 어떻게 처리할것인가?
           this.$store.dispatch("auth/logout");
         });
-    }
+    },
   },
   mounted() {
-    this.upload()
-  }
+    this.upload();
+  },
 };
 </script>
 
@@ -286,9 +303,9 @@ export default {
   position: relative;
 }
 .profile-imgdiv img {
-  display: block; 
-  width: 80px; 
-  height: 80px; 
+  display: block;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
 }
 .img-text {
@@ -305,7 +322,7 @@ export default {
 }
 .login-txt {
   float: right;
-  color: #5A8C94;
+  color: #5a8c94;
   font-size: 20px;
 }
 .m-2 {
@@ -320,9 +337,6 @@ export default {
   height: 80px;
   text-align: right;
 }
-
-
-
 
 .profile-1 {
   font-weight: 400;
@@ -384,6 +398,7 @@ export default {
   user-select: none;
   display: flex;
   justify-content: end;
+  width: 90%;
 }
 .nearShopTitle > p {
   width: 30%;
@@ -397,5 +412,10 @@ export default {
     format("woff");
   font-weight: normal;
   font-style: normal;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 </style>

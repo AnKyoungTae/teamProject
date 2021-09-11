@@ -1,7 +1,5 @@
 <template>
-  <div style="height: 100vh;
-    overflow: auto;
-    overflow-x: hidden;">
+  <div style="height: 100vh; overflow: auto; overflow-x: hidden">
     <Sidebar />
     <transition name="page">
       <div class="App-box" :style="{ 'margin-left': sidebarWidth }">

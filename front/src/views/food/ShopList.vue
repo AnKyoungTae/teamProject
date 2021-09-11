@@ -77,8 +77,8 @@
           </div>
         </div>
       </div>
+      <hr />
     </div>
-    <hr />
   </div>
 </template>
 
@@ -267,5 +267,8 @@ nav {
   z-index: 1;
   background-color: white;
   box-shadow: 0px 5px 5px gray;
+}
+hr {
+  position: fixed;
 }
 </style>

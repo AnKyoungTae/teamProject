@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%; margin-top: 50px">
     <h1 class="nearShopTitle" style="margin-right: 50px">
-      <p>이벤트 페이지</p>
+      <p>이벤트</p>
     </h1>
   </div>
   <div class="container">
