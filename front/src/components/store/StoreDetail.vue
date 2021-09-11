@@ -40,6 +40,27 @@
             >
           </div>
         </div>
+        <div class="previewContainer" v-if="isEditMode == false">
+          <div class="previewWrapper">
+            <div class="previewWindow">
+              <img :src="selectedImage.path" />
+            </div>
+          </div>
+        </div>
+        <div class="previewContainer" v-if="isEditMode == false">
+          <div class="previewWrapper">
+            <div class="previewWindow">
+              <img :src="selectedImage.path" />
+            </div>
+          </div>
+        </div>
+        <div class="previewContainer" v-if="isEditMode == false">
+          <div class="previewWrapper">
+            <div class="previewWindow">
+              <img :src="selectedImage.path" />
+            </div>
+          </div>
+        </div>
         <!-- 수정하기모드일때 -->
         <div class="imageListContainer" v-if="isEditMode">
           <div class="addImageListWrapper">
@@ -70,6 +91,14 @@
       <div class="shopInfoContainer">
         <div class="infoWrap">
           <div class="infoRow">
+            <div class="left">상호명</div>
+            <div class="right">{{ storeInfo.name }}</div>
+          </div>
+          <div class="infoRow">
+            <div class="left">가게 종류</div>
+            <div class="right">{{ storeInfo.storeKind }}</div>
+          </div>
+          <div class="infoRow">
             <div class="left">등록일</div>
             <div class="right">{{ dateFormat(storeInfo.regDate) }}</div>
           </div>
@@ -84,6 +113,10 @@
           <div class="infoRow">
             <div class="left">가게 연락처</div>
             <div class="right">{{ storeInfo.phone }}</div>
+          </div>
+          <div class="infoRow">
+            <div class="left">가게 주소</div>
+            <div class="right">{{ storeInfo.address }} <br/> {{ storeInfo.addressDetail }}</div>
           </div>
           <div class="infoRow">
             <div class="left">가게 설명</div>
@@ -326,18 +359,18 @@ export default {
   padding: 0 0 0.2em 0;
 }
 .shopImagesContainer {
-  width: 100%;
-  margin: 5px;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  flex-flow: row;
-  height: 600px;
+    width: 95%;
+    margin: 5px;
+    display: flex;
+    flex-flow: row;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
 }
 .previewContainer {
-  width: 500px;
-  margin: 20px;
-  height: 500px;
+  width: 410px;
+  height: 410px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -345,13 +378,12 @@ export default {
 }
 .previewWrapper {
   background: tan;
-  width: 500px;
-  height: 400px;
+  height: 350px;
   display: flex;
 }
 .previewWindow {
   background: wheat;
-  width: 400px;
+  width: 350px;
 }
 .previewWindow > img {
   display: block;
@@ -401,7 +433,8 @@ export default {
 }
 .imageListContainer {
   width: 470px;
-  margin: 20px;
+  margin-left: 60px;
+  margin-top: 15px;
   height: 520px;
   display: flex;
   flex-flow: wrap;
@@ -453,7 +486,6 @@ export default {
 }
 .shopInfoContainer {
   width: 100%;
-  margin: 50px 0 100px 0;
   display: flex;
   justify-content: center;
 }
@@ -461,38 +493,36 @@ export default {
   width: 80%;
 }
 .infoRow {
-  background: rgb(215, 237, 245);
-  min-height: 50px;
-  display: flex;
-  justify-content: center;
-  align-content: flex-start;
-  align-items: flex-start;
+    background: rgb(215, 237, 245);
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 .infoRow > .left {
-  margin: 20px;
-  width: 100%;
-  text-align: end;
-  padding: 0 20px 0 20px;
-  font-family: BMHANNAPro;
-  font-weight: bolder;
-  font-size: 2em;
-  margin: 20px;
-  border-bottom: 4px solid orange;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: start;
+    padding: 0 20px 0 20px;
+    font-family: BMHANNAPro;
+    font-weight: bolder;
+    font-size: 25px;
+    border-bottom: 4px solid orange;
 }
 .infoRow > .right {
-  margin: 20px;
-  width: 100%;
-  padding: 10px;
-  font-family: BMHANNAPro;
-  font-weight: 400;
-  font-size: 1.2em;
+width: 100%;
+    font-family: BMHANNAPro;
+    font-weight: 400;
+    margin-bottom: 20px;
+    font-size: 1.2em;
 }
 .shopMapContainer {
   width: 100%;
   height: 800px;
   margin: 5px;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
 }
