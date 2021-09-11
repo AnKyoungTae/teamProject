@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="">
+  <div class="container">
     <notifications
       group="notifyApp"
       position="bottom right"
@@ -7,7 +7,7 @@
     />
     <div>
       <div class="container-fluid px-4">
-          <div class="row">
+        <div class="row">
           <nav style="width: 100%">
             <ul class="foodnum-ul" style="text-align: center">
               <li>
@@ -64,6 +64,7 @@
               </li>
             </ul>
           </nav>
+
           <div>
             <div class="row" id="listContainer">
               <foodlist :shopList="getShopList"></foodlist>
@@ -75,9 +76,9 @@
             </div>
           </div>
         </div>
+      </div>
     </div>
     <hr />
-  </div>
   </div>
 </template>
 
@@ -86,7 +87,6 @@ import foodlist from "../../components/food/foodlist.vue";
 import { mapGetters } from "vuex";
 import { error, success } from "@/api/notification";
 import http from "@/api/http";
-
 export default {
   data() {
     return {
@@ -128,11 +128,9 @@ export default {
         error("잘못된 요청입니다", this);
         return;
       }
-
       if (this.noMoreShop == true) {
         return;
       }
-
       const data = {
         lat: this.GET_LAT,
         lon: this.GET_LON,
@@ -233,7 +231,6 @@ export default {
   color: white;
 }
 /* nav tag */
-
 .foodnum-ul {
   font-style: bold;
   font-size: 18px;
@@ -241,7 +238,6 @@ export default {
   padding: 0px;
   padding-top: 16px;
 }
-
 .foodnum-ul li {
   display: inline;
   border-left: 1px solid #999;
@@ -250,16 +246,26 @@ export default {
 .foodnum-ul li:first-child {
   border-left: none;
 } /* 메뉴 분류중 제일 왼쪽의 "|"는 삭제  */
-
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
+}
 nav {
   position: sticky;
   top: 0px;
   z-index: 1;
   background-color: white;
   box-shadow: 0px 5px 5px gray;
-  overflow:auto;
-}
-hr {
-  position: fixed;
 }
 </style>
