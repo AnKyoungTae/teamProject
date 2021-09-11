@@ -1,5 +1,8 @@
 <template>
-  <div class="row wrapper m-4">
+  <div
+    class="row wrapper m-4"
+    :style="collapsed ? 'padding-left:100px' : 'width: 80vw;'"
+  >
     <div class="col-md-8 left">
       <!-- 채팅화면탭 -->
       <!-- 질문말풍선 -->
@@ -414,7 +417,7 @@ export default {
   height: 100vh;
   /* 전체 아키네이터의 최소크기설정 */
   min-width: 300px;
-  width: 80vw;
+  width: 90vw;
 }
 .left {
   /* 가운데 중심으로 왼쪽탭들 */
@@ -461,6 +464,7 @@ export default {
   position: relative;
   width: 100%;
   min-width: 320px;
+
   padding: 0.2em 1em;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -468,6 +472,7 @@ export default {
   display: flex;
   align-items: center;
   align-content: center;
+  left: 135px;
 }
 .question > span:after {
   content: "";
@@ -523,6 +528,7 @@ export default {
   justify-content: space-between;
   flex-flow: column;
   padding: 0em 1em;
+  transition: 0.2s;
 }
 .collapsedQuetionWidth {
   left: 135px;
@@ -567,6 +573,7 @@ export default {
   flex-wrap: wrap;
   flex-direction: row-reverse;
   opacity: 0.8;
+  transition: 0.2s;
 }
 .answer:hover .answerText,
 .answer:hover .questionText {

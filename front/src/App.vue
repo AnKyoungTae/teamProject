@@ -31,6 +31,7 @@ export default {
 html,
 body {
   background: white;
+  overflow-x: hidden;
 }
 Footer {
   background-color: #355f6e;

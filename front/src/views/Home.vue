@@ -148,9 +148,11 @@ export default {
     },
   },
   mounted() {
-    this.showStoreList();
-    this.runTyping();
-    window.scrollTo(0, 0);
+    this.$nextTick(() => {
+      this.showStoreList();
+      this.runTyping();
+      window.scrollTo(0, 0);
+    });
   },
 };
 </script>
@@ -208,7 +210,6 @@ export default {
   flex-direction: column;
 }
 main {
-  width: 90vw;
   margin: 50px;
 }
 .p2 {
