@@ -91,7 +91,13 @@
             v-bind:aria-labelledby="'flush-heading' + index"
             data-bs-parent="#accordionFlushExample"
           >
-            <div class="accordion-body">{{ notice.text }}</div>
+            <div class="accordion-body" style="text-align: left;">
+              <span style="color: gray; font-size: 14px;">고객센터 - QAN 제목</span>
+              <div>
+                <span>{{ notice.text }}</span>
+              </div>
+              <hr/>
+            </div>
           </div>
         </div>
       </div>
@@ -188,7 +194,7 @@ export default {
       title: [
         {
           title: "작성 글",
-          text: ["작성 글 내용", "1작성 글", "2 작성 글"]
+          text: "작성내용",
         },
         {
           title: "작성리뷰",

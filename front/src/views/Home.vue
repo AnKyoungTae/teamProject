@@ -206,7 +206,7 @@ export default {
   flex-direction: column;
 }
 main {
-  width: 90vw;
+  /* width: 90vw; */
   margin: 50px;
 }
 .p2 {

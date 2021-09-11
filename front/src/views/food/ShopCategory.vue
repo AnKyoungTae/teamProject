@@ -5,7 +5,6 @@
     </div>
   </div>
   <Footer></Footer>
-  
 </template>
 
 <script>
@@ -22,7 +21,6 @@ export default {
 
 <style scoped>
 .wrapper {
-  width: 90vw;
 }
 .food-list {
   padding: 5px;
