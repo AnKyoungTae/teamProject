@@ -1,10 +1,12 @@
 <template>
-  <div style="width: 100%;">
+  <div style="margin-top: 50px;">
+    <h1 class="nearShopTitle">
+              <p>내정보</p>
+            </h1>
     <div v-if="correction == true">
       <div v-if="profile != null">
   <div class="manage-div">
     <div class="manage-div2">
-      <h3 class="manage-text">내정보 관리</h3>
       <div class="profile-manage">
         <div class="manage-box">
           <strong>프로필</strong>
@@ -255,7 +257,7 @@ export default {
 <style scoped>
 .manage-div {
   max-width: 560px;
-  margin: 50px auto 0;
+  margin: 0 auto;
   display: block;
 }
 .manage-div2 {
@@ -264,10 +266,6 @@ export default {
 .manage-text {
   font-weight: normal;
   font-size: 30px;
-}
-.profile-manage {
-  margin-top: 10px;
-  border-top: 1px solid #7c7c7c;
 }
 .manage-box {
   margin-top: 40px;
@@ -375,5 +373,29 @@ export default {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
+}
+
+@font-face {
+  font-family: "BMDOHYEON";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>

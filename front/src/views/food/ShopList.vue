@@ -64,7 +64,6 @@
               </li>
             </ul>
           </nav>
-
           <div>
             <div class="row" id="listContainer">
               <foodlist :shopList="getShopList"></foodlist>
@@ -77,8 +76,8 @@
           </div>
         </div>
       </div>
+      <hr />
     </div>
-    <hr />
   </div>
 </template>
 
@@ -252,26 +251,14 @@ export default {
   border-left: none;
 } /* 메뉴 분류중 제일 왼쪽의 "|"는 삭제  */
 
-.nearShopTitle {
-  font-weight: bolder;
-  text-align: end;
-  margin-bottom: 20px;
-  color: #91afba;
-  font-family: BMDOHYEON;
-  user-select: none;
-  display: flex;
-  justify-content: end;
-}
-.nearShopTitle > p {
-  width: 30%;
-  border-bottom: 8px solid #ffda77;
-  padding-bottom: 10px;
-}
 nav {
   position: sticky;
   top: 0px;
   z-index: 1;
   background-color: white;
   box-shadow: 0px 5px 5px gray;
+}
+hr {
+  position: fixed;
 }
 </style>

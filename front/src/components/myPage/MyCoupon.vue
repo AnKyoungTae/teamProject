@@ -1,7 +1,11 @@
 <template>
+  <div style="margin-top: 50px;">
+    <h1 class="nearShopTitle">
+      <p>쿠폰함</p>
+    </h1>
+  </div>
   <div class="manage-div">
     <div class="manage-div2">
-      <h3 class="manage-text">쿠폰함</h3>
       <div class="profile-manage">
         <div class="row" style="overflow: auto" v-if="couponToggle == true">
           <!--쿠폰시작 -->
@@ -175,7 +179,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap");
 .manage-div {
   max-width: 560px;
-  margin: 50px auto 0;
+  margin: 0 auto;
   display: block;
 }
 .manage-div2 {
@@ -184,10 +188,6 @@ export default {
 .manage-text {
   font-weight: normal;
   font-size: 30px;
-}
-.profile-manage {
-  margin-top: 10px;
-  border-top: 1px solid #7c7c7c;
 }
 
 .coupon {
@@ -274,5 +274,29 @@ export default {
   margin-left: 90px;
   height: 50px;
   padding-top: 30px;
+}
+
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
+}
+
+@font-face {
+  font-family: "BMDOHYEON";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>

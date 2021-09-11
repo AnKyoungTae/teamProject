@@ -368,7 +368,6 @@ export default {
   align-items: center;
 }
 .arrow {
-  position: absolute;
   width: 3vmin;
   height: 3vmin;
   background: transparent;
