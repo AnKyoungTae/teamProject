@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" style="">
     <notifications
       group="notifyApp"
       position="bottom right"
@@ -7,7 +7,7 @@
     />
     <div>
       <div class="container-fluid px-4">
-        <div class="row">
+          <div class="row">
           <nav style="width: 100%">
             <ul class="foodnum-ul" style="text-align: center">
               <li>
@@ -64,7 +64,6 @@
               </li>
             </ul>
           </nav>
-
           <div>
             <div class="row" id="listContainer">
               <foodlist :shopList="getShopList"></foodlist>
@@ -76,9 +75,9 @@
             </div>
           </div>
         </div>
-      </div>
     </div>
     <hr />
+  </div>
   </div>
 </template>
 
@@ -252,26 +251,15 @@ export default {
   border-left: none;
 } /* 메뉴 분류중 제일 왼쪽의 "|"는 삭제  */
 
-.nearShopTitle {
-  font-weight: bolder;
-  text-align: end;
-  margin-bottom: 20px;
-  color: #91afba;
-  font-family: BMDOHYEON;
-  user-select: none;
-  display: flex;
-  justify-content: end;
-}
-.nearShopTitle > p {
-  width: 30%;
-  border-bottom: 8px solid #ffda77;
-  padding-bottom: 10px;
-}
 nav {
   position: sticky;
   top: 0px;
   z-index: 1;
   background-color: white;
   box-shadow: 0px 5px 5px gray;
+  overflow:auto;
+}
+hr {
+  position: fixed;
 }
 </style>

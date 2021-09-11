@@ -1,4 +1,9 @@
 <template>
+  <div style="margin-top: 50px;">
+    <h1 class="nearShopTitle">
+              <p>질문내역</p>
+            </h1>
+  </div>
   <div
     class="container"
     style="width: 800px; border-style: solid; border-width: 1px 1px 0px 1px"
@@ -139,5 +144,29 @@ export default {
   -webkit-box-orient: vertical;
   overflow: hidden;
   height: 80px;
+}
+
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
+}
+
+@font-face {
+  font-family: "BMDOHYEON";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>
