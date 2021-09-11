@@ -339,13 +339,150 @@ WHERE	articleId = #{articleId}
 
 </update>
 
+<!-- 관리자 question 수 -->
+<select id="deleteAdminQuestionCnt" resultType="int">
 
-
-
-
-
-
-
+	SELECT	COUNT(articleId)
+		FROM	`article`
+	WHERE	board_id >= 3
+	AND	board_id != 7
 	
+<choose>
+	<when test="status == 'ALL'">
+		AND	STATUS != 'N'
+	</when>
+	<otherwise>
+		AND	STATUS = 'H'
+	</otherwise>
+</choose>
+
+<if test="children == 'OFF'">
+	AND	children = 0
+</if>
+
+<if test="search != null">
+	AND	title LIKE CONCAT('%', #{search} ,'%')
+</if>
+
+</select>
+
+<!-- 관리자 question 리스트 -->
+<select id="deleteAdminQuestion" resultType="Article">
+	SELECT	articleId,
+	regDate,
+	updateDate,
+	title,
+	`BODY` AS 'body',
+	hit AS 'hit',
+	STATUS AS 'status',
+	children AS 'children',
+	parant_id AS 'parantId',
+	board_id AS 'boardId',
+	writer_id AS 'writerId',
+	SUSPEND AS 'suspend'
+	
+		FROM	`article`
+	WHERE	board_id >= 3
+	AND	board_id != 7
+
+<choose>
+	<when test="status == 'ALL'">
+		AND	STATUS != 'N'
+	</when>
+	<otherwise>
+		AND	STATUS = 'H'
+	</otherwise>
+</choose>
+
+
+<if test="children == 'OFF'">
+	AND	children = 0
+</if>
+
+<if test="search != null">
+	AND	title LIKE CONCAT('%', #{search} ,'%')
+</if>
+
+	ORDER BY regDate DESC
+
+
+LIMIT #{DBsStart}, #{listSize}
+</select>
+
+<!-- 신고된 게시판 -->
+<select id="suspendArticle" resultType="Article">
+SELECT	articleId,
+	regDate,
+	updateDate,
+	title,
+	`BODY` AS 'body',
+	hit AS 'hit',
+	STATUS AS 'status',
+	children AS 'children',
+	parant_id AS 'parantId',
+	board_id AS 'boardId',
+	writer_id AS 'writerId',
+	SUSPEND AS 'suspend'
+	FROM	`article`
+	
+WHERE	`STATUS` = 'S'
+</select>
+
+<select id="suspendComment" resultType="Comment">
+
+SELECT	commentId,
+	regDate,
+	updateDate,
+	STATUS,
+	BODY,
+	article_id AS 'articleId',
+	writer_id AS 'writerId',
+	SUSPEND
+	FROM	`comment`
+WHERE	`STATUS` = 'S'
+
+</select>
+
+<!-- 신고관리 article -->
+<update id="changeSuspendArticle">
+UPDATE	`article`
+	SET	STATUS = #{status}
+
+<if test='status == "Y"'>
+	,SUSPEND = NULL
+</if>
+	
+WHERE	articleId= #{tableId}
+</update>
+
+<!-- 신고관리 comment -->
+<select id="changeSuspendComment">
+UPDATE	`comment`
+	SET	STATUS = #{status}
+	
+<if test='status == "Y"'>
+	,SUSPEND = NULL
+</if>
+	
+WHERE	commentId= #{tableId}
+</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 </mapper>

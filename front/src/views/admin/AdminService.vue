@@ -8,6 +8,7 @@
     <Notice v-if="toggle == '공지사항'" ref="notice"></Notice>
     <FAQ v-else-if="toggle == 'FAQ'" ref="FAQ"></FAQ>
     <Question v-else-if="toggle == 'Q&A'" ref="QA"></Question>
+     <Suspend  v-else-if="toggle == '신고'"></Suspend>
   </div>
   
 </template>
@@ -16,9 +17,10 @@
 import Notice from"./write/Notice.vue"
 import FAQ from"./write/FAQ.vue"
 import Question from"./write/Question.vue"
+import Suspend from"./write/Suspend.vue"
 
 export default {
-  components:{ Notice, FAQ, Question},
+  components:{ Notice, FAQ, Question, Suspend},
   data() {
     return {
       toggle: "공지사항"
@@ -34,8 +36,6 @@ export default {
           this.$refs.FAQ.changeToggle('change')
         }else if(word == "Q&A"){
           this.$refs.QA.changeToggle('change')
-        }else if(word == "신고"){
-          console.log("신고");
         }
       }
         

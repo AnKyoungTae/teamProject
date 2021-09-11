@@ -311,8 +311,7 @@ export default {
     await this.downAllList(3, 1, 1);
     //페이징 리스트
   },
-  //버튼 클릭시
-  updated() {},
+  
 };
 </script>
 
