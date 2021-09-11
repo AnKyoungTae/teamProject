@@ -78,7 +78,7 @@ export default {
       authAPI
         .listDelete(params)
         .then((res) => {
-          if (res.data == 100) {
+          if (res.data == "ok") {
             this.questions = [];
             this.getMyArticle();
             alert("삭제되었습니다.");
@@ -88,7 +88,7 @@ export default {
             this.SET_MODAL_LOGIN(true);
           } else if (res.data == 250) {
             alert("작성자가 아닙니다.");
-          } else if (res.data == 300) {
+          } else if (res.data == "no") {
             alert("DB문제입니다");
           } else if (res.data == 400) {
             alert("글없습니다");

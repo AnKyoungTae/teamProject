@@ -372,8 +372,8 @@ public class ArticleController {
 		
 		long writerId = (long)(((Integer) params.get("writerId")).intValue());
 		
-		long articleId = Integer.parseInt((String) (params.get("articleId")));
-		
+		long articleId = (long)(((Integer) params.get("articleId")).intValue());
+		System.out.println("11111111111111111");
 		if(memberId != 0)
 		{
 			if(writerId == memberId)
@@ -586,6 +586,9 @@ public class ArticleController {
 	public ResponseEntity getMyList(@RequestParam long boardId, HttpServletRequest request)
 	{
 		long memberId = getMemberIdByRequest(request);
+		if(memberId == 0) {
+			return new ResponseEntity("no", HttpStatus.OK);
+		}
 		List<Article> list = articleService.myList(memberId, 3);
 		list.addAll(articleService.myList(memberId,4));
 		list.addAll(articleService.myList(memberId,5));
