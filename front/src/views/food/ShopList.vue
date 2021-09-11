@@ -5,9 +5,6 @@
       position="bottom right"
       style="margin-right: 30vh"
     />
-    <h1 class="nearShopTitle" style="margin-top: 50px">
-      <p>주변가게보기</p>
-    </h1>
     <div>
       <div class="container-fluid px-4">
         <div class="row">
@@ -238,14 +235,6 @@ export default {
 }
 /* nav tag */
 
-nav {
-  position: sticky;
-  top: 0px;
-  z-index: 1;
-  background-color: white;
-  box-shadow: 0px 5px 5px gray;
-}
-
 .foodnum-ul {
   font-style: bold;
   font-size: 18px;
@@ -263,13 +252,6 @@ nav {
   border-left: none;
 } /* 메뉴 분류중 제일 왼쪽의 "|"는 삭제  */
 
-.moreShop {
-  width: 120px;
-  height: 40px;
-  position: fixed;
-  bottom: 10%;
-  right: 10%;
-}
 .nearShopTitle {
   font-weight: bolder;
   text-align: end;
@@ -285,12 +267,11 @@ nav {
   border-bottom: 8px solid #ffda77;
   padding-bottom: 10px;
 }
-
-@font-face {
-  font-family: "BMDOHYEON";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
+nav {
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+  background-color: white;
+  box-shadow: 0px 5px 5px gray;
 }
 </style>
