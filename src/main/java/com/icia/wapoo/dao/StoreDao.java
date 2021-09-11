@@ -55,4 +55,7 @@ public interface StoreDao {
     Map<String, Object> selectFoodByFoodId(@Param("foodId") int foodId);
 
     int deleteStoreFile(@Param("fileId") Integer fildId);
+
+    void updateStoreDesc(@Param("storeId") Integer storeId,
+                         @Param("description") String description);
 }

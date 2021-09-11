@@ -220,4 +220,10 @@
         SET store_id = 1
         WHERE storefileId = #{fileId}
     </update>
+
+    <select id="updateStoreDesc">
+        UPDATE store
+        SET body = #{description}
+        WHERE storeId = #{storeId}
+    </select>
 </mapper>

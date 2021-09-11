@@ -1,13 +1,13 @@
 <template>
   <div class="outLineWrapper">
     <div class="wrapper">
-      <div class="btn" @click="toggleEdit">
+      <div class="btn">
         <div v-if="isEditMode">
-          <span class="editBtns">수정완료</span>
-          <span class="editBtns">취소하기</span>
+          <span class="editBtns" @click="modifyImages">수정완료</span>
+          <span class="editBtns" @click="rollback">취소하기</span>
         </div>
         <div v-else>
-          <span class="editBtns">수정하기</span>
+          <span class="editBtns" @click="toggleEdit">수정하기</span>
         </div>
       </div>
       <hr />
@@ -79,18 +79,18 @@
           </div>
           <div class="infoRow">
             <div class="left">현재 영업상태</div>
-            <div class="right" v-if="!isEditMode">{{ storeInfo.status }}</div>
-            <div class="right" v-else>드롭박스</div>
+            <div class="right">{{ statusFormat(storeInfo.status) }}</div>
           </div>
           <div class="infoRow">
             <div class="left">가게 연락처</div>
-            <div class="right" v-if="!isEditMode">{{ storeInfo.phone }}</div>
-            <div class="right" v-else>드롭박스</div>
+            <div class="right">{{ storeInfo.phone }}</div>
           </div>
           <div class="infoRow">
             <div class="left">가게 설명</div>
-            <div class="right" v-if="!isEditMode">{{ storeInfo.body }}</div>
-            <div class="right" v-else>드롭박스</div>
+            <div class="right" v-if="!isEditMode">{{ description }}</div>
+            <div class="right" v-else>
+              <textarea class="form-control" v-model="description"></textarea>
+            </div>
           </div>
         </div>
       </div>
@@ -102,7 +102,7 @@
       </div>
       <div class="shopMapContainer">
         <div class="addressContainer">
-          {{ storeInfo.address }}, {{ storeInfo.addressDetail }}
+          <span> {{ storeInfo.address }}, {{ storeInfo.addressDetail }} </span>
         </div>
         <div id="staticMap"></div>
       </div>
@@ -118,12 +118,13 @@ export default {
   components: {},
   data() {
     return {
-      dataLoaded: true, // 데이터로딩
+      dataLoaded: false, // 데이터로딩
       selectedImage: "",
       selectedIndex: 0, // 데이터 로드되면 selectImage 실행
       FileList: [],
       needDelFileIdList: [],
-      isEditMode: true,
+      isEditMode: false,
+      description: "",
     };
   },
   mounted() {
@@ -140,8 +141,11 @@ export default {
       if (this.storeFiles != null) {
         this.initFileList(this.storeFiles);
         this.selectImage(0);
-        this.initMap();
       }
+      this.initMap();
+      this.description = this.storeInfo.body;
+
+      this.dataLoaded = true;
     });
   },
   methods: {
@@ -181,6 +185,7 @@ export default {
       // 업로드 예정 취소라면,
       this.FileList.splice(this.selectedIndex, 1);
       this.selectedImage = "";
+      this.selectImage(0);
     },
     initFileList(storeFiles) {
       for (let i = 0; i < storeFiles.length; i++) {
@@ -192,6 +197,10 @@ export default {
       }
     },
     modifyImages() {
+      if (!confirm("이대로 수정하시겠습니까?")) {
+        return;
+      }
+      console.log("수정을 진행합니다.");
       const formData = new FormData();
       let addedFiles = this.FileList.filter((file) => {
         if (file.file.fileId) {
@@ -201,9 +210,8 @@ export default {
       }).map((data) => {
         return data.file;
       });
+      formData.append("description", this.description);
       formData.append("delFileIdList", this.needDelFileIdList);
-      console.log(addedFiles);
-      console.log(this.needDelFileIdList);
       addedFiles.forEach((file) => {
         formData.append("fileList", file);
       });
@@ -215,7 +223,11 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
+          if (res.status === 200) {
+            alert("수정이 완료되었습니다.");
+            // 다시 로그인시킨다.
+            this.isEditMode = false;
+          }
         });
     },
     initMap() {
@@ -244,6 +256,7 @@ export default {
       );
     },
     toggleEdit() {
+      console.log(this.isEditMode);
       this.isEditMode = !this.isEditMode;
     },
     dateFormat(date) {
@@ -253,6 +266,16 @@ export default {
         YMD[1] = YMD[1].split("")[1];
       }
       return YMD[0] + " 년 " + YMD[1] + " 월 " + YMD[2] + " 일 ";
+    },
+    statusFormat(status) {
+      return status == "Y" ? "정상 영업중" : "영업중이 아님";
+    },
+    rollback() {
+      this.description = this.storeInfo.body;
+      this.FileList = [];
+      this.initFileList(this.storeFiles);
+      this.selectImage(0);
+      this.toggleEdit();
     },
   },
   computed: {},
@@ -308,7 +331,7 @@ export default {
   display: flex;
   justify-content: center;
   overflow: hidden;
-  flex-flow: row wrap;
+  flex-flow: row;
   height: 600px;
 }
 .previewContainer {
@@ -378,13 +401,17 @@ export default {
   height: 10%;
 }
 .imageListContainer {
-  width: 400px;
+  width: 470px;
   margin: 20px;
   height: 520px;
   display: flex;
-  flex-direction: column;
+  flex-flow: wrap;
   overflow-y: auto;
   overflow-x: hidden;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+  background: lightgray;
 }
 .selectedImage {
   border: 2px solid red;
@@ -392,7 +419,7 @@ export default {
 }
 .addImageListWrapper {
   background: tan;
-  width: 360px;
+  width: 150px;
   padding: 5px;
   height: 150px;
   margin: 2px;
@@ -405,9 +432,15 @@ export default {
   height: 0;
   overflow: hidden;
 }
+.addImageListWrapper > label {
+  padding: 40px;
+}
+.addImageListWrapper > label:hover {
+  cursor: pointer;
+}
 .imageListWrapper {
   background: tan;
-  width: 360px;
+  width: 150px;
   padding: 5px;
   height: 150px;
   margin: 2px;
@@ -416,7 +449,8 @@ export default {
   overflow: hidden;
 }
 .imageWrapper > img {
-  width: 360px;
+  width: 140px;
+  height: 140px;
 }
 .shopInfoContainer {
   width: 100%;

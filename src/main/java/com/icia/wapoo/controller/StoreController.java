@@ -47,22 +47,27 @@ public class StoreController {
 
     @PostMapping(value = "/modifyStore")
     public ResponseEntity modifyStore(@RequestParam("delFileIdList") List<String> delFileIdList,
-            @RequestParam(value = "fileList", required = false) List<MultipartFile> fileList, MultipartHttpServletRequest request) {
+            @RequestParam(value = "fileList", required = false) List<MultipartFile> fileList, MultipartHttpServletRequest request,
+                                      @RequestParam(value = "description", required = false) String description) {
 
-//        if(delFileIdList.size() > 0) {
-//            // store_file의 status를 만들 수 없기 때문에, store_id 를 1로 돌린다. 1번상점은 테스트용. 비활성화.
-//            delFileIdList.forEach((fildId)->{
-//                storeService.removeFile(Integer.valueOf(fildId));
-//            });
-//        }
+        if(delFileIdList.size() > 0) {
+            // store_file의 status를 만들 수 없기 때문에, store_id 를 1로 돌린다. 1번상점은 테스트용. 비활성화.
+            delFileIdList.forEach((fildId)->{
+                storeService.removeFile(Integer.valueOf(fildId));
+            });
+        }
 
-        //상점 번호 따기.
-//        Store store = storeService.getStoreById(getMemberIdByRequest(request));
-//        Integer storeId = store.getStoreId();
-//        int result = 0;
-//        if(fileList !=null && fileList.size() > 0 ) {
-//            result = storeService.uploadStoreFile(storeId, fileList);
-//        }
+
+        // 상점 번호 따기.
+        Store store = storeService.getStoreById(getMemberIdByRequest(request));
+        Integer storeId = store.getStoreId();
+        int result = 0;
+        if(fileList !=null && fileList.size() > 0 ) {
+            result = storeService.uploadStoreFile(storeId, fileList);
+        }
+        if(description != null) {
+            storeService.modifyStore(storeId, description);
+        }
 
         return new ResponseEntity(HttpStatus.OK);
     }

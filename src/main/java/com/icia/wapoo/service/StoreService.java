@@ -163,4 +163,8 @@ public class StoreService {
     public int removeFile(Integer fildId) {
         return storeDao.deleteStoreFile(fildId);
     }
+
+    public void modifyStore(Integer storeId, String description) {
+        storeDao.updateStoreDesc(storeId, description);
+    }
 }
