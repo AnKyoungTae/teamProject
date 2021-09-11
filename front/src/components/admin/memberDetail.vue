@@ -8,7 +8,7 @@
       <span style="padding-left: 52%;">신고 횟수 &nbsp;:&nbsp; <!--{{신고당한 수}}--></span>
     </div>
   </div>
-  <div class="manage-div">
+  <div class="manage-div4">
     <div class="manage-div2">
       <div class="profile-manage">
         <div class="manage-box">
@@ -215,7 +215,7 @@ export default {
 </script>
 
 <style scoped>
-.manage-div {
+.manage-div4 {
   display: flex;
   justify-content: space-evenly;
 }

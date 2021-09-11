@@ -220,8 +220,6 @@ export default {
   font-size: 30px;
 }
 .profile-manage {
-  margin-top: 10px;
-  border-top: 1px solid #7c7c7c;
 }
 .manage-box {
   margin-top: 40px;

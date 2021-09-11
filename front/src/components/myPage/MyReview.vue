@@ -1,4 +1,9 @@
 <template>
+  <div style="margin-top: 50px;">
+    <h1 class="nearShopTitle">
+              <p>리뷰관리</p>
+            </h1>
+  </div>
   <div style="width: 100%">
     <div class="manage-div">
       <div class="manage-div2">
@@ -199,7 +204,7 @@ export default {
 
 .manage-div {
   max-width: 560px;
-  margin: 50px auto 0;
+  margin: 0 auto;
   display: block;
 }
 .manage-div2 {
@@ -374,5 +379,29 @@ export default {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
+}
+
+@font-face {
+  font-family: "BMDOHYEON";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>

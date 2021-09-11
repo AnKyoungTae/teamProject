@@ -63,6 +63,13 @@
               </td>
               <td class="td2" style="padding-left: 20px">KakaoPay</td>
             </tr>
+            <tr>
+              <td class="td1" style="color: gray; margin-top: 20px">
+                <i class="fas fa-store"></i>
+                <span class="i-text">가게설명</span>
+              </td>
+              <td class="td2" style="padding-left: 20px">{{shopInfo.storeInfo.body}}</td>
+            </tr>
           </table>
         </div>
       </div>
