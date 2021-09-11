@@ -9,7 +9,7 @@
 
 <script>
 import fooddiv from "../../components/food/fooddiv.vue";
-import Footer from "@/components/footer/Footer.vue";
+import Footer from "../../components/footer/Footer.vue";
 
 export default {
   components: {

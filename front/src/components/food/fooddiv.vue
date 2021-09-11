@@ -138,7 +138,8 @@ export default {
   border: 2px solid lightgray;
 }
 .food-div:hover {
-  border: 2px solid teal;
+  border: 3px solid #ffda77;
+  transition: 0.2s;
 }
 .first {
   width: 240px;

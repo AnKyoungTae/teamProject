@@ -669,7 +669,7 @@ export default {
 .cartContainer {
   display: flex;
   justify-content: center;
-  /* width: 90vw; */
+  width: 90vw;
 }
 .orderText {
   background-color: lightgray;

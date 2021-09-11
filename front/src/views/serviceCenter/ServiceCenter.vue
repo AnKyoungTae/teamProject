@@ -73,7 +73,7 @@ export default {
   text-underline-position: under;
 }
 .service-center {
-  /* width: 90vw; */
+  width: 90vw;
 }
 .wrapper {
   display: flex;

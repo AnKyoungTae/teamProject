@@ -1,6 +1,6 @@
 <template>
   <div class="emptyspace"></div>
-  <div class="footer">
+  <div class="footer" :style="{ 'margin-left': sidebarWidth }">
     <div class="wapoo-wrap">
       <div class="wapoo-logo" style="width:25%">
         <div style="margin-top: 30px;">
@@ -43,10 +43,7 @@
 
 <script>
 import { sidebarWidth } from "@/components/sidebar/state";
-
 export default {
-  components: {
-  },
   setup() {
     return { sidebarWidth };
   },
@@ -63,6 +60,7 @@ export default {
   position: absolute;
   background-color: #355f6e;
   bottom: 0%;
+  transition: 0.2s;
 }
 .wapoo-wrap {
   position: relative;
@@ -128,5 +126,14 @@ span {
 }
 .emptyspace {
   height: 200px;
+}
+.footer {
+  padding-bottom: 20px;
+  color: #91afba;
+  overflow: hidden;
+  width: 100%;
+  background-color: #355f6e;
+  bottom: 0%;
+  transition: 0.2s;
 }
 </style>

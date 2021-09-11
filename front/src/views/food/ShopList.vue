@@ -113,10 +113,12 @@ export default {
     } else {
       this.options = keyword;
     }
-    this.initIntersectionObserver();
+    this.setOptAndrequest(this.options);
+    console.log("마운트 발동");
   },
   methods: {
     async requestShopList() {
+      console.log("요청전 : " + this.shopList.length);
       this.dataLoaded = false;
       if (!this.GET_LAT || !this.GET_LON) {
         error("위치정보를 확인할수 없습니다. 다시 시도해주세요.", this);
@@ -162,12 +164,21 @@ export default {
           this.noMoreShop = true;
           success("더 이상 불러올 가게 정보가 없습니다", this);
         });
+      console.log("요청후 : " + this.shopList.length);
     },
     initIntersectionObserver() {
+      console.log("initIntersectionObserver");
+      if (this.io == null) {
+        console.log("널임");
+      } else {
+        console.log("널이 아님");
+      }
       this.io = new IntersectionObserver(
         async ([entry], observer) => {
+          console.log("IntersectionObserver");
           if (entry.isIntersecting) {
             observer.unobserve(entry.target);
+            console.log("옵저버");
             await this.requestShopList();
             observer.observe(entry.target);
           }
@@ -180,6 +191,8 @@ export default {
       this.io.observe(this.$refs.scrollObserver);
     },
     setOptAndrequest(option) {
+      console.log("setOptAndrequest");
+      window.scrollTo(0, 0);
       this.io = null;
       if (option != null) {
         this.dataLoaded = false;
@@ -194,6 +207,7 @@ export default {
       //   func();
       // }, 500);
       this.$nextTick(function () {
+        console.log("넥스트틱");
         func();
       });
     },
