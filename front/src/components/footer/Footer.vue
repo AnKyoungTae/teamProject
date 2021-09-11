@@ -1,6 +1,6 @@
 <template>
   <div class="emptyspace"></div>
-  <div class="footer">
+  <div class="footer" :style="{ 'margin-left': sidebarWidth }">
     <div class="wapoo-wrap">
       <div class="wapoo-logo">
         <div>
@@ -48,6 +48,15 @@
   </div>
 </template>
 
+<script>
+import { sidebarWidth } from "@/components/sidebar/state";
+export default {
+  setup() {
+    return { sidebarWidth };
+  },
+};
+</script>
+
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap");
 .footer {
@@ -57,6 +66,7 @@
   width: 100%;
   background-color: #355f6e;
   bottom: 0%;
+  transition: 0.2s;
 }
 .wapoo-wrap {
   position: relative;
