@@ -1,8 +1,9 @@
 <template>
-  <div class="food-list">
-    <fooddiv></fooddiv>
+  <div class="wrapper">
+    <div class="food-list">
+      <fooddiv></fooddiv>
+    </div>
   </div>
-  <Footer></Footer>
 </template>
 
 <script>
@@ -12,12 +13,14 @@ import Footer from "@/components/footer/Footer.vue";
 export default {
   components: {
     fooddiv,
-    Footer,
   },
 };
 </script>
 
 <style scoped>
+.wrapper {
+  width: 90vw;
+}
 .food-list {
   padding: 5px;
   max-width: 1200px;

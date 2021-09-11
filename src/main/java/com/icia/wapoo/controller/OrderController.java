@@ -164,7 +164,7 @@ public class OrderController {
     	{
     		if(orderService.deleteAllOrder(orderId) > 0)
     		{
-    			return new ResponseEntity("ok", HttpStatus.OK);
+    			return new ResponseEntity("ok", HttpStatus.OK); //orderService.deleteAllOrder(orderId)
     		}
     	}
     	

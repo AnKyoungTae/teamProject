@@ -126,5 +126,12 @@ public class EventController {
         List<Map<String, Object>> foodList = storeService.getAllFood(store.getStoreId());
         return new ResponseEntity(foodList, HttpStatus.OK);
     }
+    
+    
+    
+    
+    
+    
+    
 
 }

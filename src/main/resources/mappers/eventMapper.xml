@@ -31,9 +31,70 @@
     <select id="selectEventListCount" resultType="int">
         SELECT COUNT(*) AS result
         FROM event
-        AND e.`status` != 'S'
+        WHERE 1
         <if test="!option.equals('ALL')">
-            WHERE status = #{option}
+            AND `status` = #{option}
         </if>
+        AND `status` != 'S'
     </select>
+    
+    <!--  -->
+    <select id="adminEvent" resultType="AdminEvent">
+    SELECT	@rowNum := @rowNum + 1 AS 'num',
+			DATE_FORMAT(a.regDate, '%Y-%m-%d') AS 'regDate',
+			DATE_FORMAT(a.dueDate, '%Y-%m-%d') AS 'dueDate',
+			a.couponNumber AS 'couponNumber',
+			a.couponName AS 'couponName',
+			a.status AS 'status',
+			a.couponPrice AS 'couponPrice',
+			a.discountRate AS 'discountRate',
+			a.eventId AS 'eventId'
+					
+			FROM (SELECT	@rowNum := #{currentPage}) tmp, (SELECT	
+					b.eventId,
+					b.regDate,
+					b.dueDate,
+					a.couponNumber,
+					a.couponName,
+					b.status,
+					a.couponPrice,
+					a.discountRate
+					
+					
+					
+					FROM `coupon` a, `event` b
+				WHERE	a.event_id = b.eventId
+		 <if test="!option.equals('ALL')">
+				AND	b.status = #{option}
+		</if>
+				
+				) a
+	LIMIT	#{currentPage}, #{listPerPage}
+    
+    </select>
+    
+    <update id="updateEventStatus">
+		
+		UPDATE `event`
+		SET STATUS = #{status}
+		WHERE eventId = #{eventId}
+
+    </update>
+    
+    <select id="adminEventcount" resultType="int">
+    SELECT	
+		COUNT(*) AS 'result'
+		
+		
+		FROM `coupon` a, `event` b
+	WHERE	a.event_id = b.eventId
+
+<if test="!option.equals('ALL')">
+		AND	b.status = #{option}
+</if>
+	
+    </select>
+    
+    
+    
 </mapper>

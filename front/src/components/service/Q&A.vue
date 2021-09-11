@@ -48,6 +48,7 @@
             <th>공개 여부</th>
           </tr>
           <tr
+            class="listRow"
             style="cursor: pointer"
             v-for="(qn, index) in this.queAn"
             :key="index"
@@ -88,8 +89,9 @@
       <!-- 순서 버튼 -->
       <nav
         aria-label="Page navigation example "
-        class="mt-5 mb-5 position-relative .center-block"
+        class="mt-5 position-relative .center-block"
         v-if="myCount"
+        style="margin: 0px; margin-bottom: 100px"
       >
         <ul class="pagination position-absolute" style="left: 30vw">
           <!-- 이전 순서 버튼 -->
@@ -191,7 +193,6 @@ export default {
         });
     },
     listPage(articleId) {
-
       //페이지 이동
       let params = {
         articleId: articleId,
@@ -245,15 +246,12 @@ export default {
           this.queAn = res.data.list.reverse();
           this.pageList = [];
           this.pageLists(res.data.paging.startPage, res.data.paging.endPage);
-          
+
           //리스트 번호처리
-          let num = Math.abs(res.data.paging.total -((page - 1) * 10))
-          
-          
-          for(let i = 0 ;i < this.queAn.length ;i++){
-            
-              this.queAn[i].nickname = num--
-              
+          let num = Math.abs(res.data.paging.total - (page - 1) * 10);
+
+          for (let i = 0; i < this.queAn.length; i++) {
+            this.queAn[i].nickname = num--;
           }
         });
     },
@@ -288,15 +286,12 @@ export default {
           this.queAn = res.data.list.reverse();
           this.pageList = [];
           this.pageLists(res.data.paging.startPage, res.data.paging.endPage);
-          
+
           //리스트 번호처리
-          let num = Math.abs(res.data.paging.total -((page - 1) * 10))
-          
-          
-          for(let i = 0 ;i < this.queAn.length ;i++){
-            
-              this.queAn[i].nickname = num--
-              
+          let num = Math.abs(res.data.paging.total - (page - 1) * 10);
+
+          for (let i = 0; i < this.queAn.length; i++) {
+            this.queAn[i].nickname = num--;
           }
         })
         .catch((err) => {
@@ -332,5 +327,10 @@ export default {
 button {
   width: 100px;
   float: right;
+}
+.listRow:hover {
+  background: lightblue;
+  cursor: pointer;
+  transition: 0.2s;
 }
 </style>

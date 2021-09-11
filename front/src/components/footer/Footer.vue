@@ -1,4 +1,5 @@
 <template>
+  <div class="emptyspace"></div>
   <div class="footer">
     <div class="wapoo-wrap">
       <div class="wapoo-logo">
@@ -55,7 +56,7 @@
   overflow: hidden;
   width: 100%;
   background-color: #355f6e;
-  height: 20vh;
+  bottom: 0%;
 }
 .wapoo-wrap {
   position: relative;
@@ -63,6 +64,7 @@
   margin: 10px auto 0 auto;
   padding-left: 100px;
   padding-right: 100px;
+  background-color: #355f6e;
 }
 .wapoo-info1 {
   float: left;
@@ -125,5 +127,8 @@
 }
 span {
   cursor: pointer;
+}
+.emptyspace {
+  height: 200px;
 }
 </style>

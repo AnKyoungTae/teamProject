@@ -98,7 +98,7 @@ export default {
 }
 .list-group-item:hover {
   cursor: pointer;
-  background-color: #E85349;
+  background-color: #91afba;
 }
 
 .row-cols-2 {

@@ -1,6 +1,7 @@
 package com.icia.wapoo.dao;
 
 
+import com.icia.wapoo.model.AdminEvent;
 import com.icia.wapoo.model.Coupon;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -25,4 +26,13 @@ public interface EventDao {
     int selectEventListCount(@Param("option") String option);
 
     Coupon selectCouponByEventId(@Param("eventId") Integer eventId);
+    
+    //이벤트 가져오기
+    List<AdminEvent> adminEvent(int listPerPage, int currentPage, String option);
+    
+    //이벤트 수정
+    int updateEventStatus(int eventId, String status);
+    
+    
+    int adminEventcount(@Param("option") String option);
 }

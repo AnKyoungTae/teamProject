@@ -1,6 +1,7 @@
 package com.icia.wapoo.controller;
 
 import com.icia.wapoo.jwt.service.JwtService;
+import com.icia.wapoo.model.AdminEvent;
 import com.icia.wapoo.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,4 +51,56 @@ public class AdminController {
         adminService.updateStoreStatus(storeId, status);
         return new ResponseEntity(HttpStatus.OK);
     }
+    
+    @PostMapping("/adminEvent")
+    public ResponseEntity adminEvent(@RequestBody Map<String, Object> data)
+    {
+    	int listPerPage = ((Integer) data.get("listPerPage")).intValue();
+        int currentPage = ((Integer) data.get("currentPage")).intValue();
+        String option = (String) data.get("statusOption");
+        
+        if(currentPage != 1)
+        {
+        	System.out.println("currentPage :  "+ currentPage);
+        	currentPage = 1 + listPerPage * (currentPage-1);
+        }
+        
+        
+        List<AdminEvent> list = adminService.adminEvent(listPerPage, currentPage, option);
+        
+      
+        
+       return new ResponseEntity(list, HttpStatus.OK);
+    }
+    
+    //합계
+    @GetMapping("/adminEventcount")
+    public ResponseEntity adminEventcount(@RequestParam("option") String option)
+    {
+    	
+    	int count = adminService.adminEventcount(option);
+    	
+    	
+    	System.out.println("count:  "+ count);
+    	return new ResponseEntity(count, HttpStatus.OK);
+    }
+    
+    @PostMapping("/updateEventStatus")
+    public ResponseEntity updateEventStatus(@RequestBody Map<String, Object> data)
+    {
+    	int eventId = ((Integer) data.get("eventId")).intValue();
+        String status = (String) data.get("status");
+        if(status == null || eventId < 1){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        
+        if(adminService.updateEventStatus(eventId, status) > 0)
+        {
+        	
+        	return new ResponseEntity("ok",HttpStatus.OK);
+        }
+        
+    	return new ResponseEntity("no",HttpStatus.OK);
+    }
+    
 }

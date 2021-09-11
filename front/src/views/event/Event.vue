@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="width: 1000px">
+  <div class="container">
     <div class="m-4">
       <h1>이벤트 페이지</h1>
       <hr />
@@ -187,7 +187,6 @@ export default {
         .post("/event/getEventList", data)
         .then((response) => {
           if (response.status === 200) {
-            console.log(response.data);
             this.eventList = response.data;
             this.currentPage = request;
             console.log("현재페이지 : " + this.currentPage);
@@ -224,6 +223,10 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  width: 1000px;
+  margin-left: 200px;
+}
 .available-link {
   cursor: pointer;
 }

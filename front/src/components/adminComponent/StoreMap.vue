@@ -47,13 +47,15 @@ export default {
 
 <style scoped>
 #staticMap {
-  width: 100%;
+  width: 80%;
   height: 100%;
   text-align: center;
+  border: 1px solid #fd3a69;
 }
 .gray {
-  background-color: gray;
-  height: 20rem;
-  border: 2px solid gray;
+  height: 40rem;
+  display: flex;
+  justify-content: center;
+  margin: 1em;
 }
 </style>

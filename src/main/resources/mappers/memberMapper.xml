@@ -11,7 +11,9 @@
 
     <insert id="insertMember" useGeneratedKeys="true" keyProperty="memberId" parameterType="Member">
         INSERT INTO `member`
-        SET `status` = 'Y',
+		SET `status` = 'Y',
+
+        
         `name` = #{name},
         phone = #{phone},
         email = #{email},
