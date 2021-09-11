@@ -6,6 +6,7 @@
         <router-view />
       </div>
     </transition>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -17,6 +18,7 @@ import Footer from "@/components/footer/Footer";
 export default {
   components: {
     Sidebar,
+    Footer,
   },
   setup() {
     return { sidebarWidth };
@@ -29,6 +31,7 @@ export default {
 html,
 body {
   background: white;
+  overflow-x:hidden;
 }
 Footer {
   background-color: #355f6e;

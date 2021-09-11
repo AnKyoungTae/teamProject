@@ -1,7 +1,11 @@
 <template>
+  <div style="width: 100%; margin-top: 50px;">
+    <h1 class="nearShopTitle" style="margin-right: 50px;">
+              <p>주문상세정보페이지</p>
+            </h1>
+  </div>
   <div class="container" style="width: 1000px;">
     <div class="m-4">
-      <h1>주문상세정보페이지</h1>
       <p>주문번호 : {{ orderId }}</p>
       <div v-if="loaded == false">
         <div class="spinner-border" role="status">
@@ -209,5 +213,28 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
+}
+
+@font-face {
+  font-family: "BMDOHYEON";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>

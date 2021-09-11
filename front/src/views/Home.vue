@@ -66,7 +66,6 @@
       </div>
     </div>
   </div>
-  <Footer></Footer>
 </template>
 
 <script>
@@ -87,7 +86,6 @@ export default {
   components: {
     Kakao,
     ShopList,
-    Footer,
   },
   computed: {
     ...mapGetters({ LAT: "GET_LAT", LON: "GET_LON", OBS: "GET_OBSERVED" }),
@@ -210,7 +208,7 @@ export default {
   flex-direction: column;
 }
 main {
-  width: 90vw;
+  /* width: 90vw; */
   margin: 50px;
 }
 .p2 {
