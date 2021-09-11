@@ -1,52 +1,50 @@
 <template>
-<center v-if="dataLoaded == true">
-  <table class="storeDetailList">
-    <tr>
-      <th>가게 아이디</th>
-      <td>{{data.storeId}}</td>
-    </tr>
-    <tr>
-      <th>가게 이름</th>
-      <td>{{data.storename}}</td>
-    </tr>
-    <tr>
-      <th>판매자</th>
-      <td>{{data.membername}}</td>
-    </tr>
-    <tr>
-      <th>가게 상태</th>
-      <td>{{data.status}}</td>
-    </tr>
-    <tr>
-      <th>가게 등록일</th>
-      <td>{{parsingDate(data.regDate)}}</td>
-    </tr>
-    <tr>
-      <th>가게 주소</th>
-      <td>{{data.address}}</td>
-    </tr>
-  </table>
-  <div v-if="foodList != null">
-    <div v-for="list in foodList" :key="list">
-      <div class="card" style="width: 18rem;">
-        <img :src="list.fileUrl" class="card-img-top" alt="..." />
-        <div class="card-body">
-          <p class="card-text">
-              가격: {{list.price}},
-              이름: {{list.name}},
-              설명: {{list.description}}
-              상태: {{list.status}}
-          </p>
+  <center v-if="dataLoaded == true">
+    <table class="storeDetailList">
+      <tr>
+        <th>가게 아이디</th>
+        <td>{{ data.storeId }}</td>
+      </tr>
+      <tr>
+        <th>가게 이름</th>
+        <td>{{ data.storename }}</td>
+      </tr>
+      <tr>
+        <th>판매자</th>
+        <td>{{ data.membername }}</td>
+      </tr>
+      <tr>
+        <th>가게 상태</th>
+        <td>{{ data.status }}</td>
+      </tr>
+      <tr>
+        <th>가게 등록일</th>
+        <td>{{ parsingDate(data.regDate) }}</td>
+      </tr>
+      <tr>
+        <th>가게 주소</th>
+        <td>{{ data.address }}</td>
+      </tr>
+    </table>
+    <div v-if="foodList != null">
+      <div v-for="list in foodList" :key="list">
+        <div class="card" style="width: 18rem">
+          <img :src="list.fileUrl" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <p class="card-text">
+              가격: {{ list.price }}, 이름: {{ list.name }}, 설명:
+              {{ list.description }} 상태: {{ list.status }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  {{foodList}}
-  <!--
+    {{ foodList }}
+    <!--
   {{storeFiles}}
   {{shopInfo}}
   {{storeInfo}}-->
-</center>
+  </center>
 </template>
 
 <script>
@@ -65,10 +63,10 @@ export default {
       storeId: null,
       foodList: [],
       storeInfo: null,
-    }
+    };
   },
   created() {
-    this.storeId = this.data.storeId
+    this.storeId = this.data.storeId;
   },
   computed: {
     ...mapGetters({
@@ -82,7 +80,7 @@ export default {
     }),
     parsingDate(date) {
       // 배열로 들어온다고 가정한다.
-      return date[0] +" 년 "+ date[1] + " 월 " + date[2] + " 일 "
+      return date[0] + " 년 " + date[1] + " 월 " + date[2] + " 일 ";
     },
     getStoreFiles(storeId) {
       http
@@ -105,7 +103,6 @@ export default {
           // this.$store.dispatch("auth/logout");
           // this.$router.push({ path: "/" });
         });
-      
     },
     getStoreInfo(storeId) {
       http
@@ -128,14 +125,14 @@ export default {
   },
   mounted() {
     this.getStoreInfo(this.storeId);
-  }
+  },
 };
 </script>
 
 <style>
 .storeDetailList {
-  width:600px;
-  font-size:25px;
+  width: 600px;
+  font-size: 25px;
   vertical-align: top;
   text-align: left;
   align-content: center;
@@ -145,11 +142,11 @@ export default {
 }
 .storeDetailList tr td {
   width: 480px;
-  word-break:break-all;
-  padding-left:50px;
+  word-break: break-all;
+  padding-left: 50px;
 }
 .storeDetailList tr th,
 .storeDetailList tr td {
-  padding-bottom:15px;
+  padding-bottom: 15px;
 }
 </style>

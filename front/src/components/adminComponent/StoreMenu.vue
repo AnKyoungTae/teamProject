@@ -75,5 +75,6 @@ li {
   margin-bottom: 20px;
   border-bottom: 8px solid orange;
   font-size: 2em;
+  user-select: none;
 }
 </style>
