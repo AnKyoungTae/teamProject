@@ -18,7 +18,7 @@ import Footer from "@/components/footer/Footer";
 export default {
   components: {
     Sidebar,
-    Footer
+    Footer,
   },
   setup() {
     return { sidebarWidth };

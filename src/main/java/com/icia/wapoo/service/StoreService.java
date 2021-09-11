@@ -41,34 +41,32 @@ public class StoreService {
     @Transactional
     public int registerStore(Store store, List<MultipartFile> files){
         int result = storeDao.insertStore(store);
-        System.out.println("StoreService.registerStore : 적용된 게시물수 => " + result);
-        System.out.println("StoreService.registerStore : 새로생긴 가게 storeId => " + store.getStoreId());
         if ( result > 0) {
-
-            for( MultipartFile file : files) {
-
-                String fileURL = null;
-                try {
-                    fileURL = s3Service.upload(file, "store_"+store.getStoreId());
-                    System.out.println("써비스 쓰로우 됨");
-                } catch (IOException e) {
-                    throw new RuntimeException("S3 업로드중 오류발생!");
-                }
-                ImageFile storeImageFile = new ImageFile();
-                storeImageFile.setRef_id(store.getStoreId());
-                storeImageFile.setFilesize(file.getSize());
-                storeImageFile.setFiletype(file.getContentType());
-                storeImageFile.setName(fileURL);
-                storeImageFile.setOrgName(file.getName());
-                storeDao.insertStoreFile(storeImageFile);
-                System.out.println("써비스 쓰로우지나감");
-            }
-            System.out.println("써비스 쓰로우지나감222");
-            return result;
-
+            return this.uploadStoreFile(store.getStoreId(), files);
         } else {
             throw new RuntimeException("가게 정보 삽입중에 오류발생!");
         }
+    }
+
+    public int uploadStoreFile(int storeId, List<MultipartFile> files) {
+        int result = 0;
+        for( MultipartFile file : files) {
+
+            String fileURL = null;
+            try {
+                fileURL = s3Service.upload(file, "store_"+storeId);
+            } catch (IOException e) {
+                throw new RuntimeException("S3 업로드중 오류발생!");
+            }
+            ImageFile storeImageFile = new ImageFile();
+            storeImageFile.setRef_id(storeId);
+            storeImageFile.setFilesize(file.getSize());
+            storeImageFile.setFiletype(file.getContentType());
+            storeImageFile.setName(fileURL);
+            storeImageFile.setOrgName(file.getName());
+            storeDao.insertStoreFile(storeImageFile);
+        }
+        return result;
     }
 
     public List<Map<String, Object>> getStoreList(int listPerPage, int requestPage, String option) {
@@ -160,5 +158,13 @@ public class StoreService {
         String status = (String) formData.get("status");
         int foodId = ((Integer)formData.get("foodId")).intValue();
         return storeDao.updateFood(foodname,desc,status,foodId);
+    }
+
+    public int removeFile(Integer fildId) {
+        return storeDao.deleteStoreFile(fildId);
+    }
+
+    public void modifyStore(Integer storeId, String description) {
+        storeDao.updateStoreDesc(storeId, description);
     }
 }
