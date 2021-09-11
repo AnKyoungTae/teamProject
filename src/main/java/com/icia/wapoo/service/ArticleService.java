@@ -448,12 +448,106 @@ public class ArticleService {
 		return count;
 	}
 	
+	//관리자 deleteAdminQuestion 수
+	public int deleteAdminQuestionCnt(String status,String children, String search)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = articleDao.deleteAdminQuestionCnt(status ,children, search);
+		}
+		catch(Exception e)
+		{
+			System.out.println("deleteAdminQuestionCnt 오류: " + e);
+		}
+		
+		return count;
+	}
 	
+	//관리자 deleteAdminQuestion 수
+	public List<Article> deleteAdminQuestion(String status, String children, String search , int DBsStart, int listSize)
+	{
+		List<Article> list = null;
+		
+		try
+		{
+			list = articleDao.deleteAdminQuestion(status, children, search, DBsStart, listSize);
+		}
+		catch(Exception e)
+		{
+			System.out.println("deleteAdminQuestion 오류: " + e);
+		}
+		
+		
+		return list;
+	}
 	
+	//신고된 게시판
+	public List<Article> suspendArticle()
+	{
+		List<Article> list = null;
+		
+		try
+		{
+			list = articleDao.suspendArticle();
+		}
+		catch(Exception e)
+		{
+			System.out.println("suspendArticle 오류: " + e);
+		}
+		return list;
+	}
 	
+	//신고된 댓글
+	public List<Comment> suspendComment()
+	{
+		List<Comment> list = null;
+		
+		try
+		{
+			list = articleDao.suspendComment();
+		}
+		catch(Exception e)
+		{
+			System.out.println("suspendComment 오류: " + e);
+		}
+		return list;
+	}
 	
+	//신고관리 article
+	public int changeSuspendArticle(int tableId, String status)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = articleDao.changeSuspendArticle(tableId, status);
+		}
+		catch(Exception e)
+		{
+			System.out.println("changeSuspendArticle 오류: " + e);
+		}
+		
+		return count;
+	}
 	
-	
+	//신고관리 comment
+		public int changeSuspendComment(int tableId, String status)
+		{
+			int count = 0;
+			
+			try
+			{
+				count = articleDao.changeSuspendComment(tableId, status);
+			}
+			catch(Exception e)
+			{
+				System.out.println("changeSuspendComment 오류: " + e);
+			}
+			
+			return count;
+		}
 	
 	
 		

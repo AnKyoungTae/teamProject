@@ -71,4 +71,21 @@ public interface ArticleDao {
 	//관리자 글 삭제
 	int deleteArticle(int articleId);
 	
+	//관리자 deleteAdminQuestion 수
+	int deleteAdminQuestionCnt(String status, String children, String search);
+	
+	//관리자 deleteAdminQuestion 리스트
+	List<Article> deleteAdminQuestion(String status, String children, String search, int DBsStart, int listSize);
+	
+	//신고된 게시판
+	List<Article> suspendArticle();
+	
+	//신고된 댓글
+	List<Comment> suspendComment();
+	
+	//신고 관리 article
+	int changeSuspendArticle(int tableId, String status);
+	//신고 관리 comment
+	int changeSuspendComment(int tableId, String status);
+	
 }

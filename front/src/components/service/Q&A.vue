@@ -269,8 +269,12 @@ export default {
     myPage() {
       this.search = "";
       this.myCount = false;
-      authAPI.pagingMyBoard(2).then((res) => {
-        this.queAn = res.data.list;
+      authAPI.pagingMyBoard(3).then((res) => {
+        console.log(res.data);
+        if(res.data == "no"){
+          return alert("사용 권한이 없습니다.")
+        }
+        this.queAn = res.data;
       });
     },
     //Q&A 리스트 불러오기
@@ -311,8 +315,7 @@ export default {
     await this.downAllList(3, 1, 1);
     //페이징 리스트
   },
-  //버튼 클릭시
-  updated() {},
+  
 };
 </script>
 
