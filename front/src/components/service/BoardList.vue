@@ -190,7 +190,7 @@ import * as authAPI from "@/api/article.js";
 import EditBoardList from "@/components/service/EditBoardList.vue";
 import { mapMutations } from "vuex";
 export default {
-  components: { EditBoardList },
+  components: { EditBoardList, },
   data() {
     return {
       articleId: null,

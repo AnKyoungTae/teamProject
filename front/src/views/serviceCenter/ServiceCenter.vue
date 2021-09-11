@@ -30,13 +30,15 @@
       <router-view v-else></router-view>
     </div>
   </div>
+  <Footer></Footer>
 </template>
 
 <script>
 import notice from "@/components/service/Notice.vue";
+import Footer from "@/components/footer/Footer.vue";
 
 export default {
-  components: { notice },
+  components: { notice, Footer },
   data() {
     return {};
   },

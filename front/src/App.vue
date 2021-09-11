@@ -6,7 +6,6 @@
         <router-view />
       </div>
     </transition>
-    <Footer></Footer>
   </div>
 </template>
 
@@ -18,7 +17,6 @@ import Footer from "@/components/footer/Footer";
 export default {
   components: {
     Sidebar,
-    Footer,
   },
   setup() {
     return { sidebarWidth };

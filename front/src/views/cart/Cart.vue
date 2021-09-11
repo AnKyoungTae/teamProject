@@ -170,7 +170,7 @@
                             <li class="page-item">
                               <a
                                 class="page-link"
-                                style="width: 30px; height: 30px"
+                                style="width: 30px; height: 30px; cursor: pointer;"
                                 @click="decreaseQuantity(food.foodId)"
                                 ><span style="font-size: 20px">-</span></a
                               >
@@ -178,7 +178,7 @@
                             <li class="page-item">
                               <a
                                 class="page-link"
-                                style="border: none; margin: 0 10px"
+                                style="border: none; margin: 0 10px;"
                               >
                                 <span>{{ foodQuantity(food.foodId) }}</span>
                               </a>
@@ -187,7 +187,7 @@
                             <li class="page-item">
                               <a
                                 class="page-link"
-                                style="width: 30px; height: 30px"
+                                style="width: 30px; height: 30px; cursor: pointer;"
                                 @click="increaseQuantity(food.foodId)"
                                 ><span style="font-size: 20px">+</span></a
                               >
@@ -368,6 +368,7 @@
     </div>
     <kakaomap v-if="mapModal"></kakaomap>
   </div>
+  <Footer></Footer>
 </template>
 
 <script>
@@ -376,9 +377,10 @@ import http from "@/api/http";
 import axios from "axios";
 import kakaomap from "@/components/modal/Map.vue";
 import { error, success } from "@/api/notification";
+import Footer from "@/components/footer/Footer.vue";
 
 export default {
-  components: { kakaomap },
+  components: { kakaomap, Footer },
   data() {
     return {
       foodList: [],

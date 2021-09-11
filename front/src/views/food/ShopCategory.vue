@@ -4,21 +4,23 @@
       <fooddiv></fooddiv>
     </div>
   </div>
+  <Footer></Footer>
 </template>
 
 <script>
 import fooddiv from "../../components/food/fooddiv.vue";
+import Footer from "../../components/footer/Footer.vue";
 
 export default {
   components: {
     fooddiv,
+    Footer,
   },
 };
 </script>
 
 <style scoped>
 .wrapper {
-  width: 90vw;
 }
 .food-list {
   padding: 5px;

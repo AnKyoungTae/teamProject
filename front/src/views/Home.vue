@@ -66,12 +66,13 @@
       </div>
     </div>
   </div>
+  <Footer></Footer>
 </template>
 
 <script>
 import Kakao from "@/components/map/Kakao.vue";
 import ShopList from "@/components/shop/ShopList.vue";
-
+import Footer from "@/components/footer/Footer.vue";
 import { mapGetters, mapMutations } from "vuex";
 import http from "@/api/http";
 
@@ -86,6 +87,7 @@ export default {
   components: {
     Kakao,
     ShopList,
+    Footer,
   },
   computed: {
     ...mapGetters({ LAT: "GET_LAT", LON: "GET_LON", OBS: "GET_OBSERVED" }),
