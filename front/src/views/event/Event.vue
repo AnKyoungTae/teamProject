@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="m-4">
-      <h1>이벤트 페이지</h1>
+      <h1 class="title">이벤트 페이지</h1>
       <hr />
       <!-- 노티피케이션 -->
       <notifications
@@ -256,5 +256,7 @@ export default {
 .spread-underline:hover:after {
   width: 100%;
   left: 0;
+}
+.title {
 }
 </style>
