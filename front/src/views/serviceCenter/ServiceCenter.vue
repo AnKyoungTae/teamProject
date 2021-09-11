@@ -1,5 +1,8 @@
 <template>
   <div class="wrapper">
+    <h1 class="nearShopTitle" style="margin-top: 50px; margin-right: 50px;">
+      <p>고객센터</p>
+    </h1>
     <div class="service-center m-2 upper">
       <div class="service-group mb-5">
         <router-link
@@ -30,7 +33,6 @@
       <router-view v-else></router-view>
     </div>
   </div>
-  <Footer></Footer>
 </template>
 
 <script>
@@ -38,7 +40,7 @@ import notice from "@/components/service/Notice.vue";
 import Footer from "@/components/footer/Footer.vue";
 
 export default {
-  components: { notice, Footer },
+  components: { notice},
   data() {
     return {};
   },
@@ -79,5 +81,29 @@ export default {
   display: flex;
   flex-direction: column;
   align-content: space-between;
+}
+
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
+}
+
+@font-face {
+  font-family: "BMDOHYEON";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>

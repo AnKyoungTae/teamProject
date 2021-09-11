@@ -1,4 +1,9 @@
 <template>
+  <div style="width: 100%; margin-top: 50px;">
+    <h1 class="nearShopTitle" style="margin-right: 50px;">
+      <p>장바구니</p>
+    </h1>
+  </div>
   <div class="cartContainer">
     <div class="wrapper m-4 container-fluid p-2" style="width: 1000px">
       <!-- 노티피케이션 -->
@@ -8,7 +13,6 @@
         style="margin-right: 30vh"
       />
       <div class="cart">
-        <h1 class="m-2">장바구니</h1>
         <div class="cartOrder">
           <div class="orderText">
             <h4>배달정보</h4>
@@ -368,7 +372,6 @@
     </div>
     <kakaomap v-if="mapModal"></kakaomap>
   </div>
-  <Footer></Footer>
 </template>
 
 <script>
@@ -380,7 +383,7 @@ import { error, success } from "@/api/notification";
 import Footer from "@/components/footer/Footer.vue";
 
 export default {
-  components: { kakaomap, Footer },
+  components: { kakaomap },
   data() {
     return {
       foodList: [],
@@ -869,5 +872,29 @@ export default {
 .page-link {
   color: black;
   padding: 0;
+}
+
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
+}
+
+@font-face {
+  font-family: "BMDOHYEON";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>

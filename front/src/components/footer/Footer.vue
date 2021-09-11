@@ -1,6 +1,7 @@
 <template>
   <div class="emptyspace"></div>
   <div class="footer" :style="{ 'margin-left': sidebarWidth }">
+    <!-- <div class="footer" > -->
     <div class="wapoo-wrap">
       <div class="wapoo-logo" style="width:25%">
         <div style="margin-top: 30px;">
