@@ -13,4 +13,5 @@ public class GraphResntFood {
 	private int price;			//가격
 	private int quantity;		//수량
 	private int	payment;		//총 매출
+	private int discount;	//할인액
 }

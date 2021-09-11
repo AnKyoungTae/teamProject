@@ -22,8 +22,8 @@
         <th>{{graphPayment.payment}}</th>
       </tr>
       <tr style="border: 1px solid red;">
-        <th>평균할인금액</th>
-        <td style="border-right: 1px solid red;">{{graphPayment.discount}}</td>
+        <th>할인금액</th>
+        <td style="border-right: 1px solid red;">{{discount}}</td>
         <th>전일매출</th>
         <th style="border-right: 1px solid red;">{{graphPayment.beforeDayPayment}}</th>
         <th>당일매출</th>
@@ -94,18 +94,18 @@
       </tr>
 
       <tr style="border: 1px solid red; "  >
-        <th colspan="3" style="border: 1px solid red;">요일별 판매량</th>
+        <th colspan="4" style="border: 1px solid red;">요일별 판매량</th>
       </tr>
       <tr style="border: 1px solid red;">
         <th style="border-right: 1px solid red;">요일</th>
         <th style="border-right: 1px solid red;">주문수</th>
-        <th>매출합계</th>
+        <th colspan="2">매출합계</th>
       </tr>
       
       <tr v-for=" graphDay,index in graphDays" :key="index" style="border: 1px solid red;">
         <td style="border-right: 1px solid red;">{{graphDay.week}}</td>
         <td style="border-right: 1px solid red;">{{graphDay.totalOrder}}</td>
-        <td style="border-right: 1px solid red;">{{graphDay.payment}}</td>
+        <td colspan="2" style="border-right: 1px solid red;">{{graphDay.payment}}</td>
       </tr>
     </table>
 
@@ -187,6 +187,26 @@ data () {
   }
 },
 computed: {
+  discount(){
+    let count= 0;
+
+    if(this.dropDown == "음식판매량"){
+      for(let i = 0; i< this.graphFoods.length; i++){
+        count += this.graphFoods[i].discount
+      }
+    }else if(this.dropDown == "요일별판매량"){
+      for(let i = 0; i< this.graphDays.length; i++){
+        count += this.graphDays[i].discount
+      }
+    }else if(this.dropDown == "최근판매량"){
+      for(let i = 0; i< this.graphResentFoods.length; i++){
+        count += this.graphResentFoods[i].discount
+      }
+    }
+
+    
+    return count;
+  },
   //전체 시간을 합한 수량
   plusResentFoodQuantity(){
     let quantity = 0

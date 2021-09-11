@@ -431,7 +431,22 @@ public class ArticleService {
 			return count;
 		}
 	
-	
+	//관리자 글 삭제
+	public int deleteArticle(int articleId)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = articleDao.deleteArticle(articleId);
+		}
+		catch(Exception e)
+		{
+			System.out.println("deleteArticle 오류: " + e);
+		}
+		
+		return count;
+	}
 	
 	
 	

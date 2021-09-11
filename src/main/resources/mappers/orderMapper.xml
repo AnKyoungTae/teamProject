@@ -174,18 +174,23 @@ SELECT	@rownum:= @rownum + 1 AS 'rowNum',
 	a.*
 FROM	(SELECT	b.name,
 	IFNULL(a.quantity, 0) AS 'quantity',
-	IFNULL(b.price * a.quantity, 0) AS 'price'
+	IFNULL(b.price * a.quantity, 0) AS 'price',
+	
+	a.discount AS 'discount'
 		
 		FROM	(SELECT 
 					b.name AS 'name',
 					b.store_id AS 'storeId',
 					b.foodId AS 'foodId',
+					IFNULL(SUM(a.discount),0) AS 'discount',
+					
 					IFNULL(SUM(a.quantity), 0) AS 'quantity',
 					IFNULL(b.price * a.quantity, 0) AS 'price'
 					
 					
 				FROM	(SELECT	IFNULL(b.quantity, 0) AS 'quantity',
-						b.food_id AS 'foodId'
+						b.food_id AS 'foodId',
+						a.discount AS 'discount'
 						FROM `order` a, `orderInfo` b
 					WHERE a.orderId = b.order_id
 					AND	b.status = 'Y'
@@ -218,6 +223,7 @@ WHERE (@rownum:=0)=0
 
 <!-- 요일별 매출량 -->
 <select id="getDayAmount" resultType="GraphDay">
+
 SELECT CASE `day`
 
 			WHEN '1' THEN '일요일'
@@ -236,7 +242,8 @@ SELECT CASE `day`
 
 			END AS 'WEEK', 
 			a.count AS 'totalOrder',
-			payment AS 'payment'
+			a.payment AS 'payment',
+			a.discount AS 'discount'
 FROM (
 	SELECT 
 		a.n AS 'day',
@@ -244,7 +251,8 @@ FROM (
 		IFNULL(b.orderInfoId, 0) AS 'orderId',
 		IFNULL(SUM(b.price * b.quantity), 0) AS 'payment',
 		IFNULL(b.price * b.quantity, 0) AS 'price',
-		IFNULL(b.quantity, 0) AS 'quantity'
+		IFNULL(b.quantity, 0) AS 'quantity',
+		IFNULL(SUM(b.discount), 0) AS 'discount'
 		
 		FROM (WITH RECURSIVE cte AS (
 			    SELECT 1 AS n
@@ -258,12 +266,14 @@ FROM (
 					a.orderDate AS 'orderDate',
 					b.name AS 'name',
 					b.price AS 'price',
-					store_id AS 'storeId'
+					store_id AS 'storeId',
+					a.discount AS 'discount'
 				FROM(SELECT	
 							a.orderDate AS 'orderDate',
 							a.orderId AS 'orderInfoId',
 							b.food_id AS 'foodId',
-							b.quantity AS 'quantity'
+							b.quantity AS 'quantity',
+							a.discount AS 'discount'
 							
 
 						FROM	`order` a, `orderInfo` b
@@ -329,7 +339,8 @@ SELECT CASE a.n
 			IFNULL(a.name, 'X') AS 'name',
 			IFNULL(a.price, 0) AS 'price',
 			IFNULL(a.quantity, 0) AS 'quantity',
-			IFNULL(a.price*a.quantity, 0) AS 'payment'
+			IFNULL(a.price*a.quantity, 0) AS 'payment',
+			IFNULL(a.discount, 0) AS 'discount'
 
 FROM	(SELECT	*
 
@@ -347,7 +358,8 @@ FROM	(SELECT	*
 				c.price,
 				b.orderId,
 				SUM(a.quantity) AS 'quantity',
-				COUNT(b.orderDate) AS 'num'
+				COUNT(b.orderDate) AS 'num',
+				SUM(b.discount) AS 'discount'
 				
 				FROM	`orderInfo` a, `order` b, `food` c
 			WHERE	a.order_id = b.orderId
@@ -377,8 +389,7 @@ ORDER BY a.n ASC
 SELECT	IFNULL(a.beforeMonthPayment, 0) AS 'beforeMonthPayment',
 	IFNULL(b.payment, 0) AS 'payment',
 	IFNULL(c.beforeDayPayment, 0) AS 'beforeDayPayment',
-	IFNULL(d.dayPayment, 0) AS 'dayPayment',
-	IFNULL(e.discount, 0) AS 'discount'
+	IFNULL(d.dayPayment, 0) AS 'dayPayment'
 	FROM (SELECT SUM(payment)  AS 'beforeMonthPayment'
 		FROM (SELECT	
 				a.quantity * c.price AS 'payment'
@@ -410,15 +421,7 @@ SELECT	IFNULL(a.beforeMonthPayment, 0) AS 'beforeMonthPayment',
 				WHERE	a.order_id = b.orderId
 				AND	DATE_FORMAT(b.orderDate, '%Y-%m-%d') = DATE_FORMAT(NOW() , '%Y-%m-%d')
 				AND	store_id = #{storeId}
-				AND	a.food_id = c.foodId) a) d,
-		(SELECT FLOOR(discount/num) AS 'discount'
-			FROM(SELECT 	
-				SUM(a.discount) AS 'discount',
-				COUNT(*) AS 'num'
-				FROM `order` a, `orderInfo` b, `food` c
-			WHERE	a.orderId = b.order_id
-			AND	c.foodId = b.food_id
-			AND	c.store_id = #{storeId}) a) e
+				AND	a.food_id = c.foodId) a) d
 </select>
 
 

@@ -103,4 +103,10 @@ export function reportComment(commentId, suspend){
       suspend: suspend
     }
   })
+
+}
+
+//관리자 글 삭제
+export function deleteArticle(articleId){
+  return http.post("/article/deleteArticle", articleId)
 }
