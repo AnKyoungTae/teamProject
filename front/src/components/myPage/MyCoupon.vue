@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 50px;">
+  <div style="margin-top: 50px">
     <h1 class="nearShopTitle">
       <p>쿠폰함</p>
     </h1>
@@ -285,6 +285,7 @@ export default {
   user-select: none;
   display: flex;
   justify-content: end;
+  width: 80%;
 }
 .nearShopTitle > p {
   width: 30%;

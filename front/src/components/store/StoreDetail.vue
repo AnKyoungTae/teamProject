@@ -22,7 +22,7 @@
           <div class="previewBottomTap"></div>
           <div class="previewWrapper">
             <div class="previewChangeWapper">
-              <span @click="showNextImage" class="arrow left"></span>
+              <span @click="showPrevImage" class="arrow left"></span>
             </div>
             <div class="previewWindow">
               <img :src="selectedImage.path" />

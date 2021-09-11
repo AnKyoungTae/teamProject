@@ -1,8 +1,8 @@
 <template>
-  <div style="margin-top: 50px;">
+  <div style="margin-top: 50px">
     <h1 class="nearShopTitle">
-              <p>리뷰관리</p>
-            </h1>
+      <p>리뷰관리</p>
+    </h1>
   </div>
   <div style="width: 100%">
     <div class="manage-div">
@@ -19,11 +19,14 @@
                 </p>
                 <div style="width: 100%">
                   <div class="review3-text">
-                    <span class="review3-span1"
-                      >{{ reviewList.name }}</span>
+                    <span class="review3-span1">{{ reviewList.name }}</span>
                   </div>
                   <div class="review3-div">
-                    <a class="review3-a m-1" @click="removeReview(reviewList.reviewId)">삭제</a>
+                    <a
+                      class="review3-a m-1"
+                      @click="removeReview(reviewList.reviewId)"
+                      >삭제</a
+                    >
                   </div>
                 </div>
                 <div class="review3-star" style="width: 400px">
@@ -35,10 +38,12 @@
                     ></i
                     >&nbsp;&nbsp;
                     <span style="color: burlywood"
-                      >{{ reviewList.score }} /5.0</span>
+                      >{{ reviewList.score }} /5.0</span
+                    >
                     <span class="review3-span2"
                       >{{ reviewList.regDate[0] }}.{{ reviewList.regDate[1]
-                      }}{{ reviewList.regDate[2] }}</span>
+                      }}{{ reviewList.regDate[2] }}</span
+                    >
                   </div>
                 </div>
                 <div>
@@ -67,7 +72,7 @@
                   "
                 >
                   <span>&nbsp;&#10551;&nbsp; 사장님댓글</span>
-                  <p style="margin: 0px">{{reviewList.reply}}</p>
+                  <p style="margin: 0px">{{ reviewList.reply }}</p>
                 </div>
                 <hr style="margin-left: -16px; margin-top: 40px" />
               </div>
@@ -126,8 +131,7 @@ export default {
         reviewId,
         status: "N",
       };
-      http.post("/profile/ReviewStatus", data)
-      .then((res) => {
+      http.post("/profile/ReviewStatus", data).then((res) => {
         console.log(res);
         if (res.status === 200) {
           success("리뷰를 삭제했습니다!", this);
@@ -390,6 +394,7 @@ export default {
   user-select: none;
   display: flex;
   justify-content: end;
+  width: 80%;
 }
 .nearShopTitle > p {
   width: 30%;

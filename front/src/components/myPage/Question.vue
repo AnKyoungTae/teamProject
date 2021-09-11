@@ -1,5 +1,9 @@
 <template>
-  <h3 class="manage-text" style="margin: 50px auto 10px">질문내역</h3>
+  <div class="manage-text" style="margin: 50px">
+    <h1 class="nearShopTitle">
+      <p>질문내역</p>
+    </h1>
+  </div>
   <div
     class="container"
     style="width: 800px; border-style: solid; border-width: 1px 1px 0px 1px"
@@ -152,6 +156,7 @@ export default {
   user-select: none;
   display: flex;
   justify-content: end;
+  width: 85%;
 }
 .nearShopTitle > p {
   width: 30%;

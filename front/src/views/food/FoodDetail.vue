@@ -15,7 +15,7 @@
           <splide
             :options="primaryOptions"
             ref="primary"
-            style="margin-bottom: 1rem"
+            style="margin-bottom: 1rem; z-index: 0"
           >
             <splide-slide v-for="file in shopInfo.fileList" :key="file">
               <img class="splideImg" :src="file.name" alt="??" />
@@ -68,7 +68,9 @@
                 <i class="fas fa-store"></i>
                 <span class="i-text">가게설명</span>
               </td>
-              <td class="td2" style="padding-left: 20px">{{shopInfo.storeInfo.body}}</td>
+              <td class="td2" style="padding-left: 20px">
+                {{ shopInfo.storeInfo.body }}
+              </td>
             </tr>
           </table>
         </div>
