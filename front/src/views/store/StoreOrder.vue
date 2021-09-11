@@ -1,6 +1,11 @@
 <template>
+  <div style="margin-top: 50px;">
+    <h1 class="nearShopTitle" style="margin-right: 50px;">
+              <p>주문관리</p>
+            </h1>
+
+  </div>
     <div style="width: 1200px; margin: 3vh auto">
-        <div style="font-size: 40px;">주문관리</div>
 
         <!-- 고객이 주문을 취소할때-->
         <div v-if="cancelStoreOrder.length > 0">
@@ -412,5 +417,29 @@ td {
 }
 .badge {
     cursor: pointer;
+}
+
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
+}
+
+@font-face {
+  font-family: "BMDOHYEON";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>

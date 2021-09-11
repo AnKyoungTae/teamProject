@@ -58,13 +58,15 @@
         <th colspan="2">당월매출</th>
         <td colspan="2">{{ graphPayment.payment }}</td>
       </tr>
-      <tr class="storeChart">
-        <th colspan="2">평균할인금액</th>
-        <td colspan="2">{{ graphPayment.discount }}</td>
-        <th colspan="2">전일매출</th>
-        <td colspan="2">{{ graphPayment.beforeDayPayment }}</td>
-        <th colspan="2">당일매출</th>
-        <td colspan="2">{{ graphPayment.dayPayment }}</td>
+      <tr style="border: 1px solid red">
+        <th>할인금액</th>
+        <td style="border-right: 1px solid red">{{ discount }}</td>
+        <th>전일매출</th>
+        <th style="border-right: 1px solid red">
+          {{ graphPayment.beforeDayPayment }}
+        </th>
+        <th>당일매출</th>
+        <th>{{ graphPayment.dayPayment }}</th>
       </tr>
     </table>
     <!-- 종류별로 바낌-->
@@ -195,37 +197,25 @@
         <td colspan="2">{{ graphPayment.discount }}</td>
       </tr>
 
-      <tr class="storeChart">
-        <th colspan="12">요일별 판매량</th>
+      <tr style="border: 1px solid red">
+        <th colspan="4" style="border: 1px solid red">요일별 판매량</th>
       </tr>
-      <tr class="storeChart">
-        <th colspan="4">요일</th>
-        <th colspan="4">주문수</th>
-        <th colspan="4">매출합계</th>
+      <tr style="border: 1px solid red">
+        <th style="border-right: 1px solid red">요일</th>
+        <th style="border-right: 1px solid red">주문수</th>
+        <th colspan="2">매출합계</th>
       </tr>
 
       <tr
-        class="storeChart"
         v-for="(graphDay, index) in graphDays"
         :key="index"
+        style="border: 1px solid red"
       >
-        <td colspan="4">{{ graphDay.week }}</td>
-        <td colspan="4">{{ graphDay.totalOrder }}</td>
-        <td colspan="4">{{ graphDay.payment }}</td>
-      </tr>
-      <tr>
-        <td style="width: 100px"></td>
-        <td style="width: 100px"></td>
-        <td style="width: 100px"></td>
-        <td style="width: 100px"></td>
-        <td style="width: 100px"></td>
-        <td style="width: 100px"></td>
-        <td style="width: 100px"></td>
-        <td style="width: 100px"></td>
-        <td style="width: 100px"></td>
-        <td style="width: 100px"></td>
-        <td style="width: 100px"></td>
-        <td style="width: 100px"></td>
+        <td style="border-right: 1px solid red">{{ graphDay.week }}</td>
+        <td style="border-right: 1px solid red">{{ graphDay.totalOrder }}</td>
+        <td colspan="2" style="border-right: 1px solid red">
+          {{ graphDay.payment }}
+        </td>
       </tr>
     </table>
 
@@ -341,7 +331,6 @@
 import http from "@/api/http";
 
 export default {
-  components: {},
   data() {
     return {
       graphFoods: [],
@@ -357,6 +346,25 @@ export default {
     };
   },
   computed: {
+    discount() {
+      let count = 0;
+
+      if (this.dropDown == "음식판매량") {
+        for (let i = 0; i < this.graphFoods.length; i++) {
+          count += this.graphFoods[i].discount;
+        }
+      } else if (this.dropDown == "요일별판매량") {
+        for (let i = 0; i < this.graphDays.length; i++) {
+          count += this.graphDays[i].discount;
+        }
+      } else if (this.dropDown == "최근판매량") {
+        for (let i = 0; i < this.graphResentFoods.length; i++) {
+          count += this.graphResentFoods[i].discount;
+        }
+      }
+
+      return count;
+    },
     //전체 시간을 합한 수량
     plusResentFoodQuantity() {
       let quantity = 0;

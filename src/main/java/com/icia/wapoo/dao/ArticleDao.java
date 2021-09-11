@@ -68,4 +68,7 @@ public interface ArticleDao {
 	//댓글 신고
 	int reportComment(int commentId, String suspend);
 	
+	//관리자 글 삭제
+	int deleteArticle(int articleId);
+	
 }

@@ -71,7 +71,7 @@
 <script>
 import Kakao from "@/components/map/Kakao.vue";
 import ShopList from "@/components/shop/ShopList.vue";
-
+import Footer from "@/components/footer/Footer.vue";
 import { mapGetters, mapMutations } from "vuex";
 import http from "@/api/http";
 
@@ -210,6 +210,7 @@ export default {
   flex-direction: column;
 }
 main {
+  /* width: 90vw; */
   margin: 50px;
 }
 .p2 {

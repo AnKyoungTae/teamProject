@@ -329,7 +329,23 @@ UPDATE `article`
 	suspend = #{suspend}
 WHERE articleId = #{articleId}
 </update>
-	
+
+<!-- 관리자 글 삭제 -->
+<update id="deleteArticle">
+
+UPDATE	`article`
+SET	STATUS= 'N'
+WHERE	articleId = #{articleId}
+
+</update>
+
+
+
+
+
+
+
+
 	
 	
 </mapper>

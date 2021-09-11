@@ -11,4 +11,5 @@ public class GraphDay {
 	private String week;		//요일
 	private int totalOrder;		//요일별 주문 수
 	private int payment;		//요일별 매출 합계
+	private int discount;	//할인액
 }

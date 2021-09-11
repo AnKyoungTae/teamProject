@@ -471,11 +471,13 @@ public class ArticleController {
 	
 		String title = (String)params.get("title");
 		String body = (String)params.get("body");
-		
+		System.out.println("4444444444444444444444444444444444");
 		ArrayList<Integer> fileIds = (ArrayList<Integer>) params.get("imageDelete");
-		
+		System.out.println("11111111111111111111111111111");
 		long articleId = (long) ((Integer) params.get("articleId")).intValue();
+		System.out.println("2222222222222222222222222");
 		long writerId = (long) ((Integer) params.get("writerId")).intValue();
+		System.out.println("33333333333333333333333");
 		
 		System.out.println("articleId : " +articleId);
 		
@@ -485,8 +487,7 @@ public class ArticleController {
 		{
 			if(articleId > 0)
 			{
-				if(memberId == writerId)
-				{
+				
 					article.setTitle(title);
 					article.setBody(body);
 					article.setArticleId(articleId);
@@ -515,7 +516,7 @@ public class ArticleController {
 						System.out.println("글 수정 성공");
 						return new ResponseEntity("ok", HttpStatus.OK);
 					}
-				}
+				
 			}	
 		}
 		else
@@ -684,7 +685,21 @@ public class ArticleController {
 	}
 	
 	
-	
+	//괸라자가 글 삭제
+	@PostMapping("/deleteArticle")
+	public ResponseEntity deleteArticle(@RequestBody String articleId)
+	{
+		int articleIds = Integer.parseInt((String) articleId);
+		
+		System.out.println("articleId:  "+ articleIds);
+		
+		if(articleService.deleteArticle(articleIds) > 0)
+		{
+			return new ResponseEntity("ok", HttpStatus.OK);
+		}
+		
+		return new ResponseEntity("no", HttpStatus.OK);
+	}
 	
 	
 	

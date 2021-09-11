@@ -1,6 +1,11 @@
 <template>
   <div>
     <h1>회원관리페이지</h1>
+    <!-- <div style="margin-top: 50px;">
+      <h1 class="nearShopTitle" style="margin-right: 50px;">
+        <p>회원관리페이지</p>
+      </h1>
+    </div> -->
     <!-- 노티피케이션 -->
     <notifications
       group="notifyApp"
@@ -364,5 +369,29 @@ export default {
   height: 100%;
   background-color: aliceblue;
   padding: 0.2rem;
+}
+
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
+}
+
+@font-face {
+  font-family: "BMDOHYEON";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>

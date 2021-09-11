@@ -8,175 +8,198 @@
       style="margin-right: 30vh"
     />
 
-      
-      <div class="row align-items-center">
-        <div class="col-7">
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineRadioOptions"
-              id="inlineRadio2"
-              value="ALL"
-              checked
-              @click="setStatusOption('S')"
-            />
-            <label class="form-check-label" for="inlineRadio2">대기중</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineRadioOptions"
-              id="inlineRadio1"
-              value="ALL"
-              checked
-              @click="setStatusOption('ALL')"
-            />
-            <label class="form-check-label" for="inlineRadio1">전체보기</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineRadioOptions"
-              id="inlineRadio3"
-              @click="setStatusOption('Y')"
-              value="Y"
-            />
-            <label class="form-check-label" for="inlineRadio3">진행중</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineRadioOptions"
-              id="inlineRadio4"
-              @click="setStatusOption('N')"
-              value="N"
-            />
-            <label class="form-check-label" for="inlineRadio4">종료</label>
-          </div>
-        </div>
-        <div class="col-5">
-          <!-- 검색 -->
-          <div class="input-group w-100">
-              <router-link class="nav-link" :to="{name: 'AdminCouponAdd'}" style="margin-left: 85%; color: black;" exact>
-                <i class="fas fa-plus"></i>
-              </router-link>
+    <div class="col-7">
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="inlineRadioOptions"
+          id="inlineRadio2"
+          value="ALL"
+          checked
+          @click="setStatusOption('S')"
+        />
+        <label class="form-check-label" for="inlineRadio2">대기중</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="inlineRadioOptions"
+          id="inlineRadio1"
+          value="ALL"
+          checked
+          @click="setStatusOption('ALL')"
+        />
+        <label class="form-check-label" for="inlineRadio1">전체보기</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="inlineRadioOptions"
+          id="inlineRadio3"
+          @click="setStatusOption('Y')"
+          value="Y"
+        />
+        <label class="form-check-label" for="inlineRadio3">진행중</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="inlineRadioOptions"
+          id="inlineRadio4"
+          @click="setStatusOption('N')"
+          value="N"
+        />
+        <label class="form-check-label" for="inlineRadio4">종료</label>
+      </div>
+    </div>
+
+    <div class="container" style="width: 1000px">
+    <div class="notice col-12 h-50">
+      <!-- 리스트 시작 -->
+      <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div
+          class="accordion-item"
+          style="border-top: 2px solid gray"
+          v-for="(list, index) in couponList"
+          :key="index"
+        >
+          <h2 class="accordion-header" v-bind:id="'flush-heading' + index">
+            <button
+              class="accordion-button collapsed faqButton"
+              type="button"
+              data-bs-toggle="collapse"
+              v-bind:data-bs-target="'#flush-collapse' + index"
+              aria-expanded="false"
+              v-bind:aria-controls="'flush-collapse' + index"
+            >
+              <strong style="font-size: 18px">
+                <!-- 이벤트  -->
+                <table class="table table-bordered align-self-center table-striped">
+                  <thead>
+                    <tr class="bg-secondary">
+                      <th scope="col fw-bold">#</th>
+                      <th scope="col fw-bold">이벤트발행일자</th>
+                      <th scope="col fw-bold">사용종료일</th>
+                      <th scope="col fw-bold">제목</th>
+                      <th scope="col fw-bold">내용</th>
+                      <th scope="col fw-bold">상태</th>
+                      <th scope="col fw-bold">할인금액</th>
+                      
+                      
+                      <!-- 클릭시 자세하게 볼 수 있도록 -->
+                    </tr>
+                  </thead>
+                  <!-- 테이블 내용 -->
+                  <tbody>
+                    <tr v-if="totalCount === 1">
+                      <td class="table-danger" colspan="7">등록된 이벤트가 없습니다.</td>
+                    </tr>
+                    <tr
+                      class="eachcouponRow"
+                      @click="selectcoupon(list)"
+                    >
+                      <td class="table-light">{{ startListNum + index +1}}</td>
+                      <td class="table-light text-wrap fw-light" style="width: 10rem">
+                        {{
+                          list.eventRegDate
+                          
+                        }}
+                      </td>
+                      <td class="table-light text-wrap fw-light" style="width: 10rem">
+                        {{
+                          list.eventDueDate
+                        }}
+                      </td>
+                      <td class="table-light" style="width: 8rem;">{{ list.title }}</td>
+                      <td class="table-light" style="width: 12rem">{{ list.body }}</td>
+                      
+                      <td class="table-success" v-if="list.status == 'Y'">
+                        {{ list.status }}
+                      </td>
+                      <td class="table-warning" v-else-if="list.status == 'S'">
+                        {{ list.status }}
+                      </td>
+                      <td class="table-danger" v-else-if="list.status == 'N'">
+                        {{ list.status }}
+                      </td>
+                      <td class="table-dark" v-else>?</td>
+                      <td class="table-light">{{ list.couponPrice }}</td>
+            
+                    </tr>
+                  </tbody>
+                </table>
+
+              </strong>
+            </button>
+          </h2>
+          <div
+            v-bind:id="'flush-collapse' + index"
+            class="accordion-collapse collapse"
+            v-bind:aria-labelledby="'flush-heading' + index"
+            data-bs-parent="#accordionFlushExample"
+          >
+            <div class="accordion-body">
+              <!-- 쿠폰 -->
+              <table class="table table-bordered align-self-center table-striped">
+                  <thead>
+                    <tr class="bg-secondary">
+                      
+                      <th scope="col fw-bold">쿠폰발행일자</th>
+                      <th scope="col fw-bold">쿠폰사용종료일</th>
+                      <th scope="col fw-bold">이름</th>
+                      <th scope="col fw-bold">번호</th>
+                      
+                      <th scope="col fw-bold">할인금액</th>
+                      <th scope="col fw-bold">할인율</th>
+                      
+                      <!-- 클릭시 자세하게 볼 수 있도록 -->
+                    </tr>
+                  </thead>
+                  <!-- 테이블 내용 @click="selectcoupon(list)"-->
+                  <tbody>
+                    <tr v-if="totalCount === 1">
+                      <td class="table-danger" colspan="6">등록된 쿠폰가 없습니다.</td>
+                    </tr>
+                    <tr
+                      class="eachcouponRow"
+                      
+                    >
+                      
+                      <td class="table-light text-wrap fw-light" style="width: 10rem">
+                        {{
+                          list.publishedDate
+                          
+                        }}
+                      </td>
+                      <td class="table-light text-wrap fw-light" style="width: 10rem">
+                        {{
+                          list.couponEnd
+                        }}
+                      </td>
+                      <td class="table-light" style="width: 8rem;">{{ list.couponName }}</td>
+                      <td class="table-light" style="width: 12rem">{{ list.couponNumber }}</td>
+                      
+                      
+                      
+                      <td class="table-light">{{ list.couponPrice }}</td>
+                      <td class="table-light">{{ list.discountRate + "%"}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+
+            </div>
           </div>
         </div>
       </div>
-    <!-- 테이블시작 -->
-    <div
-      id="wrapper"
-      class="container-fluid mw-100 mt-2"
-      :class="{ detailIsOn: couponDetail }"
-    >
-      <table class="table table-bordered align-self-center table-striped">
-        <thead>
-          <tr class="bg-secondary">
-            <th scope="col fw-bold">#</th>
-            <th scope="col fw-bold">쿠폰발행일자</th>
-            <th scope="col fw-bold">사용종료일</th>
-            <th scope="col fw-bold">쿠폰번호</th>
-            <th scope="col fw-bold">쿠폰명</th>
-            <th scope="col fw-bold">상태</th>
-            <th scope="col fw-bold">할인금액</th>
-            <th scope="col fw-bold">할인율</th>
-            
-            <!-- 클릭시 자세하게 볼 수 있도록 -->
-          </tr>
-        </thead>
-        <!-- 테이블 내용 -->
-        <tbody>
-          <tr v-if="totalCount === 1">
-            <td class="table-danger" colspan="8">등록된 쿠폰가 없습니다.</td>
-          </tr>
-          <tr
-            v-for="(list, index) in couponList"
-            :key="index"
-            class="eachcouponRow"
-            @click="selectcoupon(list)"
-          >
-            <td class="table-light">{{ startListNum + index + 1 }}</td>
-            <td class="table-light text-wrap fw-light" style="width: 10rem">
-              {{
-                list.regDate
-                
-              }}
-            </td>
-            <td class="table-light text-wrap fw-light" style="width: 10rem">
-              {{
-                list.dueDate
-              }}
-            </td>
-            <td class="table-light" style="width: 8rem;">{{ list.couponNumber }}</td>
-            <td class="table-light" style="width: 12rem">{{ list.couponName }}</td>
-            
-            <td class="table-success" v-if="list.status == 'Y'">
-              {{ list.status }}
-            </td>
-            <td class="table-warning" v-else-if="list.status == 'S'">
-              {{ list.status }}
-            </td>
-            <td class="table-danger" v-else-if="list.status == 'N'">
-              {{ list.status }}
-            </td>
-            <td class="table-dark" v-else>?</td>
-            <td class="table-light">{{ list.couponPrice }}</td>
-            <td class="table-light">{{ list.discountRate + "%"}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <!-- 페이지네이션 -->
-      <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-          <li class="page-item" :class="{ disabled: !hasPreviousPage }">
-            <a
-              class="page-link"
-              aria-disabled="true"
-              @click="requestPage(firstPageOfthisIndex - 1)"
-              :class="{ 'available-link': hasPreviousPage }"
-              >이전목록</a
-            >
-            <!-- 현재 단락의 가장 첫번째 페이지 -1을 요청해야함. -->
-          </li>
-          <!-- 페이지순번 -->
-          <div v-for="(index, i) in maxIndex" :key="i">
-            <div v-if="index + (currentIndex - 1) * maxIndex <= totalPages">
-              <li
-                class="page-item"
-                v-if="
-                  (this.currentIndex - 1) * this.showindex + index !=
-                  currentPage
-                "
-              >
-                <a
-                  class="page-link available-link"
-                  @click="requestPage(index + (currentIndex - 1) * maxIndex)"
-                  >{{ index + (currentIndex - 1) * maxIndex }}</a
-                >
-              </li>
-              <li class="page-item active" v-else>
-                <span class="page-link">{{
-                  index + (currentIndex - 1) * maxIndex
-                }}</span>
-              </li>
-            </div>
-          </div>
-
-          <li class="page-item" :class="{ disabled: !hasNextPage }">
-            <a
-              class="page-link"
-              @click="requestPage(lastPageOfthisIndex + 1)"
-              :class="{ 'available-link': hasNextPage }"
-              >다음목록</a
-            >
-          </li>
-        </ul>
-      </nav>
+      <!-- 리스트 끝 -->
+      <div style="border-top: 2px solid gray"></div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -325,7 +348,7 @@ export default {
     selectcoupon(list) {
       this.selectedcoupon = list;
       console.log(this.selectedcoupon);
-       var confirmflag = confirm("status를 변경합니다.");
+       var confirmflag = confirm("이벤트를 변경합니다.");
 
            if(confirmflag){
              if(this.selectedcoupon.status === 'Y') {
@@ -376,26 +399,8 @@ export default {
 * {
   align-content: center;
 }
-.available-link {
-  cursor: pointer;
-}
 
-.detailIsOn {
-  visibility: hidden;
-}
-.eachcouponRow:hover {
-  cursor: pointer;
-  outline: 2px solid rgba(0, 26, 255, 0.4);
-  transition: 0.3s;
-}
-.detailWrapper {
-  z-index: 2;
-  position: absolute;
-  top: 4rem;
-  left: 5rem;
-  width: 100%;
-  height: 100%;
-  background-color: aliceblue;
-  padding: 0.2rem;
+.faqButton {
+  padding: 20px;
 }
 </style>

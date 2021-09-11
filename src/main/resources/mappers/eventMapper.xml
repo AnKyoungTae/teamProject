@@ -40,30 +40,39 @@
     
     <!--  -->
     <select id="adminEvent" resultType="AdminEvent">
-    SELECT	@rowNum := @rowNum + 1 AS 'num',
-			DATE_FORMAT(a.regDate, '%Y-%m-%d') AS 'regDate',
-			DATE_FORMAT(a.dueDate, '%Y-%m-%d') AS 'dueDate',
-			a.couponNumber AS 'couponNumber',
-			a.couponName AS 'couponName',
-			a.status AS 'status',
-			a.couponPrice AS 'couponPrice',
-			a.discountRate AS 'discountRate',
-			a.eventId AS 'eventId'
-					
-			FROM (SELECT	@rowNum := #{currentPage}) tmp, (SELECT	
-					b.eventId,
-					b.regDate,
-					b.dueDate,
-					a.couponNumber,
-					a.couponName,
-					b.status,
-					a.couponPrice,
-					a.discountRate
-					
-					
-					
-					FROM `coupon` a, `event` b
-				WHERE	a.event_id = b.eventId
+    SELECT
+	@rowNum := @rowNum + 1 AS 'num',
+	a.eventId,
+	DATE_FORMAT(a.regDate, '%Y-%m-%d') AS 'eventRegDate',
+	DATE_FORMAT(a.dueDate, '%Y-%m-%d') AS 'eventDueDate',
+	a.status,
+	a.body,
+	a.title,
+	a.couponNumber,
+	a.couponName,
+	a.couponPrice,
+	DATE_FORMAT(a.publishedDate, '%Y-%m-%d') AS 'publishedDate',
+	DATE_FORMAT(a.couponEnd, '%Y-%m-%d') AS 'couponEnd',
+	a.discountRate
+	
+			
+	FROM (SELECT	@rowNum := #{currentPage}) tmp, 
+		(SELECT	
+			b.eventId,
+			b.regDate,
+			b.dueDate,
+			b.status,
+			b.body,
+			b.title,
+			a.couponNumber,
+			a.couponName,
+			a.couponPrice,
+			a.publishedDate,
+			a.couponEnd,
+			a.discountRate
+			
+			FROM `coupon` a, `event` b
+		WHERE	a.event_id = b.eventId
 		 <if test="!option.equals('ALL')">
 				AND	b.status = #{option}
 		</if>

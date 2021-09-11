@@ -109,6 +109,11 @@ const routes = [
     component: () => import("../views/admin/AdminCoupon.vue"),
   },
   {
+    path: "/adminService",
+    name: "AdminService",
+    component: () => import("../views/admin/AdminService.vue"),
+  },
+  {
     path: "/storeMenus",
     name: "StoreMenus",
     component: () => import("../views/store/StoreMenus.vue"),
