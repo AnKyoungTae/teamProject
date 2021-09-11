@@ -39,11 +39,12 @@
       <SidebarLink to="/manageMember" icon="fas fa-users">회원관리</SidebarLink>
       <SidebarLink to="/manageStore" icon="fas fa-home">가게관리</SidebarLink>
       <SidebarLink to="/admincoupon" icon="fas fa-ticket-alt"
-        >쿠폰관리</SidebarLink
+        >이벤트관리</SidebarLink
       >
       <SidebarLink to="/eventadd" icon="fas fa-ticket-alt"
-        >이벤트등록</SidebarLink
+        >지워야함</SidebarLink
       >
+      <SidebarLink to="/adminService" icon="fas fa-pencil-alt">글작성</SidebarLink>
     </div>
     <div v-else-if="userRole != null && userRole == 'SELLER'">
       <!-- 판매자로 로그인 했을때 보이는 메뉴들 -->
