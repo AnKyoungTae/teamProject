@@ -77,8 +77,8 @@
           </div>
         </div>
       </div>
+      <hr />
     </div>
-    <hr />
   </div>
 </template>
 
@@ -87,7 +87,6 @@ import foodlist from "../../components/food/foodlist.vue";
 import { mapGetters } from "vuex";
 import { error, success } from "@/api/notification";
 import http from "@/api/http";
-
 export default {
   data() {
     return {
@@ -129,11 +128,9 @@ export default {
         error("잘못된 요청입니다", this);
         return;
       }
-
       if (this.noMoreShop == true) {
         return;
       }
-
       const data = {
         lat: this.GET_LAT,
         lon: this.GET_LON,
@@ -234,15 +231,6 @@ export default {
   color: white;
 }
 /* nav tag */
-
-nav {
-  position: sticky;
-  top: 0px;
-  z-index: 1;
-  background-color: white;
-  box-shadow: 0px 5px 5px gray;
-}
-
 .foodnum-ul {
   font-style: bold;
   font-size: 18px;
@@ -250,7 +238,6 @@ nav {
   padding: 0px;
   padding-top: 16px;
 }
-
 .foodnum-ul li {
   display: inline;
   border-left: 1px solid #999;
@@ -259,12 +246,29 @@ nav {
 .foodnum-ul li:first-child {
   border-left: none;
 } /* 메뉴 분류중 제일 왼쪽의 "|"는 삭제  */
-
-.moreShop {
-  width: 120px;
-  height: 40px;
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
+}
+nav {
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+  background-color: white;
+  box-shadow: 0px 5px 5px gray;
+}
+hr {
   position: fixed;
-  bottom: 10%;
-  right: 10%;
 }
 </style>

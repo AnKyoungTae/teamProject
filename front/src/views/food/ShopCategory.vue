@@ -8,6 +8,7 @@
 
 <script>
 import fooddiv from "../../components/food/fooddiv.vue";
+import Footer from "../../components/footer/Footer.vue";
 
 export default {
   components: {
@@ -18,7 +19,6 @@ export default {
 
 <style scoped>
 .wrapper {
-  width: 90vw;
 }
 .food-list {
   padding: 5px;

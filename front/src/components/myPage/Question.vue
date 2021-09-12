@@ -1,5 +1,9 @@
 <template>
-  <h3 class="manage-text" style="margin: 50px auto 10px; border-bottom:">질문내역</h3>
+  <div class="manage-text" style="margin: 50px">
+    <h1 class="nearShopTitle">
+      <p>질문내역</p>
+    </h1>
+  </div>
   <div
     class="container"
     style="width: 800px; border-style: solid; border-width: 1px 1px 0px 1px"
@@ -39,7 +43,7 @@
     </div>
   </div>
   <div
-    style="padding: 20px;border-top: 1px solid #7c7c7c; max-width: 560px;"
+    style="padding: 20px; border-top: 1px solid #7c7c7c; max-width: 560px"
     v-else
   >
     글이 없습니다.
@@ -74,7 +78,7 @@ export default {
       authAPI
         .listDelete(params)
         .then((res) => {
-          if (res.data == 100) {
+          if (res.data == "ok") {
             this.questions = [];
             this.getMyArticle();
             alert("삭제되었습니다.");
@@ -84,7 +88,7 @@ export default {
             this.SET_MODAL_LOGIN(true);
           } else if (res.data == 250) {
             alert("작성자가 아닙니다.");
-          } else if (res.data == 300) {
+          } else if (res.data == "no") {
             alert("DB문제입니다");
           } else if (res.data == 400) {
             alert("글없습니다");
@@ -104,7 +108,7 @@ export default {
           if (res.status === 200) {
             this.questions = res.data;
             console.log(this.questions);
-            if(this.questions.length != 0) {
+            if (this.questions.length != 0) {
               this.questionToggle = true;
             }
           }
@@ -141,5 +145,30 @@ export default {
   -webkit-box-orient: vertical;
   overflow: hidden;
   height: 80px;
+}
+
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+  width: 85%;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
+}
+
+@font-face {
+  font-family: "BMDOHYEON";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>

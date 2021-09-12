@@ -372,8 +372,8 @@ public class ArticleController {
 		
 		long writerId = (long)(((Integer) params.get("writerId")).intValue());
 		
-		long articleId = Integer.parseInt((String) (params.get("articleId")));
-		
+		long articleId = (long)(((Integer) params.get("articleId")).intValue());
+		System.out.println("11111111111111111");
 		if(memberId != 0)
 		{
 			if(writerId == memberId)
@@ -471,11 +471,13 @@ public class ArticleController {
 	
 		String title = (String)params.get("title");
 		String body = (String)params.get("body");
-		
+
 		ArrayList<Integer> fileIds = (ArrayList<Integer>) params.get("imageDelete");
 		
 		long articleId = (long) ((Integer) params.get("articleId")).intValue();
+
 		long writerId = (long) ((Integer) params.get("writerId")).intValue();
+	
 		
 		System.out.println("articleId : " +articleId);
 		
@@ -485,8 +487,7 @@ public class ArticleController {
 		{
 			if(articleId > 0)
 			{
-				if(memberId == writerId)
-				{
+				
 					article.setTitle(title);
 					article.setBody(body);
 					article.setArticleId(articleId);
@@ -515,7 +516,7 @@ public class ArticleController {
 						System.out.println("글 수정 성공");
 						return new ResponseEntity("ok", HttpStatus.OK);
 					}
-				}
+				
 			}	
 		}
 		else
@@ -541,13 +542,6 @@ public class ArticleController {
 										    ) throws Exception
 	{	
 		System.out.println("페이징 처리중");
-		
-		System.out.println("search: " + search);
-		
-		System.out.println("page: " + page);
-		System.out.println("range: " + range);
-		System.out.println("listSize: " + listSize);
-		System.out.println("rangeSize: " + rangeSize);
 		
 		
 		
@@ -592,6 +586,9 @@ public class ArticleController {
 	public ResponseEntity getMyList(@RequestParam long boardId, HttpServletRequest request)
 	{
 		long memberId = getMemberIdByRequest(request);
+		if(memberId == 0) {
+			return new ResponseEntity("no", HttpStatus.OK);
+		}
 		List<Article> list = articleService.myList(memberId, 3);
 		list.addAll(articleService.myList(memberId,4));
 		list.addAll(articleService.myList(memberId,5));
@@ -684,18 +681,138 @@ public class ArticleController {
 	}
 	
 	
+	//괸라자가 글 삭제
+	@PostMapping("/deleteArticle")
+	public ResponseEntity deleteArticle(@RequestBody String articleId)
+	{
+		int articleIds = Integer.parseInt((String) articleId);
+		
+		System.out.println("articleId:  "+ articleIds);
+		
+		if(articleService.deleteArticle(articleIds) > 0)
+		{
+			return new ResponseEntity("ok", HttpStatus.OK);
+		}
+		
+		return new ResponseEntity("no", HttpStatus.OK);
+	}
 	
 	
 	
+	//관리자 Q&A관리
+	@PostMapping("/deleteAdminQuestion")
+	public ResponseEntity deleteAdminQuestion(@RequestBody Map<String, Object> ListData, HttpServletRequest request)
+	{
+		Map<String, Object> params = (Map<String, Object>) ListData.get("params");
+		
+		int page = ((Integer) params.get("page")).intValue();
+		int range = ((Integer) params.get("range")).intValue();
+		int listSize = ((Integer) params.get("listSize")).intValue();
+		int rangeSize = ((Integer) params.get("rangeSize")).intValue();
+		
+		String status = (String)params.get("status");
+		String children = (String)params.get("children");
+		String search = (String)params.get("search");
+		
+		System.out.println("params:  "+ params);
+		System.out.println("page:  "+ page);
+		System.out.println("range:  "+ range);
+		System.out.println("listSize:  "+ listSize);
+		System.out.println("rangeSize:  "+ rangeSize);
+		System.out.println("status:  "+ status);
+		System.out.println("children:  "+ children);
+		System.out.println("search:  "+ search);
+		
+		
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		//전체 게시글 개수
+		int total = articleService.deleteAdminQuestionCnt(status, children, search);
+		
+		System.out.println("total: " + total);
+
+	    //Pagination 객체생성
+		PagingA paging = new PagingA();
+
+		paging.pageInfo(page, range,listSize,rangeSize, total);
+		//페이지 리스트 수가 rangeSize보다 작을 때
+		if(range == 1 && paging.getTotalpage() <= paging.getEndPage())
+		{
+			
+			paging.setEndPage(paging.getTotalpage());
+			
+			range = 1;
+			
+			paging.setNext(false);
+			paging.setPrev(false);
+		}
+		
+		
+		List<Article>  list =  articleService.deleteAdminQuestion(status, children, search , paging.getDBsStart(), paging.getListSize());
+		
+		map.put("paging", paging);
+		map.put("total", total);
+		map.put("list", list);
+		
+		
+		return new ResponseEntity(map, HttpStatus.OK);
+	}
 	
 	
+	//관리자 Q&A관리
+	@PostMapping("/suspendArticle")
+	public ResponseEntity suspendArticle(@RequestBody String kind,HttpServletRequest request)
+	{
+		
+		if( kind.equals("article"))
+		{
+			List<Article>  list =  articleService.suspendArticle();
+			
+			return new ResponseEntity(list, HttpStatus.OK);
+		}
+		else
+		{
+			List<Comment>  list =  articleService.suspendComment();
+			
+			return new ResponseEntity(list, HttpStatus.OK);
+		}
+		
+	}
 	
+	//관리자 Q&A관리
+	@PostMapping("/changeSuspend")
+	public ResponseEntity changeSuspend(@RequestBody Map<String, Object> ListData,HttpServletRequest request)
+	{
+		Map<String, Object> param = (Map<String, Object>) ListData.get("param");
+		
+		int tableId = (((Integer) param.get("tableId")).intValue()); 
 	
-	
-	
-	
-	
-	
+		String status = (String) param.get("status");
+		String kind = (String) param.get("kind");
+		
+		if(kind.equals("article"))
+		{
+			System.out.println("article");
+			if(articleService.changeSuspendArticle(tableId, status) > 0)
+			{
+				return new ResponseEntity("ok", HttpStatus.OK);
+			}
+		}
+		else
+		{
+			System.out.println("comment");
+			
+			if(articleService.changeSuspendComment(tableId, status) > 0)
+			{
+				return new ResponseEntity("ok", HttpStatus.OK);
+			}
+		
+		}
+		
+		return new ResponseEntity("no", HttpStatus.OK);
+	}
+
 	
 	
 }

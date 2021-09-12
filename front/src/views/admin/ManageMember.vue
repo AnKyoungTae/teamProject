@@ -1,6 +1,11 @@
 <template>
   <div>
-    <h1>회원관리페이지</h1>
+    <!-- <h1>회원관리페이지</h1> -->
+    <div style="margin-top: 50px">
+      <h1 class="nearShopTitle" style="margin-right: 50px">
+        <p>회원관리페이지</p>
+      </h1>
+    </div>
     <!-- 노티피케이션 -->
     <notifications
       group="notifyApp"
@@ -8,7 +13,7 @@
       style="margin-right: 30vh"
     />
 
-    <div class="row align-items-center">
+    <div class="row align-items-center" :class="{ detailIsOn: memberDetail }">
       <div class="col-7">
         <div class="form-check form-check-inline">
           <input
@@ -196,6 +201,7 @@ export default {
       statusOption: "ALL",
       selectedMember: "",
       memberDetail: false,
+      latestOrder: true,
     };
   },
   computed: {
@@ -249,7 +255,6 @@ export default {
   },
   methods: {
     requestPage(request) {
-      console.log("요청페이지 : " + request);
       this.requestListCount();
       const data = {
         listPerPage: this.listPerPage,
@@ -260,14 +265,11 @@ export default {
         .post("/api/member/getmemberList", data)
         .then((response) => {
           if (response.status === 200) {
-            console.log(response.data);
             this.memberList = response.data;
             this.currentPage = request;
-            console.log("현재페이지 : " + this.currentPage);
           }
         })
         .catch((err) => {
-          console.log(err);
           error("오류가 발생했습니다. 다시 시도해주세요", this);
         });
     },
@@ -280,7 +282,6 @@ export default {
         })
         .then((response) => {
           this.totalCount = response.data;
-          console.log("등록된 총 회원수 : " + this.totalCount);
         })
         .catch((err) => {
           console.log(err);
@@ -296,13 +297,11 @@ export default {
         .post("/api/member/updatememberStatus", data)
         .then((response) => {
           if (response.status === 200) {
-            console.log(response.data);
             success("회원 상태변경 완료!", this);
             this.clearDetail();
           }
         })
         .catch((err) => {
-          console.log(err);
           error("오류가 발생했습니다. 다시 시도해주세요", this);
         });
     },
@@ -316,9 +315,10 @@ export default {
     },
     clearDetail() {
       this.memberDetail = false;
+      this.selectedMember = "";
       this.requestPage(this.currentPage);
     },
-    approvemember() {
+    approveMember() {
       if (this.selectedMember.status === "Y") {
         error("이미 활성화 된 계정입니다!", this);
         return;
@@ -327,7 +327,7 @@ export default {
 
       this.requestChangeMemberStatus(this.selectedMember.memberId, "Y");
     },
-    denymember() {
+    denyMember() {
       if (this.selectedMember.status === "N") {
         error("계정이 이미 정지된 상태입니다!", this);
         return;
@@ -353,7 +353,7 @@ export default {
 .eachmemberRow:hover {
   cursor: pointer;
   outline: 2px solid rgba(0, 26, 255, 0.4);
-  transition: 0.3s;
+  transition: 0.2s;
 }
 .detailWrapper {
   z-index: 2;
@@ -364,5 +364,29 @@ export default {
   height: 100%;
   background-color: aliceblue;
   padding: 0.2rem;
+}
+
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
+}
+
+@font-face {
+  font-family: "BMDOHYEON";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>

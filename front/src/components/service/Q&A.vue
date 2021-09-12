@@ -69,7 +69,7 @@
               </span>
               <span v-if="qn.children > 0"> [{{ qn.children }}] </span>
             </td>
-            <td class="col-2">{{ qn.regDate }}</td>
+            <td class="col-2">{{ parseDate(qn.regDate) }}</td>
             <td class="col-1">{{ qn.hit }}</td>
             <td class="col-1" v-if="privateToggle(qn.status)">
               <i class="fas fa-lock-open"></i>
@@ -176,6 +176,26 @@ export default {
   },
 
   methods: {
+    parseDate(date) {
+      let YMD = date.split(" ")[0];
+      let times = date.split(" ")[1];
+      let month = YMD.split("-")[1];
+      let day = YMD.split("-")[2];
+      let time = times.split(":")[0];
+      let min = times.split(":")[1];
+
+      return (
+        YMD.split("-")[0] +
+        "년 " +
+        (month.split("")[0] == 0 ? month.split("")[1] : month) +
+        "월 " +
+        (day.split("")[0] == 0 ? day.split("")[1] : day) +
+        "일 " +
+        (time.split("")[0] == 0 ? time.split("")[1] : time) +
+        ": " +
+        min
+      );
+    },
     //글쓰기전 본인 확인
     memberCheck() {
       authAPI
@@ -269,8 +289,12 @@ export default {
     myPage() {
       this.search = "";
       this.myCount = false;
-      authAPI.pagingMyBoard(2).then((res) => {
-        this.queAn = res.data.list;
+      authAPI.pagingMyBoard(3).then((res) => {
+        console.log(res.data);
+        if (res.data == "no") {
+          return alert("사용 권한이 없습니다.");
+        }
+        this.queAn = res.data;
       });
     },
     //Q&A 리스트 불러오기
@@ -311,8 +335,6 @@ export default {
     await this.downAllList(3, 1, 1);
     //페이징 리스트
   },
-  //버튼 클릭시
-  updated() {},
 };
 </script>
 

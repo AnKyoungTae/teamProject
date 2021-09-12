@@ -12,4 +12,5 @@ public class GraphFood {
 	private String name;	//이름
 	private int quantity;	//판매량
 	private int price;		//매출
+	private int discount;	//할인액
 }

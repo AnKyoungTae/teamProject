@@ -1,4 +1,9 @@
 <template>
+  <div style="width: 100%; margin-top: 50px">
+    <h1 class="nearShopTitle" style="margin-right: 50px">
+      <p>장바구니</p>
+    </h1>
+  </div>
   <div class="cartContainer">
     <div class="wrapper m-4 container-fluid p-2" style="width: 1000px">
       <!-- 노티피케이션 -->
@@ -8,7 +13,6 @@
         style="margin-right: 30vh"
       />
       <div class="cart">
-        <h1 class="m-2">장바구니</h1>
         <div class="cartOrder">
           <div class="orderText">
             <h4>배달정보</h4>
@@ -54,11 +58,11 @@
                   </span>
                   <input
                     type="text"
-                    placeholder="(필수) 상세주소 입력"
+                    placeholder="주소찾기를 눌러주세요"
                     class="address_input"
-                    v-model="addressDetail"
-                    @input="type_addressDetail"
+                    v-model="bindedAdressDetail"
                     style="margin-bottom: 0px; margin-bottom: 15px"
+                    readonly
                   />
                 </td>
               </tr>
@@ -170,7 +174,11 @@
                             <li class="page-item">
                               <a
                                 class="page-link"
-                                style="width: 30px; height: 30px"
+                                style="
+                                  width: 30px;
+                                  height: 30px;
+                                  cursor: pointer;
+                                "
                                 @click="decreaseQuantity(food.foodId)"
                                 ><span style="font-size: 20px">-</span></a
                               >
@@ -187,7 +195,11 @@
                             <li class="page-item">
                               <a
                                 class="page-link"
-                                style="width: 30px; height: 30px"
+                                style="
+                                  width: 30px;
+                                  height: 30px;
+                                  cursor: pointer;
+                                "
                                 @click="increaseQuantity(food.foodId)"
                                 ><span style="font-size: 20px">+</span></a
                               >
@@ -385,7 +397,6 @@ export default {
       onloaded: false,
       orderList: new Map(),
       orderRequest: "",
-      addressDetail: "",
       phone: "",
       couponList: [],
       couponLoaded: false,
@@ -397,6 +408,7 @@ export default {
     ...mapState({
       mapModal: "mapModal",
       address: "selectedPlace",
+      bindedAdressDetail: "selectedAddressDetail",
     }),
     ...mapGetters({
       checkCart: "checkCart",
@@ -523,7 +535,7 @@ export default {
         error("주소를 입력해주세요!", this);
         return;
       }
-      if (this.addressDetail == "" || !this.addressDetail) {
+      if (this.bindedAdressDetail == "" || !this.bindedAdressDetail) {
         console.log(this.address);
         error("상세 주소를 입력해주세요", this);
         return;
@@ -540,7 +552,7 @@ export default {
 
       // 계산 진행, 만약 회원이면 정보로 하고, 로그인 아니면 필요정보입력
       // 정보들은 백단에서 한번 더 재확인해야한다.
-      const address = this.finalAddress + ", " + this.addressDetail;
+      const address = this.finalAddress + ", " + this.bindedAdressDetail;
       const phone = this.phone;
       const orderRequest = this.orderRequest;
       const totalPrice = this.totalPrice;
@@ -655,9 +667,6 @@ export default {
     closeMap() {
       this.placeSelector = false;
       this.SET_MODAL_MAP(false);
-    },
-    type_addressDetail(e) {
-      this.addressDetail = e.target.value;
     },
   },
 };
@@ -867,5 +876,29 @@ export default {
 .page-link {
   color: black;
   padding: 0;
+}
+
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
+}
+
+@font-face {
+  font-family: "BMDOHYEON";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>

@@ -11,6 +11,7 @@ import com.icia.wapoo.model.LoginInfo;
 import com.icia.wapoo.paging.PagingA;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Mapper
@@ -68,4 +69,25 @@ public interface ArticleDao {
 	//댓글 신고
 	int reportComment(int commentId, String suspend);
 	
+	//관리자 글 삭제
+	int deleteArticle(int articleId);
+	
+	//관리자 deleteAdminQuestion 수
+	int deleteAdminQuestionCnt(String status, String children, String search);
+	
+	//관리자 deleteAdminQuestion 리스트
+	List<Article> deleteAdminQuestion(String status, String children, String search, int DBsStart, int listSize);
+	
+	//신고된 게시판
+	List<Article> suspendArticle();
+	
+	//신고된 댓글
+	List<Comment> suspendComment();
+	
+	//신고 관리 article
+	int changeSuspendArticle(int tableId, String status);
+	//신고 관리 comment
+	int changeSuspendComment(int tableId, String status);
+
+    List<Map<String, Object>> selectAllArticlesByMemberId(@Param("memberId") Integer memberId);
 }

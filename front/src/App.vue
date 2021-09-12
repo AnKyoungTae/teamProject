@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100vh; overflow: auto; overflow-x: hidden">
     <Sidebar />
     <transition name="page">
       <div class="App-box" :style="{ 'margin-left': sidebarWidth }">
@@ -31,6 +31,7 @@ export default {
 html,
 body {
   background: white;
+  overflow-x: hidden;
 }
 Footer {
   background-color: #355f6e;
