@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h1>가게관리페이지</h1>
+    <div style="margin-top: 50px">
+      <h1 class="nearShopTitle" style="margin-right: 50px">
+        <p>가게관리페이지</p>
+      </h1>
+    </div>
     <!-- 노티피케이션 -->
     <notifications
       group="notifyApp"
@@ -9,11 +13,7 @@
     />
 
     <!-- 설정 -->
-    <div
-      class="container-fluid mt-2"
-      id="optionWrapper"
-      :class="{ detailIsOn: storeDetail }"
-    >
+    <div class="container-fluid mt-2" id="optionWrapper">
       <div class="row align-items-center">
         <div class="col-7">
           <div class="form-check form-check-inline">
@@ -65,7 +65,7 @@
           </div>
         </div>
         <div class="col-5">
-          <!-- 검색 -->
+          <!-- 검색
           <div class="input-group w-100">
             <button
               class="btn btn-outline-secondary dropdown-toggle"
@@ -85,16 +85,12 @@
               class="form-control"
               aria-label="Text input with dropdown button"
             />
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
     <!-- 테이블시작 -->
-    <div
-      id="wrapper"
-      class="container-fluid mw-100 mt-2"
-      :class="{ detailIsOn: storeDetail }"
-    >
+    <div id="wrapper" class="container-fluid mw-100 mt-2">
       <table class="table table-bordered align-self-center table-striped">
         <thead>
           <tr class="bg-secondary">
@@ -103,7 +99,7 @@
             <th scope="col fw-bold">가게이름</th>
             <th scope="col fw-bold">상태</th>
             <th scope="col fw-bold">주소</th>
-            <th scope="col fw-bold">신청자</th>
+            <th scope="col fw-bold">사장님</th>
             <!-- 클릭시 자세하게 볼 수 있도록 -->
           </tr>
         </thead>
@@ -116,7 +112,7 @@
             v-for="(list, index) in storeList"
             :key="index"
             class="eachStoreRow"
-            @click="selectStore(list)"
+            @click="selectStore(list, $event)"
           >
             <td class="table-light">{{ startListNum + index + 1 }}</td>
             <td class="table-light text-wrap fw-light" style="width: 6rem">
@@ -193,29 +189,17 @@
       </nav>
     </div>
     <!-- 가게 상세페이지 -->
-    <div class="container detailWrapper" :class="{ detailIsOn: !storeDetail }">
-      <div class="row mb-2 p-3">
-        <div
-          class="col-3 btn btn-success align-align-self-auto m-1"
-          @click="approveStore"
-        >
-          승인하기
-        </div>
-        <div
-          class="col-3 btn btn-danger align-align-self-auto m-1"
-          @click="denyStore"
-        >
-          등록거절
-        </div>
-        <div class="col-2"></div>
-        <div
-          class="btn btn-primary col-3 align-self-end m-1"
-          @click="clearDetail"
-        >
-          목록으로 돌아가기
-        </div>
+    <div class="detailWrapper" :class="{ detailIsOn: !storeDetail }">
+      <div class="selectContainerTitle">{{ selectedStore.storename }}</div>
+      <div class="selectContainer" @click="approveStore">
+        <div class="btn btn-outline-success btn-sm">영업승인</div>
       </div>
-      <Detail :data="selectedStore"></Detail>
+      <div class="selectContainer" @click="denyStore">
+        <div class="btn btn-outline-danger btn-sm">영업취소</div>
+      </div>
+      <div class="selectContainer" @click="clearDetail">
+        <div class="btn btn-outline-dark btn-sm">닫기</div>
+      </div>
     </div>
   </div>
 </template>
@@ -223,12 +207,9 @@
 <script>
 import { normal, error, success } from "@/api/notification";
 import http from "@/api/http";
-import Detail from "@/components/admin/storeDetail.vue";
 
 export default {
-  components: {
-    Detail,
-  },
+  components: {},
   data() {
     return {
       storeList: [],
@@ -352,8 +333,13 @@ export default {
       this.statusOption = value;
       this.requestPage(1);
     },
-    selectStore(list) {
+    selectStore(list, event) {
       this.selectedStore = list;
+
+      let modal = document.querySelector(".detailWrapper");
+      modal.style.left = event.clientX + "px";
+      modal.style.top = event.clientY + "px";
+
       this.storeDetail = true;
     },
     clearDetail() {
@@ -399,11 +385,47 @@ export default {
 .detailWrapper {
   z-index: 2;
   position: absolute;
-  top: 4rem;
-  left: 5rem;
-  width: 100%;
-  height: 100%;
-  background-color: aliceblue;
-  padding: 0.2rem;
+  border-radius: 10px;
+  background-color: white;
+  padding: 1rem;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+}
+.selectContainer {
+  width: 90%;
+  height: 90%;
+  cursor: pointer;
+  margin: 2px;
+}
+.selectContainerTitle {
+  font-weight: bold;
+  margin-bottom: 10px;
+  background: #ffda77;
+  border-radius: 8px;
+}
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
+}
+
+@font-face {
+  font-family: "BMDOHYEON";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>
