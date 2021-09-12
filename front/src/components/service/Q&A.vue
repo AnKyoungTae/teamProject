@@ -37,7 +37,7 @@
 
       <br />
       <!-- 리스트 -->
-      <table class="table table-striped">
+      <table class="table table-striped" style="vertical-align: middle;">
         <tbody>
           <tr>
             <th>번호</th>
@@ -63,7 +63,7 @@
             </td>
             <td class="col-1" v-else>기타</td>
 
-            <td class="col-5 text-left">
+            <td class="col-5" style="text-align: left; padding-left:20px; padding-right:20px;">
               <span>
                 {{ qn.title }}
               </span>
@@ -91,9 +91,8 @@
         aria-label="Page navigation example "
         class="mt-5 position-relative .center-block"
         v-if="myCount"
-        style="margin: 0px; margin-bottom: 100px"
       >
-        <ul class="pagination position-absolute" style="left: 30vw">
+        <ul class="pagination QNA-btn">
           <!-- 이전 순서 버튼 -->
           <li
             class="page-item"
@@ -354,5 +353,10 @@ button {
   background: lightblue;
   cursor: pointer;
   transition: 0.2s;
+}
+.QNA-btn {
+  position:absolute;
+  left:50%;
+  transform: translate(-50%, 0%);
 }
 </style>

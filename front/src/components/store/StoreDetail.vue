@@ -40,27 +40,6 @@
             >
           </div>
         </div>
-        <div class="previewContainer" v-if="isEditMode == false">
-          <div class="previewWrapper">
-            <div class="previewWindow">
-              <img :src="selectedImage.path" />
-            </div>
-          </div>
-        </div>
-        <div class="previewContainer" v-if="isEditMode == false">
-          <div class="previewWrapper">
-            <div class="previewWindow">
-              <img :src="selectedImage.path" />
-            </div>
-          </div>
-        </div>
-        <div class="previewContainer" v-if="isEditMode == false">
-          <div class="previewWrapper">
-            <div class="previewWindow">
-              <img :src="selectedImage.path" />
-            </div>
-          </div>
-        </div>
         <!-- 수정하기모드일때 -->
         <div class="imageListContainer" v-if="isEditMode">
           <div class="addImageListWrapper">

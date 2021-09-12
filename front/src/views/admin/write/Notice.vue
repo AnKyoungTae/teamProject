@@ -2,14 +2,18 @@
   <WriteNotice v-if="toggle == 'write'"  @changeToggle="changeToggle"  ></WriteNotice>
   <EditNotice v-else-if="toggle == 'edit'" :editArticleId='editArticleId' @changeToggle="changeToggle"></EditNotice>
   <div v-else class="container" style="width: 1000px">
-    <br>
-    <button type="button" class="btn btn-dark" @click="changeToggle('write')">글쓰기</button>
-    <br>
+    <button 
+      type="button" 
+      class="btn btn-secondary" 
+      @click="changeToggle('write')"
+      style="margin:20px; font-size:25px; width:120px;"
+    >
+      글쓰기
+    </button>
 
     <div class="notice col-12 h-50">
       <ul
         class="list-group list-group-horizontal"
-        style="border-top: 2px solid gray"
       >
         <li class="list-group-item noticeTitle" style="width: 100px">
           <strong>No.</strong>
@@ -55,63 +59,61 @@
         </li>
       </ul>
       <!-- 끝 -->
-      <div style="border-top: 2px solid gray"></div>
-      <!-- 순서 버튼 -->
-      <div class="nav_bar">
-        <div
-          aria-label="Page navigation example"
-          class="mt-5 position-relative center-block"
-          style=""
-        >
-          <ul class="pagination position-absolute" style="left: 30vw">
-            <!-- 이전 순서 버튼 -->
-            <li
-              class="page-item"
-              v-if="this.paging.prev == true"
-              @click="prevBotton(paging.range, this.rangeSize, this.listSize)"
-            >
-              <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <!-- 숫자 순서 버튼 -->
-            <li class="page-item" v-for="num in this.pageList" :key="num">
-              <a
-                class="page-link"
-                href="#"
-                @click="
-                  numPage(num, this.paging.range, this.rangeSize, this.listSize)
-                "
-                v-if="paging.page != num"
-                >{{ num }}</a
-              >
-              <a
-                class="page-link"
-                href="#"
-                @click="
-                  numPage(num, this.paging.range, this.rangeSize, this.listSize)
-                "
-                style="background-color: #0d6efd; color: #fff"
-                v-else
-                >{{ num }}</a
-              >
-            </li>
-
-            <!-- 다음 순서 버튼 -->
-            <li
-              class="page-item"
-              v-if="this.paging.next == true"
-              @click="nextBotton(paging.range, this.rangeSize, this.listSize)"
-            >
-              <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <!-- 끝 -->
     </div>
+    <!-- 순서 버튼 -->
+    <div class="nav_bar">
+      <div
+        aria-label="Page navigation example"
+        class="position-relative"
+      >
+        <ul class="pagination norice-btn">
+          <!-- 이전 순서 버튼 -->
+          <li
+            class="page-item"
+            v-if="this.paging.prev == true"
+            @click="prevBotton(paging.range, this.rangeSize, this.listSize)"
+          >
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <!-- 숫자 순서 버튼 -->
+          <li class="page-item" v-for="num in this.pageList" :key="num">
+            <a
+              class="page-link"
+              href="#"
+              @click="
+                numPage(num, this.paging.range, this.rangeSize, this.listSize)
+              "
+              v-if="paging.page != num"
+              >{{ num }}</a
+            >
+            <a
+              class="page-link"
+              href="#"
+              @click="
+                numPage(num, this.paging.range, this.rangeSize, this.listSize)
+              "
+              style="background-color: #0d6efd; color: #fff"
+              v-else
+              >{{ num }}</a
+            >
+          </li>
+
+          <!-- 다음 순서 버튼 -->
+          <li
+            class="page-item"
+            v-if="this.paging.next == true"
+            @click="nextBotton(paging.range, this.rangeSize, this.listSize)"
+          >
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 끝 -->
   </div>
 </template>
 
@@ -241,5 +243,10 @@ export default {
   background: lightblue;
   cursor: pointer;
   transition: 0.2s;
+}
+.norice-btn {
+  position:absolute;
+  left:50%;
+  transform: translate(-50%, 30%);
 }
 </style>

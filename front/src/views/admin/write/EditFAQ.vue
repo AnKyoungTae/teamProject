@@ -1,33 +1,45 @@
 <template>
-  <div class="notice col-12 h-50" >
-      <!-- 리스트 시작 -->
-      <div class="accordion accordion-flush" id="accordionFlushExample">
-        <div
-          class="accordion-item"
-          style="border-top: 2px solid gray"
-         
-        >제목:
-          <input type="text" width="100" v-model="title"/>
-          
-        </div>
-
-        <div class="">
-          <textarea cols="100" rows="10" v-model="body"></textarea>
-          
-        </div>
-
-      </div>
-      <!-- 리스트 끝 -->
-      <button type="button" class="btn btn-dark" @click="updateFAQ">수정</button>
-      <button
-       
-        type="button"
-        class="btn btn-danger"
-        @click="back"
-      >
-        뒤로가기
-      </button>
+  <div class="container" style="width: 1000px">
+    <br /><span style="font-size:30px;">FAQ 수정</span><br />
+    <!-- FAQ 제목 -->
+    <div class="writeBoard">
+      <div style="font-size: 20px; text-align: left">제목</div>
+      <input
+        style="margin-bottom: 20px"
+        type="text"
+        class="form-control"
+        aria-label="Text input with dropdown button"
+        placeholder="제목을 입력해 주세요."
+        v-model="title"
+      />
+      <!-- FAQ 본문작성 -->
+      <div style="font-size: 20px; text-align: left">내용</div>
+      <textarea
+        style="height: 400px"
+        class="form-control"
+        aria-label="With textarea"
+        placeholder="내용을 입력해 주세요."
+        v-model="body"
+      ></textarea>
     </div>
+    <!-- 끝 -->
+    <button 
+      type="button" 
+      class="btn btn-dark" 
+      style="font-size:20px; margin:20px;"
+      @click="updateFAQ"
+    >
+      수정
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      style="font-size:20px; margin:20px;"
+      @click="back"
+    >
+      뒤로가기
+    </button>
+  </div>
 </template>
 
 <script>

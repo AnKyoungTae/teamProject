@@ -1,6 +1,6 @@
 <template>
   <div class="container" style="width: 1000px">
-    <br />공지사항<br />
+    <br /><span style="font-size:30px;">공지사항</span><br />
     <!-- 타이틀 -->
 
     <div class="writeBoard">
@@ -19,6 +19,7 @@
         style="height: 400px"
         class="form-control"
         aria-label="With textarea"
+        placeholder="내용을 입력해 주세요."
         v-model="body"
       ></textarea>
     </div>
@@ -73,12 +74,12 @@
 
     <!-- 제출/취소 버튼 -->
     <div class="col-md-12 text-center">
-      <button id="btn" class="btn btn-success" @click="writeRequest">
+      <button style="font-size:20px; margin:20px;" class="btn btn-success" @click="writeRequest">
         작성
       </button>
 
       <button
-        id="btn"
+        style="font-size:20px; margin:20px;"
         type="button"
         class="btn btn-danger"
         @click="returnBoard"
@@ -231,9 +232,6 @@ export default {
   width: 100%;
   margin: 5px;
   resize: none;
-}
-#btn {
-  margin: 30px;
 }
 /* https://loy124.tistory.com/203        */
 .main-container {

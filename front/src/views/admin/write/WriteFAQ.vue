@@ -1,52 +1,50 @@
 <template>
-  <div class="notice col-12 h-50" >
-    <br>
-    <button type="button" class="btn btn-primary" @click="writeRequest">제출</button>
-    <button type="button" class="btn btn-info" @click="returnBoard">뒤로가기</button>
-    <br>
-      <!-- 리스트 시작 -->
-      <div class="accordion accordion-flush" id="accordionFlushExample">
-        <div
-          class="accordion-item"
-          style="border-top: 2px solid gray"
-         
-        >
-          <h2 class="accordion-header" v-bind:id="'flush-heading' ">
-            <button
-              class="accordion-button collapsed faqButton"
-              type="button"
-              data-bs-toggle="collapse"
-              v-bind:data-bs-target="'#flush-collapse' "
-              aria-expanded="false"
-              v-bind:aria-controls="'flush-collapse' "
-            >
-              <span>제목:</span>
-              <input 
-                type="text" 
-                style="font-size: 18px; width: 40vw;" 
-                v-model="title"
-                placeholder="내용을 입력하세요"
-              />
-            </button>
-          </h2>
-          <div
-            v-bind:id="'flush-collapse' "
-            class="accordion-collapse collapse"
-            v-bind:aria-labelledby="'flush-heading' "
-            data-bs-parent="#accordionFlushExample"
-          >
-            
-            <textarea type="text" 
-              class="accordion-body" 
-              style="width: 40vw;" 
-              v-model="body" 
-              placeholder="내용을 입력하세요"/>
-          </div>
-        </div>
-      </div>
-      <!-- 리스트 끝 -->
+  <div class="container" style="width: 1000px">
+    <br /><span style="font-size:30px;">FAQ 작성</span><br />
+    <!-- FAQ 제목 -->
+
+    <div class="writeBoard">
+      <div style="font-size: 20px; text-align: left">제목</div>
+      <input
+        style="margin-bottom: 20px"
+        type="text"
+        class="form-control"
+        aria-label="Text input with dropdown button"
+        placeholder="제목을 입력해 주세요."
+        v-model="title"
+      />
+      <!-- FAQ 본문작성 -->
+      <div style="font-size: 20px; text-align: left">내용</div>
+      <textarea
+        style="height: 400px"
+        class="form-control"
+        aria-label="With textarea"
+        placeholder="내용을 입력해 주세요."
+        v-model="body"
+      ></textarea>
+    </div>
+
+    <!-- 제출/취소 버튼 -->
+    <div class="col-md-12 text-center">
+      <button 
+        style="font-size:20px; margin:20px;" 
+        class="btn btn-success" 
+        @click="writeRequest"
+      >
+        작성
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-danger"
+        style="font-size:20px; margin:20px;"
+        @click="returnBoard"
+      >
+        뒤로가기
+      </button>
       
     </div>
+  </div>
 </template>
 
 <script>
@@ -107,7 +105,4 @@ export default {
 </script>
 
 <style>
-.faqButton {
-  padding: 20px;
-}
 </style>
