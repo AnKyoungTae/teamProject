@@ -64,10 +64,18 @@
       <p style="margin: 0px">{{ data.reply }}</p>
     </div>
     <hr style="margin-left: -16px" />
-    <div v-if="replySuccess == true">
+    <div
+      v-if="replySuccess == true"
+      style="
+        border: 1px solid lightgray;
+        background-color: lightgray;
+        margin-bottom: 16px;
+        padding: 10px;
+      "
+    >
       <!-- 댓글달기 성공했을때 새로고침대신 가짜로띄워주기-->
-      <span>사장님댓글</span>
-      <p>
+      <span>&nbsp;&#10551;&nbsp;사장님댓글&nbsp;&nbsp;</span>
+      <p style="font-size: 14px; color: gray; margin: 0px">
         {{ reply }}
       </p>
     </div>

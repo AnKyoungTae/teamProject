@@ -40,27 +40,6 @@
             >
           </div>
         </div>
-        <div class="previewContainer" v-if="isEditMode == false">
-          <div class="previewWrapper">
-            <div class="previewWindow">
-              <img :src="selectedImage.path" />
-            </div>
-          </div>
-        </div>
-        <div class="previewContainer" v-if="isEditMode == false">
-          <div class="previewWrapper">
-            <div class="previewWindow">
-              <img :src="selectedImage.path" />
-            </div>
-          </div>
-        </div>
-        <div class="previewContainer" v-if="isEditMode == false">
-          <div class="previewWrapper">
-            <div class="previewWindow">
-              <img :src="selectedImage.path" />
-            </div>
-          </div>
-        </div>
         <!-- 수정하기모드일때 -->
         <div class="imageListContainer" v-if="isEditMode">
           <div class="addImageListWrapper">
@@ -116,7 +95,10 @@
           </div>
           <div class="infoRow">
             <div class="left">가게 주소</div>
-            <div class="right">{{ storeInfo.address }} <br/> {{ storeInfo.addressDetail }}</div>
+            <div class="right">
+              {{ storeInfo.address }} <br />
+              {{ storeInfo.addressDetail }}
+            </div>
           </div>
           <div class="infoRow">
             <div class="left">가게 설명</div>
@@ -139,16 +121,28 @@
         </div>
         <div id="staticMap"></div>
       </div>
+      <div class="nameContainer">
+        <span class="nameWrap">
+          <p>리뷰</p>
+        </span>
+      </div>
+      <div v-if="Array.isArray(reviewList) && reviewList.length > 0">
+        <div v-for="(review, index) in reviewList" :key="index" class="m-2">
+          <review-row :data="review" isOwner="true"></review-row>
+        </div>
+      </div>
+      <div v-else>등록된 리뷰가 없습니다</div>
     </div>
   </div>
 </template>
 
 <script>
 import http from "@/api/http";
+import ReviewRow from "@/components/adminComponent/ReviewRow.vue";
 
 export default {
   props: ["storeInfo", "storeFiles", "isMyStore"],
-  components: {},
+  components: { ReviewRow },
   data() {
     return {
       dataLoaded: false, // 데이터로딩
@@ -158,6 +152,7 @@ export default {
       needDelFileIdList: [],
       isEditMode: false,
       description: "",
+      reviewList: [],
     };
   },
   mounted() {
@@ -177,7 +172,7 @@ export default {
       }
       this.initMap();
       this.description = this.storeInfo.body;
-
+      this.requestReviewList();
       this.dataLoaded = true;
     });
   },
@@ -310,6 +305,20 @@ export default {
       this.selectImage(0);
       this.toggleEdit();
     },
+    requestReviewList() {
+      const storeId = parseInt(this.storeInfo.storeId);
+      const data = {
+        listPerPage: 100,
+        currentPage: 1,
+        storeId: storeId,
+        showOption: "recent",
+      };
+      http.post("/review/getReviewList", data).then((res) => {
+        if (res.status === 200) {
+          this.reviewList = res.data;
+        }
+      });
+    },
   },
   computed: {},
 };
@@ -359,14 +368,14 @@ export default {
   padding: 0 0 0.2em 0;
 }
 .shopImagesContainer {
-    width: 95%;
-    margin: 5px;
-    display: flex;
-    flex-flow: row;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
+  width: 95%;
+  margin: 5px;
+  display: flex;
+  flex-flow: row;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
 }
 .previewContainer {
   width: 410px;
@@ -493,30 +502,30 @@ export default {
   width: 80%;
 }
 .infoRow {
-    background: rgb(215, 237, 245);
-    min-height: 50px;
-    display: flex;
-    justify-content: center;
-    align-content: flex-start;
-    align-items: flex-start;
-    flex-wrap: wrap;
+  background: rgb(215, 237, 245);
+  min-height: 50px;
+  display: flex;
+  justify-content: center;
+  align-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
 }
 .infoRow > .left {
-    margin-bottom: 10px;
-    width: 100%;
-    text-align: start;
-    padding: 0 20px 0 20px;
-    font-family: BMHANNAPro;
-    font-weight: bolder;
-    font-size: 25px;
-    border-bottom: 4px solid orange;
+  margin-bottom: 10px;
+  width: 100%;
+  text-align: start;
+  padding: 0 20px 0 20px;
+  font-family: BMHANNAPro;
+  font-weight: bolder;
+  font-size: 25px;
+  border-bottom: 4px solid orange;
 }
 .infoRow > .right {
-width: 100%;
-    font-family: BMHANNAPro;
-    font-weight: 400;
-    margin-bottom: 20px;
-    font-size: 1.2em;
+  width: 100%;
+  font-family: BMHANNAPro;
+  font-weight: 400;
+  margin-bottom: 20px;
+  font-size: 1.2em;
 }
 .shopMapContainer {
   width: 100%;
