@@ -42,7 +42,7 @@
         >이벤트관리</SidebarLink
       >
       <SidebarLink to="/adminService" icon="fas fa-pencil-alt"
-        >글작성</SidebarLink
+        >게시글</SidebarLink
       >
     </div>
     <div v-else-if="userRole != null && userRole == 'SELLER'">

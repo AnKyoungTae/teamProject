@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h1>쿠폰관리페이지</h1>
+    <div style="margin-top: 50px">
+      <h1 class="nearShopTitle" style="margin-right: 50px">
+        <p>이벤트관리</p>
+      </h1>
+    </div>
     <!-- 노티피케이션 -->
     <notifications
       group="notifyApp"
@@ -58,148 +62,156 @@
     </div>
 
     <div class="container" style="width: 1000px">
-    <div class="notice col-12 h-50">
-      <!-- 리스트 시작 -->
-      <div class="accordion accordion-flush" id="accordionFlushExample">
-        <div
-          class="accordion-item"
-          style="border-top: 2px solid gray"
-          v-for="(list, index) in couponList"
-          :key="index"
-        >
-          <h2 class="accordion-header" v-bind:id="'flush-heading' + index">
-            <button
-              class="accordion-button collapsed faqButton"
-              type="button"
-              data-bs-toggle="collapse"
-              v-bind:data-bs-target="'#flush-collapse' + index"
-              aria-expanded="false"
-              v-bind:aria-controls="'flush-collapse' + index"
-            >
-              <strong style="font-size: 18px">
-                <!-- 이벤트  -->
-                <table class="table table-bordered align-self-center table-striped">
-                  <thead>
-                    <tr class="bg-secondary">
-                      <th scope="col fw-bold">#</th>
-                      <th scope="col fw-bold">이벤트발행일자</th>
-                      <th scope="col fw-bold">사용종료일</th>
-                      <th scope="col fw-bold">제목</th>
-                      <th scope="col fw-bold">내용</th>
-                      <th scope="col fw-bold">상태</th>
-                      <th scope="col fw-bold">할인금액</th>
-                      
-                      
-                      <!-- 클릭시 자세하게 볼 수 있도록 -->
-                    </tr>
-                  </thead>
-                  <!-- 테이블 내용 -->
-                  <tbody>
-                    <tr v-if="totalCount === 1">
-                      <td class="table-danger" colspan="7">등록된 이벤트가 없습니다.</td>
-                    </tr>
-                    <tr
-                      class="eachcouponRow"
-                      @click="selectcoupon(list)"
-                    >
-                      <td class="table-light">{{ startListNum + index +1}}</td>
-                      <td class="table-light text-wrap fw-light" style="width: 10rem">
-                        {{
-                          list.eventRegDate
-                          
-                        }}
-                      </td>
-                      <td class="table-light text-wrap fw-light" style="width: 10rem">
-                        {{
-                          list.eventDueDate
-                        }}
-                      </td>
-                      <td class="table-light" style="width: 8rem;">{{ list.title }}</td>
-                      <td class="table-light" style="width: 12rem">{{ list.body }}</td>
-                      
-                      <td class="table-success" v-if="list.status == 'Y'">
-                        {{ list.status }}
-                      </td>
-                      <td class="table-warning" v-else-if="list.status == 'S'">
-                        {{ list.status }}
-                      </td>
-                      <td class="table-danger" v-else-if="list.status == 'N'">
-                        {{ list.status }}
-                      </td>
-                      <td class="table-dark" v-else>?</td>
-                      <td class="table-light">{{ list.couponPrice }}</td>
-            
-                    </tr>
-                  </tbody>
-                </table>
-
-              </strong>
-            </button>
-          </h2>
+      <div class="notice col-12 h-50">
+        <!-- 리스트 시작 -->
+        <div class="accordion accordion-flush" id="accordionFlushExample">
           <div
-            v-bind:id="'flush-collapse' + index"
-            class="accordion-collapse collapse"
-            v-bind:aria-labelledby="'flush-heading' + index"
-            data-bs-parent="#accordionFlushExample"
+            class="accordion-item"
+            style="border-top: 2px solid gray"
+            v-for="(list, index) in couponList"
+            :key="index"
           >
-            <div class="accordion-body">
-              <!-- 쿠폰 -->
-              <table class="table table-bordered align-self-center table-striped">
+            <h2 class="accordion-header" v-bind:id="'flush-heading' + index">
+              <button
+                class="accordion-button collapsed faqButton"
+                type="button"
+                data-bs-toggle="collapse"
+                v-bind:data-bs-target="'#flush-collapse' + index"
+                aria-expanded="false"
+                v-bind:aria-controls="'flush-collapse' + index"
+              >
+                <strong style="font-size: 18px">
+                  <!-- 이벤트  -->
+                  <table
+                    class="table table-bordered align-self-center table-striped"
+                  >
+                    <thead>
+                      <tr class="bg-secondary">
+                        <th scope="col fw-bold">#</th>
+                        <th scope="col fw-bold">이벤트발행일자</th>
+                        <th scope="col fw-bold">사용종료일</th>
+                        <th scope="col fw-bold">제목</th>
+                        <th scope="col fw-bold">내용</th>
+                        <th scope="col fw-bold">상태</th>
+                        <th scope="col fw-bold">할인금액</th>
+
+                        <!-- 클릭시 자세하게 볼 수 있도록 -->
+                      </tr>
+                    </thead>
+                    <!-- 테이블 내용 -->
+                    <tbody>
+                      <tr v-if="totalCount === 1">
+                        <td class="table-danger" colspan="7">
+                          등록된 이벤트가 없습니다.
+                        </td>
+                      </tr>
+                      <tr class="eachcouponRow" @click="selectcoupon(list)">
+                        <td class="table-light">
+                          {{ startListNum + index + 1 }}
+                        </td>
+                        <td
+                          class="table-light text-wrap fw-light"
+                          style="width: 10rem"
+                        >
+                          {{ list.eventRegDate }}
+                        </td>
+                        <td
+                          class="table-light text-wrap fw-light"
+                          style="width: 10rem"
+                        >
+                          {{ list.eventDueDate }}
+                        </td>
+                        <td class="table-light" style="width: 8rem">
+                          {{ list.title }}
+                        </td>
+                        <td class="table-light" style="width: 12rem">
+                          {{ list.body }}
+                        </td>
+
+                        <td class="table-success" v-if="list.status == 'Y'">
+                          {{ list.status }}
+                        </td>
+                        <td
+                          class="table-warning"
+                          v-else-if="list.status == 'S'"
+                        >
+                          {{ list.status }}
+                        </td>
+                        <td class="table-danger" v-else-if="list.status == 'N'">
+                          {{ list.status }}
+                        </td>
+                        <td class="table-dark" v-else>?</td>
+                        <td class="table-light">{{ list.couponPrice }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </strong>
+              </button>
+            </h2>
+            <div
+              v-bind:id="'flush-collapse' + index"
+              class="accordion-collapse collapse"
+              v-bind:aria-labelledby="'flush-heading' + index"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div class="accordion-body">
+                <!-- 쿠폰 -->
+                <table
+                  class="table table-bordered align-self-center table-striped"
+                >
                   <thead>
                     <tr class="bg-secondary">
-                      
                       <th scope="col fw-bold">쿠폰발행일자</th>
                       <th scope="col fw-bold">쿠폰사용종료일</th>
                       <th scope="col fw-bold">이름</th>
                       <th scope="col fw-bold">번호</th>
-                      
+
                       <th scope="col fw-bold">할인금액</th>
                       <th scope="col fw-bold">할인율</th>
-                      
+
                       <!-- 클릭시 자세하게 볼 수 있도록 -->
                     </tr>
                   </thead>
                   <!-- 테이블 내용 @click="selectcoupon(list)"-->
                   <tbody>
                     <tr v-if="totalCount === 1">
-                      <td class="table-danger" colspan="6">등록된 쿠폰가 없습니다.</td>
+                      <td class="table-danger" colspan="6">
+                        등록된 쿠폰가 없습니다.
+                      </td>
                     </tr>
-                    <tr
-                      class="eachcouponRow"
-                      
-                    >
-                      
-                      <td class="table-light text-wrap fw-light" style="width: 10rem">
-                        {{
-                          list.publishedDate
-                          
-                        }}
+                    <tr class="eachcouponRow">
+                      <td
+                        class="table-light text-wrap fw-light"
+                        style="width: 10rem"
+                      >
+                        {{ list.publishedDate }}
                       </td>
-                      <td class="table-light text-wrap fw-light" style="width: 10rem">
-                        {{
-                          list.couponEnd
-                        }}
+                      <td
+                        class="table-light text-wrap fw-light"
+                        style="width: 10rem"
+                      >
+                        {{ list.couponEnd }}
                       </td>
-                      <td class="table-light" style="width: 8rem;">{{ list.couponName }}</td>
-                      <td class="table-light" style="width: 12rem">{{ list.couponNumber }}</td>
-                      
-                      
-                      
+                      <td class="table-light" style="width: 8rem">
+                        {{ list.couponName }}
+                      </td>
+                      <td class="table-light" style="width: 12rem">
+                        {{ list.couponNumber }}
+                      </td>
+
                       <td class="table-light">{{ list.couponPrice }}</td>
-                      <td class="table-light">{{ list.discountRate + "%"}}</td>
+                      <td class="table-light">{{ list.discountRate + "%" }}</td>
                     </tr>
                   </tbody>
                 </table>
-
-
+              </div>
             </div>
           </div>
         </div>
+        <!-- 리스트 끝 -->
+        <div style="border-top: 2px solid gray"></div>
       </div>
-      <!-- 리스트 끝 -->
-      <div style="border-top: 2px solid gray"></div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -210,7 +222,6 @@ import JWT from "@/api/jwt";
 import Detail from "@/components/admin/couponDetail.vue";
 
 export default {
-  
   data() {
     return {
       couponList: [],
@@ -319,7 +330,8 @@ export default {
           console.log(err);
         });
     },
-    requestChangeCouponStatus(couponId, status) {   //상태변경
+    requestChangeCouponStatus(couponId, status) {
+      //상태변경
       const data = {
         eventId: couponId,
         status: status,
@@ -329,10 +341,10 @@ export default {
         .then((response) => {
           if (response.data === "ok") {
             console.log(response.data);
-         
+
             success("쿠폰 상태변경 완료!", this);
             this.clearDetail();
-          }else if(response.data === "no"){
+          } else if (response.data === "no") {
             success("쿠폰 상태변경  실패!", this);
           }
         })
@@ -348,26 +360,24 @@ export default {
     selectcoupon(list) {
       this.selectedcoupon = list;
       console.log(this.selectedcoupon);
-       var confirmflag = confirm("이벤트를 변경합니다.");
+      var confirmflag = confirm("이벤트를 변경합니다.");
 
-           if(confirmflag){
-             if(this.selectedcoupon.status === 'Y') {
-               console.log(this.selectedcoupon.eventId);
-               if(confirm("진행중인 이벤트입니다\n 취소하시겠습니까?")){
-                 this.requestChangeCouponStatus(this.selectedcoupon.eventId, "N");
-               }
-               
-             }else if(this.selectedcoupon.status === 'N'){
-               alert("종료된 이벤트 입니다.")
-             }
-             else {
-               console.log(this.selectedcoupon.eventId);
-               this.requestChangeCouponStatus(this.selectedcoupon.eventId, "Y");
-             }
-           }else{
-             console.log("취소");
-           }
-      
+      if (confirmflag) {
+        if (this.selectedcoupon.status === "Y") {
+          console.log(this.selectedcoupon.eventId);
+          if (confirm("진행중인 이벤트입니다\n 취소하시겠습니까?")) {
+            this.requestChangeCouponStatus(this.selectedcoupon.eventId, "N");
+          }
+        } else if (this.selectedcoupon.status === "N") {
+          alert("종료된 이벤트 입니다.");
+        } else {
+          console.log(this.selectedcoupon.eventId);
+          this.requestChangeCouponStatus(this.selectedcoupon.eventId, "Y");
+        }
+      } else {
+        console.log("취소");
+      }
+
       console.log(this.selectedcoupon.status);
     },
     clearDetail() {
@@ -380,7 +390,7 @@ export default {
         return;
       }
       success("쿠폰를 승인합니다!", this);
-      
+
       this.requestChangeCouponStatus(this.selectedcoupon.couponId, "Y");
     },
     denyCoupon() {
@@ -402,5 +412,28 @@ export default {
 
 .faqButton {
   padding: 20px;
+}
+.nearShopTitle {
+  font-weight: bolder;
+  text-align: end;
+  margin-bottom: 20px;
+  color: #91afba;
+  font-family: BMDOHYEON;
+  user-select: none;
+  display: flex;
+  justify-content: end;
+}
+.nearShopTitle > p {
+  width: 30%;
+  border-bottom: 8px solid #ffda77;
+  padding-bottom: 10px;
+}
+
+@font-face {
+  font-family: "BMDOHYEON";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>
