@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h1>회원관리페이지</h1>
-    <!-- <div style="margin-top: 50px;">
-      <h1 class="nearShopTitle" style="margin-right: 50px;">
+    <!-- <h1>회원관리페이지</h1> -->
+    <div style="margin-top: 50px">
+      <h1 class="nearShopTitle" style="margin-right: 50px">
         <p>회원관리페이지</p>
       </h1>
-    </div> -->
+    </div>
     <!-- 노티피케이션 -->
     <notifications
       group="notifyApp"
@@ -201,6 +201,7 @@ export default {
       statusOption: "ALL",
       selectedMember: "",
       memberDetail: false,
+      latestOrder: true,
     };
   },
   computed: {
@@ -254,7 +255,6 @@ export default {
   },
   methods: {
     requestPage(request) {
-      console.log("요청페이지 : " + request);
       this.requestListCount();
       const data = {
         listPerPage: this.listPerPage,
@@ -265,14 +265,11 @@ export default {
         .post("/api/member/getmemberList", data)
         .then((response) => {
           if (response.status === 200) {
-            console.log(response.data);
             this.memberList = response.data;
             this.currentPage = request;
-            console.log("현재페이지 : " + this.currentPage);
           }
         })
         .catch((err) => {
-          console.log(err);
           error("오류가 발생했습니다. 다시 시도해주세요", this);
         });
     },
@@ -285,7 +282,6 @@ export default {
         })
         .then((response) => {
           this.totalCount = response.data;
-          console.log("등록된 총 회원수 : " + this.totalCount);
         })
         .catch((err) => {
           console.log(err);
@@ -301,13 +297,11 @@ export default {
         .post("/api/member/updatememberStatus", data)
         .then((response) => {
           if (response.status === 200) {
-            console.log(response.data);
             success("회원 상태변경 완료!", this);
             this.clearDetail();
           }
         })
         .catch((err) => {
-          console.log(err);
           error("오류가 발생했습니다. 다시 시도해주세요", this);
         });
     },
@@ -321,9 +315,10 @@ export default {
     },
     clearDetail() {
       this.memberDetail = false;
+      this.selectedMember = "";
       this.requestPage(this.currentPage);
     },
-    approvemember() {
+    approveMember() {
       if (this.selectedMember.status === "Y") {
         error("이미 활성화 된 계정입니다!", this);
         return;
@@ -332,7 +327,7 @@ export default {
 
       this.requestChangeMemberStatus(this.selectedMember.memberId, "Y");
     },
-    denymember() {
+    denyMember() {
       if (this.selectedMember.status === "N") {
         error("계정이 이미 정지된 상태입니다!", this);
         return;

@@ -425,7 +425,7 @@ SELECT	articleId,
 	SUSPEND AS 'suspend'
 	FROM	`article`
 	
-WHERE	`STATUS` = 'S'
+WHERE	`suspend` = 'S'
 </select>
 
 <select id="suspendComment" resultType="Comment">
@@ -433,23 +433,23 @@ WHERE	`STATUS` = 'S'
 SELECT	commentId,
 	regDate,
 	updateDate,
-	STATUS,
+	`status`,
 	BODY,
 	article_id AS 'articleId',
 	writer_id AS 'writerId',
 	SUSPEND
 	FROM	`comment`
-WHERE	`STATUS` = 'S'
+WHERE	`status` = 'S'
 
 </select>
 
 <!-- 신고관리 article -->
 <update id="changeSuspendArticle">
 UPDATE	`article`
-	SET	STATUS = #{status}
+	SET	`status` = #{status}
 
 <if test='status == "Y"'>
-	,SUSPEND = NULL
+	,`suspend` = NULL
 </if>
 	
 WHERE	articleId= #{tableId}
@@ -458,17 +458,21 @@ WHERE	articleId= #{tableId}
 <!-- 신고관리 comment -->
 <select id="changeSuspendComment">
 UPDATE	`comment`
-	SET	STATUS = #{status}
+	SET	`status` = #{status}
 	
 <if test='status == "Y"'>
-	,SUSPEND = NULL
+	,`suspend` = NULL
 </if>
 	
 WHERE	commentId= #{tableId}
 </select>
 
-
-
+	<select id="selectAllArticlesByMemberId" resultType="Map">
+		SELECT *
+		FROM `article`
+		WHERE writer_id = #{memberId}
+		ORDER BY regDate DESC
+	</select>
 
 
 

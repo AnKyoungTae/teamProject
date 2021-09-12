@@ -65,4 +65,8 @@ public class ReviewService {
     public int updateReviewState(Integer reviewId, String state) {
         return reviewDao.updateReviewStatus(reviewId, state);
     }
+
+    public List<Map<String, Object>> getAllReviewByMemberId(Integer memberId) {
+        return reviewDao.selectAllReviewsByMemberId(memberId);
+    }
 }

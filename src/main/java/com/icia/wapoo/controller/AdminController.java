@@ -102,5 +102,18 @@ public class AdminController {
         
     	return new ResponseEntity("no",HttpStatus.OK);
     }
-    
+    @GetMapping("/getAllArticles")
+    public ResponseEntity getAllArticles(@RequestParam Integer memberId) {
+
+        List<Map<String, Object>> articleList = adminService.getAllArticlesByMemberId(memberId);
+
+        return new ResponseEntity(articleList, HttpStatus.OK);
+    }
+    @GetMapping("/getAllReviews")
+    public ResponseEntity getAllReviews(@RequestParam Integer memberId) {
+
+        List<Map<String, Object>> reviewList = adminService.getAllreviewByMemberId(memberId);
+
+        return new ResponseEntity(reviewList, HttpStatus.OK);
+    }
 }

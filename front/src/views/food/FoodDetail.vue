@@ -2,9 +2,7 @@
   <div v-if="dataLoaded" class="wrapper">
     <div class="storeBox">
       <div class="storeName">
-        <span>
-          {{ shopInfo.storeInfo.name }}
-        </span>
+        <span> {{ shopInfo.storeInfo.name }} </span>
       </div>
       <hr />
       <div

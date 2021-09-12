@@ -1,6 +1,6 @@
 <template>
-  <div style="width: 100%; margin-top: 50px;">
-    <h1 class="nearShopTitle" style="margin-right: 50px;">
+  <div style="width: 100%; margin-top: 50px">
+    <h1 class="nearShopTitle" style="margin-right: 50px">
       <p>장바구니</p>
     </h1>
   </div>
@@ -58,11 +58,11 @@
                   </span>
                   <input
                     type="text"
-                    placeholder="(필수) 상세주소 입력"
+                    placeholder="주소찾기를 눌러주세요"
                     class="address_input"
-                    v-model="addressDetail"
-                    @input="type_addressDetail"
+                    v-model="bindedAdressDetail"
                     style="margin-bottom: 0px; margin-bottom: 15px"
+                    readonly
                   />
                 </td>
               </tr>
@@ -174,7 +174,11 @@
                             <li class="page-item">
                               <a
                                 class="page-link"
-                                style="width: 30px; height: 30px; cursor: pointer;"
+                                style="
+                                  width: 30px;
+                                  height: 30px;
+                                  cursor: pointer;
+                                "
                                 @click="decreaseQuantity(food.foodId)"
                                 ><span style="font-size: 20px">-</span></a
                               >
@@ -182,7 +186,7 @@
                             <li class="page-item">
                               <a
                                 class="page-link"
-                                style="border: none; margin: 0 10px;"
+                                style="border: none; margin: 0 10px"
                               >
                                 <span>{{ foodQuantity(food.foodId) }}</span>
                               </a>
@@ -191,7 +195,11 @@
                             <li class="page-item">
                               <a
                                 class="page-link"
-                                style="width: 30px; height: 30px; cursor: pointer;"
+                                style="
+                                  width: 30px;
+                                  height: 30px;
+                                  cursor: pointer;
+                                "
                                 @click="increaseQuantity(food.foodId)"
                                 ><span style="font-size: 20px">+</span></a
                               >
@@ -380,7 +388,6 @@ import http from "@/api/http";
 import axios from "axios";
 import kakaomap from "@/components/modal/Map.vue";
 import { error, success } from "@/api/notification";
-import Footer from "@/components/footer/Footer.vue";
 
 export default {
   components: { kakaomap },
@@ -390,7 +397,6 @@ export default {
       onloaded: false,
       orderList: new Map(),
       orderRequest: "",
-      addressDetail: "",
       phone: "",
       couponList: [],
       couponLoaded: false,
@@ -402,6 +408,7 @@ export default {
     ...mapState({
       mapModal: "mapModal",
       address: "selectedPlace",
+      bindedAdressDetail: "selectedAddressDetail",
     }),
     ...mapGetters({
       checkCart: "checkCart",
@@ -528,7 +535,7 @@ export default {
         error("주소를 입력해주세요!", this);
         return;
       }
-      if (this.addressDetail == "" || !this.addressDetail) {
+      if (this.bindedAdressDetail == "" || !this.bindedAdressDetail) {
         console.log(this.address);
         error("상세 주소를 입력해주세요", this);
         return;
@@ -545,7 +552,7 @@ export default {
 
       // 계산 진행, 만약 회원이면 정보로 하고, 로그인 아니면 필요정보입력
       // 정보들은 백단에서 한번 더 재확인해야한다.
-      const address = this.finalAddress + ", " + this.addressDetail;
+      const address = this.finalAddress + ", " + this.bindedAdressDetail;
       const phone = this.phone;
       const orderRequest = this.orderRequest;
       const totalPrice = this.totalPrice;
@@ -660,9 +667,6 @@ export default {
     closeMap() {
       this.placeSelector = false;
       this.SET_MODAL_MAP(false);
-    },
-    type_addressDetail(e) {
-      this.addressDetail = e.target.value;
     },
   },
 };

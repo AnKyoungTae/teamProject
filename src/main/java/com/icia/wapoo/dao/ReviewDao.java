@@ -32,4 +32,5 @@ public interface ReviewDao {
 
     int updateReviewStatus(@Param("reviewId") Integer reviewId, @Param("status") String state);
 
+    List<Map<String, Object>> selectAllReviewsByMemberId(@Param("memberId") Integer memberId);
 }
