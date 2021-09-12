@@ -420,6 +420,7 @@ LIMIT #{DBsStart}, #{listSize}
 
 <!-- 신고된 게시판 -->
 <select id="suspendArticle" resultType="Article">
+
 SELECT	articleId,
 	regDate,
 	updateDate,
@@ -435,6 +436,7 @@ SELECT	articleId,
 	FROM	`article`
 	
 WHERE	`status` = 'S'
+
 </select>
 
 <select id="suspendComment" resultType="Comment">

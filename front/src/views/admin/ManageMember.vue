@@ -13,7 +13,7 @@
       style="margin-right: 30vh"
     />
 
-    <div class="row align-items-center">
+    <div class="row align-items-center" :class="{ detailIsOn: memberDetail }">
       <div class="col-7">
         <div class="form-check form-check-inline">
           <input
@@ -353,7 +353,7 @@ export default {
 .eachmemberRow:hover {
   cursor: pointer;
   outline: 2px solid rgba(0, 26, 255, 0.4);
-  transition: 0.3s;
+  transition: 0.2s;
 }
 .detailWrapper {
   z-index: 2;
