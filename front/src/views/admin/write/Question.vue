@@ -1,16 +1,18 @@
 <template>
   <WriteQuestion v-if="toggle == 'write'" :articleId='articleId' @changeToggle="changeToggle"></WriteQuestion>
 
-  <div v-else>
-    <div>
-      전체<input type="radio" id="all" name="hidden" value="ALL" @click="changeStatus('ALL')" checked>
-      비공개<input type="radio" name="hidden" value="Hidden"  @click="changeStatus('Hiden')"/>
-    </div>
-    <hr>
-    <div>
-      <h2>댓글 여부</h2>
-      있음<input type="radio"  name="comment" value="ALL" @click="changechildren('ON')" >
-      없음<input type="radio" id="comment" name="comment" value="Hidden"  @click="changechildren('OFF')" checked />
+  <div v-else  style="width: 1000px">
+    <div class="qna-select">
+      <div style="padding-right:50px;">
+        <h3>공개 여부</h3>
+        전체<input type="radio" name="hidden" value="ALL" @click="changeStatus('ALL')" checked>
+        비공개<input type="radio" name="hidden" value="Hidden"  @click="changeStatus('Hiden')"/>
+      </div>
+      <div>
+        <h3>댓글 여부</h3>
+        있음<input type="radio" name="comment" value="ALL" @click="changechildren('ON')" >
+        없음<input type="radio" name="comment" value="Hidden"  @click="changechildren('OFF')" checked />
+      </div>
     </div>
     <!-- 검색 -->
       <div id="Search" class="input-group mt-3">
@@ -33,121 +35,117 @@
         </button>
       </div>
 
-    <table class="table table-striped">
-        <tbody>
-          <tr>
-            <th>번호</th>
-            <th>구분</th>
-            <th>제목</th>
-            <th>날짜</th>
-            <th>조회수</th>
-            <th>공개 여부</th>
-          </tr>
-          <tr
-            class="listRow"
-            style="cursor: pointer"
-            v-for="(qn, index) in this.queAn"
-            :key="index"
-            @click="listPage(qn.articleId)"
+    <table class="table table-striped" style="text-align: center; vertical-align: middle;">
+      <tbody>
+        <tr>
+          <th>번호</th>
+          <th>구분</th>
+          <th>제목</th>
+          <th>날짜</th>
+          <th>조회수</th>
+          <th>공개 여부</th>
+        </tr>
+        <tr
+          class="listRow"
+          style="cursor: pointer"
+          v-for="(qn, index) in this.queAn"
+          :key="index"
+          @click="listPage(qn.articleId)"
+        >
+          <td class="col-1">{{ startListNum + index +1 }}</td>
+          <td class="col-1">
+            <div v-if="qn.boardId == 4">주문</div>
+            <div v-else-if="qn.boardId == 5">딜리버리 주문</div>
+            <div v-else-if="qn.boardId == 6">제품/품질/서비스</div>
+            <div v-else-if="qn.boardId == 7">답글 <i class="fas fa-long-arrow-alt-right"></i></div>
+            <div v-else>기타</div>
+          </td>
+
+          <td class="col-5" style="text-align: left; padding-left:20px; padding-right:20px;">
+            <span>
+              {{ qn.title }}
+            </span>
+            <span v-if="qn.children > 0"> [{{ qn.children }}] </span>
+          </td>
+          <td class="col-2">{{ qn.regDate }}</td>
+          <td class="col-1">{{ qn.hit }}</td>
+          <td class="col-1" v-if="qn.status != 'H'">
+            <i class="fas fa-lock-open"></i>
+          </td>
+          <td class="col-1" v-else>
+            <i class="fas fa-lock"></i>
+          </td>
+        </tr>
+        <tr v-if="queAn.length == 0">
+          <td colspan="6" style="font-weight: 700; font-size: 2vh">
+            글이 없습니다
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 순서 버튼 -->
+    <nav
+      aria-label="Page navigation example "
+      class="mt-5 position-relative .center-block"
+    >
+      <ul class="pagination QNA-btn">
+        <!-- 이전 순서 버튼 -->
+        <li
+          class="page-item"
+          v-if="this.paging.prev == true"
+          @click="prevBotton(paging.range, rangeSize, listSize)"
+        >
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <!-- 숫자 순서 버튼 -->
+        <li
+          class="page-item"
+          v-for="num in pageList"
+          :key="num"
+          :style="{ ontSize: '20px' }"
+        >
+          <a
+            class="page-link"
+            href="#"
+            @click="
+              downAllList(
+                num,
+                this.paging.range,
+              )
+            "
+            v-if="paging.page != num"
+            >{{ num }}</a
           >
-            <td class="col-1">{{ startListNum + index +1 }}</td>
-            <td class="col-1" v-if="qn.boardId == 4">주문</td>
-            <td class="col-1" v-else-if="qn.boardId == 5">딜리버리 주문</td>
-            <td class="col-1" v-else-if="qn.boardId == 6">제품/품질/서비스</td>
-            <td class="col-1" v-else-if="qn.boardId == 7">
-              답글 <i class="fas fa-long-arrow-alt-right"></i>
-            </td>
-            <td class="col-1" v-else>기타</td>
-
-            <td class="col-5 text-left">
-              <span>
-                {{ qn.title }}
-              </span>
-              <span v-if="qn.children > 0"> [{{ qn.children }}] </span>
-            </td>
-            <td class="col-2">{{ qn.regDate }}</td>
-            <td class="col-1">{{ qn.hit }}</td>
-            <td class="col-1" v-if="qn.status != 'H'">
-              <i class="fas fa-lock-open"></i>
-            </td>
-            <td class="col-1" v-else>
-              <i class="fas fa-lock"></i>
-            </td>
-          </tr>
-          <tr v-if="queAn.length == 0">
-            <td colspan="6" style="font-weight: 700; font-size: 2vh">
-              글이 없습니다
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-
-      <!-- 순서 버튼 -->
-      <nav
-        aria-label="Page navigation example "
-        class="mt-5  .center-block"
-        
-        style="margin: 0 auto; width: 5vw;"
-      >
-        <ul class="pagination " style="left: 30vw">
-          <!-- 이전 순서 버튼 -->
-          <li
-            class="page-item"
-            v-if="this.paging.prev == true"
-            @click="prevBotton(paging.range, rangeSize, listSize)"
+          <a
+            class="page-link"
+            href="#"
+            @click="
+              downAllList(
+                num,
+                this.paging.range,
+              )
+            "
+            style="background-color: #0d6efd; color: #fff"
+            v-else
+            >{{ num }}</a
           >
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <!-- 숫자 순서 버튼 -->
-          <li
-            class="page-item"
-            v-for="num in pageList"
-            :key="num"
-            :style="{ ontSize: '20px' }"
-          >
-            <a
-              class="page-link"
-              href="#"
-              @click="
-                downAllList(
-                  num,
-                  this.paging.range,
-                )
-              "
-              v-if="paging.page != num"
-              >{{ num }}</a
-            >
-            <a
-              class="page-link"
-              href="#"
-              @click="
-                downAllList(
-                  num,
-                  this.paging.range,
-                )
-              "
-              style="background-color: #0d6efd; color: #fff"
-              v-else
-              >{{ num }}</a
-            >
-          </li>
+        </li>
 
-          <!-- 다음 순서 버튼 -->
-          <li
-            class="page-item"
-            v-if="this.paging.next == true"
-            @click="nextBotton(paging.range, rangeSize, listSize)"
-          >
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-
+        <!-- 다음 순서 버튼 -->
+        <li
+          class="page-item"
+          v-if="this.paging.next == true"
+          @click="nextBotton(paging.range, rangeSize, listSize)"
+        >
+          <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
 
@@ -267,5 +265,14 @@ export default {
 </script>
 
 <style>
-
+.QNA-btn {
+  position:absolute;
+  left:50%;
+  transform: translate(-50%, 30%);
+}
+.qna-select {
+  display: flex;
+  justify-content: center;
+  padding:30px;
+}
 </style>

@@ -27,7 +27,7 @@
             v-bind:aria-labelledby="'flush-heading' + index"
             data-bs-parent="#accordionFlushExample"
           >
-            <div class="accordion-body">{{ notice.body }}</div>
+            <div class="accordion-body" style="text-align:left;">{{ notice.body }}</div>
           </div>
         </div>
       </div>

@@ -1,41 +1,62 @@
 <template>
   <div>
-    본글<input type="radio" name="suspend" value="article" checked @click="changeKind('article')"/>
-    댓글<input type="radio" name="suspend" value="comment" @click="changeKind('comment')"/>
-  </div>
-
-  <div>
-    <h2>게시판</h2>
-    <table style="margin: 0 auto;">
+    <div style="padding:30px;">
+      <h2>게시판</h2>
+      <div>
+        본글<input type="radio" name="suspend" value="article" checked @click="changeKind('article')"/>
+        댓글<input type="radio" name="suspend" value="comment" @click="changeKind('comment')"/>
+      </div>
+    </div>
+    <table v-if="kind == 'article'" style="margin: 0 auto; text-align: center; vertical-align: middle;">
       <tr>
-        <th>#</th>
-        <th>날짜</th>
-        <th v-if="kind == 'article'">제목</th>
-        <th>내용</th>
-        <th>신고</th>
+        <th style="width:50px;">#</th>
+        <th style="width:120px;">날짜</th>
+        <th style="width:200px;">제목</th>
+        <th style="width:400px;">내용</th>
+        <th style="width:400px;">신고</th>
         <th colspan="2">관리하기</th>
      
       </tr>
       <tr v-for="li,index in list" :key="index">
         <td>{{index + 1}}</td>
         <td>{{li.regDate}}</td>
-        <td v-if="kind == 'article'">{{li.title}}</td>
+        <td>{{li.title}}</td>
         <td>{{li.body}}</td>
         <td>{{li.suspend}}</td>
         <td>
-          <button v-if="kind == 'article'" type="button" class="btn btn-outline-danger" @click="changeSuspend(li.articleId , 'N')">삭제</button>
-          <button v-else type="button" class="btn btn-outline-danger" @click="changeSuspend(li.commentId , 'N')">삭제</button>
+          <button type="button" class="btn btn-outline-danger" @click="changeSuspend(li.articleId , 'N')">삭제</button>
         </td>
         <td>
-          <button v-if="kind == 'article'" type="button" class="btn btn-outline-primary"  @click="changeSuspend(li.articleId, 'Y')">복귀</button>
-          <button v-else type="button" class="btn btn-outline-primary"  @click="changeSuspend(li.commentId, 'Y')">복귀</button>
+          <button type="button" class="btn btn-outline-primary"  @click="changeSuspend(li.articleId, 'Y')">복귀</button>
+        </td>
+      </tr>
+    </table>
+
+    <table v-else style="margin: 0 auto; text-align: center; vertical-align: middle;">
+      <tr>
+        <th style="width:30px;">#</th>
+        <th style="width:120px;">날짜</th>
+        <th style="width:400px;">내용</th>
+        <th style="width:400px;">신고</th>
+        <th colspan="2">관리하기</th>
+     
+      </tr>
+      <tr v-for="li,index in list" :key="index">
+        <td>{{index + 1}}</td>
+        <td>{{li.regDate}}</td>
+        <td>{{li.body}}</td>
+        <td>{{li.suspend}}</td>
+        <td>
+          <button type="button" class="btn btn-outline-danger" @click="changeSuspend(li.commentId , 'N')">삭제</button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-outline-primary"  @click="changeSuspend(li.commentId, 'Y')">복귀</button>
         </td>
       </tr>
       <tr v-if="list.length == 0">
         <td colspan="6">신고된 글이 없습니다.</td>
       </tr>
     </table>
-    
   </div>
 
 </template>
@@ -67,7 +88,12 @@ export default {
 
             console.log(suspend);
             for(let j = 1;j < suspend.length;j++){
-              this.list[i].suspend += j + "번째 신고내용: " + suspend[j] + "\n"
+              if(j+1 == suspend.length) {
+                this.list[i].suspend += j + "번째 신고내용: " + suspend[j]
+              }
+              else {
+                this.list[i].suspend += j + "번째 신고내용: " + suspend[j] + ",\n"
+              }
             }
           }
           
@@ -112,5 +138,7 @@ export default {
 </script>
 
 <style>
-
+th, td {
+  border:1px solid black;
+}
 </style>
