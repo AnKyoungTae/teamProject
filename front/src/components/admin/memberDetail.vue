@@ -1,12 +1,11 @@
 <template>
   <div>
-    <h4><span v-if="!data.role || data.role == 'BUYER'">사용자</span>
-    <span v-if="!data.role || data.role == 'SELLER'">판매자</span>
-    <span v-if="!data.role || data.role == 'ADMIN'">관리자</span>
-    {{data.nickname}}님의 회원정보</h4>
-    <div style="text-align: left; font-size: 20px; ">
-      <span style="padding-left: 52%;">신고 횟수 &nbsp;:&nbsp; <!--{{신고당한 수}}--></span>
-    </div>
+    <h4>
+      <span v-if="!data.role || data.role == 'BUYER'">사용자</span>
+      <span v-if="!data.role || data.role == 'SELLER'">판매자</span>
+      <span v-if="!data.role || data.role == 'ADMIN'">관리자</span>
+      {{ data.nickname }}님의 회원정보
+    </h4>
   </div>
   <div class="manage-div4">
     <div class="manage-div2">
@@ -14,202 +13,308 @@
         <div class="manage-box">
           <a class="profile-img">
             <strong class="login-tit profile-tit">프로필사진</strong>
-            <span class="login-txt"><a class="profile-img">
-                  <img
-                  :src='data.profileUrl'
-                  style="display: block; 
-                        width: 80px; 
-                        height: 80px; 
-                        border-radius: 50%;"
-                  />
-            </a></span>
+            <span class="login-txt"
+              ><a class="profile-img">
+                <img
+                  :src="data.profileUrl"
+                  style="
+                    display: block;
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                  "
+                /> </a
+            ></span>
           </a>
         </div>
-          <hr style="padding: 0px;"/>
-        <div class="manage-box">  
+        <hr style="padding: 0px" />
+        <div class="manage-box">
           <a class="profile-img">
+            <a class="profile-img">
+              <strong class="login-tit">회원 번호</strong>
+              <span class="login-txt">{{ data.memberId }}</span>
+            </a>
+            <hr style="padding: 0px" />
+
             <strong class="login-tit">이름</strong>
-            <span class="login-txt">{{data.name}}</span>
+            <span class="login-txt">{{ data.name }}</span>
           </a>
-          <hr style="padding: 0px;"/>
+          <hr style="padding: 0px" />
 
           <a class="profile-img">
             <strong class="login-tit">닉네임</strong>
-            <span class="login-txt">{{data.nickname}}</span>
+            <span class="login-txt">{{ data.nickname }}</span>
           </a>
-          <hr style="padding: 0px;"/>
+          <hr style="padding: 0px" />
 
           <a class="profile-img">
             <strong class="login-tit">이메일</strong>
-            <span class="login-txt">{{data.email}}</span>
+            <span class="login-txt">{{ data.email }}</span>
           </a>
-          <hr style="padding: 0px;"/>
+          <hr style="padding: 0px" />
 
           <a class="profile-img">
             <strong class="login-tit">핸드폰번호</strong>
-            <span class="login-txt">{{data.phone}}</span>
+            <span class="login-txt">{{ data.phone }}</span>
           </a>
-          <hr style="padding: 0px;"/>
+          <hr style="padding: 0px" />
 
           <a class="profile-img">
             <strong class="login-tit">역할</strong>
-            <span class="login-txt">{{data.role}}</span>
+            <span class="login-txt">{{ data.role }}</span>
           </a>
-          <hr style="padding: 0px;"/>
+          <hr style="padding: 0px" />
 
           <a class="profile-img">
-            <strong class="login-tit">회원 번호</strong>
-            <span class="login-txt">{{data.memberId}}</span>
+            <strong class="login-tit">신고당한 횟수</strong>
+            <!-- 수정요망 -->
+            <span class="login-txt">{{ data.memberId }}</span>
           </a>
-          <hr style="padding: 0px;"/>
-        </div>
+          <hr style="padding: 0px" />
         </div>
       </div>
-      <div class="manage-div3">
-        <div class="accordion accordion-flush" id="accordionFlushExample" style="margin-top: 20px;">
+    </div>
+    <div class="manage-div3">
+      <div class="category">
         <div
-          class="accordion-item"
-          style="border-top: 2px solid gray"
-          v-for="(notice, index) in title"
-          :key="notice.id"
+          class="menu"
+          :class="selectedMenu == 'menu1' ? '' : 'deactivatedMenu'"
+          @click="selectMenu('menu1')"
         >
-          <h2 class="accordion-header" v-bind:id="'flush-heading' + index">
-            <button
-              class="accordion-button collapsed faqButton"
-              type="button"
-              data-bs-toggle="collapse"
-              v-bind:data-bs-target="'#flush-collapse' + index"
-              aria-expanded="false"
-              v-bind:aria-controls="'flush-collapse' + index"
-            >
-              <strong style="font-size: 18px">{{ notice.title }}</strong>
-            </button>
-          </h2>
-          <div
-            v-bind:id="'flush-collapse' + index"
-            class="accordion-collapse collapse"
-            v-bind:aria-labelledby="'flush-heading' + index"
-            data-bs-parent="#accordionFlushExample"
+          <span :class="selectedMenu == 'menu1' ? 'activatedMenu' : ''"
+            >작성한 글</span
           >
-            <div class="accordion-body" style="text-align: left;">
-              <span style="color: gray; font-size: 14px;">고객센터 - QAN 제목</span>
-              <div>
-                <span>{{ notice.text }}</span>
-              </div>
-              <hr/>
-            </div>
-          </div>
         </div>
-      </div>
-
-        <!-- <div
-          class="accordion-item"
-          style="border-top: 2px solid gray"
-        >
-          <h2 class="accordion-header" v-bind:id="'flush-heading2' + index">
-            <button
-              class="accordion-button collapsed titleButton"
-              type="button"
-              data-bs-toggle="collapse"
-              v-bind:data-bs-target="'#flush-collapse2' + index"
-              aria-expanded="false"
-              v-bind:aria-controls="'flush-collapse2' + index"
-            >
-              <strong style="font-size: 18px">신고당한 리뷰</strong>
-            </button>
-          </h2>
-          <div
-            v-bind:id="'flush-collapse2' + index"
-            class="accordion-collapse collapse"
-            v-bind:aria-labelledby="'flush-headin2' + index"
-            data-bs-parent="#accordionFlushExample"
-          >
-            <div class="accordion-body">
-              신고당한 리뷰내용
-            </div>
-          </div>
-
-          <div
-          class="accordion-item"
-          style="border-top: 2px solid gray"
-        >
-          <h2 class="accordion-header" v-bind:id="'flush-heading3' + index">
-            <button
-              class="accordion-button collapsed titleButton"
-              type="button"
-              data-bs-toggle="collapse"
-              v-bind:data-bs-target="'#flush-collapse3' + index"
-              aria-expanded="false"
-              v-bind:aria-controls="'flush-collapse3' + index"
-            >
-              <strong style="font-size: 18px">신고당한 글</strong>
-            </button>
-          </h2>
-          <div
-            v-bind:id="'flush-collapse3' + index"
-            class="accordion-collapse collapse"
-            v-bind:aria-labelledby="'flush-heading3' + index"
-            data-bs-parent="#accordionFlushExample"
-          >
-            <div class="accordion-body">신고당한 글내용</div>
-          </div>
-        </div>
-
         <div
-          class="accordion-item"
-          style="border-top: 2px solid gray"
+          class="menu"
+          :class="selectedMenu == 'menu2' ? '' : 'deactivatedMenu'"
+          @click="selectMenu('menu2')"
         >
-          <h2 class="accordion-header" v-bind:id="'flush-heading4' + index">
-            <button
-              class="accordion-button collapsed titleButton"
-              type="button"
-              data-bs-toggle="collapse"
-              v-bind:data-bs-target="'#flush-collapse4' + index"
-              aria-expanded="false"
-              v-bind:aria-controls="'flush-collapse4' + index"
-            >
-              <strong style="font-size: 18px">신고당한 리뷰</strong>
-            </button>
-          </h2>
-          <div
-            v-bind:id="'flush-collapse4' + index"
-            class="accordion-collapse collapse"
-            v-bind:aria-labelledby="'flush-headin4' + index"
-            data-bs-parent="#accordionFlushExample"
+          <span :class="selectedMenu == 'menu2' ? 'activatedMenu' : ''"
+            >신고당한 글</span
           >
-            <div class="accordion-body">
-              신고당한 리뷰내용
-            </div>
-          </div>
-        </div> -->
+        </div>
+        <div
+          class="menu"
+          :class="selectedMenu == 'menu3' ? '' : 'deactivatedMenu'"
+          @click="selectMenu('menu3')"
+        >
+          <span :class="selectedMenu == 'menu3' ? 'activatedMenu' : ''"
+            >작성한 후기</span
+          >
         </div>
       </div>
+      <!-- 내용 -->
+      <div class="wrapper">
+        <!-- 작성한 글 -->
+        <div
+          class="articleContainer"
+          v-if="selectedMenu == 'menu1' && dataLoaded == true"
+        >
+          <div v-if="articleList.length == 0" class="noData">
+            <span>데이터가 없습니다</span>
+          </div>
+          <div
+            class="rowWrap"
+            v-for="(article, index) in articleList"
+            :key="index"
+          >
+            <!-- 데이터 로딩되었을 때 -->
+            <div class="info1">
+              <span class="articleStatus">
+                <i class="fas fa-lock" v-if="article.status == 'H'"></i>
+                <i class="fas fa-unlock" v-else-if="article.status == 'Y'"></i>
+                <i
+                  class="fas fa-bullhorn"
+                  v-else-if="article.status == 'S'"
+                ></i>
+                <i class="fas fa-ban" v-else></i>
+              </span>
+              <span class="articleTitle">{{ article.title }}</span>
+              <span class="articleRegDate">
+                <p>
+                  {{ parsingDate(article.regDate) }}
+                </p></span
+              >
+            </div>
+            <div class="info2">
+              <span class="articleBody">{{ article.body }}</span>
+            </div>
+          </div>
+        </div>
+        <!-- 작성한 글 끝 -->
+
+        <!-- 작성한 리뷰 -->
+        <div
+          class="articleContainer"
+          v-else-if="selectedMenu == 'menu3' && dataLoaded == true"
+        >
+          <div v-if="reviewList.length == 0" class="noData">
+            <span>데이터가 없습니다</span>
+          </div>
+          <div
+            class="rowWrap"
+            v-for="(review, index) in reviewList"
+            :key="index"
+          >
+            <!-- 데이터 로딩되었을 때 -->
+            <div class="info1">
+              <span class="articleStatus">
+                <i class="fas fa-lock" v-if="review.status == 'H'"></i>
+                <i class="fas fa-unlock" v-else-if="review.status == 'Y'"></i>
+                <i class="fas fa-bullhorn" v-else-if="review.status == 'S'"></i>
+                <i class="fas fa-ban" v-else></i>
+              </span>
+              <span class="articleTitle"
+                >{{ review.storeId }} : {{ review.name }}</span
+              >
+              <span class="articleRegDate">
+                <p>
+                  {{ parsingDate(review.regDate) }}
+                </p></span
+              >
+            </div>
+            <div class="info2">
+              <span class="articleBody">{{ review.body }}</span>
+            </div>
+          </div>
+        </div>
+        <!-- 작성한 리뷰 -->
+
+        <!-- 신고글 보기 -->
+        <div
+          class="articleContainer"
+          v-else-if="selectedMenu == 'menu2' && dataLoaded == true"
+        >
+          <div v-if="filteredReportedArticles.length == 0" class="noData">
+            <span>데이터가 없습니다</span>
+          </div>
+          <div
+            class="rowWrap reportedWrap"
+            v-for="(article, index) in filteredReportedArticles"
+            :key="index"
+          >
+            <!-- 데이터 로딩되었을 때 -->
+            <div class="info1 reportedInfo1">
+              <span class="articleStatus">
+                <i class="fas fa-lock" v-if="article.status == 'H'"></i>
+                <i class="fas fa-unlock" v-else-if="article.status == 'Y'"></i>
+                <i
+                  class="fas fa-bullhorn"
+                  v-else-if="article.status == 'S'"
+                ></i>
+                <i class="fas fa-ban" v-else></i>
+              </span>
+              <span class="articleTitle">{{ article.title }}</span>
+              <span class="articleRegDate">{{
+                parsingDate(article.regDate)
+              }}</span>
+            </div>
+            <div class="info2 reportedInfo">
+              <span class="articleBody">{{ article.body }}</span>
+            </div>
+            <div class="info2 reportedInfo">
+              <span class="articleBody reportedReason">{{
+                parsingReportedReason(article.suspend)
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import http from "@/api/http";
+
 export default {
   props: ["data"],
   data() {
     return {
-      title: [
-        {
-          title: "작성 글",
-          text: "작성내용",
-        },
-        {
-          title: "작성리뷰",
-          text: "작성 리뷰내용",
-        },
-        {
-          title: "신고당한 글",
-          text: "글내용",
-        },
-        {
-          title: "신고당한 리뷰",
-          text: "리뷰내용",
-        },
-      ],
+      selectedMenu: "menu1",
+      dataLoaded: false,
+      articleList: [],
+      reviewList: [],
+      reserve: null,
     };
+  },
+  updated() {
+    if (this.reserve !== this.data) {
+      this.reserve = this.data;
+      if (this.data && this.data != "") {
+        this.requestArticleList();
+        this.requestReviewList();
+      }
+    }
+    if (this.data == "") {
+      this.selectedMenu = "menu1";
+    }
+  },
+  methods: {
+    selectMenu(menu) {
+      this.selectedMenu = menu;
+    },
+    requestArticleList() {
+      this.dataLoaded = false;
+      const memberId = this.data.memberId;
+      http
+        .get("/admin/getAllArticles", {
+          params: {
+            memberId,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            this.articleList = res.data;
+            this.dataLoaded = true;
+          }
+        });
+    },
+    requestReviewList() {
+      this.dataLoaded = false;
+      const memberId = this.data.memberId;
+      http
+        .get("/admin/getAllReviews", {
+          params: {
+            memberId,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            this.reviewList = res.data;
+            this.dataLoaded = true;
+          }
+        });
+    },
+    parsingDate(date) {
+      return (
+        date[0] +
+        "년 " +
+        date[1] +
+        "월 " +
+        date[2] +
+        "일 " +
+        date[3] +
+        "시 " +
+        date[4] +
+        "분"
+      );
+    },
+
+    parsingReportedReason(data) {
+      let mark = "///";
+      let result = data.slice(data.indexOf(mark) + mark.length);
+      return result;
+    },
+  },
+  computed: {
+    filteredReportedArticles() {
+      let filteredArr = this.articleList.filter((article) => {
+        return article.status == "S" ? true : false;
+      });
+      return filteredArr;
+    },
   },
 };
 </script>
@@ -248,9 +353,9 @@ export default {
   position: relative;
 }
 .profile-imgdiv img {
-  display: block; 
-  width: 80px; 
-  height: 80px; 
+  display: block;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
 }
 .img-text {
@@ -267,7 +372,7 @@ export default {
 }
 .login-txt {
   float: right;
-  color: #5A8C94;
+  color: #5a8c94;
   font-size: 20px;
 }
 .m-2 {
@@ -277,14 +382,6 @@ export default {
   float: left;
   line-height: 80px;
 }
-.filebox {
-  margin-left: 30%;
-  height: 80px;
-  text-align: right;
-}
-
-
-
 
 .profile-1 {
   font-weight: 400;
@@ -312,37 +409,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.filebox label {
-  display: inline-block;
-  padding: 0.5em 0.75em;
-  color: white;
-  font-size: inherit;
-  line-height: normal;
-  vertical-align: middle;
-  background-color: #2f855a;
-  cursor: pointer;
-  border: 1px solid #ebebeb;
-  border-bottom-color: #e2e2e2;
-  border-radius: 0.25em;
-}
-.filebox input[type="file"] {
-  /* 파일 필드 숨기기 */
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
-a {
-  text-decoration: none;
-  color: black;
-}
-.manage-div3 {
-  width: 45%;
-}
+
 .profile-tit {
   height: 80px;
   line-height: 80px;
@@ -350,5 +417,129 @@ a {
 .accordion-body {
   overflow-y: scroll;
   height: 250px;
+}
+.manage-div3 {
+  width: 45%;
+  border: 1px solid red;
+  min-width: 450px;
+  display: flex;
+  flex-direction: column;
+}
+.category {
+  display: flex;
+  justify-content: flex-start;
+}
+.menu {
+  padding: 10px 20px 10px 20px;
+  margin: 0 4px 0 0px;
+  border-radius: 2px 15px 0px 0px;
+  background: #5a8c94;
+  transition: 0.2s;
+}
+.menu > span {
+  padding: 3px 9px 3px 9px;
+  border-radius: 8px;
+}
+.menu:hover > span {
+  color: azure;
+  cursor: pointer;
+}
+.activatedMenu {
+  background: orange;
+}
+.deactivatedMenu {
+  background: #436274;
+  border-bottom: 2px solid rgb(30, 29, 39);
+}
+.wrapper {
+  background: #5a8c94;
+  width: 100%;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: scroll;
+  flex-flow: wrap;
+}
+.articleContainer {
+  width: 95%;
+  background: #5a8c94;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  justify-content: flex-start;
+  justify-items: flex-start;
+  align-content: flex-start;
+  align-items: flex-start;
+}
+.rowWrap {
+  width: 99%;
+  height: 200px;
+  margin: 2px;
+  display: flex;
+  flex-flow: wrap;
+  background: wheat;
+  border-radius: 10px;
+}
+.info1 {
+  width: 100%;
+  height: 25%;
+  display: flex;
+  flex-flow: nowrap;
+  padding: 5px;
+}
+.info1 > span {
+  background: white;
+  padding: 2px 9px 2px 9px;
+  border-radius: 8px;
+  margin: 5px;
+}
+.articleStatus {
+  width: 7%;
+}
+.articleTitle {
+  width: 60%;
+}
+.articleRegDate {
+  width: 28%;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.info2 {
+  width: 100%;
+  height: 75%;
+  display: flex;
+}
+.articleBody {
+  background: white;
+  padding: 2px 9px 2px 9px;
+  border-radius: 8px;
+  margin: 0px 5px 5px 5px;
+  width: 100%;
+  overflow: auto;
+  text-align: start;
+}
+.noData {
+  width: 100%;
+}
+.noData > span {
+  background: white;
+  padding: 4px 12px 4px 12px;
+  border-radius: 8px;
+}
+.reportedReason {
+  background: orange;
+  color: red;
+}
+.reportedWrap {
+  height: 400px;
+}
+.reportedInfo {
+  height: 40%;
+}
+.reportedInfo1 {
+  height: 14%;
 }
 </style>

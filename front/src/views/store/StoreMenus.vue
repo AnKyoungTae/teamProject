@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <div style="margin-top:50px;">
-    <h1 class="nearShopTitle" style="margin-right: 50px;">
-              <p>가게메뉴</p>
-            </h1>
-  </div>
+  <div class="wrapper">
+    <div style="margin-top: 50px">
+      <h1 class="nearShopTitle" style="margin-right: 50px">
+        <p>가게메뉴</p>
+      </h1>
+    </div>
     <!-- 노티피케이션 -->
     <notifications
       group="notifyApp"
@@ -340,5 +340,11 @@ export default {
     format("woff");
   font-weight: normal;
   font-style: normal;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+
+  width: 95%;
 }
 </style>

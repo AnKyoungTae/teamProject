@@ -15,6 +15,10 @@ import java.util.Map;
 public class AdminService {
     @Autowired
     private final StoreService storeService;
+    @Autowired
+    private final ArticleService articleService;
+    @Autowired
+    private final ReviewService reviewService;
     
     @Autowired
     EventDao eventDao;
@@ -69,6 +73,13 @@ public class AdminService {
     public int adminEventcount(String option) {
         return eventDao.adminEventcount(option);
     }
-    
-    
+
+
+    public List<Map<String, Object>> getAllArticlesByMemberId(Integer memberId) {
+        return articleService.getAllArticlesByMemberId(memberId);
+    }
+
+    public List<Map<String, Object>> getAllreviewByMemberId(Integer memberId) {
+        return reviewService.getAllReviewByMemberId(memberId);
+    }
 }

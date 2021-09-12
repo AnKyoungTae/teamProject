@@ -11,6 +11,7 @@ import com.icia.wapoo.model.LoginInfo;
 import com.icia.wapoo.paging.PagingA;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Mapper
@@ -87,5 +88,6 @@ public interface ArticleDao {
 	int changeSuspendArticle(int tableId, String status);
 	//신고 관리 comment
 	int changeSuspendComment(int tableId, String status);
-	
+
+    List<Map<String, Object>> selectAllArticlesByMemberId(@Param("memberId") Integer memberId);
 }

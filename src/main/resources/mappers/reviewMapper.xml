@@ -75,5 +75,19 @@
         SET status = #{status}
         where reviewid = #{reviewId}
     </update>
-    
+    <select id="selectAllReviewsByMemberId" resultType="Map">
+        SELECT
+            r.reviewId,
+            r.regDate,
+            r.`status`,
+            r.`body`,
+            s.storeId,
+            r.reply,
+            s.name
+        FROM review r, store s
+        WHERE r.store_id = s.storeId
+          AND s.status != 'N'
+          AND r.writerid = #{memberId}
+        ORDER BY r.regDate DESC
+    </select>
 </mapper>

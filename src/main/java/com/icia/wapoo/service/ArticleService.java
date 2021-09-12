@@ -548,8 +548,10 @@ public class ArticleService {
 			
 			return count;
 		}
-	
-	
-		
+
+
+    public List<Map<String, Object>> getAllArticlesByMemberId(Integer memberId) {
+		return articleDao.selectAllArticlesByMemberId(memberId);
+    }
 }
 
