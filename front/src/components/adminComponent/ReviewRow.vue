@@ -148,7 +148,6 @@ export default {
       }
       if (!this.data.reviewId) {
         error("게시글을 파악할 수 없습니다!", this);
-        console.log(this.data);
 
         return;
       }
@@ -182,7 +181,6 @@ export default {
         status: "N",
       };
       http.post("/review/modifyReviewStatus", data).then((res) => {
-        console.log(res);
         if (res.status === 200) {
           success("리뷰를 삭제했습니다!", this);
           this.available = false;
@@ -195,7 +193,6 @@ export default {
         status: "S",
       };
       http.post("/review/modifyReviewStatus", data).then((res) => {
-        console.log(res);
         if (res.status === 200) {
           normal("리뷰를 신고했습니다!", this);
         }
