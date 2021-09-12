@@ -12,6 +12,26 @@
       있음<input type="radio"  name="comment" value="ALL" @click="changechildren('ON')" >
       없음<input type="radio" id="comment" name="comment" value="Hidden"  @click="changechildren('OFF')" checked />
     </div>
+    <!-- 검색 -->
+      <div id="Search" class="input-group mt-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="검색"
+          aria-label="Recipient's username"
+          aria-describedby="button-addon2"
+          v-model="search"
+        />
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          id="button-addon2"
+          @click="searching"
+          style="z-index: 0"
+        >
+          검색
+        </button>
+      </div>
 
     <table class="table table-striped">
         <tbody>
@@ -168,9 +188,14 @@ export default {
       if(word == "change"){
         this.status = 'ALL',  //글 상태
         this.children = 'OFF', //댓글 여부
+        this.search= null
         this.downAllList(1,1)
       }
       
+    },
+    //검색
+    searching(){
+      this.downAllList(1,1)
     },
     //통신
     downAllList(page, range) {

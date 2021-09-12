@@ -308,7 +308,7 @@ export default {
       if (deleteComm) {
         let parmas = {
           writerId: this.list.writerId,
-          articleId: this.articleId,
+          articleId: parseInt(this.articleId),
         };
         authAPI.listDelete(parmas).then((res) => {
           if (res.data == "ok") {
