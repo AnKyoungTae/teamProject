@@ -31,6 +31,7 @@ public interface ArticleDao {
 	List<ImageFile> imageFileList(long articleId);
 	//게시글 삭제
 	public int boardDelete(long articleId);
+	
 	//이미지 삭제
 	int imageDelete(int fileId);
 	
@@ -71,6 +72,8 @@ public interface ArticleDao {
 	
 	//관리자 글 삭제
 	int deleteArticle(int articleId);
+	//괄리자 글 삭제시 댓글 삭제
+	int deleteArticleComment(int articleId);
 	
 	//관리자 deleteAdminQuestion 수
 	int deleteAdminQuestionCnt(String status, String children, String search);

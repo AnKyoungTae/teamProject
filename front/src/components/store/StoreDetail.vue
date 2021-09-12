@@ -60,38 +60,57 @@
           </div>
         </div>
       </div>
+      <div class="Info_Map">
+        <div style="width: 100%">
+          <div class="nameContainer nameContainer1">
+            <span class="nameWrap">
+              <p>가게 정보</p>
+            </span>
+          </div>
 
-      <div class="nameContainer">
-        <span class="nameWrap">
-          <p>가게 정보</p>
-        </span>
-      </div>
-
-      <div class="shopInfoContainer">
-        <div class="infoWrap">
-          <div class="infoRow">
-            <div class="left">상호명</div>
-            <div class="right">{{ storeInfo.name }}</div>
-          </div>
-          <div class="infoRow">
-            <div class="left">가게 종류</div>
-            <div class="right">{{ storeInfo.storeKind }}</div>
-          </div>
-          <div class="infoRow">
-            <div class="left">등록일</div>
-            <div class="right">{{ dateFormat(storeInfo.regDate) }}</div>
-          </div>
-          <div class="infoRow">
-            <div class="left">마지막 정보 수정일</div>
-            <div class="right">{{ dateFormat(storeInfo.updateDate) }}</div>
-          </div>
-          <div class="infoRow">
-            <div class="left">현재 영업상태</div>
-            <div class="right">{{ statusFormat(storeInfo.status) }}</div>
-          </div>
-          <div class="infoRow">
-            <div class="left">가게 연락처</div>
-            <div class="right">{{ storeInfo.phone }}</div>
+          <div class="shopInfoContainer">
+            <div class="infoWrap">
+              <div class="infoRow">
+                <div class="left">상호명</div>
+                <div class="right">{{ storeInfo.name }}</div>
+              </div>
+              <div class="infoRow">
+                <div class="left">가게 종류</div>
+                <div class="right">{{ storeInfo.storeKind }}</div>
+              </div>
+              <div class="infoRow">
+                <div class="left">등록일</div>
+                <div class="right">{{ dateFormat(storeInfo.regDate) }}</div>
+              </div>
+              <div class="infoRow">
+                <div class="left">마지막 정보 수정일</div>
+                <div class="right">{{ dateFormat(storeInfo.updateDate) }}</div>
+              </div>
+              <div class="infoRow">
+                <div class="left">현재 영업상태</div>
+                <div class="right">{{ statusFormat(storeInfo.status) }}</div>
+              </div>
+              <div class="infoRow">
+                <div class="left">가게 연락처</div>
+                <div class="right">{{ storeInfo.phone }}</div>
+              </div>
+              <div class="infoRow">
+                <div class="left">가게 주소</div>
+                <div class="right">
+                  {{ storeInfo.address }}, {{ storeInfo.addressDetail }}
+                </div>
+              </div>
+              <div class="infoRow">
+                <div class="left">가게 설명</div>
+                <div class="right" v-if="!isEditMode">{{ description }}</div>
+                <div class="right" v-else>
+                  <textarea
+                    class="form-control"
+                    v-model="description"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="infoRow">
             <div class="left">가게 주소</div>
@@ -100,26 +119,119 @@
               {{ storeInfo.addressDetail }}
             </div>
           </div>
-          <div class="infoRow">
-            <div class="left">가게 설명</div>
-            <div class="right" v-if="!isEditMode">{{ description }}</div>
-            <div class="right" v-else>
-              <textarea class="form-control" v-model="description"></textarea>
+          <div class="shopMapContainer">
+            <div id="staticMap"></div>
+            <div class="addressContainer">
+              <span>
+                {{ storeInfo.address }}, {{ storeInfo.addressDetail }}
+              </span>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="nameContainer">
+      <div>
         <span class="nameWrap">
-          <p>지도</p>
+          <p>리뷰관리</p>
         </span>
-      </div>
-      <div class="shopMapContainer">
-        <div class="addressContainer">
-          <span> {{ storeInfo.address }}, {{ storeInfo.addressDetail }} </span>
+        <div>
+          <div class="review2">
+            <div style="float: left; width: 70%">
+              <!-- 글의 수 카운팅 -->
+              <p class="review2-p">
+                리뷰
+                <span style="font-weight: 600"><!--{{ totalCount }}-->0</span>개
+                · 사장님 댓글
+                <span style="font-weight: 600"
+                  ><!--{{ totalCountHasReply }}--></span
+                >개
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <!-- 맨 윗줄 카테고리영역 -->
+            <div
+              class="col btn btn-light spread-underline"
+              @click="setStatusOption('recent')"
+            >
+              <span :class="[this.showOption === 'recent' ? 'choiced' : '']">
+                최신순보기
+              </span>
+            </div>
+            <div
+              class="col btn btn-light spread-underline"
+              @click="setStatusOption('comment')"
+            >
+              <span :class="[this.showOption === 'score' ? 'choiced' : '']">
+                사장님댓글 없음
+              </span>
+            </div>
+          </div>
+          <hr style="margin-top: 0px" />
+          <!-- 리뷰로우 -->
+          <div v-if="!pageLoaded">
+            <!-- 페이지 로딩되지않았을 때 -->
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <div v-else-if="Array.isArray(reviewList) && reviewList.length > 0">
+            <div v-for="(review, index) in reviewList" :key="index" class="m-2">
+              <review-row :data="review" :isOwner="isOwner"></review-row>
+            </div>
+            <nav aria-label="Page navigation">
+              <ul class="pagination justify-content-center">
+                <li class="page-item" :class="{ disabled: !hasPreviousPage }">
+                  <a
+                    class="page-link"
+                    aria-disabled="true"
+                    @click="requestPage(firstPageOfthisIndex - 1)"
+                    :class="{ 'available-link': hasPreviousPage }"
+                    >이전목록</a
+                  >
+                  <!-- 현재 단락의 가장 첫번째 페이지 -1을 요청해야함. -->
+                </li>
+                <!-- 페이지순번 -->
+                <div v-for="(index, i) in maxIndex" :key="i">
+                  <div
+                    v-if="index + (currentIndex - 1) * maxIndex <= totalPages"
+                  >
+                    <li
+                      class="page-item"
+                      v-if="
+                        (this.currentIndex - 1) * this.showindex + index !=
+                        currentPage
+                      "
+                    >
+                      <a
+                        class="page-link available-link"
+                        @click="
+                          requestPage(index + (currentIndex - 1) * maxIndex)
+                        "
+                        >{{ index + (currentIndex - 1) * maxIndex }}</a
+                      >
+                    </li>
+                    <li class="page-item active" v-else>
+                      <span class="page-link">{{
+                        index + (currentIndex - 1) * maxIndex
+                      }}</span>
+                    </li>
+                  </div>
+                </div>
+
+                <li class="page-item" :class="{ disabled: !hasNextPage }">
+                  <a
+                    class="page-link"
+                    @click="requestPage(lastPageOfthisIndex + 1)"
+                    :class="{ 'available-link': hasNextPage }"
+                    >다음목록</a
+                  >
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div v-else>등록된 리뷰가 없습니다.</div>
+          <hr />
         </div>
-        <div id="staticMap"></div>
       </div>
       <div class="nameContainer">
         <span class="nameWrap">
@@ -356,6 +468,9 @@ export default {
   align-items: center;
   margin: 20px;
 }
+.nameContainer1 {
+  margin: 0px;
+}
 .nameWrap {
   padding: 0 20px 0 20px;
   font-family: BMHANNAPro;
@@ -499,7 +614,7 @@ export default {
   justify-content: center;
 }
 .infoWrap {
-  width: 80%;
+  width: 100%;
 }
 .infoRow {
   background: rgb(215, 237, 245);
@@ -530,7 +645,7 @@ export default {
 .shopMapContainer {
   width: 100%;
   height: 800px;
-  margin: 5px;
+  margin-left: 5px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -544,8 +659,8 @@ export default {
   font-size: 1.2em;
 }
 #staticMap {
-  width: 80%;
-  height: 80%;
+  width: 100%;
+  height: 70%;
   text-align: center;
   border: 1px solid gray;
 }
@@ -563,5 +678,98 @@ export default {
 .editBtns:hover {
   background: orange;
   color: white;
+}
+.Info_Map {
+  display: flex;
+  width: 1400px;
+  height: 750px;
+}
+
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: table;
+  transition: opacity 0.3s ease;
+}
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.review {
+  width: 100%;
+  border: 1px solid lightgray;
+}
+.review-left {
+  font-size: 40px;
+}
+
+.review-2 {
+  margin-left: 10px;
+}
+
+.review2 {
+  width: 100%;
+  text-align: left;
+  background-color: lightgray;
+  height: 50px;
+  line-height: 40px;
+  padding-left: 20px;
+}
+.review2-p {
+  line-height: middle;
+}
+
+.review2-div {
+  border: 2px solid rgb(170, 170, 170);
+  background-color: #fafafa;
+  text-align: center;
+  border-radius: 25px;
+  padding: -5px;
+}
+.available-link {
+  cursor: pointer;
+}
+.choiced {
+  text-decoration-line: underline;
+  text-underline-position: under;
+}
+.spread-underline {
+  color: #333;
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px 0;
+  position: relative;
+}
+.spread-underline:after {
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 4px;
+  left: 50%;
+  position: absolute;
+  background: #ffb000;
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0;
+}
+.spread-underline:hover:after {
+  width: 100%;
+  left: 0;
+}
+.reviewWrite:hover {
+  cursor: pointer;
+  background-color: #ffa799;
+}
+
+.review2-p {
+  margin: 0px;
+  height: 60px;
+  line-height: 50px;
 }
 </style>

@@ -209,6 +209,11 @@ public class ArticleService {
 		try
 		{
 			count = articleDao.boardDelete(articleId);
+			
+			if(count > 0)
+			{
+				articleDao.deleteArticleComment((int)articleId);
+			}
 		}
 		catch(Exception e)
 		{
@@ -439,6 +444,11 @@ public class ArticleService {
 		try
 		{
 			count = articleDao.deleteArticle(articleId);
+			
+			if(count > 0)
+			{
+				articleDao.deleteArticleComment(articleId);
+			}
 		}
 		catch(Exception e)
 		{

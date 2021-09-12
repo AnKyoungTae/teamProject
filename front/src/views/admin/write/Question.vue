@@ -3,14 +3,14 @@
 
   <div v-else>
     <div>
-      전체<input type="radio" name="hidden" value="ALL" @click="changeStatus('ALL')" checked>
+      전체<input type="radio" id="all" name="hidden" value="ALL" @click="changeStatus('ALL')" checked>
       비공개<input type="radio" name="hidden" value="Hidden"  @click="changeStatus('Hiden')"/>
     </div>
     <hr>
     <div>
       <h2>댓글 여부</h2>
-      있음<input type="radio" name="comment" value="ALL" @click="changechildren('ON')" >
-      없음<input type="radio" name="comment" value="Hidden"  @click="changechildren('OFF')" checked />
+      있음<input type="radio"  name="comment" value="ALL" @click="changechildren('ON')" >
+      없음<input type="radio" id="comment" name="comment" value="Hidden"  @click="changechildren('OFF')" checked />
     </div>
 
     <table class="table table-striped">
@@ -66,11 +66,11 @@
       <!-- 순서 버튼 -->
       <nav
         aria-label="Page navigation example "
-        class="mt-5 position-relative .center-block"
+        class="mt-5  .center-block"
         
-        style="margin: 0px; margin-bottom: 100px"
+        style="margin: 0 auto; width: 5vw;"
       >
-        <ul class="pagination position-absolute" style="left: 30vw">
+        <ul class="pagination " style="left: 30vw">
           <!-- 이전 순서 버튼 -->
           <li
             class="page-item"
@@ -165,6 +165,12 @@ export default {
   methods: {
     changeToggle(word){
       this.toggle = word
+      if(word == "change"){
+        this.status = 'ALL',  //글 상태
+        this.children = 'OFF', //댓글 여부
+        this.downAllList(1,1)
+      }
+      
     },
     //통신
     downAllList(page, range) {
