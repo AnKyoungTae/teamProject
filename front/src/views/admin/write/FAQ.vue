@@ -4,9 +4,14 @@
     <WriteFAQ v-if="toggle == 'write'" @changeToggle="changeToggle"></WriteFAQ>
     <EditFAQ v-else-if="toggle == 'edit'" @changeToggle="changeToggle" :notice="notice"></EditFAQ>
     <div v-else class="notice col-12 h-50" >
-      <br>
-      <button type="button" class="btn btn-dark" @click="changeToggle('write')">글쓰기</button>
-      <br>
+      <button 
+      type="button" 
+      class="btn btn-secondary" 
+      @click="changeToggle('write')"
+      style="margin:20px; font-size:25px; width:120px;"
+    >
+      글쓰기
+    </button>
       <!-- 리스트 시작 -->
       <div class="accordion accordion-flush" id="accordionFlushExample">
         <div
@@ -33,10 +38,13 @@
             v-bind:aria-labelledby="'flush-heading' + index"
             data-bs-parent="#accordionFlushExample"
           >
-            <div class="accordion-body">{{ notice.body }}</div>
-
-            <button type="button" class="btn btn-outline-success" @click="editFAQ(notice)">수정</button>
-            <button type="button" class="btn btn-outline-danger" @click="deleteArticle(notice.articleId)">삭제</button>
+            <div class="FAQ-body">
+              <div class="accordion-body" >{{ notice.body }}</div>
+              <div>
+                <button type="button" class="btn btn-outline-success" @click="editFAQ(notice)">수정</button>
+                <button style="margin:10px;" type="button" class="btn btn-outline-danger" @click="deleteArticle(notice.articleId)">삭제</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -157,5 +165,10 @@ export default {
 <style scoped>
 .faqButton {
   padding: 20px;
+}
+.FAQ-body {
+  display: flex;
+  justify-content: space-between;
+  width:100%;
 }
 </style>

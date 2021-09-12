@@ -30,10 +30,17 @@
             colspan="3"
             style="text-align: left; padding: 20px"
           >
-            <span>구분</span
-            ><input
+            <span style="padding-right:50px;">
+              <span v-if="list.boardId == 3">기타</span>
+              <span v-else-if="list.boardId == 4">주문</span>
+              <span v-else-if="list.boardId == 5">딜리버리 주문</span>
+              <span v-else-if="list.boardId == 6">제품/품질/서비스</span>
+              <span v-else-if="list.boardId == 7">답글</span>
+              <span v-else>작성글</span>
+            </span>
+            <input
               type="text"
-              style="padding-left: 50px; font-size: 25px"
+              style="font-size: 25px; width:700px;"
               v-model.trim="title"
             />
           </th>
@@ -102,8 +109,8 @@
 
     <!-- 본문 -->
     <div id="textarea" class="input-group" style="text-align: left">
-      <div class="form-control" style="padding: 30px">
-        <textarea v-model.trim="body" cols="30" rows="10"></textarea>
+      <div class="form-control" style="padding: 25px">
+        <textarea v-model.trim="body" cols="150" rows="10"></textarea>
       </div>
     </div>
     <br />
