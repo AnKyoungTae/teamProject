@@ -253,7 +253,7 @@ export default {
         if( this.payCash >= 0){
           this.list[index].payment = (this.list[index].price * this.list[index].quantity)
         }else{
-          this.list[index].payment="결제 요류"
+          this.list[index].payment="결제 취소"
         }
         return true
       }//같은 주문일때
@@ -264,7 +264,7 @@ export default {
         if(this.payCash >= 0){
           this.list[index].payment = (this.list[index].price * this.list[index].quantity)
         }else{
-          this.list[index].payment="결제 요류"
+          this.list[index].payment="결제 취소"
         }
         return false
       }//주문이 다를때
@@ -274,7 +274,7 @@ export default {
         if((this.payCash) >= 0){
           this.list[index].payment = (this.list[index].price * this.list[index].quantity)
         }else{
-          this.list[index].payment="결제 요류"
+          this.list[index].payment="결제 취소"
         }
         return true
       }
@@ -299,7 +299,7 @@ export default {
         if( this.payCash >= 0){
           this.cancelStoreOrder[index].payment = (this.cancelStoreOrder[index].price * this.cancelStoreOrder[index].quantity)
         }else{
-          this.cancelStoreOrder[index].payment="결제 요류"
+          this.cancelStoreOrder[index].payment="결제 취소"
         }
         return true
       }//같은 주문일때
@@ -310,7 +310,7 @@ export default {
         if(this.payCash >= 0){
           this.cancelStoreOrder[index].payment = (this.cancelStoreOrder[index].price * this.cancelStoreOrder[index].quantity)
         }else{
-          this.cancelStoreOrder[index].payment="결제 요류"
+          this.cancelStoreOrder[index].payment="결제 취소"
         }
         return false
       }//주문이 다를때
@@ -320,7 +320,7 @@ export default {
         if((this.payCash) >= 0){
           this.cancelStoreOrder[index].payment = (this.cancelStoreOrder[index].price * this.cancelStoreOrder[index].quantity)
         }else{
-          this.cancelStoreOrder[index].payment="결제 요류"
+          this.cancelStoreOrder[index].payment="결제 취소"
         }
         return true
       }

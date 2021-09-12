@@ -3,7 +3,6 @@
     <div class="notice col-12 h-50">
       <ul
         class="list-group list-group-horizontal"
-        style="border-top: 2px solid gray"
       >
         <li class="list-group-item noticeTitle" style="width: 100px">
           <strong>No.</strong>

@@ -15,7 +15,7 @@
           <splide
             :options="primaryOptions"
             ref="primary"
-            style="margin-bottom: 1rem"
+            style="margin-bottom: 1rem; z-index:0;"
           >
             <splide-slide v-for="file in shopInfo.fileList" :key="file">
               <img class="splideImg" :src="file.name" alt="??" />
