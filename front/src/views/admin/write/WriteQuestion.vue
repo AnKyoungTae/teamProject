@@ -227,7 +227,13 @@ props: ["articleId"],
       if (deleteComm) {
         http.post("/article/deleteArticle", this.articleId)
         .then(res=>{
-          console.log(res.data)
+          if (res.data == "ok") {
+
+            alert("삭제되었습니다.");
+            return this.$emit('changeToggle', 'change')
+          } else if (res.data == "no") {
+            alert("문제있습니다.");
+          }
         })
       }
     },

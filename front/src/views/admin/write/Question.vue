@@ -163,6 +163,12 @@ export default {
   methods: {
     changeToggle(word){
       this.toggle = word
+      if(word == "change"){
+        this.status = 'ALL',  //글 상태
+        this.children = 'OFF', //댓글 여부
+        this.downAllList(1,1)
+      }
+      
     },
     //통신
     downAllList(page, range) {

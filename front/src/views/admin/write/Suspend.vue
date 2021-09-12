@@ -53,6 +53,9 @@
           <button type="button" class="btn btn-outline-primary"  @click="changeSuspend(li.commentId, 'Y')">복귀</button>
         </td>
       </tr>
+      <tr v-if="list.length == 0">
+        <td colspan="6">신고된 글이 없습니다.</td>
+      </tr>
     </table>
   </div>
 
