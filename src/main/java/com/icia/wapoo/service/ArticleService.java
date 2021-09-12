@@ -213,6 +213,18 @@ public class ArticleService {
 			if(count > 0)
 			{
 				articleDao.deleteArticleComment((int)articleId);
+				
+				List<Article> comment = articleDao.getReplyComment((int)articleId);
+				
+				if(comment != null || comment.size() > 0)
+				{
+					for(int i = 0; i < comment.size(); i++)
+					{
+						count = articleDao.deleteArticle((int) comment.get(i).getArticleId());
+						
+						articleDao.deleteArticleComment((int) comment.get(i).getArticleId());
+					}
+				}
 			}
 		}
 		catch(Exception e)
@@ -447,7 +459,22 @@ public class ArticleService {
 			
 			if(count > 0)
 			{
-				articleDao.deleteArticleComment(articleId);
+				articleDao.deleteArticleComment((int)articleId);
+				
+				List<Article> comment = articleDao.getReplyComment((int)articleId);
+				
+				System.out.println();
+				System.out.println("comment:  "+ comment);
+				
+				if(comment != null || comment.size() > 0)
+				{
+					for(int i = 0; i < comment.size(); i++)
+					{
+						count = articleDao.deleteArticle((int) comment.get(i).getArticleId());
+						
+						articleDao.deleteArticleComment((int) comment.get(i).getArticleId());
+					}
+				}
 			}
 		}
 		catch(Exception e)

@@ -368,11 +368,12 @@ public class ArticleController {
 		long memberId = getMemberIdByRequest(request);
 
 		Map<String, Object> params = (Map<String, Object>) ListData.get("params");
-		System.out.println(params);
+		
 		
 		long writerId = (long)(((Integer) params.get("writerId")).intValue());
 		
 		long articleId = (long)(((Integer) params.get("articleId")).intValue());
+		
 		
 		if(memberId != 0)
 		{
@@ -736,6 +737,8 @@ public class ArticleController {
 		PagingA paging = new PagingA();
 
 		paging.pageInfo(page, range,listSize,rangeSize, total);
+		
+		paging.setDBsStart((page -1) * listSize);
 		//페이지 리스트 수가 rangeSize보다 작을 때
 		if(range == 1 && paging.getTotalpage() <= paging.getEndPage())
 		{
