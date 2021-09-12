@@ -411,21 +411,21 @@ LIMIT #{DBsStart}, #{listSize}
 
 <!-- 신고된 게시판 -->
 <select id="suspendArticle" resultType="Article">
-SELECT	articleId,
-	regDate,
-	updateDate,
-	title,
-	`BODY` AS 'body',
-	hit AS 'hit',
-	STATUS AS 'status',
-	children AS 'children',
-	parant_id AS 'parantId',
-	board_id AS 'boardId',
-	writer_id AS 'writerId',
-	SUSPEND AS 'suspend'
-	FROM	`article`
-	
-WHERE	`suspend` = 'S'
+	SELECT   articleId,
+			 regDate,
+			 updateDate,
+			 title,
+			 `BODY` AS 'body',
+			hit AS 'hit',
+			STATUS AS 'status',
+			children AS 'children',
+			parant_id AS 'parantId',
+			board_id AS 'boardId',
+			writer_id AS 'writerId',
+			SUSPEND AS 'suspend'
+	FROM   `article`
+
+	WHERE   `status` = 'S'
 </select>
 
 <select id="suspendComment" resultType="Comment">
