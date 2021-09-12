@@ -339,6 +339,15 @@ WHERE	articleId = #{articleId}
 
 </update>
 
+<!-- 글삭제시 댓글 삭제 -->
+<update id="deleteArticleComment">
+
+UPDATE	`comment`
+	SET	STATUS = 'N'
+WHERE		article_id = #{articleId}
+
+</update>
+
 <!-- 관리자 question 수 -->
 <select id="deleteAdminQuestionCnt" resultType="int">
 
@@ -425,7 +434,7 @@ SELECT	articleId,
 	SUSPEND AS 'suspend'
 	FROM	`article`
 	
-WHERE	`suspend` = 'S'
+WHERE	`status` = 'S'
 </select>
 
 <select id="suspendComment" resultType="Comment">

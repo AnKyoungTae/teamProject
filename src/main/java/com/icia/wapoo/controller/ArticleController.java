@@ -373,7 +373,7 @@ public class ArticleController {
 		long writerId = (long)(((Integer) params.get("writerId")).intValue());
 		
 		long articleId = (long)(((Integer) params.get("articleId")).intValue());
-		System.out.println("11111111111111111");
+		
 		if(memberId != 0)
 		{
 			if(writerId == memberId)
