@@ -40,27 +40,30 @@
             >
           </div>
         </div>
-        <div class="previewContainer" v-if="isEditMode == false">
+        <div v-for="(file, index) in storeFiles"
+            :key="index">
+          <div class="previewContainer" v-if="isEditMode == false && index < 4 && index > 0">
+            <div class="previewWrapper">
+              <div class="previewWindow">
+                <img :src="storeFiles[index].name" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="previewContainer" v-if="isEditMode == false">
           <div class="previewWrapper">
             <div class="previewWindow">
-              <img :src="selectedImage.path" />
+              <img :src="storeFiles[2].name" />
             </div>
           </div>
         </div>
         <div class="previewContainer" v-if="isEditMode == false">
           <div class="previewWrapper">
             <div class="previewWindow">
-              <img :src="selectedImage.path" />
+              <img :src="storeFiles[0].name" />
             </div>
           </div>
-        </div>
-        <div class="previewContainer" v-if="isEditMode == false">
-          <div class="previewWrapper">
-            <div class="previewWindow">
-              <img :src="selectedImage.path" />
-            </div>
-          </div>
-        </div>
+        </div> -->
         <!-- 수정하기모드일때 -->
         <div class="imageListContainer" v-if="isEditMode">
           <div class="addImageListWrapper">
@@ -81,63 +84,68 @@
           </div>
         </div>
       </div>
+      <div class="Info_Map">
+        <div style="width: 100%;">
+          <div class="nameContainer nameContainer1">
+            <span class="nameWrap">
+              <p>가게 정보</p>
+            </span>
+          </div>
 
-      <div class="nameContainer">
-        <span class="nameWrap">
-          <p>가게 정보</p>
-        </span>
-      </div>
-
-      <div class="shopInfoContainer">
-        <div class="infoWrap">
-          <div class="infoRow">
-            <div class="left">상호명</div>
-            <div class="right">{{ storeInfo.name }}</div>
-          </div>
-          <div class="infoRow">
-            <div class="left">가게 종류</div>
-            <div class="right">{{ storeInfo.storeKind }}</div>
-          </div>
-          <div class="infoRow">
-            <div class="left">등록일</div>
-            <div class="right">{{ dateFormat(storeInfo.regDate) }}</div>
-          </div>
-          <div class="infoRow">
-            <div class="left">마지막 정보 수정일</div>
-            <div class="right">{{ dateFormat(storeInfo.updateDate) }}</div>
-          </div>
-          <div class="infoRow">
-            <div class="left">현재 영업상태</div>
-            <div class="right">{{ statusFormat(storeInfo.status) }}</div>
-          </div>
-          <div class="infoRow">
-            <div class="left">가게 연락처</div>
-            <div class="right">{{ storeInfo.phone }}</div>
-          </div>
-          <div class="infoRow">
-            <div class="left">가게 주소</div>
-            <div class="right">{{ storeInfo.address }} <br/> {{ storeInfo.addressDetail }}</div>
-          </div>
-          <div class="infoRow">
-            <div class="left">가게 설명</div>
-            <div class="right" v-if="!isEditMode">{{ description }}</div>
-            <div class="right" v-else>
-              <textarea class="form-control" v-model="description"></textarea>
+          <div class="shopInfoContainer">
+            <div class="infoWrap">
+              <div class="infoRow">
+                <div class="left">상호명</div>
+                <div class="right">{{ storeInfo.name }}</div>
+              </div>
+              <div class="infoRow">
+                <div class="left">가게 종류</div>
+                <div class="right">{{ storeInfo.storeKind }}</div>
+              </div>
+              <div class="infoRow">
+                <div class="left">등록일</div>
+                <div class="right">{{ dateFormat(storeInfo.regDate) }}</div>
+              </div>
+              <div class="infoRow">
+                <div class="left">마지막 정보 수정일</div>
+                <div class="right">{{ dateFormat(storeInfo.updateDate) }}</div>
+              </div>
+              <div class="infoRow">
+                <div class="left">현재 영업상태</div>
+                <div class="right">{{ statusFormat(storeInfo.status) }}</div>
+              </div>
+              <div class="infoRow">
+                <div class="left">가게 연락처</div>
+                <div class="right">{{ storeInfo.phone }}</div>
+              </div>
+              <div class="infoRow">
+                <div class="left">가게 주소</div>
+                <div class="right">{{ storeInfo.address }}, {{ storeInfo.addressDetail }}</div>
+              </div>
+              <div class="infoRow">
+                <div class="left">가게 설명</div>
+                <div class="right" v-if="!isEditMode">{{ description }}</div>
+                <div class="right" v-else>
+                  <textarea class="form-control" v-model="description"></textarea>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="nameContainer">
-        <span class="nameWrap">
-          <p>지도</p>
-        </span>
-      </div>
-      <div class="shopMapContainer">
-        <div class="addressContainer">
-          <span> {{ storeInfo.address }}, {{ storeInfo.addressDetail }} </span>
+        <div style="width: 100%;">
+          <div class="nameContainer nameContainer1">
+            <span class="nameWrap">
+              <p>지도</p>
+            </span>
+          </div>
+          <div class="shopMapContainer">
+            <div id="staticMap"></div>
+            <div class="addressContainer">
+              <span> {{ storeInfo.address }}, {{ storeInfo.addressDetail }} </span>
+            </div>
+          </div>
         </div>
-        <div id="staticMap"></div>
       </div>
     </div>
   </div>
@@ -347,6 +355,9 @@ export default {
   align-items: center;
   margin: 20px;
 }
+.nameContainer1 {
+  margin: 0px;
+}
 .nameWrap {
   padding: 0 20px 0 20px;
   font-family: BMHANNAPro;
@@ -490,20 +501,21 @@ export default {
   justify-content: center;
 }
 .infoWrap {
-  width: 80%;
+  width: 100%;
 }
 .infoRow {
     background: rgb(215, 237, 245);
     min-height: 50px;
     display: flex;
-    justify-content: center;
     align-content: flex-start;
     align-items: flex-start;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    height: 80px;
+    line-height: 75px;
 }
 .infoRow > .left {
     margin-bottom: 10px;
-    width: 100%;
+    width: 50%;
     text-align: start;
     padding: 0 20px 0 20px;
     font-family: BMHANNAPro;
@@ -521,7 +533,7 @@ width: 100%;
 .shopMapContainer {
   width: 100%;
   height: 800px;
-  margin: 5px;
+  margin-left: 5px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -535,8 +547,8 @@ width: 100%;
   font-size: 1.2em;
 }
 #staticMap {
-  width: 80%;
-  height: 80%;
+  width: 100%;
+  height: 70%;
   text-align: center;
   border: 1px solid gray;
 }
@@ -554,5 +566,9 @@ width: 100%;
 .editBtns:hover {
   background: orange;
   color: white;
+}
+.Info_Map {
+  display: flex;
+  width: 1400px;
 }
 </style>
