@@ -127,4 +127,8 @@ export default {
   text-underline-position: under;
   color: #fd3a69;
 }
+a {
+  text-decoration: none;
+  color: #404040;
+}
 </style>
