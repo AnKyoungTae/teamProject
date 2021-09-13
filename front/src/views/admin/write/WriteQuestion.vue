@@ -1,12 +1,9 @@
 <template>
-  
   <div class="container" style="width: 1000px">
     <br /><br />
     <!-- 신고버튼 -->
     <div class="boardDelButtom">
-      
-      <div >
-        
+      <div>
         <button
           id="btn"
           type="button"
@@ -29,34 +26,65 @@
     </div>
     <br />
     <!-- 타이틀 -->
-    <div style="border: 2px solid gray;">
-      <div class="boardTitle" style="border-bottom: 1px solid gainsboro; text-align: left; padding: 20px; font-weight: 700">
+    <div style="border: 2px solid gray">
+      <div
+        class="boardTitle"
+        style="
+          border-bottom: 1px solid gainsboro;
+          text-align: left;
+          padding: 20px;
+          font-weight: 700;
+        "
+      >
         <span v-if="list.boardId == 3">기타</span>
         <span v-else-if="list.boardId == 4">주문</span>
         <span v-else-if="list.boardId == 5">딜리버리 주문</span>
         <span v-else-if="list.boardId == 6">제품/품질/서비스</span>
         <span v-else-if="list.boardId == 7">답글</span>
         <span v-else>작성글</span>
-        <span style="padding-left: 50px; font-size: 25px;">{{list.title}}</span>
+        <span style="padding-left: 50px; font-size: 25px">{{
+          list.title
+        }}</span>
       </div>
-      <div style="width: 100%; font-weight: 600; height: 40px; line-height: 40px;">
-        <div style="float: left; width:30%; text-align: left; padding-left: 20px;"><span>{{list.nickname}}</span></div>
-        <div style="float: left; width:55%; text-align: right; padding-right: 30px;"><span><i class="far fa-clock"></i>&nbsp;&nbsp;{{ list.regDate }}</span></div>
+      <div
+        style="width: 100%; font-weight: 600; height: 40px; line-height: 40px"
+      >
+        <div
+          style="float: left; width: 30%; text-align: left; padding-left: 20px"
+        >
+          <span>{{ list.nickname }}</span>
+        </div>
+        <div
+          style="
+            float: left;
+            width: 55%;
+            text-align: right;
+            padding-right: 30px;
+          "
+        >
+          <span
+            ><i class="far fa-clock"></i>&nbsp;&nbsp;{{ list.regDate }}</span
+          >
+        </div>
         <span><i class="far fa-eye"></i>&nbsp;&nbsp;{{ list.hit }}</span>
       </div>
     </div>
-    
+
     <!-- 본문 -->
     <div id="textarea" class="input-group" style="text-align: left">
-      <div class="form-control" style="padding: 30px; ">
+      <div class="form-control" style="padding: 30px">
         <!-- 이미지 -->
         <div v-if="images != null" class="w-full h-full flex items-center">
           <div
             v-for="image in images"
             :key="image.articlefileId"
-            style="padding-bottom: 30px;"
+            style="padding-bottom: 30px"
           >
-            <img :src="image.name" alt="image.orgName" style="max-width: 874px;"/>
+            <img
+              :src="image.name"
+              alt="image.orgName"
+              style="max-width: 874px"
+            />
           </div>
         </div>
         <!-- 이미지 끝 -->
@@ -65,7 +93,7 @@
     </div>
     <br />
     <!-- 목록이동 버튼 -->
-    
+
     <br /><br />
     <!-- 댓글 -->
     <div>
@@ -84,8 +112,7 @@
                 ({{ comment.regDate }})
               </div>
               <div>
-                <span >
-                  
+                <span>
                   <button
                     type="button"
                     class="btn btn-outline-dark"
@@ -95,7 +122,6 @@
                     삭제
                   </button>
                 </span>
-                
               </div>
             </div>
             <div style="text-align: left" :class="index">
@@ -132,11 +158,9 @@ import http from "@/api/http";
 import { mapMutations } from "vuex";
 
 export default {
-props: ["articleId"],
+  props: ["articleId"],
   data() {
     return {
-      
-
       //조회
       board: null,
       list: {},
@@ -166,21 +190,21 @@ props: ["articleId"],
     //화면 통신
     boardListPage() {
       //게시물 불러오기
-      let query = this.articleId
-    
+      let query = this.articleId;
+
       authAPI //통신코드
         .list(query)
         .then((res) => {
           console.log(res);
           this.list = res.data.article; //list에  DB데이터 박기
-          
+
           this.comments = res.data.list;
           this.images = res.data.articleImageFile; //이미지
         });
     },
     //목록
     changeReply() {
-      return this.$emit('changeToggle', 'change')
+      return this.$emit("changeToggle", "change");
     },
 
     //댓글 달기 통신
@@ -225,16 +249,14 @@ props: ["articleId"],
       let deleteComm = confirm("게시글을 삭제하시겠습니까?");
 
       if (deleteComm) {
-        http.post("/article/deleteArticle", this.articleId)
-        .then(res=>{
+        http.post("/article/deleteArticle", this.articleId).then((res) => {
           if (res.data == "ok") {
-
             alert("삭제되었습니다.");
-            return this.$emit('changeToggle', 'change')
+            return this.$emit("changeToggle", "change");
           } else if (res.data == "no") {
             alert("문제있습니다.");
           }
-        })
+        });
       }
     },
     //댓글 삭제
@@ -246,16 +268,12 @@ props: ["articleId"],
           if (res.data == "ok") {
             this.boardListPage();
             alert("삭제되었습니다.");
-            
           } else if (res.data == "no") {
             alert("문제있습니다.");
           }
         });
       }
     },
-    
-
-    
   },
 };
 </script>
