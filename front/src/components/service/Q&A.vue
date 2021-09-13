@@ -74,7 +74,9 @@
             >
               <span v-html="parsingTitle(qn.title, qn.children)"> </span>
             </td>
-            <td class="col-2">{{ parseDate(qn.regDate) }}</td>
+            <td class="col-2" style="font-size: 14px">
+              {{ parseDate(qn.regDate) }}
+            </td>
             <td class="col-1">{{ qn.hit }}</td>
             <td class="col-1" v-if="privateToggle(qn.status)">
               <i class="fas fa-lock-open"></i>
