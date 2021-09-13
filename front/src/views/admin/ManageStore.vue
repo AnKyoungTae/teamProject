@@ -2,7 +2,7 @@
   <div>
     <div style="margin-top: 50px">
       <h1 class="nearShopTitle" style="margin-right: 50px">
-        <p>가게관리페이지</p>
+        <p>가게관리</p>
       </h1>
     </div>
     <!-- 노티피케이션 -->

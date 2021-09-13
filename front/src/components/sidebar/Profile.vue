@@ -67,7 +67,6 @@ import LoginModal from "@/components/modal/Login.vue";
 import RegisterModal from "@/components/modal/Register.vue";
 import { success } from "@/api/notification";
 import http from "@/api/http";
-
 export default {
   props: {},
   setup() {
@@ -90,6 +89,9 @@ export default {
         })
         .then((res) => {
           this.loadedProfilePic = res.data;
+          if(this.loadedProfilePic.length == 0) {
+            this.loadedProfilePic = require("../../assets/profileImg.png");
+          }
           console.log("불러온 프로필 파일 URL" + res.data);
         });
     }
@@ -100,10 +102,12 @@ export default {
       getUserId: "auth/getUserId",
     }),
     profilePicUrl() {
+      console.log("확인1");
       if (this.loadedProfilePic != null) {
         return this.loadedProfilePic;
       } else {
-        return "https://mblogthumb-phinf.pstatic.net/20140606_111/sjinwon2_1402052862659ofnU1_PNG/130917_224626.png?type=w2";
+        console.log("들어감");
+        return require("../../assets/profileImg.png");
       }
     },
   },
@@ -140,21 +144,17 @@ export default {
 }
 #profile {
   display: flex;
-
   position: relative;
   font-weight: 400;
   user-select: none;
-
   margin-top: 1em;
   margin-bottom: 0.5em;
   padding: 0.4em;
   border-radius: 0.25em;
   width: 200px;
-
   background-color: white;
   text-decoration: none;
 }
-
 .login {
   display: flex;
   flex-direction: column;
@@ -168,7 +168,6 @@ export default {
   align-items: center;
   height: 150px;
 }
-
 .profilePic {
   width: 100%;
   height: 155px;

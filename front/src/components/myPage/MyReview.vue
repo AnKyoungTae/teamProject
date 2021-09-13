@@ -42,7 +42,7 @@
                     >
                     <span class="review3-span2"
                       >{{ reviewList.regDate[0] }}.{{ reviewList.regDate[1]
-                      }}{{ reviewList.regDate[2] }}</span
+                      }}.{{ reviewList.regDate[2] }}</span
                     >
                   </div>
                 </div>

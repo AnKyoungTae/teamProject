@@ -4,11 +4,9 @@
     <br />
     <div>
       <button
-        
         type="button"
         class="btn btn-danger"
- 
-        style="margin-right: 20px"
+        style="margin-right: 20px; font-size:20px;"
         @click="deleteArticle"
       >
       삭제
@@ -16,15 +14,15 @@
       <button
         type="button"
         class="btn btn-primary"
-        style="margin-right: 20px"
+        style="margin-right: 20px; font-size:20px;"
         @click="updateBoard"
       >
         수정
       </button>
       <button
-        id="btn"
         type="button"
         class="btn btn-danger"
+        style="font-size:20px;"
         @click="returnBoard"
       >
         뒤로가기
@@ -40,10 +38,10 @@
             colspan="3"
             style="text-align: left; padding: 20px"
           >
-            <span>구분</span
+            <span style="padding-right:50px;">작성글</span
             ><input
               type="text"
-              style="padding-left: 50px; font-size: 25px"
+              style="font-size: 25px;width:700px; margin-left:20px;"
               v-model.trim="title"
             />
           </th>
@@ -112,8 +110,8 @@
 
     <!-- 본문 -->
     <div id="textarea" class="input-group" style="text-align: left">
-      <div class="form-control" style="padding: 30px">
-        <textarea v-model.trim="body" cols="170" rows="10"></textarea>
+      <div class="form-control" style="padding: 25px">
+        <textarea v-model.trim="body" cols="150" rows="10"></textarea>
       </div>
     </div>
     

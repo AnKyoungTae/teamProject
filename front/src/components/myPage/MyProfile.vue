@@ -237,6 +237,10 @@ export default {
           if (response.status === 200) {
             this.profile = response.data;
             if (this.profile != null) {
+              if(this.profile.profileUrl == null) {
+                  console.log("프로필이미지가져옵니다.");
+                  this.profile.profileUrl = require("../../assets/profileImg.png");
+                }
               if (this.profile.status == "Y") {
                 success("프로필을 불러왔습니다.", this);
                 this.correction = true;
