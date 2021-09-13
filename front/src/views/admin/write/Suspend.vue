@@ -137,7 +137,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 th, td {
   border:1px solid black;
 }
