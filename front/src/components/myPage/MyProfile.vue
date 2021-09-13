@@ -234,6 +234,10 @@ export default {
           if (response.status === 200) {
             this.profile = response.data;
             if (this.profile != null) {
+              if(this.profile.profileUrl == null) {
+                  console.log("프로필이미지가져옵니다.");
+                  this.profile.profileUrl = require("../../assets/profileImg.png");
+                }
               if (this.profile.status == "Y") {
                 success("프로필을 불러왔습니다.", this);
                 this.correction = true;
@@ -270,7 +274,7 @@ export default {
       if (this.profile.profileUrl != null) {
         return this.profile.profileUrl;
       } else {
-        return "https://mblogthumb-phinf.pstatic.net/20140606_111/sjinwon2_1402052862659ofnU1_PNG/130917_224626.png?type=w2";
+        return require("../../assets/profileImg.png");
       }
     },
   },

@@ -67,7 +67,6 @@ import LoginModal from "@/components/modal/Login.vue";
 import RegisterModal from "@/components/modal/Register.vue";
 import { success } from "@/api/notification";
 import http from "@/api/http";
-
 export default {
   props: {},
   setup() {
@@ -89,7 +88,7 @@ export default {
     }),
     profilePicUrl() {
       if (this.loadedProfilePic == null || this.loadedProfilePic == "") {
-        return "https://mblogthumb-phinf.pstatic.net/20140606_111/sjinwon2_1402052862659ofnU1_PNG/130917_224626.png?type=w2";
+        return require("../../assets/profileImg.png");
       } else {
         return this.loadedProfilePic;
       }
@@ -147,21 +146,17 @@ export default {
 }
 #profile {
   display: flex;
-
   position: relative;
   font-weight: 400;
   user-select: none;
-
   margin-top: 1em;
   margin-bottom: 0.5em;
   padding: 0.4em;
   border-radius: 0.25em;
   width: 200px;
-
   background-color: white;
   text-decoration: none;
 }
-
 .login {
   display: flex;
   flex-direction: column;
@@ -175,7 +170,6 @@ export default {
   align-items: center;
   height: 150px;
 }
-
 .profilePic {
   width: 100%;
   height: 155px;
