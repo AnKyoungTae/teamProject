@@ -76,11 +76,9 @@ export default {
       marker.setMap(this.map);
     },
     refreshLocation() {
-      console.log("refreshLocation");
       return navigator.geolocation.getCurrentPosition(
         (position) => {
           this.setLocation(position.coords.latitude, position.coords.longitude);
-          console.log("gotoSetLocation");
         },
         (error) => {
           console.log("아니 위치정보받는데 에러가난다고" + error);
@@ -130,10 +128,8 @@ export default {
         infowindow.open(this.map, marker);
 
         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-        console.log("지도이동");
         this.map.setCenter(coords);
       };
-      console.log("오나욧");
       // async
       (async () => {
         try {

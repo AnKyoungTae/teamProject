@@ -743,7 +743,7 @@ export default {
 }
 /* 선택되었을 때 */
 .choicedFoodList {
-  border: 4px solid #fd3a69;
+  border: 4px solid #f09686;
   border-radius: 6px;
   transition: 0.2s;
 }
