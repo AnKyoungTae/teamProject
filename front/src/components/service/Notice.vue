@@ -122,10 +122,10 @@ export default {
   methods: {
     listPage(articleId) {
       //페이지 이동
-
+      this.$store.commit("SET_serviceCenterToggle", true); //sidebar에서 serviceCenter 클릭시
       return this.$router.push({
         name: "BoardList",
-        query: { board: "faq", articleId: articleId },
+        query: { board: "notice", articleId: articleId },
       });
     },
     prevBotton(range1, rangeSize, listSize) {

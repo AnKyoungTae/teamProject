@@ -129,16 +129,16 @@
                         </td>
 
                         <td class="table-success" v-if="list.status == 'Y'">
-                          {{ list.status }}
+                          진행중
                         </td>
                         <td
                           class="table-warning"
                           v-else-if="list.status == 'S'"
                         >
-                          {{ list.status }}
+                          대기중
                         </td>
                         <td class="table-danger" v-else-if="list.status == 'N'">
-                          {{ list.status }}
+                          종료
                         </td>
                         <td class="table-dark" v-else>?</td>
                         <td class="table-light">{{ list.couponPrice }}</td>
@@ -209,7 +209,56 @@
           </div>
         </div>
         <!-- 리스트 끝 -->
-        <div style="border-top: 2px solid gray"></div>
+        
+        <!-- 페이지네이션 -->
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" :class="{ disabled: !hasPreviousPage }">
+            <a
+              class="page-link"
+              aria-disabled="true"
+              @click="requestPage(firstPageOfthisIndex - 1)"
+              :class="{ 'available-link': hasPreviousPage }"
+              >이전목록</a
+            >
+            <!-- 현재 단락의 가장 첫번째 페이지 -1을 요청해야함. -->
+          </li>
+          <!-- 페이지순번 -->
+          <div v-for="(index, i) in maxIndex" :key="i">
+            <div v-if="index + (currentIndex - 1) * maxIndex <= totalPages">
+              <li
+                class="page-item"
+                v-if="
+                  (this.currentIndex - 1) * this.showindex + index !=
+                  currentPage
+                "
+              >
+                <a
+                  class="page-link available-link"
+                  @click="requestPage(index + (currentIndex - 1) * maxIndex)"
+                  >{{ index + (currentIndex - 1) * maxIndex }}</a
+                >
+              </li>
+              <li class="page-item active" v-else>
+                <span class="page-link">{{
+                  index + (currentIndex - 1) * maxIndex
+                }}</span>
+              </li>
+            </div>
+          </div>
+
+          <li class="page-item" :class="{ disabled: !hasNextPage }">
+            <a
+              class="page-link"
+              @click="requestPage(lastPageOfthisIndex + 1)"
+              :class="{ 'available-link': hasNextPage }"
+              >다음목록</a
+            >
+          </li>
+        </ul>
+      </nav>
+        
+
       </div>
     </div>
   </div>
@@ -228,7 +277,7 @@ export default {
       currentPage: 1, // 현재 페이지
       listPerPage: 10, // 한번에 보여줄 리스트숫자
       totalCount: 0, // 총 게시글 수
-      showindex: 2, // 번호로 표시될 페이지 총 갯수
+      showindex: 5, // 번호로 표시될 페이지 총 갯수
       statusOption: "ALL",
       selectedCoupon: "",
     };
