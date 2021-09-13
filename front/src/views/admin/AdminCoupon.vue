@@ -226,7 +226,7 @@ export default {
     return {
       couponList: [],
       currentPage: 1, // 현재 페이지
-      listPerPage: 3, // 한번에 보여줄 리스트숫자
+      listPerPage: 10, // 한번에 보여줄 리스트숫자
       totalCount: 0, // 총 게시글 수
       showindex: 2, // 번호로 표시될 페이지 총 갯수
       statusOption: "ALL",

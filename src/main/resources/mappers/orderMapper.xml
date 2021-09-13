@@ -157,14 +157,14 @@ WHERE	orderInfoId = #{orderInfoId}
 <update id="deleteAllOrder">
 UPDATE	`orderInfo`
 SET	STATUS = 'N'
-WHERE	order_id = #{orderId}
+WHERE	orderInfoId = #{orderId}
 </update>
 
 <!-- 전체 주문 승인 -->
 <update id="approveOrder">
 UPDATE	`orderInfo`
 SET	STATUS = 'Y'
-WHERE	order_id = #{orderId}
+WHERE	orderInfoId = #{orderId}
 </update>
 
 <!-- 가게 음식 판매 순위 -->

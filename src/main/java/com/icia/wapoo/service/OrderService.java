@@ -277,14 +277,18 @@ public class OrderService {
     }
     
     //주문 1건 삭제
-    public int deleteAllOrder(int orderId)
+    public int deleteAllOrder(List<Object> list)
     {
     	int count = 0;
     	
     	try
     	{
-    		count  = orderDao.deleteAllOrder(orderId);
-    		orderDao.updateOrder(orderId);
+    		for(Object orderInfoId : list)
+    		{
+    			System.out.println("아: "+orderInfoId);
+    			count  = orderDao.deleteAllOrder((int)orderInfoId);
+    		}
+    		
     	}
     	catch(Exception e)
     	{
@@ -295,13 +299,17 @@ public class OrderService {
     }
     
     //전체 주문 승인
-    public int approveOrder(int orderId)
+    public int approveOrder(List<Object> list)
     {
     	int count = 0;
     	
     	try
     	{
-    		count  = orderDao.approveOrder(orderId);
+    		for(Object orderInfoId : list)
+    		{
+    			System.out.println("아: "+orderInfoId);
+    			count = orderDao.approveOrder((int)orderInfoId);
+    		}
     	}
     	catch(Exception e)
     	{
