@@ -9,11 +9,15 @@
     style="width: 800px; border-style: solid; border-width: 1px 1px 0px 1px"
     v-if="questionToggle == true"
   >
-    <div class="row" v-for="question in questions" :key="question.articleId">
+    <div
+      class="row mt-1"
+      v-for="question in questions"
+      :key="question.articleId"
+    >
       <div class="col Q">
         <div class="Q-title">
           <h4>
-            {{ question.title }}
+            {{ parsingTitle(question.title) }}
             <span v-if="question.children > 0">
               [{{ question.children }}]
             </span>
@@ -117,6 +121,12 @@ export default {
           console.log(err);
         });
     },
+    parsingTitle(title) {
+      if (title.length > 20) {
+        return title.substr(0, 20) + "...";
+      }
+      return title;
+    },
   },
   mounted() {
     this.getMyArticle();
@@ -124,7 +134,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .Q {
   border-bottom: 2px solid grey;
 }

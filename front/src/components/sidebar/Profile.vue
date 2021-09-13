@@ -19,7 +19,7 @@
             :src="profilePicUrl"
             title="마이페이지로 이동하기"
             class="profilePic"
-            @click="test"
+            @click="toMyPage"
           />
         </div>
         <p class="nicknameP">
@@ -36,7 +36,7 @@
         <div
           type="button"
           class="btn btn-sm d-block col-12 mt-1 logoutBtn"
-          @click="this.$store.dispatch('auth/logout')"
+          @click="logout"
         >
           로그아웃
         </div>
@@ -79,22 +79,7 @@ export default {
     };
   },
   mounted() {
-    console.log("불러온 userId" + this.getUserId);
-    if (this.getUserId != 0 && this.getUserId != null) {
-      http
-        .get("/profile/getMemberProfilePicture", {
-          params: {
-            memberId: this.getUserId,
-          },
-        })
-        .then((res) => {
-          this.loadedProfilePic = res.data;
-          if(this.loadedProfilePic.length == 0) {
-            this.loadedProfilePic = require("../../assets/profileImg.png");
-          }
-          console.log("불러온 프로필 파일 URL" + res.data);
-        });
-    }
+    this.loadUserPic();
   },
   computed: {
     ...mapGetters({
@@ -102,23 +87,27 @@ export default {
       getUserId: "auth/getUserId",
     }),
     profilePicUrl() {
-      console.log("확인1");
-      if (this.loadedProfilePic != null) {
-        return this.loadedProfilePic;
-      } else {
-        console.log("들어감");
+      if (this.loadedProfilePic == null || this.loadedProfilePic == "") {
         return require("../../assets/profileImg.png");
+      } else {
+        return this.loadedProfilePic;
       }
     },
+  },
+  updated() {
+    if (this.loadedProfilePic == null || this.loadedProfilePic == "") {
+      this.loadUserPic();
+    }
   },
   methods: {
     ...mapMutations(["SET_MODAL_LOGIN", "SET_MODAL_REGISTER"]),
     logout() {
       this.$store.dispatch("auth/logout");
       setTimeout(() => {
+        success("성공적으로 로그아웃 하였습니다!", this);
+        this.loadedProfilePic = null;
         this.$router.push({ path: "/" });
       }, 500);
-      success("성공적으로 로그아웃 하였습니다!", this);
     },
     checkOrderInfo() {
       this.$router.push({
@@ -127,8 +116,21 @@ export default {
       });
       this.inputOrderNumber = null;
     },
-    test() {
+    toMyPage() {
       this.$router.push({ path: "/mypage" });
+    },
+    loadUserPic() {
+      if (this.getUserId != 0 && this.getUserId != null) {
+        http
+          .get("/profile/getMemberProfilePicture", {
+            params: {
+              memberId: this.getUserId,
+            },
+          })
+          .then((res) => {
+            this.loadedProfilePic = res.data;
+          });
+      }
     },
   },
   components: {

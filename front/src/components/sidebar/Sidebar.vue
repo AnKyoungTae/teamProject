@@ -73,7 +73,7 @@
       @click="serviceCenter"
       >고객센터</SidebarLink
     >
-    <SidebarLink to="/event" icon="fas fa-utensils">이벤트</SidebarLink>
+    <SidebarLink to="/event" icon="fas fa-calendar-week">이벤트</SidebarLink>
     <hr />
     <div
       class="orderInfoSearch"

@@ -37,7 +37,7 @@
 
       <br />
       <!-- 리스트 -->
-      <table class="table table-striped" style="vertical-align: middle;">
+      <table class="table table-striped" style="vertical-align: middle">
         <tbody>
           <tr>
             <th>번호</th>
@@ -55,18 +55,24 @@
             @click="listPage(qn.articleId)"
           >
             <td class="col-1">{{ qn.nickname }}</td>
-            <td class="col-1" v-if="qn.boardId == 4">주문</td>
-            <td class="col-1" v-else-if="qn.boardId == 5">딜리버리 주문</td>
-            <td class="col-1" v-else-if="qn.boardId == 6">제품/품질/서비스</td>
-            <td class="col-1" v-else-if="qn.boardId == 7">
-              답글 <i class="fas fa-long-arrow-alt-right"></i>
-            </td>
-            <td class="col-1" v-else>기타</td>
 
-            <td class="col-5" style="text-align: left; padding-left:20px; padding-right:20px;">
-              <span>
-                {{ qn.title }}
-              </span>
+            <td class="col-1 categoryName" v-if="qn.boardId == 4">주문</td>
+            <td class="col-1 categoryName" v-else-if="qn.boardId == 5">
+              딜리버리 주문
+            </td>
+            <td class="col-1 categoryName" v-else-if="qn.boardId == 6">
+              제품/품질/서비스
+            </td>
+            <td class="col-1 categoryName" v-else-if="qn.boardId == 7">
+              [답변]
+            </td>
+            <td class="col-1 categoryName" v-else>기타</td>
+
+            <td
+              class="col-5"
+              style="text-align: left; padding-left: 20px; padding-right: 20px"
+            >
+              <span> {{ parsingTitle(qn.title) }} </span>
               <span v-if="qn.children > 0"> [{{ qn.children }}] </span>
             </td>
             <td class="col-2">{{ parseDate(qn.regDate) }}</td>
@@ -327,6 +333,12 @@ export default {
         this.pageList.push(i);
       }
     },
+    parsingTitle(title) {
+      if (title.length > 20) {
+        return title.substr(0, 20) + "...[더보기]";
+      }
+      return title;
+    },
   },
 
   //고객센터통해 접근할 경우
@@ -355,8 +367,12 @@ button {
   transition: 0.2s;
 }
 .QNA-btn {
-  position:absolute;
-  left:50%;
+  position: absolute;
+  left: 50%;
   transform: translate(-50%, 0%);
+}
+.categoryName {
+  color: gray;
+  font-size: 12px;
 }
 </style>

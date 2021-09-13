@@ -156,15 +156,14 @@ public class OrderController {
     
   //주문 1건 취소
     @PostMapping("/deleteAllOrder")
-    public ResponseEntity deleteAllOrder(@RequestBody String totalOrderId, HttpServletRequest request)
+    public ResponseEntity deleteAllOrder(@RequestBody List<Object> list, HttpServletRequest request)
     {
-    	int orderId = Integer.parseInt(totalOrderId);
     	
-    	if(orderId > 0)
+    	if(list.size() > 0)
     	{
-    		if(orderService.deleteAllOrder(orderId) > 0)
+    		if(orderService.deleteAllOrder(list) > 0)
     		{
-    			return new ResponseEntity("ok", HttpStatus.OK); //orderService.deleteAllOrder(orderId)
+    			return new ResponseEntity("ok", HttpStatus.OK);
     		}
     	}
     	
@@ -173,18 +172,16 @@ public class OrderController {
     
     //전제 주문 승인 
     @PostMapping("/approveOrder")
-    public ResponseEntity approveOrder(@RequestBody String totalOrderId, HttpServletRequest request)
+    public ResponseEntity approveOrder(@RequestBody List<Object> list, HttpServletRequest request)
     {
-    	int orderId = Integer.parseInt(totalOrderId);
-    	
-    	if(orderId > 0)
+
+    	if(list.size() > 0)
     	{
-    		if(orderService.approveOrder(orderId) > 0)
+    		if(orderService.approveOrder(list) > 0)
     		{
     			return new ResponseEntity("ok", HttpStatus.OK);
     		}
     	}
-    	
     	return new ResponseEntity("no", HttpStatus.OK);
     }
     

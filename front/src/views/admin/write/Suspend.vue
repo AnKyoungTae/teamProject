@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="container">
       <div>
-        <h2>게시판</h2>
+        
         <div>
           원글<input
             type="radio"
@@ -175,7 +175,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 th,
 td {
   border: 1px solid black;

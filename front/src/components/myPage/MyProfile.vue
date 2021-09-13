@@ -10,22 +10,19 @@
             <div class="profile-manage">
               <div class="manage-box">
                 <strong>프로필</strong>
-                <p class="profile-comm">WHAT POO에서 등록한 프로필입니다.</p>
+                <p class="profile-comm">WAPOO에서 등록한 프로필입니다.</p>
                 <a class="profile-img">
                   <div>
                     <div class="nicknamebox">
                       <div class="profile-imgdiv" style="margin-right: 10px">
-                        <img
-                          :src="profile.profileUrl"
-                          style="position: relative"
-                        />
+                        <img :src="profilePicUrl" style="position: relative" />
                       </div>
                       <span class="img-text">
                         {{ profile.nickname }}
                       </span>
                     </div>
                     <div class="filebox">
-                      <label for="ex_file">업로드</label>
+                      <label for="ex_file">사진변경</label>
                       <input
                         type="file"
                         id="ex_file"
@@ -33,10 +30,10 @@
                         @change="changeImage"
                       />
                       <span
-                        class="m-2"
+                        class="m-2 btn btn-outline-info"
                         v-if="profileImage != null"
                         @click="updateIamge"
-                        >수정</span
+                        >적용하기</span
                       >
                     </div>
                   </div>
@@ -44,9 +41,9 @@
               </div>
               <hr style="padding: 0px" />
               <div class="manage-box">
-                <strong>로그인정보</strong>
+                <strong>회원정보</strong>
                 <p class="profile-comm">
-                  WHAT POO에서 로그인에 사용되는 정보입니다.
+                  WAPOO에서 로그인에 사용되는 정보입니다.
                 </p>
                 <a class="profile-img">
                   <strong class="login-tit">아이디</strong>
@@ -271,6 +268,15 @@ export default {
   },
   mounted() {
     this.upload();
+  },
+  computed: {
+    profilePicUrl() {
+      if (this.profile.profileUrl != null) {
+        return this.profile.profileUrl;
+      } else {
+        return require("../../assets/profileImg.png");
+      }
+    },
   },
 };
 </script>
