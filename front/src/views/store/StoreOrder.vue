@@ -427,7 +427,14 @@ export default {
     //주문 1건 삭제
     deleteAllOrder(orderId) {
       if (confirm("주문번호" + orderId + "번의 주문을 취소합니다")) {
-        http.post("/order/deleteAllOrder", orderId).then((res) => {
+        let allOrderInfoId = []
+        for(let i = 0; i < this.list.length; i++){
+          if(this.list[i].orderId == orderId){
+            allOrderInfoId.push(this.list[i].orderInfoId)
+          }
+        }
+        
+        http.post("/order/deleteAllOrder", allOrderInfoId).then((res) => {
           console.log(res.data);
           if (res.data == "ok") {
             alert("취소되었습니다.");
@@ -440,8 +447,16 @@ export default {
     },
     //전체 주문 승인
     approveOrder(orderId) {
+      let allOrderInfoId = []
+
+      for(let i = 0; i < this.list.length; i++){
+          if(this.list[i].orderId == orderId){
+            allOrderInfoId.push(this.list[i].orderInfoId)
+          }
+        }
+
       if (confirm("주문번호" + orderId + "번의 주문을 승인합니다")) {
-        http.post("/order/approveOrder", orderId).then((res) => {
+        http.post("/order/approveOrder", allOrderInfoId).then((res) => {
           console.log(res.data);
           if (res.data == "ok") {
             alert("주문이 승인되었습니다.");

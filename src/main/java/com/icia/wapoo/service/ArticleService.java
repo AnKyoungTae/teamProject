@@ -463,14 +463,11 @@ public class ArticleService {
 				
 				List<Article> comment = articleDao.getReplyComment((int)articleId);
 				
-				System.out.println();
-				System.out.println("comment:  "+ comment);
-				
 				if(comment != null || comment.size() > 0)
 				{
 					for(int i = 0; i < comment.size(); i++)
 					{
-						count = articleDao.deleteArticle((int) comment.get(i).getArticleId());
+						articleDao.deleteArticle((int) comment.get(i).getArticleId());
 						
 						articleDao.deleteArticleComment((int) comment.get(i).getArticleId());
 					}
@@ -528,6 +525,8 @@ public class ArticleService {
 		try
 		{
 			list = articleDao.suspendArticle();
+			
+			
 		}
 		catch(Exception e)
 		{
@@ -560,6 +559,25 @@ public class ArticleService {
 		try
 		{
 			count = articleDao.changeSuspendArticle(tableId, status);
+			
+
+			if(count > 0)
+			{
+				articleDao.deleteArticleComment(tableId);
+				
+				List<Article> comment = articleDao.getReplyComment(tableId);
+				
+				if(comment != null || comment.size() > 0)
+				{
+					for(int i = 0; i < comment.size(); i++)
+					{
+						articleDao.deleteArticle((int) comment.get(i).getArticleId());
+						
+						articleDao.deleteArticleComment((int) comment.get(i).getArticleId());
+					}
+				}
+			}
+
 		}
 		catch(Exception e)
 		{
@@ -577,6 +595,20 @@ public class ArticleService {
 			try
 			{
 				count = articleDao.changeSuspendComment(tableId, status);
+				
+				
+				if(count > 0)
+				{
+				
+					Comment comment = articleDao.getCommentId(tableId);
+			
+					if(comment != null)
+					{
+						articleDao.deleteChildren(comment.getArticleId());
+					
+					}
+				}
+				
 			}
 			catch(Exception e)
 			{
