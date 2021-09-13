@@ -467,7 +467,7 @@ WHERE	articleId= #{tableId}
 </update>
 
 <!-- 신고관리 comment -->
-<select id="changeSuspendComment">
+<update id="changeSuspendComment">
 UPDATE	`comment`
 	SET	`status` = #{status}
 	
@@ -476,7 +476,7 @@ UPDATE	`comment`
 </if>
 	
 WHERE	commentId= #{tableId}
-</select>
+</update>
 
 	<select id="selectAllArticlesByMemberId" resultType="Map">
 		SELECT *
@@ -494,7 +494,15 @@ WHERE parant_id = #{articleId}
 </select>
 
 
+<select id="getCommentId" resultType="Comment" >
+SELECT	
+	commentId,
+	article_id AS 'articleId',
+	writer_id AS 'writerId'
+	FROM `comment`
+WHERE commentId = #{commentId}
 
+</select>
 
 
 
