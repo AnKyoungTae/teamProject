@@ -118,17 +118,10 @@ export default {
     listPage(articleId) {
       console.log("이얍!");
       //페이지 이동
-
-      // this.$router.push({
-      //   name: "BoardList",
-      //   query: { board: "notice", articleId: articleId },
-      // });
-      this.$router.push({
-        path: "/boardList",
-        query: {
-          board: "notice",
-          articleId: articleId,
-        },
+      this.$store.commit("SET_serviceCenterToggle", true); //sidebar에서 serviceCenter 클릭시
+      return this.$router.push({
+        name: "BoardList",
+        query: { board: "notice", articleId: articleId },
       });
     },
     prevBotton(range1, rangeSize, listSize) {
