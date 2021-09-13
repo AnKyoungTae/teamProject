@@ -166,11 +166,12 @@ export default {
     Reviewicon,
   },
   mounted() {
+    window.scrollTo(0, 0);
     this.storeId = this.$route.query.shopInfo;
     this.getStoreInfo(this.storeId);
     this.setComponent("shopMenu");
     this.getAverageScore();
-    window.scrollTo(0, 0);
+
     // 슬라이드 sync가 안됨
     //this.$refs.primary.sync( this.$refs.secondary.splide );
   },

@@ -1,20 +1,25 @@
 <template>
-  <WriteNotice v-if="toggle == 'write'"  @changeToggle="changeToggle"  ></WriteNotice>
-  <EditNotice v-else-if="toggle == 'edit'" :editArticleId='editArticleId' @changeToggle="changeToggle"></EditNotice>
+  <WriteNotice
+    v-if="toggle == 'write'"
+    @changeToggle="changeToggle"
+  ></WriteNotice>
+  <EditNotice
+    v-else-if="toggle == 'edit'"
+    :editArticleId="editArticleId"
+    @changeToggle="changeToggle"
+  ></EditNotice>
   <div v-else class="container" style="width: 1000px">
-    <button 
-      type="button" 
-      class="btn btn-secondary" 
+    <button
+      type="button"
+      class="btn btn-secondary"
       @click="changeToggle('write')"
-      style="margin:20px; font-size:25px; width:120px;"
+      style="margin: 20px; font-size: 25px; width: 120px"
     >
       글쓰기
     </button>
 
     <div class="notice col-12 h-50">
-      <ul
-        class="list-group list-group-horizontal"
-      >
+      <ul class="list-group list-group-horizontal">
         <li class="list-group-item noticeTitle" style="width: 100px">
           <strong>No.</strong>
         </li>
@@ -62,10 +67,7 @@
     </div>
     <!-- 순서 버튼 -->
     <div class="nav_bar">
-      <div
-        aria-label="Page navigation example"
-        class="position-relative"
-      >
+      <div aria-label="Page navigation example" class="position-relative">
         <ul class="pagination norice-btn">
           <!-- 이전 순서 버튼 -->
           <li
@@ -119,18 +121,17 @@
 
 <script>
 import * as authAPI from "@/api/article.js";
-import WriteNotice from"./WriteNotice.vue";
-import EditNotice from"./EditNotice.vue";
+import WriteNotice from "./WriteNotice.vue";
+import EditNotice from "./EditNotice.vue";
 
 export default {
-  components:{ WriteNotice, EditNotice},
+  components: { WriteNotice, EditNotice },
 
   data() {
     return {
       //토글
-      toggle: 'none',
-      editArticleId:0,
-
+      toggle: "none",
+      editArticleId: 0,
 
       paging: [],
       notices: [],
@@ -142,16 +143,14 @@ export default {
 
   methods: {
     changeToggle(word) {
-      
-      this.toggle = word
+      this.toggle = word;
       this.downAllList(2, 1, 1);
     },
 
     listPage(articleId) {
       //페이지 이동
-      this.editArticleId = articleId
-      this.toggle="edit"
-      
+      this.editArticleId = articleId;
+      this.toggle = "edit";
     },
     prevBotton(range1, rangeSize, listSize) {
       var page = (range1 - 2) * rangeSize + 1;
@@ -245,8 +244,8 @@ export default {
   transition: 0.2s;
 }
 .norice-btn {
-  position:absolute;
-  left:50%;
+  position: absolute;
+  left: 50%;
   transform: translate(-50%, 30%);
 }
 </style>
