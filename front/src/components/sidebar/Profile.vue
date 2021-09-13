@@ -19,7 +19,7 @@
             :src="profilePicUrl"
             title="마이페이지로 이동하기"
             class="profilePic"
-            @click="test"
+            @click="toMyPage"
           />
         </div>
         <p class="nicknameP">
@@ -36,7 +36,7 @@
         <div
           type="button"
           class="btn btn-sm d-block col-12 mt-1 logoutBtn"
-          @click="this.$store.dispatch('auth/logout')"
+          @click="logout"
         >
           로그아웃
         </div>
@@ -67,7 +67,6 @@ import LoginModal from "@/components/modal/Login.vue";
 import RegisterModal from "@/components/modal/Register.vue";
 import { success } from "@/api/notification";
 import http from "@/api/http";
-
 export default {
   props: {},
   setup() {
@@ -80,19 +79,7 @@ export default {
     };
   },
   mounted() {
-    console.log("불러온 userId" + this.getUserId);
-    if (this.getUserId != 0 && this.getUserId != null) {
-      http
-        .get("/profile/getMemberProfilePicture", {
-          params: {
-            memberId: this.getUserId,
-          },
-        })
-        .then((res) => {
-          this.loadedProfilePic = res.data;
-          console.log("불러온 프로필 파일 URL" + res.data);
-        });
-    }
+    this.loadUserPic();
   },
   computed: {
     ...mapGetters({
@@ -100,21 +87,27 @@ export default {
       getUserId: "auth/getUserId",
     }),
     profilePicUrl() {
-      if (this.loadedProfilePic != null) {
-        return this.loadedProfilePic;
+      if (this.loadedProfilePic == null || this.loadedProfilePic == "") {
+        return require("../../assets/profileImg.png");
       } else {
-        return "https://mblogthumb-phinf.pstatic.net/20140606_111/sjinwon2_1402052862659ofnU1_PNG/130917_224626.png?type=w2";
+        return this.loadedProfilePic;
       }
     },
+  },
+  updated() {
+    if (this.loadedProfilePic == null || this.loadedProfilePic == "") {
+      this.loadUserPic();
+    }
   },
   methods: {
     ...mapMutations(["SET_MODAL_LOGIN", "SET_MODAL_REGISTER"]),
     logout() {
       this.$store.dispatch("auth/logout");
       setTimeout(() => {
+        success("성공적으로 로그아웃 하였습니다!", this);
+        this.loadedProfilePic = null;
         this.$router.push({ path: "/" });
       }, 500);
-      success("성공적으로 로그아웃 하였습니다!", this);
     },
     checkOrderInfo() {
       this.$router.push({
@@ -123,8 +116,21 @@ export default {
       });
       this.inputOrderNumber = null;
     },
-    test() {
+    toMyPage() {
       this.$router.push({ path: "/mypage" });
+    },
+    loadUserPic() {
+      if (this.getUserId != 0 && this.getUserId != null) {
+        http
+          .get("/profile/getMemberProfilePicture", {
+            params: {
+              memberId: this.getUserId,
+            },
+          })
+          .then((res) => {
+            this.loadedProfilePic = res.data;
+          });
+      }
     },
   },
   components: {
@@ -140,21 +146,17 @@ export default {
 }
 #profile {
   display: flex;
-
   position: relative;
   font-weight: 400;
   user-select: none;
-
   margin-top: 1em;
   margin-bottom: 0.5em;
   padding: 0.4em;
   border-radius: 0.25em;
   width: 200px;
-
   background-color: white;
   text-decoration: none;
 }
-
 .login {
   display: flex;
   flex-direction: column;
@@ -168,7 +170,6 @@ export default {
   align-items: center;
   height: 150px;
 }
-
 .profilePic {
   width: 100%;
   height: 155px;

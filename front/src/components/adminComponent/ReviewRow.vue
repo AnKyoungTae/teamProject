@@ -64,10 +64,18 @@
       <p style="margin: 0px">{{ data.reply }}</p>
     </div>
     <hr style="margin-left: -16px" />
-    <div v-if="replySuccess == true">
+    <div
+      v-if="replySuccess == true"
+      style="
+        border: 1px solid lightgray;
+        background-color: lightgray;
+        margin-bottom: 16px;
+        padding: 10px;
+      "
+    >
       <!-- 댓글달기 성공했을때 새로고침대신 가짜로띄워주기-->
-      <span>사장님댓글</span>
-      <p>
+      <span>&nbsp;&#10551;&nbsp;사장님댓글&nbsp;&nbsp;</span>
+      <p style="font-size: 14px; color: gray; margin: 0px">
         {{ reply }}
       </p>
     </div>
@@ -140,7 +148,6 @@ export default {
       }
       if (!this.data.reviewId) {
         error("게시글을 파악할 수 없습니다!", this);
-        console.log(this.data);
 
         return;
       }
@@ -174,7 +181,6 @@ export default {
         status: "N",
       };
       http.post("/review/modifyReviewStatus", data).then((res) => {
-        console.log(res);
         if (res.status === 200) {
           success("리뷰를 삭제했습니다!", this);
           this.available = false;
@@ -187,7 +193,6 @@ export default {
         status: "S",
       };
       http.post("/review/modifyReviewStatus", data).then((res) => {
-        console.log(res);
         if (res.status === 200) {
           normal("리뷰를 신고했습니다!", this);
         }

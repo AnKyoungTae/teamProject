@@ -5,6 +5,7 @@
     </h1>
   </div>
   <div style="width: 100%">
+    <div v-if="orderLists.length == 0">주문내역이 존재하지 않습니다</div>
     <div class="manage-div">
       <div class="manage-div2">
         <div class="profile-manage">

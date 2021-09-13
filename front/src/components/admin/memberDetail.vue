@@ -420,7 +420,6 @@ export default {
 }
 .manage-div3 {
   width: 45%;
-  border: 1px solid red;
   min-width: 450px;
   display: flex;
   flex-direction: column;
@@ -460,6 +459,7 @@ export default {
   align-items: center;
   overflow-y: scroll;
   flex-flow: wrap;
+  border: 4px solid #5a8c94;
 }
 .articleContainer {
   width: 95%;
@@ -541,5 +541,13 @@ export default {
 }
 .reportedInfo1 {
   height: 14%;
+}
+
+.articleTitle {
+  display: inline-block; 
+  width: 200px; 
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
 }
 </style>

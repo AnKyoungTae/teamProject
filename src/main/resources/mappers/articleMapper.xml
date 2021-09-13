@@ -412,7 +412,7 @@ WHERE		article_id = #{articleId}
 	AND	title LIKE CONCAT('%', #{search} ,'%')
 </if>
 
-	ORDER BY regDate DESC
+	ORDER BY regDate ASC
 
 
 LIMIT #{DBsStart}, #{listSize}
@@ -467,7 +467,7 @@ WHERE	articleId= #{tableId}
 </update>
 
 <!-- 신고관리 comment -->
-<select id="changeSuspendComment">
+<update id="changeSuspendComment">
 UPDATE	`comment`
 	SET	`status` = #{status}
 	
@@ -476,7 +476,7 @@ UPDATE	`comment`
 </if>
 	
 WHERE	commentId= #{tableId}
-</select>
+</update>
 
 	<select id="selectAllArticlesByMemberId" resultType="Map">
 		SELECT *
@@ -485,10 +485,24 @@ WHERE	commentId= #{tableId}
 		ORDER BY regDate DESC
 	</select>
 
+<!-- 답글 가져오기 -->
+<select id="getReplyComment" resultType="Article">
+
+SELECT *
+	FROM	`article`
+WHERE parant_id = #{articleId}
+</select>
 
 
+<select id="getCommentId" resultType="Comment" >
+SELECT	
+	commentId,
+	article_id AS 'articleId',
+	writer_id AS 'writerId'
+	FROM `comment`
+WHERE commentId = #{commentId}
 
-
+</select>
 
 
 

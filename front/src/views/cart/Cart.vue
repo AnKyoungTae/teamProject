@@ -85,7 +85,6 @@
                     placeholder="예) 010-2274-4895"
                     style="width: 90%; padding: 6px 12px"
                     v-model="phone"
-                    @keydown="phoneCom"
                   />
                 </td>
               </tr>
@@ -464,11 +463,7 @@ export default {
   },
   methods: {
     ...mapMutations(["delCart", "clearCart", "SET_MODAL_MAP"]),
-    phoneCom() {
-      if (this.phone.length == 3) {
-        this.phone += "-";
-      }
-    },
+
     getFoodList(foodIdSet) {
       // 페이지 초기화할때 카드에 저장된 음식 정보를 불러온다.
       const foodIdList = Array.from(foodIdSet);

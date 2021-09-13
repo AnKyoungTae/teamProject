@@ -92,5 +92,10 @@ public interface ArticleDao {
 	//신고 관리 comment
 	int changeSuspendComment(int tableId, String status);
 
+	//parant_id 답글 가져오기
+	List<Article> getReplyComment(int articleId);
+	//댓글 commentId로 가져오기
+	Comment getCommentId(int commentId);
+	
     List<Map<String, Object>> selectAllArticlesByMemberId(@Param("memberId") Integer memberId);
 }

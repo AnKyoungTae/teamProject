@@ -42,7 +42,7 @@
         >이벤트관리</SidebarLink
       >
       <SidebarLink to="/adminService" icon="fas fa-pencil-alt"
-        >글작성</SidebarLink
+        >게시글</SidebarLink
       >
     </div>
     <div v-else-if="userRole != null && userRole == 'SELLER'">
@@ -73,7 +73,7 @@
       @click="serviceCenter"
       >고객센터</SidebarLink
     >
-    <SidebarLink to="/event" icon="fas fa-utensils">이벤트</SidebarLink>
+    <SidebarLink to="/event" icon="fas fa-calendar-week">이벤트</SidebarLink>
     <hr />
     <div
       class="orderInfoSearch"

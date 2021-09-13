@@ -4,7 +4,8 @@
       <p>리뷰관리</p>
     </h1>
   </div>
-  <div style="width: 100%">
+  <div v-if="reviewLists.length == 0">작성한 리뷰가 존재하지 않습니다</div>
+  <div style="width: 100%" v-else>
     <div class="manage-div">
       <div class="manage-div2">
         <h3 class="manage-text">
@@ -41,8 +42,9 @@
                       >{{ reviewList.score }} /5.0</span
                     >
                     <span class="review3-span2"
-                      >{{ reviewList.regDate[0] }}.{{ reviewList.regDate[1]
-                      }}{{ reviewList.regDate[2] }}</span
+                      >{{ reviewList.regDate[0] }}년
+                      {{ reviewList.regDate[1] }}월
+                      {{ reviewList.regDate[2] }}일</span
                     >
                   </div>
                 </div>
