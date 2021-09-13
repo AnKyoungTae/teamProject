@@ -447,7 +447,7 @@ export default {
   background: orange;
 }
 .deactivatedMenu {
-  background: #436274;
+  background: #71b0b9;
   border-bottom: 2px solid rgb(30, 29, 39);
 }
 .wrapper {
