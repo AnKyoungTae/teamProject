@@ -119,11 +119,9 @@ export default {
       http
         .post("/profile/getCoupon")
         .then((res) => {
-          console.log(res.data.length);
           if (res.data.length > 0) {
             this.couponToggle = true;
             this.coupons = res.data;
-            console.log(this.coupons);
           }
         })
         .catch((err) => {
@@ -161,7 +159,6 @@ export default {
       let year = now.getFullYear();
       let month = now.getMonth();
       let day = now.getDate();
-      console.log(now);
       let today = new Date(year, month, day);
       let endDay = new Date(time[0], time[1] - 1, time[2]);
       let btMs = endDay.getTime() - today.getTime();
