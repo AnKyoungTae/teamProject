@@ -1,9 +1,7 @@
 <template>
   <div class="container" style="width: 1000px">
     <div class="notice col-12 h-50">
-      <ul
-        class="list-group list-group-horizontal"
-      >
+      <ul class="list-group list-group-horizontal">
         <li class="list-group-item noticeTitle" style="width: 100px">
           <strong>No.</strong>
         </li>
@@ -51,10 +49,7 @@
     </div>
     <!-- 순서 버튼 -->
     <div class="nav_bar">
-      <div
-        aria-label="Page navigation example"
-        class="mt-5 position-relative"
-      >
+      <div aria-label="Page navigation example" class="mt-5 position-relative">
         <ul class="pagination norice-btn">
           <!-- 이전 순서 버튼 -->
           <li
@@ -121,6 +116,7 @@ export default {
 
   methods: {
     listPage(articleId) {
+      console.log("이얍!");
       //페이지 이동
       this.$store.commit("SET_serviceCenterToggle", true); //sidebar에서 serviceCenter 클릭시
       return this.$router.push({
@@ -220,8 +216,8 @@ export default {
   transition: 0.2s;
 }
 .norice-btn {
-  position:absolute;
-  left:50%;
+  position: absolute;
+  left: 50%;
   transform: translate(-50%, 0%);
 }
 </style>

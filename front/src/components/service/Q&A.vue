@@ -72,7 +72,7 @@
               class="col-5"
               style="text-align: left; padding-left: 20px; padding-right: 20px"
             >
-              <span> {{ parsingTitle(qn.title) }} </span>
+              <span v-html="parsingTitle(qn.title)"> </span>
               <span v-if="qn.children > 0"> [{{ qn.children }}] </span>
             </td>
             <td class="col-2">{{ parseDate(qn.regDate) }}</td>
@@ -335,7 +335,12 @@ export default {
     },
     parsingTitle(title) {
       if (title.length > 20) {
-        return title.substr(0, 20) + "...[더보기]";
+        let parsed = title.substr(0, 28);
+        return (
+          "<div style='white-space:nowrap;'>" +
+          parsed +
+          "<span style='font-size:12px; color:grey; white-space:nowrap;'>...[더보기]</span></div>"
+        );
       }
       return title;
     },
