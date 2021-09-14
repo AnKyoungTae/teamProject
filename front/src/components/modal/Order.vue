@@ -20,12 +20,17 @@
         </div>
 
         <hr />
+        <div class="DescDiv" v-bind="DescDiv">
         <span class="foodDesc">
           {{ data.description }}
         </span>
+        </div>
         <div @click="moreDetails"><a class="foodDesc2">더보기</a></div>
       </div>
-      <FoodDesc v-bind:data="data.description" v-else></FoodDesc>
+      <div v-else>
+        <div @click="detailBoolean" style="text-align: left;"><i class="fas fa-arrow-left"></i></div>
+        <FoodDesc v-bind:data="data.description" style="margin-top: 5px;"></FoodDesc>
+      </div>
       <hr />
       <span class="foodPrice">{{ data.price }} 원</span>
     </template>
@@ -60,6 +65,11 @@ export default {
     ...mapGetters({ checkCart: "checkCart" }),
   },
   methods: {
+    detailBoolean() {
+      console.log("실행1");
+      this.Desc = true;
+      
+    },
     moreDetails() {
       console.log("실행");
       if(this.Desc === true) {
