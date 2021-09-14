@@ -123,7 +123,6 @@ export default {
       .post("/store/findStore")
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data);
           this.storeInfo = response.data;
           if (this.storeInfo.status != null) {
             success("등록된 가게정보를 찾았습니다!", this);

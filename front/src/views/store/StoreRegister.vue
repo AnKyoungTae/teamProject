@@ -223,12 +223,20 @@ export default {
     };
   },
   watch: {},
-  mounted() {},
+  mounted() {
+    if (this.myStore != "") {
+      alert("등록된 가게가 존재합니다");
+      this.$router.push({ path: "/store" });
+    }
+  },
   computed: {
     ...mapState({
       mapModal: "mapModal",
       address: "selectedPlace",
       addressDetail: "selectedAddressDetail",
+    }),
+    ...mapGetters({
+      myStore: "auth/getMyStore",
     }),
   },
   methods: {
