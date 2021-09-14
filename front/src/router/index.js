@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "../store";
 const routes = [
   {
     path: "/", //홈 화면
@@ -35,6 +36,7 @@ const routes = [
     path: "/eventadd",
     name: "EventAdd",
     component: () => import("../views/event/EventAdd.vue"),
+    meta: ["SELLER", "ADMIN"],
   },
   {
     path: "/serviceCenter",
@@ -60,6 +62,7 @@ const routes = [
         path: "/writeForm",
         name: "WriteForm",
         component: () => import("../components/service/WriteForm.vue"),
+        meta: ["SELLER", "BUYER", "ADMIN"],
       },
       {
         path: "/boardList",
@@ -72,41 +75,43 @@ const routes = [
     path: "/myPage",
     name: "MyPage",
     component: () => import("../views/myPage/MyPage.vue"),
+    meta: ["SELLER", "BUYER", "ADMIN"],
   },
   {
     path: "/storeregister",
     name: "StoreRegister",
     component: () => import("../views/store/StoreRegister.vue"),
+    meta: ["SELLER"],
   },
   {
     path: "/store",
     name: "StoreHome",
     component: () => import("../views/store/StoreHome.vue"),
+    meta: ["SELLER"],
   },
   {
     path: "/storeOrder",
     name: "StoreOrder",
     component: () => import("../views/store/StoreOrder.vue"),
+    meta: ["SELLER"],
   },
   {
     path: "/storeGraph",
     name: "StoreGraph",
     component: () => import("../views/store/StoreGraph.vue"),
+    meta: ["SELLER"],
   },
   {
     path: "/manageStore",
     name: "ManageStore",
     component: () => import("../views/admin/ManageStore.vue"),
-  },
-  {
-    path: "/admincouponadd",
-    name: "AdminCouponAdd",
-    component: () => import("../views/admin/AdminCouponAdd.vue"),
+    meta: ["ADMIN"],
   },
   {
     path: "/admincoupon",
     name: "AdminCoupon",
     component: () => import("../views/admin/AdminCoupon.vue"),
+    meta: ["ADMIN"],
   },
   {
     path: "/adminService",
@@ -117,16 +122,19 @@ const routes = [
     path: "/storeMenus",
     name: "StoreMenus",
     component: () => import("../views/store/StoreMenus.vue"),
+    meta: ["SELLER"],
   },
   {
     path: "/addMenu",
     name: "addMenu",
     component: () => import("../views/store/StoreAddMenu.vue"),
+    meta: ["SELLER"],
   },
   {
     path: "/manageMember",
     name: "ManageMember",
     component: () => import("../views/admin/ManageMember.vue"),
+    meta: ["ADMIN"],
   },
   {
     path: "/kakaoPaySuccess",
@@ -150,8 +158,8 @@ const routes = [
   },
   {
     path: "/password",
-    name:"Password",
-    component: () => import("../views/Email/Password.vue")
+    name: "Password",
+    component: () => import("../views/Email/Password.vue"),
   },
   {
     path: "/akinator",
@@ -162,7 +170,8 @@ const routes = [
     path: "/ordersell",
     name: "OrderSell",
     component: () => import("../views/store/OrderSell.vue"),
-  }
+    meta: ["SELLER"],
+  },
 ];
 
 const router = createRouter({
@@ -170,13 +179,25 @@ const router = createRouter({
   routes,
 });
 
-router.afterEach(() => {
+router.beforeEach((to, from, next) => {
   // ${//these hooks do not get a next function and cannot affect the navigation}
-  // jwt 디코드후, 롤 확인
-  setTimeout(() => {
-    //
-  }, 0);
-  console.log("페이지를 이동합니다");
+
+  // console.log("페이지를 이동합니다");
+  let role = store.getters["auth/getUserRole"];
+  let authList = Object.values(to.meta);
+  if (authList.length > 0) {
+    //권한이 필요한 페이지 접근시
+    let authenticated = authList.some((auth) => {
+      return auth == role;
+    });
+    if (authenticated) {
+      next();
+    } else {
+      alert("권한이 없습니다!");
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;

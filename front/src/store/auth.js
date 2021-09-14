@@ -34,7 +34,6 @@ export default {
       const jwt = require("jsonwebtoken");
       const decodeAccessToken = jwt.decode(state.token.accessToken);
       if (decodeAccessToken != null) {
-        console.log(decodeAccessToken);
         //닉네임 가져온다
         state.userNickname = decodeAccessToken.nickname;
         return decodeAccessToken.role;
@@ -49,7 +48,6 @@ export default {
       const jwt = require("jsonwebtoken");
       const decodeAccessToken = jwt.decode(state.token.accessToken);
       if (decodeAccessToken != null) {
-        console.log(decodeAccessToken);
         return decodeAccessToken.memberId;
       }
       return 0;
@@ -58,7 +56,6 @@ export default {
       const jwt = require("jsonwebtoken");
       const decodeAccessToken = jwt.decode(state.token.accessToken);
       if (decodeAccessToken != null) {
-        console.log(decodeAccessToken);
         return decodeAccessToken.nickname;
       }
       return "unknown";
@@ -67,7 +64,6 @@ export default {
       const jwt = require("jsonwebtoken");
       const decodeAccessToken = jwt.decode(state.token.accessToken);
       if (decodeAccessToken != null) {
-        console.log(decodeAccessToken);
         return decodeAccessToken.profileUrl;
       }
       return "unknown";
@@ -127,7 +123,6 @@ export default {
     },
     getInfo(context) {
       http.post("/api/member/getInfo").then((res) => {
-        console.log("로그인 유지를 위한 정보 요청을 보냅니다");
         context.commit("setUserInfo", res.data);
       });
     },
@@ -138,7 +133,6 @@ export default {
           context.commit("delToken");
           context.commit("SET_MY_STORE", "");
           context.commit("delUserInfo");
-          console.log("로그아웃 했음.");
           router.push({ path: "/" });
           resolve();
         }, 500); // 0.5초 후 로그아웃됨
