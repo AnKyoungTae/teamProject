@@ -582,13 +582,15 @@ public class ArticleService {
 			
 			try
 			{
+				System.out.println("tableId: " + tableId);
+				System.out.println("status: " + status);
 				count = articleDao.changeSuspendComment(tableId, status);
-				
+				System.out.println("count: " + count);
 				if(count > 0)
 				{
 				
 					Comment comment = articleDao.getCommentId(tableId);
-			
+					
 					if(comment != null)
 					{
 						articleDao.deleteChildren(comment.getArticleId());

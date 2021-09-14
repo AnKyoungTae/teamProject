@@ -151,14 +151,14 @@
                         <button
                           type="button"
                           class="btn btn-outline-danger"
-                          @click="changeSuspend(li.articleId, 'N')"
+                          @click="changeSuspend(li.commentId, 'N')"
                         >
                           삭제
                         </button>
                         <button
                           type="button"
                           class="btn btn-outline-primary"
-                          @click="changeSuspend(li.articleId, 'Y')"
+                          @click="changeSuspend(li.commentId, 'Y')"
                         >
                           복귀
                         </button>
