@@ -92,10 +92,12 @@ export default {
           };
           http.post("/coupon/applyCoupon", requestData).then((res) => {
             console.log(res);
-            if (res.status === 200) {
+            if(res.data == "exist"){
+              alert("이미 참여하셨습니다.")
+            } else if (res.status === 200) {
               console.log();
               alert("이벤트에 참여하여, 쿠폰이 지급되었습니다.");
-            } else {
+            }else {
               alert("알수없는 서버오류! 다시 시도해주세요..");
             }
           });

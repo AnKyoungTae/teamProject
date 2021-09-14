@@ -31,7 +31,7 @@ public class StoreController {
     private final AkinatorService akinatorService;
 
     private int getMemberIdByRequest(HttpServletRequest request) {
-        System.out.println("받은 토큰으로 멤버를 검색합니다");
+
         String token = jwtService.resolveToken(request);
         Map<String, Object> claims = jwtService.getUserInfo(token);
         return ((Integer) claims.get("memberId")).intValue();
@@ -79,12 +79,13 @@ public class StoreController {
             memberId = getMemberIdByRequest(request);
             Store store = null;
             if( memberId != null ){
-                System.out.println("허용된 사용자, 가게를 찾아봅니다.");
+               
                 store = storeService.getStoreById(memberId);
             }
             return new ResponseEntity(store, HttpStatus.OK);
         } catch (Exception e){
-            System.out.println("허용할수없는 토큰");
+            System.out.println("findStore Strote Controller");
+            e.printStackTrace();
         }
         return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
@@ -109,16 +110,16 @@ public class StoreController {
 
                 if(store == null) {
                     //가게가 없다?
-                    System.out.println("가게가 없다구요?");
+                    System.out.println("가게가 없습니다.");
                     return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
                 if(store.getStatus().equals("Y")){
                     // 가게가 영업승인이 났을 때,
                     food.setStore_id(store.getStoreId());
-                    System.out.println(food);
+           
                     int foodId = storeService.addFood(food, file);
                     if(foodId > 0 ){
-                        System.out.println("새로생긴 FoodId를 성공적으로 넘겨줍니다 : "+ foodId);
+           
                         return new ResponseEntity(foodId, HttpStatus.OK);
                     }
                     return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -129,7 +130,8 @@ public class StoreController {
             // 멤버아이디가 없을때?
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         } catch (Exception e){
-            System.out.println("허용할수없는 토큰");
+            System.out.println("addFood/ Store controller");
+            e.printStackTrace();
         }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
@@ -163,9 +165,8 @@ public class StoreController {
         if(listPerPage <= 0 || currentPage <=0){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        System.out.println("요청페이지 : " + currentPage + ", 요청게시물 수 : "+listPerPage);
+      
         // 가게페이지를 가져옵니다.
-        System.out.println(option);
 
         List<Map<String, Object>> result = storeService.getFoodList(listPerPage, currentPage, option, storeId);
         return new ResponseEntity(result, HttpStatus.OK);

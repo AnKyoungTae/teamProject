@@ -45,19 +45,18 @@ public class S3Service {
 
     // 업로드
     private String putS3(File uploadFile, String fileName) {
-        System.out.println("버켓이름 : "+bucket);
+        
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-        System.out.println("S3.putS3 : 파일 업로드중입니다, fileName => " + fileName);
+     
         return amazonS3Client.getUrl(bucket, fileName).toString();
     }
 
     // 로컬파일 지우기
-    private void removeNewFile(File targetFile) {
-        if(targetFile.delete()) {
-            System.out.println("S3.removeNewFile : 임시 저장파일이 삭제되었습니다.");
+    private void removeNewFile(File targetFile) 
+    {
+        if(targetFile.delete()) {  
             return;
         }
-        System.out.println("S3.removeNewFile : 임시 파일 삭제 실패!");
     }
 
     // 로컬에 파일 업로드

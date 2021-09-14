@@ -20,112 +20,81 @@
         </div>
       </div>
 
-      <table
-        v-if="kind == 'article'"
-        style="margin: 0 auto; text-align: center; vertical-align: middle; table-layout: fixed; width:1340px;"
-      >
-        <tr style="background-color:gray;">
-          <th style="width: 50px">#</th>
-          <th style="width: 200px">날짜</th>
-          <th style="width: 200px">제목</th>
-          <th style="width: 400px">내용</th>
-          <th style="width: 400px">신고</th>
-          <th>관리</th>
-        </tr>
-        <tr v-for="(li, index) in list" :key="index">
-          <td>{{ index + 1 }}</td>
-          <td>
-            {{ 
-              li.regDate[5] + li.regDate[6] +
-              "월 " +
-              li.regDate[8] + li.regDate[9] +
-              "일"  
-            }}
-          </td>
-          <td><span class="text">{{ li.title }}</span></td>
-          <td><span class="text">{{ li.body }}</span></td>
-          <td><span class="text">{{ li.suspend }}</span></td>
-          <td>
-            <button
-              type="button"
-              class="btn btn-outline-primary"
-              @click="suspendDetailList(list)"
-            >
-              상세정보
-            </button>
-          </td>
-        </tr>
-        <tr v-if="list.length == 0">
-          <td colspan="6">신고된 글이 없습니다.</td>
-        </tr>
-      </table>
 
-      <table
-        v-else
-        style="margin: 0 auto; text-align: center; vertical-align: middle; table-layout: fixed; width:1140px;"
-      >
-        <tr style="background-color:gray;">
-          <th style="width: 50px">#</th>
-          <th style="width: 200px">날짜</th>
-          <th style="width: 400px">내용</th>
-          <th style="width: 400px">신고 내용</th>
-          <th>관리하기</th>
-        </tr>
-        <tr v-for="(li, index) in list" :key="index">
-          <td>{{ index + 1 }}</td>
-          <td>
-            {{ 
-              li.regDate[5] + li.regDate[6] +
-              "월 " +
-              li.regDate[8] + li.regDate[9] +
-              "일"  
-            }}
-          </td>
-          <td><span class="text">{{ li.body }}</span></td>
-          <td><span class="text">{{ li.suspend }}</span></td>
-          <td>
-            <button
-              type="button"
-              class="btn btn-outline-primary"
-              @click="suspendDetailList(list)"
-            >
-              상세정보
-            </button>
-          </td>
-        </tr>
-        <tr v-if="list.length == 0">
-          <td colspan="6">신고된 글이 없습니다.</td>
-        </tr>
-      </table>
+        <table v-else class="susTable">
+          <tr>
+            <th style="width: 100px">#</th>
+            <th style="width: 300px">날짜</th>
+            <th style="padding-right:45px;">글 내용</th>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <!-- 리스트 시작 -->
+              <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item"
+                v-for="(li, index) in list" :key="index">
+                  <h2 class="accordion-header" v-bind:id="'flush-heading' + index">
+                    <button
+                      class="accordion-button collapsed susTitle"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      v-bind:data-bs-target="'#flush-collapse' + index"
+                      aria-expanded="false"
+                      v-bind:aria-controls="'flush-collapse' + index"
+                    >
+                      <span class="susTitleNum">{{ index + 1 }}</span>
+                      <span class="susTitleDay">
+                        {{
+                          li.regDate[0] + li.regDate[1] + li.regDate[2] + li.regDate[3] + "년 " + 
+                          li.regDate[5] + li.regDate[6] + "월 " +
+                          li.regDate[8] + li.regDate[9] + "일 " +
+                          li.regDate[11] + li.regDate[12] + "시 " +
+                          li.regDate[14] + li.regDate[15] + "분 " +
+                          li.regDate[17] + li.regDate[18] + "초"
+                        }}
+                      </span>
+                      <span class="susTitleContents">{{ li.body }}</span>
+                    </button>
+                  </h2>
+                  <div
+                    v-bind:id="'flush-collapse' + index"
+                    class="accordion-collapse collapse"
+                    v-bind:aria-labelledby="'flush-heading' + index"
+                    data-bs-parent="#accordionFlushExample"
+                  >
+                    <div class="accordion-body susBody">
+                      <div class="susBodyList">
+                        <strong>글 내용 : </strong>{{ li.body }}
+                      </div>
+                      <div class="susBodyList">
+                        <strong>신고 내용 : </strong>{{ li.suspend }}
+                      </div>
+                      <div class="susBodyBtn">
+                        <button
+                          type="button"
+                          class="btn btn-outline-danger"
+                          @click="changeSuspend(li.commentId, 'N')"
+                        >
+                          삭제
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-outline-primary"
+                          @click="changeSuspend(li.commentId, 'Y')"
+                        >
+                          복귀
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- 리스트 끝 -->
+            </td>
+          </tr>
+        </table>
+      </div>
 
-    </div>
-    <div v-if="detail == false">
-      <SuspendDetail :data="selectedSuspend"></SuspendDetail>
-      {{ selectedSuspend }}
-      <button
-        style="font-size:20px;"
-        type="button"
-        class="btn btn-outline-danger"
-        @click="changeSuspend(selectedSuspend.status, 'N')"
-      >
-        삭제
-      </button>
-      <button
-        style="font-size:20px; margin:20px;"
-        type="button"
-        class="btn btn-outline-primary"
-        @click="changeSuspend(selectedSuspend.status, 'Y')"
-      >
-        복귀
-      </button>
-      <button
-        style="font-size:20px;"
-        type="button"
-        class="btn btn-outline-success"
-        @click="clearDetail()"
-      >
-        목록
-      </button>
     </div>
   </div>
 </template>
@@ -190,7 +159,14 @@ export default {
         })
         .then((res) => {
           if (res.data == "ok") {
-            alert("삭제되었습니다.");
+            if(status === 'Y'){
+              
+              alert("신고가 취소되엇습니다")
+            }else{
+            
+              alert("삭제되었습니다.");
+            }
+            
             this.articleProc();
           } else {
             alert("문제가 발생했습니다.");

@@ -28,9 +28,9 @@ public class AdminController {
         if(listPerPage <= 0 || currentPage <=0){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        System.out.println("요청페이지 : " + currentPage + ", 요청게시물 수 : "+listPerPage);
+ 
         // 가게페이지를 가져옵니다.
-        System.out.println(option);
+       
 
         List<Map<String, Object>> result = adminService.getStoreList(listPerPage, currentPage, option);
         return new ResponseEntity(result, HttpStatus.OK);
@@ -61,7 +61,7 @@ public class AdminController {
         
         if(currentPage != 1)
         {
-        	System.out.println("currentPage :  "+ currentPage);
+        	
         	currentPage = 1 + listPerPage * (currentPage-1);
         }
         
@@ -81,7 +81,7 @@ public class AdminController {
     	int count = adminService.adminEventcount(option);
     	
     	
-    	System.out.println("count:  "+ count);
+    	
     	return new ResponseEntity(count, HttpStatus.OK);
     }
     

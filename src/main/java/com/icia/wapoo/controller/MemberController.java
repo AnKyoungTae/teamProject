@@ -54,11 +54,8 @@ public class MemberController {
             if(member == null){
                 return new ResponseEntity("회원정보를 찾지 못했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            System.out.println("찾은회원 : "+member);
-
             String token = jwtService.create(member);
-            System.out.println("[생성된토큰] "+token);
-
+           
             response.setHeader("Authorization", token);
             response.setStatus(200);
 
@@ -70,8 +67,6 @@ public class MemberController {
             return new ResponseEntity("토큰 생성중에 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
-        
-        
     }
 
     /**
@@ -85,22 +80,21 @@ public class MemberController {
     public ResponseEntity getInfo(HttpServletRequest request) {
         // 토큰으로 유저객체 구하기.
         String token = jwtService.resolveToken(request);
-        System.out.println("test : 받은토큰 -> " + token);
+     
         if(token == null) {
             return new ResponseEntity("토큰이 없습니다.", HttpStatus.BAD_REQUEST);
         }
         boolean isValid = jwtService.validateToken(token);
-        System.out.println("test : 유효한 토큰? -> "+isValid);
+
         if(isValid == false) {
             // 유효하지 않은 토큰
             return new ResponseEntity("유효하지 않은 토큰", HttpStatus.BAD_REQUEST);
         }
         Map<String, Object> infos = jwtService.getUserInfo(token);
-        System.out.println("test : 토큰정보 -> " +infos);
+      
         int id = (int) infos.get("memberId");
         Member member = memberService.getMemberBymemberId(id);
-        System.out.println("member: " + member);
-
+        
         return new ResponseEntity(member, HttpStatus.OK);
     }
 
@@ -110,7 +104,7 @@ public class MemberController {
     @PostMapping("/member/register")
     public ResponseEntity register(
             @RequestBody Map<String, Object> userData) {
-        System.out.println("회원가입 요청 정보 : " +userData);
+     
         boolean result = memberService.registerMember(userData);
         if(result != true ){
             System.out.println("회원가입 진행 중 오류가 있습니다.");
@@ -167,15 +161,12 @@ public class MemberController {
         int listPerPage = ((Integer) data.get("listPerPage")).intValue();
         int currentPage = ((Integer) data.get("currentPage")).intValue();
         String option = (String) data.get("statusOption");
-        System.out.println("첫번째 "+listPerPage);
-        System.out.println("두번째 "+currentPage);
-        System.out.println("세번째 "+option);
+    
         if(listPerPage <= 0 || currentPage <=0){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        System.out.println("요청페이지 : " + currentPage + ", 요청게시물 수 : "+listPerPage);
         // 가게페이지를 가져옵니다.
-        System.out.println(option);
+    
 
         List<Map<String, Object>> result = memberService.getMemberList(listPerPage, currentPage, option);
         return new ResponseEntity(result, HttpStatus.OK);
@@ -191,7 +182,7 @@ public class MemberController {
     public ResponseEntity updateMemberStatus(@RequestBody Map<String, Object> data) {
         int memberId = ((Integer) data.get("memberId")).intValue();
         String status = ((String) data.get("status")).toString();
-        System.out.println("status를 변경합니다.");
+     
         if(status == null || memberId < 1){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }

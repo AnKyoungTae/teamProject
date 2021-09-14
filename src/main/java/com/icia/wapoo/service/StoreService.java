@@ -98,7 +98,7 @@ public class StoreService {
     @Transactional
     public int addFood(Food food, MultipartFile file) {
         int result = storeDao.insertFood(food);
-        System.out.println("적용된 수 : "+result + ", FoodId : "+food.getFoodId());
+
         if ( result > 0) {
 
 

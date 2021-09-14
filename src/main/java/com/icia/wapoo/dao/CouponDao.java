@@ -33,4 +33,6 @@ public interface CouponDao {
     int selectDiscountPrice(@Param("id") Integer memberCouponId);
 
     void updateMemberCouponDisable(@Param("id") Integer memberCouponId);
+    // 사용자가 쿠폰 있는지 확인
+    int existCounpon(Integer memberId, Integer couponId);
 }
