@@ -40,7 +40,7 @@ public class EventController {
     private final StoreService storeService;
 
     private Integer getMemberIdByRequest(HttpServletRequest request) {
-        System.out.println("받은 토큰으로 멤버를 검색합니다");
+     
         Integer memberId = 0;
         try
         {
@@ -54,13 +54,15 @@ public class EventController {
         }
         catch(Exception e)
         {
-            System.out.println("memberId 없음");
+            System.out.println("Event Controller /getMemberIdByRequest");
+            e.printStackTrace();
         }
         return memberId;
     }
 
     @PostMapping("/addEvent")
-    public ResponseEntity addEvent(@RequestBody Map<String, Object> data, HttpServletRequest request) {
+    public ResponseEntity addEvent(@RequestBody Map<String, Object> data, HttpServletRequest request) 
+    {
         Integer memberId = getMemberIdByRequest(request);
         if(memberId == null) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -73,7 +75,6 @@ public class EventController {
         event.setBody((String) data.get("body"));
         event.setTitle((String) data.get("title"));
         event.setProvider_id(memberId.intValue());
-
 
         Coupon coupon = new Coupon();
         coupon.setCouponNumber(UUID.randomUUID().toString());
@@ -93,15 +94,14 @@ public class EventController {
     }
 
     @PostMapping("/getEventList")
-    public ResponseEntity getEventList(@RequestBody Map<String, Object> data) {
+    public ResponseEntity getEventList(@RequestBody Map<String, Object> data) 
+    {
         int listPerPage = ((Integer) data.get("listPerPage")).intValue();
         int currentPage = ((Integer) data.get("currentPage")).intValue();
         String option = (String) data.get("statusOption");
         if(listPerPage <= 0 || currentPage <=0){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        System.out.println("요청페이지 : " + currentPage + ", 요청게시물 수 : "+listPerPage);
-        System.out.println(option);
 
         List<Map<String, Object>> result = eventService.getEventList(listPerPage, currentPage, option);
         return new ResponseEntity(result, HttpStatus.OK);

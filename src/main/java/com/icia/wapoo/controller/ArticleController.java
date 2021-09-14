@@ -52,13 +52,13 @@ public class ArticleController {
     
     //멤버 아이디 
     private long getMemberIdByRequest(HttpServletRequest request) {
-        System.out.println("받은 토큰으로 멤버를 검색합니다");
+        
         long memberId = 0;
         try
 		{
 			//JWT 토큰값
 			String JWT = jwtService.resolveToken(request);
-			System.out.println(JWT);
+		
 			
 			Map<String, Object> token = jwtService.getUserInfo(JWT);
 			// token에서 memberId 값 가져오기
@@ -66,7 +66,8 @@ public class ArticleController {
 		}
 		catch(Exception e)
 		{
-			System.out.println("memberId 없음");
+			System.out.println("articleController/ getMemberIdByRequest:");
+			e.printStackTrace();
 		}
         return memberId;
     }
@@ -84,9 +85,7 @@ public class ArticleController {
 		
 		long memberId = getMemberIdByRequest(request);
 		
-		
 		Map<String, Object> params = (Map<String, Object>) writeForm.get("params");
-		System.out.println(params);
 		
 		Article article = null;
 		
@@ -145,20 +144,14 @@ public class ArticleController {
 		
 		if(memberId > 0)
 		{
-			System.out.println("회원이다.");
-			
 			Map<String, Object> writeData = (Map<String, Object>) writeForm.get("params");
-			System.out.println("writeData : " + writeData);
 			
 			int count = 0;
 			
 			Article article = new Article();
 			
-			
 			try
 			{
-				System.out.println("회원이다.:"+ Integer.parseInt((String) (writeData.get("parantId"))));
-				
 				article.setParantId(Integer.parseInt((String) (writeData.get("parantId"))));
 				System.out.println("답글 작성");
 			}
@@ -194,14 +187,12 @@ public class ArticleController {
 	}
 	
 	//이미지 업로드  
-		@PostMapping("/board/imageUpload")
+	@PostMapping("/board/imageUpload")
 	public ResponseEntity imageUpload( long articleId,@RequestPart(value="image", required = false) List<MultipartFile> image, HttpServletRequest request)
 		{
 			System.out.println("글 업로드");
 
 			long memberId = this.getMemberIdByRequest(request);
-			
-			System.out.println("memberId : " + memberId);
 			
 			if(articleId > 0)
 			{
@@ -239,8 +230,6 @@ public class ArticleController {
 		System.out.println("댓글 업로드");
 		
 		long memberId = getMemberIdByRequest(request);
-		
-		System.out.println("memberId : " + memberId);
 		
 		if(memberId > 0)//회원 확인
 		{
@@ -286,25 +275,7 @@ public class ArticleController {
 	{
 		System.out.println("게시글 조회");
 		//조회 값 없으면
-		long memberId = 0;
-		
-		try
-		{
-			//JWT 토큰값
-			String JWT = jwtService.resolveToken(request);
-			System.out.println(JWT);
-			
-			Map<String, Object> token = jwtService.getUserInfo(JWT);
-			// token에서 memberId 값 가져오기
-			 memberId = (long)((Integer) token.get("memberId")).intValue();
-		}
-		catch(Exception e)
-		{
-			System.out.println("memberId 없음");
-		}
-		
-		System.out.println("memberId : " + memberId);
-		
+		long memberId = getMemberIdByRequest(request);
 		
 		Map<String, Object> map = new HashMap<>();//여기 담아서 보냄
 		boolean MYPAGE = false; 				  //작성자 여부
@@ -317,7 +288,6 @@ public class ArticleController {
 		{
 			article = articleService.boardList(articleId);//게시글
 			list = articleService.getAllComment((int)article.getArticleId());//댓글
-			System.out.println("list[0] : " + list);
 			//파일
 			
 			articleImageFile = articleService.imageFileList(articleId);
@@ -353,7 +323,6 @@ public class ArticleController {
 		map.put("list", list);
 		map.put("articleImageFile", articleImageFile);
 		
-		
 		return map;
 	}
 	
@@ -369,11 +338,9 @@ public class ArticleController {
 
 		Map<String, Object> params = (Map<String, Object>) ListData.get("params");
 		
-		
 		long writerId = (long)(((Integer) params.get("writerId")).intValue());
 		
 		long articleId = (long)(((Integer) params.get("articleId")).intValue());
-		
 		
 		if(memberId != 0)
 		{
@@ -424,15 +391,11 @@ public class ArticleController {
 	public ResponseEntity commentDelete(@RequestBody Map<String, Object> params, HttpServletRequest request)
 	{
 		System.out.println("댓글 삭제");
-		System.out.println("params: " + params);
 		
 		Map<String, Object> data = (Map<String, Object>) params.get("params");
-		System.out.println("data: " + data);
+		
 		int commentId = (((Integer) data.get("commentId")).intValue());
 		int articleId = (((Integer) data.get("articleId")).intValue());
-		System.out.println("commentId: " + commentId);
-		System.out.println("articleId: " + articleId);
-		
 		
 		int memberId = (int)getMemberIdByRequest(request);
 		
@@ -454,7 +417,6 @@ public class ArticleController {
 			}
 		}
 		
-		
 		return new ResponseEntity("no", HttpStatus.OK);
 	}
 	
@@ -468,8 +430,7 @@ public class ArticleController {
 
 		//업데이트 글 정보
 		Map<String, Object> params = (Map<String, Object>) ListData.get("params");
-		System.out.println(params);
-	
+
 		String title = (String)params.get("title");
 		String body = (String)params.get("body");
 
@@ -479,16 +440,12 @@ public class ArticleController {
 
 		long writerId = (long) ((Integer) params.get("writerId")).intValue();
 	
-		
-		System.out.println("articleId : " +articleId);
-		
 		Article article = new Article();
 		
 		if(memberId != 0)
 		{
 			if(articleId > 0)
 			{
-				
 					article.setTitle(title);
 					article.setBody(body);
 					article.setArticleId(articleId);
@@ -499,7 +456,6 @@ public class ArticleController {
 						{
 							for(int fileId : fileIds)
 							{
-								System.out.println(fileId);
 								articleService.imageDelete( (int)fileId);
 							}
 							System.out.println("이미지 성공");
@@ -517,7 +473,6 @@ public class ArticleController {
 						System.out.println("글 수정 성공");
 						return new ResponseEntity("ok", HttpStatus.OK);
 					}
-				
 			}	
 		}
 		else
@@ -544,16 +499,11 @@ public class ArticleController {
 	{	
 		System.out.println("페이징 처리중");
 		
-		
-		
 		Map<String, Object> map = new HashMap<>();
 		
 		//전체 게시글 개수
 		int total = articleService.getBoardListCnt(boardId, search);
 		
-		
-		System.out.println("total: " + total);
-
 	    //Pagination 객체생성
 		PagingA paging = new PagingA();
 
@@ -561,7 +511,6 @@ public class ArticleController {
 		//페이지 리스트 수가 rangeSize보다 작을 때
 		if(range == 1 && paging.getTotalpage() <= paging.getEndPage())
 		{
-			
 			paging.setEndPage(paging.getTotalpage());
 			
 			range = 1;
@@ -570,14 +519,11 @@ public class ArticleController {
 			paging.setPrev(false);
 		}
 		
-		
 		List<Article>  list =  articleService.getBoardList(paging, boardId, search);
 		
 		map.put("paging", paging);
 		map.put("list", list);
 		map.put("search", search);
-		
-		
 		
 		return map;
 	}
@@ -594,7 +540,7 @@ public class ArticleController {
 		list.addAll(articleService.myList(memberId,4));
 		list.addAll(articleService.myList(memberId,5));
 		list.addAll(articleService.myList(memberId,6));
-		list.stream().forEach(System.out::println);
+		
 		return new ResponseEntity(list, HttpStatus.OK);
 	}
 	
@@ -606,16 +552,13 @@ public class ArticleController {
 		boolean check = false;
 		
 		long memberId = getMemberIdByRequest(request);
-		System.out.println("memberId : " + memberId);
 		
 		if(memberId >= 0)
 		{
-			
 			check = articleService.memberVerify(memberId);
 			
 			if(check)
 			{
-				
 				return new ResponseEntity(check, HttpStatus.OK);
 			}
 			else
@@ -626,7 +569,6 @@ public class ArticleController {
 		}
 		else
 		{
-			
 			return new ResponseEntity(check, HttpStatus.OK);
 		}
 		
@@ -639,20 +581,14 @@ public class ArticleController {
 										@RequestParam(required = false, defaultValue = "0") int commentId,
 										@RequestParam(required = false, defaultValue = "no") String suspend, HttpServletRequest request)
 	{
+		System.out.println("신고하기");
 		long memberId = getMemberIdByRequest(request);
-		
-		System.out.println("body: " + suspend);
-		
-		
-		
-		
 		
 		if(memberId == 0 || suspend == "no")
 		{
 			return new ResponseEntity("noMember", HttpStatus.OK);
 		}
 		
-		System.out.println("신고하기");
 		if(articleId > 0)
 		{
 			System.out.println("게시판 신고");
@@ -688,8 +624,6 @@ public class ArticleController {
 	{
 		int articleIds = Integer.parseInt((String) articleId);
 		
-		System.out.println("articleId:  "+ articleIds);
-		
 		if(articleService.deleteArticle(articleIds) > 0)
 		{
 			return new ResponseEntity("ok", HttpStatus.OK);
@@ -704,6 +638,7 @@ public class ArticleController {
 	@PostMapping("/deleteAdminQuestion")
 	public ResponseEntity deleteAdminQuestion(@RequestBody Map<String, Object> ListData, HttpServletRequest request)
 	{
+		System.out.println("article controller: deleteAdminQuestion  ");
 		Map<String, Object> params = (Map<String, Object>) ListData.get("params");
 		
 		int page = ((Integer) params.get("page")).intValue();
@@ -715,24 +650,11 @@ public class ArticleController {
 		String children = (String)params.get("children");
 		String search = (String)params.get("search");
 		
-		System.out.println("params:  "+ params);
-		System.out.println("page:  "+ page);
-		System.out.println("range:  "+ range);
-		System.out.println("listSize:  "+ listSize);
-		System.out.println("rangeSize:  "+ rangeSize);
-		System.out.println("status:  "+ status);
-		System.out.println("children:  "+ children);
-		System.out.println("search:  "+ search);
-		
-		
-		
 		Map<String, Object> map = new HashMap<>();
 		
 		//전체 게시글 개수
 		int total = articleService.deleteAdminQuestionCnt(status, children, search);
 		
-		System.out.println("total: " + total);
-
 	    //Pagination 객체생성
 		PagingA paging = new PagingA();
 
@@ -742,7 +664,6 @@ public class ArticleController {
 		//페이지 리스트 수가 rangeSize보다 작을 때
 		if(range == 1 && paging.getTotalpage() <= paging.getEndPage())
 		{
-			
 			paging.setEndPage(paging.getTotalpage());
 			
 			range = 1;
@@ -751,13 +672,11 @@ public class ArticleController {
 			paging.setPrev(false);
 		}
 		
-		
 		List<Article>  list =  articleService.deleteAdminQuestion(status, children, search , paging.getDBsStart(), paging.getListSize());
 		
 		map.put("paging", paging);
 		map.put("total", total);
 		map.put("list", list);
-		
 		
 		return new ResponseEntity(map, HttpStatus.OK);
 	}
@@ -767,7 +686,7 @@ public class ArticleController {
 	@PostMapping("/suspendArticle")
 	public ResponseEntity suspendArticle(@RequestBody String kind,HttpServletRequest request)
 	{
-		
+		System.out.println(" Article Controller: suspendArticle");
 		if( kind.equals("article"))
 		{
 			List<Article>  list =  articleService.suspendArticle();
@@ -787,6 +706,7 @@ public class ArticleController {
 	@PostMapping("/changeSuspend")
 	public ResponseEntity changeSuspend(@RequestBody Map<String, Object> ListData,HttpServletRequest request)
 	{
+		System.out.println("Article Controller: changeSuspend");
 		Map<String, Object> param = (Map<String, Object>) ListData.get("param");
 		
 		int tableId = (((Integer) param.get("tableId")).intValue()); 
@@ -796,7 +716,6 @@ public class ArticleController {
 		
 		if(kind.equals("article"))
 		{
-			System.out.println("article");
 			if(articleService.changeSuspendArticle(tableId, status) > 0)
 			{
 				return new ResponseEntity("ok", HttpStatus.OK);

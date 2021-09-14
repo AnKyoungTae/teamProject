@@ -132,7 +132,7 @@ AND	a.store_id = #{storeId}
 
 AND b.status = #{status}
 
-
+ORDER BY b.orderId ASC
 
 </select>
 
