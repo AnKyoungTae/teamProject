@@ -204,6 +204,10 @@ export default {
       ];
     },
     delFile() {
+      if (this.FileList.length <= 1) {
+        alert("적어도 한개이상의 가게 사진이 필요합니다");
+        return;
+      }
       let pointer = this.FileList[this.selectedIndex];
       // 이미 있는 파일일때, 삭제예정배열에 아이디만 저장해놓고, 업로드에정인것인 fileList에서 제거.
       if (pointer.file.fileId) {
