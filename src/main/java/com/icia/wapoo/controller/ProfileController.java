@@ -42,8 +42,7 @@ public class ProfileController {
     private EmailService emailService;
 	
     private int getMemberIdByRequest(HttpServletRequest request) {
-        System.out.println("받은 토큰으로 멤버를 검색합니다");
-        
+
         int memberId = 0;
         
         try
@@ -82,8 +81,6 @@ public class ProfileController {
 		
 		Map<String, Object> param = (Map<String, Object>) params.get("params");
 		
-		System.out.println("프로필 수정하기:" + param);
-		
 		if(memberId > 0)
 		{
 			Profile profile = profileService.profileSelect(memberId);
@@ -104,7 +101,7 @@ public class ProfileController {
 				if(profileService.insertProfile(profile) > 0)
 				{
 					System.out.println("프로필 수정완료1");
-					System.out.println("pwd : " + pwd);
+			
 					
 					if(pwd == null)
 					{
@@ -145,15 +142,8 @@ public class ProfileController {
 		{
 			LoginInfo loginInfo = null;
 			
-			System.out.println("member_id: " + member_id);
-			System.out.println("password: " + password);
-			
 			loginInfo = profileService.deleteProfileCheck(member_id, password);
-			
-			
-			
-			System.out.println("loginInfo: " + loginInfo);
-			
+				
 			if(loginInfo != null)
 			{
 				if(profileService.deleteProfile(member_id) > 0)
@@ -178,10 +168,6 @@ public class ProfileController {
 		{
 			memberCoupon = profileService.getCoupon(memberId);
 		}
-		
-		System.out.println("member: " + memberCoupon);
-
-
 		
 		return new ResponseEntity( memberCoupon , HttpStatus.OK);
 	}
@@ -214,7 +200,6 @@ public class ProfileController {
 		System.out.println("프로필 이미지를 업로드 합니다");
 		int memberId = getMemberIdByRequest(request);
 		
-		System.out.println("image: " + image);
 		if(memberId > 0 && image != null)
 		{
 			Member member = profileService.getMember(memberId);
@@ -249,9 +234,6 @@ public class ProfileController {
 		
 		Map<String, Object> param = (Map<String, Object>) params.get("params");
 		
-		
-		System.out.println(param);
-		
 		String result = emailService.findPwd(param);
 		
 		if(result == "ok")
@@ -279,9 +261,6 @@ public class ProfileController {
 	@RequestMapping(value = "/findid")
 	public ResponseEntity findIdPOST(@RequestBody Map<String, Object> params, HttpServletResponse response){
 		Map<String, Object> param = (Map<String, Object>) params.get("params");
-		
-		
-		System.out.println(param);
 		
 		String result = emailService.findId(param);
 		
@@ -318,7 +297,6 @@ public class ProfileController {
 		}
 		if(memberId > 0)
 		{
-			System.out.println("회원넘버" +memberId);
 			List<Map<String, Object>> list = profileService.getMyReview(memberId);
 			return new ResponseEntity(list, HttpStatus.OK);
 		}
@@ -333,11 +311,10 @@ public class ProfileController {
 		System.out.println("ReviewStatus Controller");
         Integer reviewId = (Integer) data.get("reviewId");
         String status = (String) data.get("status");
-        System.out.println("reviewId" + reviewId);
-        System.out.println("status" + status);
+
         int result = profileService.updateReviewState(reviewId, status);
-        if(result > 0){
-        	System.out.println(result);
+        if(result > 0)
+        {
             return new ResponseEntity(HttpStatus.OK);
         }
         System.out.println("error");

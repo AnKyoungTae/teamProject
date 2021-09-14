@@ -2,7 +2,6 @@
   <div class="wrapper">
     <div class="container">
       <div>
-        
         <div class="susRadio">
           본문<input
             type="radio"
@@ -20,21 +19,28 @@
         </div>
       </div>
       <div v-if="list.length == 0">
-        <strong style="font-size:25px;">신고된 글이 없습니다.</strong>
+        <strong style="font-size: 25px">신고된 글이 없습니다.</strong>
       </div>
       <div v-else-if="list.length != 0">
         <table v-if="kind == 'article'" class="susTable">
           <tr>
             <th style="width: 100px">#</th>
             <th style="width: 300px">날짜</th>
-            <th style="padding-right:45px;">제목</th>
+            <th style="padding-right: 45px">제목</th>
           </tr>
           <tr>
             <td colspan="3">
               <!-- 리스트 시작 -->
               <div class="accordion accordion-flush" id="accordionFlushExample">
-                <div class="accordion-item" v-for="(li, index) in list" :key="index">
-                  <h2 class="accordion-header" v-bind:id="'flush-heading' + index">
+                <div
+                  class="accordion-item"
+                  v-for="(li, index) in list"
+                  :key="index"
+                >
+                  <h2
+                    class="accordion-header"
+                    v-bind:id="'flush-heading' + index"
+                  >
                     <button
                       class="accordion-button collapsed susTitle"
                       type="button"
@@ -46,12 +52,26 @@
                       <span class="susTitleNum">{{ index + 1 }}</span>
                       <span class="susTitleDay">
                         {{
-                          li.regDate[0] + li.regDate[1] + li.regDate[2] + li.regDate[3] + "년 " + 
-                          li.regDate[5] + li.regDate[6] + "월 " +
-                          li.regDate[8] + li.regDate[9] + "일 " +
-                          li.regDate[11] + li.regDate[12] + "시 " +
-                          li.regDate[14] + li.regDate[15] + "분 " +
-                          li.regDate[17] + li.regDate[18] + "초"
+                          li.regDate[0] +
+                          li.regDate[1] +
+                          li.regDate[2] +
+                          li.regDate[3] +
+                          "년 " +
+                          li.regDate[5] +
+                          li.regDate[6] +
+                          "월 " +
+                          li.regDate[8] +
+                          li.regDate[9] +
+                          "일 " +
+                          li.regDate[11] +
+                          li.regDate[12] +
+                          "시 " +
+                          li.regDate[14] +
+                          li.regDate[15] +
+                          "분 " +
+                          li.regDate[17] +
+                          li.regDate[18] +
+                          "초"
                         }}
                       </span>
                       <span class="susTitleContents">{{ li.title }}</span>
@@ -102,14 +122,21 @@
           <tr>
             <th style="width: 100px">#</th>
             <th style="width: 300px">날짜</th>
-            <th style="padding-right:45px;">글 내용</th>
+            <th style="padding-right: 45px">글 내용</th>
           </tr>
           <tr>
             <td colspan="3">
               <!-- 리스트 시작 -->
               <div class="accordion accordion-flush" id="accordionFlushExample">
-                <div class="accordion-item" v-for="(li, index) in list" :key="index">
-                  <h2 class="accordion-header" v-bind:id="'flush-heading' + index">
+                <div
+                  class="accordion-item"
+                  v-for="(li, index) in list"
+                  :key="index"
+                >
+                  <h2
+                    class="accordion-header"
+                    v-bind:id="'flush-heading' + index"
+                  >
                     <button
                       class="accordion-button collapsed susTitle"
                       type="button"
@@ -121,12 +148,26 @@
                       <span class="susTitleNum">{{ index + 1 }}</span>
                       <span class="susTitleDay">
                         {{
-                          li.regDate[0] + li.regDate[1] + li.regDate[2] + li.regDate[3] + "년 " + 
-                          li.regDate[5] + li.regDate[6] + "월 " +
-                          li.regDate[8] + li.regDate[9] + "일 " +
-                          li.regDate[11] + li.regDate[12] + "시 " +
-                          li.regDate[14] + li.regDate[15] + "분 " +
-                          li.regDate[17] + li.regDate[18] + "초"
+                          li.regDate[0] +
+                          li.regDate[1] +
+                          li.regDate[2] +
+                          li.regDate[3] +
+                          "년 " +
+                          li.regDate[5] +
+                          li.regDate[6] +
+                          "월 " +
+                          li.regDate[8] +
+                          li.regDate[9] +
+                          "일 " +
+                          li.regDate[11] +
+                          li.regDate[12] +
+                          "시 " +
+                          li.regDate[14] +
+                          li.regDate[15] +
+                          "분 " +
+                          li.regDate[17] +
+                          li.regDate[18] +
+                          "초"
                         }}
                       </span>
                       <span class="susTitleContents">{{ li.body }}</span>
@@ -232,7 +273,12 @@ export default {
         .then((res) => {
           console.log(res.data);
           if (res.data == "ok") {
-            alert("삭제되었습니다.");
+            if (status === "Y") {
+              alert("신고가 취소되엇습니다");
+            } else {
+              alert("삭제되었습니다.");
+            }
+
             this.articleProc();
           } else {
             console.log(res.data);
@@ -265,58 +311,59 @@ td {
   padding: 40px;
 }
 .susRadio {
-  font-size:20px; padding-bottom:10px;
+  font-size: 20px;
+  padding-bottom: 10px;
 }
 .susTable {
-  margin: 0 auto; 
-  text-align: center; 
+  margin: 0 auto;
+  text-align: center;
   vertical-align: middle;
-  width:800px;
+  width: 800px;
 }
 .susTitle {
-  padding:0px;
-  padding-right:20px;
-  text-align:center; 
-  font-size:20px;
+  padding: 0px;
+  padding-right: 20px;
+  text-align: center;
+  font-size: 20px;
   border-style: solid;
   border-width: 0px 0px 1px 0px;
-  border-color:gray
+  border-color: gray;
 }
 .susTitleNum {
-  width:99px; 
-  padding: 20px 0px; 
-  margin:0px; 
-  border-right:1px solid gray;
+  width: 99px;
+  padding: 20px 0px;
+  margin: 0px;
+  border-right: 1px solid gray;
 }
 .susTitleDay {
-  width:300px; 
-  padding: 20px 0px; 
-  border-right:1px solid gray;
+  width: 300px;
+  padding: 20px 0px;
+  border-right: 1px solid gray;
 }
 .susTitleContents {
-  width:700px;
-  padding: 0px 20px; 
-  display:block;
-  overflow: hidden; 
+  width: 700px;
+  padding: 0px 20px;
+  display: block;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .susBody {
-  text-align:left; 
-  border-bottom:1px solid gray;
+  text-align: left;
+  border-bottom: 1px solid gray;
 }
 .susBodyList {
-  width:100%; 
-  padding:5px; 
+  width: 100%;
+  padding: 5px;
 }
 .susBodyList strong {
-  font-size:23px;
+  font-size: 23px;
 }
 .susBodyBtn {
-  width:100%; 
-  text-align:center;
+  width: 100%;
+  text-align: center;
 }
 .susBodyBtn button {
-  margin:20px 50px;
+  margin: 20px 50px;
 }
 </style>

@@ -38,8 +38,6 @@ public class ReviewController {
         if(listPerPage <= 0 || currentPage <=0){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        System.out.println("요청페이지 : " + currentPage + ", 요청게시물 수 : "+listPerPage);
-        System.out.println(storeId);
 
         List<Map<String, Object>> result = reviewService.getReviewList(listPerPage, currentPage, storeId, option);
         return new ResponseEntity(result, HttpStatus.OK);

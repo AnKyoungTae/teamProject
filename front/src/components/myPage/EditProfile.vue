@@ -171,10 +171,10 @@ export default {
       
       if(this.pwd != null){
         if(!pwdCheck){
-           return alert("숫자 문자 특수문자를 사용하세요")
+          return alert("숫자 문자 특수문자를 사용하세요")
         }
         if(this.pwd != this.pwdCheck){
-        return alert("비밀번호와 비빌번호 확인이 다름니다.")
+          return alert("비밀번호와 비빌번호 확인이 다름니다.")
         }
       }
       if(!this.nicknameValid){

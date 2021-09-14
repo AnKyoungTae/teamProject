@@ -40,7 +40,7 @@ public class OrderController {
     private final OrderService orderService;
 
     private int getMemberIdByRequest(HttpServletRequest request) {
-        System.out.println("받은 토큰으로 멤버를 검색합니다");
+      
         String token = jwtService.resolveToken(request);
         Map<String, Object> claims = jwtService.getUserInfo(token);
         return ((Integer) claims.get("memberId")).intValue();
@@ -56,7 +56,7 @@ public class OrderController {
     @PostMapping("/putOrder")
     public ResponseEntity putOrder(@RequestBody Map<String, Object> orderData) {
         Integer orderId = orderService.createOrder(orderData);
-        System.out.println("생성된 OrderId : "+orderId);
+   
         if(orderId.intValue() > 0){
             return new ResponseEntity(orderId, HttpStatus.OK);
         }
@@ -65,7 +65,7 @@ public class OrderController {
 
     @PostMapping("/putOrderInfo")
     public ResponseEntity putOrderInfo(@RequestBody List<Object> orderInfo) {
-        System.out.println(orderInfo);
+
         Integer foodId = (Integer) orderInfo.get(0);
         Integer quantity = (Integer) orderInfo.get(1);
         Integer orderId = (Integer) orderInfo.get(2);
@@ -190,7 +190,6 @@ public class OrderController {
     @PostMapping("/getFoodSaleAmount")
     public ResponseEntity getFoodSaleAmount(@RequestBody String date, HttpServletRequest request)
     {
-    	System.out.println("@RequestBody String totalOrderId :  " +date);
     	
     	int memberId = getMemberIdByRequest(request);
     	
@@ -237,8 +236,6 @@ public class OrderController {
     
     	if(name == "")
     	{
-    		System.out.println("첫번째 클릭");
-    		
     		name = list.get(0);
     		
     		graphResntFood = orderService.getResentFood(store.getStoreId(), date, name);
@@ -268,8 +265,6 @@ public class OrderController {
     	Map<String, Object> map = new HashMap<>();
     	
     	map = orderService.getPayment(store.getStoreId());
-    	
-    	System.out.println(map);
     	
     	return new ResponseEntity(map, HttpStatus.OK);
     }
