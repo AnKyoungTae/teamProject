@@ -661,6 +661,7 @@ public class ArticleController {
 		paging.pageInfo(page, range,listSize,rangeSize, total);
 		
 		paging.setDBsStart((page -1) * listSize);
+		paging.setListSize(listSize);
 		//페이지 리스트 수가 rangeSize보다 작을 때
 		if(range == 1 && paging.getTotalpage() <= paging.getEndPage())
 		{
