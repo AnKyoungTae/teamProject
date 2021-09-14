@@ -65,7 +65,7 @@ public class OrderService {
         checkedCouponList.stream().forEach((memberCouponId)->{
             discount += couponDao.selectDiscountPrice(memberCouponId);
         });
-        System.out.println("멤버아이디 : "+orderData.get("memberId"));
+        
         orderData.put("discount", discount);
         // 총 수량 초기화
         totalQuantity = 0;
@@ -91,8 +91,7 @@ public class OrderService {
             }catch (Exception e) {
                 e.printStackTrace();
             }
-            System.out.println(
-                    "orderId : " +orderId + " 에 foodId : "+foodId+ " 가" + quantity+"개 포함됬습니다");
+         
             if(result > 0) {
                 // foodId로 storeId 얻기
                 foodList.add(foodId);
@@ -110,7 +109,7 @@ public class OrderService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "KakaoAK " + KAKAOKEY);
-        System.out.println("카카오키 : "+ KAKAOKEY );
+
         headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
         headers.add("Content_Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE+";charset=UTF-8");
 
@@ -132,8 +131,7 @@ public class OrderService {
 
         params.add("quantity", String.valueOf(totalQuantity));
         params.add("total_amount", String.valueOf(totalPrice-discount));
-        System.out.println("totalPrice " + totalPrice);
-        System.out.println("discount " + discount);
+      
         params.add("tax_free_amount", "0");
         params.add("approval_url", "http://localhost:8081/kakaoPaySuccess");
         params.add("cancel_url", "http://localhost:8081/kakaoPayCancel");
@@ -189,7 +187,7 @@ public class OrderService {
             payment.setPayMethod(kakaoPayApprovalVO.getPayment_method_type());
             payment.setAid(kakaoPayApprovalVO.getAid());
             payment.setTid(kakaoPayApprovalVO.getTid());
-            System.out.println(payment);
+           
             orderDao.insertPayment(payment);
 
             int result = orderDao.updateOrderState(payment.getOrder_id(), "Y");
@@ -285,7 +283,7 @@ public class OrderService {
     	{
     		for(Object orderInfoId : list)
     		{
-    			System.out.println("아: "+orderInfoId);
+    			
     			count  = orderDao.deleteAllOrder((int)orderInfoId);
     		}
     		
@@ -307,7 +305,7 @@ public class OrderService {
     	{
     		for(Object orderInfoId : list)
     		{
-    			System.out.println("아: "+orderInfoId);
+    			
     			count = orderDao.approveOrder((int)orderInfoId);
     		}
     	}

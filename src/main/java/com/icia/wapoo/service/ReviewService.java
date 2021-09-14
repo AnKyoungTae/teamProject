@@ -41,9 +41,9 @@ public class ReviewService {
     public List<Map<String, Object>> getReviewList(int listPerPage, int requestPage, Integer storeId, String option) {
         int StartLimit = (requestPage-1)* listPerPage;
         int EndLimit = listPerPage;
-        System.out.println((StartLimit+1) + "번째 부터 시작하여 "+EndLimit +"개를 가져옵니다.");
+       
         List<Map<String, Object>> list = reviewDao.selectReviewList(StartLimit, EndLimit, storeId, option);
-        System.out.println("가져온 게시물 수 : " + list.size());
+     
         return list;
     }
     

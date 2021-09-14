@@ -414,7 +414,7 @@ export default {
         )
       ) {
         http.post("/order/deleteOrder", orderInfoId).then((res) => {
-          console.log(res.data);
+       
           if (res.data == "ok") {
             alert("취소되었습니다.");
             this.setStatusOption(this.status);
@@ -435,7 +435,7 @@ export default {
         }
         
         http.post("/order/deleteAllOrder", allOrderInfoId).then((res) => {
-          console.log(res.data);
+ 
           if (res.data == "ok") {
             alert("취소되었습니다.");
             this.setStatusOption(this.status);
@@ -457,7 +457,7 @@ export default {
 
       if (confirm("주문번호" + orderId + "번의 주문을 승인합니다")) {
         http.post("/order/approveOrder", allOrderInfoId).then((res) => {
-          console.log(res.data);
+       
           if (res.data == "ok") {
             alert("주문이 승인되었습니다.");
             this.setStatusOption(this.status);
@@ -471,7 +471,8 @@ export default {
     async setStatusOption(satus) {
       this.status = satus;
       http.post("/order/storeOrder", { satus }).then((res) => {
-        console.log(res.data);
+        
+
         if (satus == "Y") {
           this.list = res.data.storeOrder.reverse();
         } else {

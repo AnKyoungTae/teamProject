@@ -3,6 +3,8 @@ package com.icia.wapoo.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +31,8 @@ public class CouponController {
 	    
 	 @Autowired
 	 private final JwtService jwtService;
-
+	 
+	
 	 @PostMapping("/couponinsert")
 	 public void addCoupon(@RequestBody Map<String, Object> data) {
 		 String couponNumber = ((String) data.get("couponNumber")).toString();
@@ -64,14 +67,15 @@ public class CouponController {
 //	     
 
 	        
-	     if(!couponNumber.isEmpty() && !couponName.isEmpty() && !couponEnd.isEmpty()){
+	     if(!couponNumber.isEmpty() && !couponName.isEmpty() && !couponEnd.isEmpty())
+	     {
 	         Coupon coupon = new Coupon();
 	         coupon.setCouponNumber(couponNumber);
 	         coupon.setCouponName(couponName);
 	         coupon.setCouponEnd(couponEnd);
 	         coupon.setCouponPrice(couponPrice);
 	         coupon.setDiscountRate(discountRate);   
-	         System.out.println(coupon.getCouponName()+" 쿠폰에 대한 데이터가 들어갔습니다.");
+	        
 	            
 	         couponService.insertCoupon(coupon);
 	            
@@ -86,13 +90,11 @@ public class CouponController {
 	        int listPerPage = ((Integer) data.get("listPerPage")).intValue();
 	        int currentPage = ((Integer) data.get("currentPage")).intValue();
 	        String option = (String) data.get("statusOption");
-	        System.out.println("첫번째 "+listPerPage);
-	        System.out.println("두번째 "+currentPage);
-	        System.out.println("세번째 "+option);
+	        
 	        if(listPerPage <= 0 || currentPage <=0){
 	            return new ResponseEntity(HttpStatus.BAD_REQUEST);
 	        }
-	        System.out.println("요청페이지 : " + currentPage + ", 요청게시물 수 : "+listPerPage);
+	        
 	        // 가게페이지를 가져옵니다.
 
 	        List<Coupon> result = couponService.getCouponList(listPerPage, currentPage, option);
@@ -108,11 +110,11 @@ public class CouponController {
 	    public ResponseEntity updateCouponStatus(@RequestBody Map<String, Object> data) {
 	        int couponId = ((Integer) data.get("couponId")).intValue();
 	        String status = ((String) data.get("status")).toString();
-	        System.out.println("status를 변경합니다.");
+	     
 	        if(status == null || couponId < 1){
 	            return new ResponseEntity(HttpStatus.BAD_REQUEST);
 	        }
-	        System.out.println("updateCouponStatus로 들어갑니다.");
+
 	        couponService.updateCouponStatus(couponId, status);
 	        return new ResponseEntity(HttpStatus.OK);
 	    }
@@ -124,14 +126,25 @@ public class CouponController {
 	}
 
 	@PostMapping("/applyCoupon")
-	public ResponseEntity applyCoupon(@RequestBody Map<String, Object> requestData) {
+	public ResponseEntity applyCoupon(@RequestBody Map<String, Object> requestData, HttpServletRequest request) 
+	{
+		
 	 	Integer memberId = (Integer) requestData.get("memberId");
 	 	Integer couponId = (Integer) requestData.get("couponId");
-	 	System.out.println(memberId + "," + couponId);
-	 	int result = couponService.getCouponInstance(memberId, couponId);
-		if(result == 0) {
-			return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	 	
+	 
+	 	if(couponService.existCounpon(memberId, couponId) > 0)
+	 	{
+	 		return new ResponseEntity("exist",HttpStatus.OK);
+	 	}
+	 	else
+	 	{
+	 		int result = couponService.getCouponInstance(memberId, couponId);
+			if(result == 0) 
+			{
+				return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+	 	}
 	 	return new ResponseEntity(HttpStatus.OK);
 	}
 

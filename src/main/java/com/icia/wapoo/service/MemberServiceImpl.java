@@ -27,8 +27,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Member getMemberByLoginInfo(String loginId, String password) {
-        System.out.println("아이디 " + loginId +" 비번 "+ password + " 으로 로그인시도");
-        
+     
         LoginInfo loginInfo = null;
         //비밀번호 해쉬변화
         String pwd = null;
@@ -40,16 +39,17 @@ public class MemberServiceImpl implements MemberService{
         }catch(Exception e)
         {
         	System.out.println("비밀번호 해쉬중 오류발생!!");
+        	e.printStackTrace();
         	
         }
 
 
         if(loginInfo == null) {
-            System.out.println("아이디, 비밀번호로 로그인 가능한 정보가 없습니다." + loginInfo);
+        
             // 아이디, 비밀번호로 조회한 로그인가능한 정보가 없음.
             return null;
         }
-        System.out.println("loginInfoDao : "+loginInfo);
+       
         return memberDao.selectMemberById(loginInfo.getMember_id());
     }
 
@@ -89,11 +89,12 @@ public class MemberServiceImpl implements MemberService{
             	
             	loginInfo.setPassword(pwd);
                 loginInfo.setMember_id(member.getMemberId());
-                System.out.println("LoginInfo 에 들어갈 값 "+ loginInfo);
+               
                 result = loginInfoDao.insertLoginInfo(loginInfo);
             }catch(Exception e)
             {
             	System.out.println("비밀번호 해쉬중 오류발생!!");
+            	e.printStackTrace();
             	
             }
             
@@ -109,7 +110,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public boolean checkLoginId(String loginId) {
         int result = loginInfoDao.checkLoginId(loginId);
-        System.out.println("loginId 중복체크 .. 중복된 아이디 : " + result);
+     
         if(result > 0) {
             return false;
         }
@@ -129,7 +130,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public boolean checkNickname(String nickname) {
         int result = memberDao.checkNickname(nickname);
-        System.out.println("nickname 중복체크 .. 중복된 닉네임 : " + result);
+        
         if(result > 0) {
             return false;
         }
@@ -139,7 +140,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public boolean checkPhone(String phone) {
         int result = memberDao.checkPhone(phone);
-        System.out.println("phone 중복체크 .. 중복된 폰 : " + result);
+
         if(result > 0) {
             return false;
         }
@@ -150,9 +151,9 @@ public class MemberServiceImpl implements MemberService{
     public List<Map<String, Object>> getMemberList(int listPerPage, int requestPage, String option) {
         int StartLimit = (requestPage-1)* listPerPage;
         int EndLimit = listPerPage;
-        System.out.println((StartLimit+1) + "번째 부터 시작하여 "+EndLimit +"개를 가져옵니다.");
+        
         List<Map<String, Object>> list = memberDao.selectMemberList(StartLimit, EndLimit, option);// 여기서에러
-        System.out.println("가져온 게시물 수 : " + list.size());
+
         return list;
     }
     
@@ -161,8 +162,7 @@ public class MemberServiceImpl implements MemberService{
     }
     
     public void updateMemberStatus(int memberId, String status) {
-    	System.out.println("updateMemberStatus로 들어왔습니다.");
-    	System.out.println(memberId+"를 "+status+"로 변경합니다.");
+  
         memberDao.updateMemberStatus(memberId, status);
     }
     
