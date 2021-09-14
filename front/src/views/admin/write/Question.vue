@@ -253,7 +253,7 @@ export default {
     //댓글 여부
     changechildren(word) {
       this.children = word;
-      this.downAllList(this.paging.page, this.paging.range);
+      this.downAllList(1, 1);
     },
 
     prevBotton(range1, rangeSize, listSize) {
