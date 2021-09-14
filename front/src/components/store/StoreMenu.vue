@@ -85,13 +85,6 @@
           >
             확인
           </div>
-          <div
-            class="btn btn-danger d-inline m-1 col"
-            @click="check"
-            v-if="isEditMode"
-          >
-            삭제
-          </div>
           <div class="col-1"></div>
         </div>
       </div>
