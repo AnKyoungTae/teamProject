@@ -14,14 +14,20 @@
     </template>
     <template v-slot:body>
       <!-- alt 에 이미지 없을때 비상용 이미지 추가? -->
-      <div>
-        <img :src="data.fileUrl" class="foodImage m-2" />
-      </div>
+      <div v-if="Desc">
+        <div>
+          <img :src="data.fileUrl" class="foodImage m-2" />
+        </div>
 
-      <hr />
-      <span class="foodDesc">
-        {{ data.description }}
-      </span>
+        <hr />
+        <span class="foodDesc">
+          {{ data.description }}
+        </span>
+      </div>
+      <div v-else-if="!Desc">
+        <FoodDesc v-bind:data="data.description"></FoodDesc>
+      </div>
+      <div @click="moreDetails()"><a class="foodDesc2">더보기</a></div>
       <hr />
       <span class="foodPrice">{{ data.price }} 원</span>
     </template>
@@ -37,15 +43,18 @@
 <script>
 import Modal from "./Modal_order.vue";
 import { mapMutations, mapGetters } from "vuex";
+import FoodDesc from "./FoodDesc.vue";
 
 export default {
   props: ["data"],
   components: {
     Modal,
+    FoodDesc,
   },
   data() {
     return {
       counter: 1,
+      Desc: true,
     };
   },
   mounted() {},
@@ -53,6 +62,11 @@ export default {
     ...mapGetters({ checkCart: "checkCart" }),
   },
   methods: {
+    moreDetail() {
+      if(this.Desc == true) {
+        this.Desc = false;
+      }
+    },
     ...mapMutations({
       SET_MODAL_ORDER: "SET_MODAL_ORDER",
       addCart: "addCart",
@@ -92,5 +106,18 @@ export default {
 }
 .foodDesc {
   font-size: 12px;
+  display: -webkit-box; 
+    word-wrap:break-word; 
+    -webkit-line-clamp:3; 
+    -webkit-box-orient:vertical; 
+    overflow:hidden; 
+    text-overflow:ellipsis;
+    max-height:54px;
+}
+
+.foodDesc2 {
+  font-size: 12px;
+  color: black;
+  cursor: pointer;
 }
 </style>
