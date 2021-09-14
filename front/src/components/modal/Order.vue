@@ -23,11 +23,9 @@
         <span class="foodDesc">
           {{ data.description }}
         </span>
+        <div @click="moreDetails"><a class="foodDesc2">더보기</a></div>
       </div>
-      <div v-else-if="!Desc">
-        <FoodDesc v-bind:data="data.description"></FoodDesc>
-      </div>
-      <div @click="moreDetails()"><a class="foodDesc2">더보기</a></div>
+      <FoodDesc v-bind:data="data.description" v-else></FoodDesc>
       <hr />
       <span class="foodPrice">{{ data.price }} 원</span>
     </template>
@@ -62,8 +60,9 @@ export default {
     ...mapGetters({ checkCart: "checkCart" }),
   },
   methods: {
-    moreDetail() {
-      if(this.Desc == true) {
+    moreDetails() {
+      console.log("실행");
+      if(this.Desc === true) {
         this.Desc = false;
       }
     },
@@ -108,11 +107,11 @@ export default {
   font-size: 12px;
   display: -webkit-box; 
     word-wrap:break-word; 
-    -webkit-line-clamp:3; 
+    -webkit-line-clamp:4; 
     -webkit-box-orient:vertical; 
     overflow:hidden; 
     text-overflow:ellipsis;
-    max-height:54px;
+    max-height:72px;
 }
 
 .foodDesc2 {
