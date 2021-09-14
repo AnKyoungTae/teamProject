@@ -224,7 +224,7 @@ export default {
   },
   watch: {},
   mounted() {
-    if (this.myStore != null) {
+    if (this.myStore != "") {
       alert("등록된 가게가 존재합니다");
       this.$router.push({ path: "/store" });
     }
