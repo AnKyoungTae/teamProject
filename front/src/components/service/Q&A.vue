@@ -72,10 +72,11 @@
               class="col-5"
               style="text-align: left; padding-left: 20px; padding-right: 20px"
             >
-              <span> {{ parsingTitle(qn.title) }} </span>
-              <span v-if="qn.children > 0"> [{{ qn.children }}] </span>
+              <span v-html="parsingTitle(qn.title, qn.children)"> </span>
             </td>
-            <td class="col-2">{{ parseDate(qn.regDate) }}</td>
+            <td class="col-2" style="font-size: 14px">
+              {{ parseDate(qn.regDate) }}
+            </td>
             <td class="col-1">{{ qn.hit }}</td>
             <td class="col-1" v-if="privateToggle(qn.status)">
               <i class="fas fa-lock-open"></i>
@@ -333,11 +334,16 @@ export default {
         this.pageList.push(i);
       }
     },
-    parsingTitle(title) {
-      if (title.length > 20) {
-        return title.substr(0, 20) + "...[더보기]";
-      }
-      return title;
+    parsingTitle(title, count) {
+      let parsed = title.substr(0, 26);
+      return (
+        "<div style='white-space:nowrap;'>" +
+        parsed +
+        "<span style='font-size:12px; color:grey; white-space:nowrap;'>[" +
+        count +
+        "] ...[더보기] </span>" +
+        "</div>"
+      );
     },
   },
 

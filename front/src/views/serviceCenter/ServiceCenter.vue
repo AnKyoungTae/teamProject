@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <h1 class="nearShopTitle" style="margin-top: 50px; margin-right: 50px;">
+    <h1 class="nearShopTitle" style="margin-top: 50px; margin-right: 50px">
       <p>고객센터</p>
     </h1>
     <div class="service-center m-2 upper">
@@ -37,10 +37,9 @@
 
 <script>
 import notice from "@/components/service/Notice.vue";
-import Footer from "@/components/footer/Footer.vue";
 
 export default {
-  components: { notice},
+  components: { notice },
   data() {
     return {};
   },

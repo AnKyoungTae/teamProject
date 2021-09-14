@@ -3,8 +3,8 @@
     <div class="container" v-if="detail == true">
       <div>
         
-        <div>
-          원글<input
+        <div class="susRadio">
+          본문<input
             type="radio"
             name="suspend"
             value="article"
@@ -19,6 +19,7 @@
           />
         </div>
       </div>
+
       <table
         v-if="kind == 'article'"
         style="margin: 0 auto; text-align: center; vertical-align: middle; table-layout: fixed; width:1340px;"
@@ -96,6 +97,7 @@
           <td colspan="6">신고된 글이 없습니다.</td>
         </tr>
       </table>
+
     </div>
     <div v-if="detail == false">
       <SuspendDetail :data="selectedSuspend"></SuspendDetail>
@@ -217,11 +219,13 @@ export default {
 <style scoped>
 th,
 td {
+
   border: 1px solid #91afba;
   font-size:20px;
 }
 tr {
   height:50px;
+
 }
 .wrapper {
   display: flex;
@@ -231,12 +235,16 @@ tr {
   width: 90%;
   padding: 40px;
 }
+
 .text {
+
   display:block;
   overflow: hidden; 
   text-overflow: ellipsis;
   white-space: nowrap;
+
   padding-left:10px;
   padding-right:5px;
+
 }
 </style>

@@ -16,7 +16,7 @@
             <span class="login-txt"
               ><a class="profile-img">
                 <img
-                  :src="data.profileUrl"
+                  :src="profilePicUrl"
                   style="
                     display: block;
                     width: 80px;
@@ -315,6 +315,13 @@ export default {
       });
       return filteredArr;
     },
+    profilePicUrl() {
+      if (this.data.profileUrl == null || this.data.profileUrl == "") {
+        return require("../../assets/profileImg.png");
+      } else {
+        return this.data.profileUrl;
+      }
+    },
   },
 };
 </script>
@@ -433,7 +440,6 @@ export default {
   margin: 0 4px 0 0px;
   border-radius: 2px 15px 0px 0px;
   background: #5a8c94;
-  transition: 0.2s;
 }
 .menu > span {
   padding: 3px 9px 3px 9px;
@@ -544,10 +550,10 @@ export default {
 }
 
 .articleTitle {
-  display: inline-block; 
-  width: 200px; 
-  white-space: nowrap; 
-  overflow: hidden; 
+  display: inline-block;
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 </style>

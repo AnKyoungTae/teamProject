@@ -3,8 +3,8 @@
   <div class="footer" :style="{ 'margin-left': sidebarWidth }">
     <!-- <div class="footer" > -->
     <div class="wapoo-wrap">
-      <div class="wapoo-logo" style="width:25%">
-        <div style="margin-top: 30px;">
+      <div class="wapoo-logo" style="width: 25%">
+        <div style="margin-top: 30px">
           <img
             @click="this.$router.push({ path: '/' })"
             class="logo"
@@ -15,17 +15,22 @@
           뭘 먹어야할지 고민일 때, <br />배달 주문 플렛폼 서비스 와푸
         </p>
       </div>
-      <div class="wapoo-info1" style="width:75%;">
+      <div class="wapoo-info1" style="width: 75%">
         <p style="padding-top: 30px; text-align: left">
           <strong>(주)인천일보아카데미</strong>
         </p>
         <div class="info1-span">
-          <span>인천 미추홀구 매소홀로488번길 6-32 태승빌딩 5층</span> | 대표이사 : 조성호<br />
+          <span>인천 미추홀구 매소홀로488번길 6-32 태승빌딩 5층</span> |
+          대표이사 : 조성호<br />
         </div>
         <br />
-        <div>
-          <span style="color: #91afba;">
-            와푸는 통신판매중개자이며 통신판매의 당사자가 아닙니다. 따라서 상품/ 거래정보 및 거래와 관련하여 와푸에 등록된 판매자의 고의 또는 과실로 소비자에게 발생하는 손해에 대해 와푸는 책임을 지지 않습니다. 상품 및 거래에 관하여 보다 정확한 정보는 해당 판매자에게 직접 확인하여 주시기 바랍니다.
+        <div class="text">
+          <span style="color: #91afba">
+            와푸는 통신판매중개자이며 통신판매의 당사자가 아닙니다. 따라서 상품/
+            거래정보 및 거래와 관련하여 와푸에 등록된 판매자의 고의 또는 과실로
+            소비자에게 발생하는 손해에 대해 와푸는 책임을 지지 않습니다. 상품 및
+            거래에 관하여 보다 정확한 정보는 해당 판매자에게 직접 확인하여
+            주시기 바랍니다.
           </span>
         </div>
       </div>
@@ -52,6 +57,9 @@ export default {
 </script>
 
 <style scoped>
+* {
+  user-select: none;
+}
 @import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap");
 .footer-div {
   padding-bottom: 20px;
@@ -136,5 +144,8 @@ span {
   background-color: #355f6e;
   bottom: 0%;
   transition: 0.2s;
+}
+.text {
+  width: 800px;
 }
 </style>

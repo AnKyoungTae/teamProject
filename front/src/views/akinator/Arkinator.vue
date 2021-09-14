@@ -320,6 +320,10 @@ export default {
     toFoodDetail() {
       // 선택
       // target = http://localhost:8081/shopDetail?shopInfo=?&foodIdsearch=?
+      if (!this.selectedFood) {
+        alert("음식을 선택해주세요!");
+        return;
+      }
       this.$router.push({
         path: "/shopDetail",
         query: {
@@ -743,7 +747,7 @@ export default {
 }
 /* 선택되었을 때 */
 .choicedFoodList {
-  border: 4px solid #fd3a69;
+  border: 4px solid #f09686;
   border-radius: 6px;
   transition: 0.2s;
 }
