@@ -1,8 +1,7 @@
 <template>
   <div class="wrapper">
-    <div class="container" v-if="detail == true">
+    <div class="container">
       <div>
-        
         <div class="susRadio">
           본문<input
             type="radio"
@@ -19,21 +18,29 @@
           />
         </div>
       </div>
-
-
-        <table v-else class="susTable">
+      <div v-if="list.length == 0">
+        <strong style="font-size: 25px">신고된 글이 없습니다.</strong>
+      </div>
+      <div v-else-if="list.length != 0">
+        <table v-if="kind == 'article'" class="susTable">
           <tr>
             <th style="width: 100px">#</th>
             <th style="width: 300px">날짜</th>
-            <th style="padding-right:45px;">글 내용</th>
+            <th style="padding-right: 45px">제목</th>
           </tr>
           <tr>
             <td colspan="3">
               <!-- 리스트 시작 -->
               <div class="accordion accordion-flush" id="accordionFlushExample">
-                <div class="accordion-item"
-                v-for="(li, index) in list" :key="index">
-                  <h2 class="accordion-header" v-bind:id="'flush-heading' + index">
+                <div
+                  class="accordion-item"
+                  v-for="(li, index) in list"
+                  :key="index"
+                >
+                  <h2
+                    class="accordion-header"
+                    v-bind:id="'flush-heading' + index"
+                  >
                     <button
                       class="accordion-button collapsed susTitle"
                       type="button"
@@ -45,12 +52,122 @@
                       <span class="susTitleNum">{{ index + 1 }}</span>
                       <span class="susTitleDay">
                         {{
-                          li.regDate[0] + li.regDate[1] + li.regDate[2] + li.regDate[3] + "년 " + 
-                          li.regDate[5] + li.regDate[6] + "월 " +
-                          li.regDate[8] + li.regDate[9] + "일 " +
-                          li.regDate[11] + li.regDate[12] + "시 " +
-                          li.regDate[14] + li.regDate[15] + "분 " +
-                          li.regDate[17] + li.regDate[18] + "초"
+                          li.regDate[0] +
+                          li.regDate[1] +
+                          li.regDate[2] +
+                          li.regDate[3] +
+                          "년 " +
+                          li.regDate[5] +
+                          li.regDate[6] +
+                          "월 " +
+                          li.regDate[8] +
+                          li.regDate[9] +
+                          "일 " +
+                          li.regDate[11] +
+                          li.regDate[12] +
+                          "시 " +
+                          li.regDate[14] +
+                          li.regDate[15] +
+                          "분 " +
+                          li.regDate[17] +
+                          li.regDate[18] +
+                          "초"
+                        }}
+                      </span>
+                      <span class="susTitleContents">{{ li.title }}</span>
+                    </button>
+                  </h2>
+                  <div
+                    v-bind:id="'flush-collapse' + index"
+                    class="accordion-collapse collapse"
+                    v-bind:aria-labelledby="'flush-heading' + index"
+                    data-bs-parent="#accordionFlushExample"
+                  >
+                    <div class="accordion-body susBody">
+                      <div class="susBodyList">
+                        <strong>글 제목 : </strong>{{ li.title }}
+                      </div>
+                      <div class="susBodyList">
+                        <strong>글 내용 : </strong>{{ li.body }}
+                      </div>
+                      <div class="susBodyList">
+                        <strong>신고 내용 : </strong>{{ li.suspend }}
+                      </div>
+                      <div class="susBodyBtn">
+                        <button
+                          type="button"
+                          class="btn btn-outline-danger"
+                          @click="changeSuspend(li.articleId, 'N')"
+                        >
+                          삭제
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-outline-primary"
+                          @click="changeSuspend(li.articleId, 'Y')"
+                        >
+                          복귀
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- 리스트 끝 -->
+            </td>
+          </tr>
+        </table>
+
+        <table v-else class="susTable">
+          <tr>
+            <th style="width: 100px">#</th>
+            <th style="width: 300px">날짜</th>
+            <th style="padding-right: 45px">글 내용</th>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <!-- 리스트 시작 -->
+              <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div
+                  class="accordion-item"
+                  v-for="(li, index) in list"
+                  :key="index"
+                >
+                  <h2
+                    class="accordion-header"
+                    v-bind:id="'flush-heading' + index"
+                  >
+                    <button
+                      class="accordion-button collapsed susTitle"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      v-bind:data-bs-target="'#flush-collapse' + index"
+                      aria-expanded="false"
+                      v-bind:aria-controls="'flush-collapse' + index"
+                    >
+                      <span class="susTitleNum">{{ index + 1 }}</span>
+                      <span class="susTitleDay">
+                        {{
+                          li.regDate[0] +
+                          li.regDate[1] +
+                          li.regDate[2] +
+                          li.regDate[3] +
+                          "년 " +
+                          li.regDate[5] +
+                          li.regDate[6] +
+                          "월 " +
+                          li.regDate[8] +
+                          li.regDate[9] +
+                          "일 " +
+                          li.regDate[11] +
+                          li.regDate[12] +
+                          "시 " +
+                          li.regDate[14] +
+                          li.regDate[15] +
+                          "분 " +
+                          li.regDate[17] +
+                          li.regDate[18] +
+                          "초"
                         }}
                       </span>
                       <span class="susTitleContents">{{ li.body }}</span>
@@ -94,23 +211,18 @@
           </tr>
         </table>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
 import http from "@/api/http";
-import SuspendDetail from "@/views/admin/write/SuspendDetail.vue"
 
 export default {
-  components: { SuspendDetail },
   data() {
     return {
       kind: "article",
       list: [],
-      detail: true,
-      selectedSuspend: "",
     };
   },
   methods: {
@@ -120,6 +232,7 @@ export default {
         .then((res) => {
           console.log(res.data);
           this.list = res.data;
+
           for (let i = 0; i < this.list.length; i++) {
             if (this.list[i].suspend != null) {
               console.log(i + "번 성공");
@@ -159,14 +272,12 @@ export default {
         })
         .then((res) => {
           if (res.data == "ok") {
-            if(status === 'Y'){
-              
-              alert("신고가 취소되엇습니다")
-            }else{
-            
+            if (status === "Y") {
+              alert("신고가 취소되엇습니다");
+            } else {
               alert("삭제되었습니다.");
             }
-            
+
             this.articleProc();
           } else {
             alert("문제가 발생했습니다.");
@@ -175,15 +286,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    },
-    suspendDetailList(list) {
-      this.selectedSuspend = list;
-      this.detail = false;
-
-    },
-    clearDetail() {
-      this.detail = true;
-      this.selectedSuspend = "";
     },
   },
   mounted() {
@@ -195,13 +297,8 @@ export default {
 <style scoped>
 th,
 td {
-
-  border: 1px solid #91afba;
-  font-size:20px;
-}
-tr {
-  height:50px;
-
+  border-style: solid;
+  border-width: 1px 1px 0px 1px;
 }
 .wrapper {
   display: flex;
@@ -211,16 +308,60 @@ tr {
   width: 90%;
   padding: 40px;
 }
-
-.text {
-
-  display:block;
-  overflow: hidden; 
+.susRadio {
+  font-size: 20px;
+  padding-bottom: 10px;
+}
+.susTable {
+  margin: 0 auto;
+  text-align: center;
+  vertical-align: middle;
+  width: 800px;
+}
+.susTitle {
+  padding: 0px;
+  padding-right: 20px;
+  text-align: center;
+  font-size: 20px;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px;
+  border-color: gray;
+}
+.susTitleNum {
+  width: 99px;
+  padding: 20px 0px;
+  margin: 0px;
+  border-right: 1px solid gray;
+}
+.susTitleDay {
+  width: 300px;
+  padding: 20px 0px;
+  border-right: 1px solid gray;
+}
+.susTitleContents {
+  width: 700px;
+  padding: 0px 20px;
+  display: block;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
-  padding-left:10px;
-  padding-right:5px;
-
+}
+.susBody {
+  text-align: left;
+  border-bottom: 1px solid gray;
+}
+.susBodyList {
+  width: 100%;
+  padding: 5px;
+}
+.susBodyList strong {
+  font-size: 23px;
+}
+.susBodyBtn {
+  width: 100%;
+  text-align: center;
+}
+.susBodyBtn button {
+  margin: 20px 50px;
 }
 </style>
