@@ -76,7 +76,6 @@ public class ProfileService {
         		
             	loginInfo.setPassword(pwd);
             	
-    			System.out.println("loginInfo:   " + loginInfo);
     			count = profileDao.insertPassWord(loginInfo);
     		}
     		catch(Exception e)
@@ -137,7 +136,7 @@ public class ProfileService {
 		}
 		catch(Exception e)
 		{
-			System.out.println("쿠폰정보가 없습니다.");
+		
 			System.out.println("getCoupon 오류: " + e);
 		}
 		return memberCoupon;
@@ -154,7 +153,7 @@ public class ProfileService {
 		}
 		catch(Exception e)
 		{
-			System.out.println("쿠폰정보가 없습니다.");
+			
 			System.out.println("getCoupon 오류: " + e);
 		}
 		
@@ -172,7 +171,7 @@ public class ProfileService {
 		}
 		catch(Exception e)
 		{
-			System.out.println("쿠폰정보가 없습니다.");
+		
 			System.out.println("getOrder 오류: " + e);
 		}
 		
@@ -224,7 +223,7 @@ public class ProfileService {
 		}
 		catch(Exception e)
 		{
-			System.out.println("리뷰정보가 없습니다.");
+		
 			System.out.println("getMyReview 오류: " + e);
 		}
 		
@@ -232,7 +231,7 @@ public class ProfileService {
 	}
     
     public int updateReviewState(Integer reviewId, String state) {
-    	System.out.println("updateReviewState");
+    	
         return profileDao.updateReviewStatus(reviewId, state);
     }
 }

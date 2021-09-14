@@ -69,13 +69,13 @@ public class JwtService {
 
     // Request의 Header 에서 값 추출.
     public String resolveToken(HttpServletRequest request) {
-        System.out.println("JwtService.resolveToken : 토큰을 추출합니다.");
+    
         return request.getHeader("Authorization");
     }
 
     // 토큰에서 정보 해독
     public Map<String, Object> getUserInfo(String token) {
-        System.out.println("JwtService.getUserInfo : 토큰에서 정보를 추출합니다.");
+      
         Map<String, Object> claimMap = null;
         try {
             Claims claims = Jwts.parser()
@@ -99,7 +99,7 @@ public class JwtService {
     // 토큰 유효 + 만료일자
     public boolean validateToken(String jwtToken) {
         try {
-            System.out.println("JwtService.validateToken : 유효한 토큰인지 확인합니다.");
+           
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {

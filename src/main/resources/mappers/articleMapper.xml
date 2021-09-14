@@ -159,22 +159,29 @@ WHERE articleId = #{articleId}
 
 <!-- 페이징 처리 -->
 <select id="getBoardList" resultType="Article">
-SELECT @rownum:=@rownum+1 AS nickname,
-	articleId,
-	regDate,
-	title,
-	BODY,
-	hit,
-	STATUS,
-	children,
-	board_id AS boardId,
-	parant_id AS parantId,
-	writer_id AS writerId,
-	SUSPEND    
+
+SELECT	
 	
-FROM article, (SELECT @rownum:=#{paging.startList}) TMP
-WHERE (@rownum:=0)=0
-AND	STATUS != 'N'
+	a.articleId,
+	a.regDate,
+	a.title,
+	a.BODY,
+	a.hit,
+	a.STATUS,
+	IFNULL(b.children, 0) AS 'children',
+	a.board_id AS boardId,
+	a.parant_id AS parantId,
+	a.writer_id AS writerId,
+	a.SUSPEND    
+FROM	article a LEFT OUTER JOIN (SELECT
+			COUNT(commentId) AS 'children',
+			article_id
+			FROM	`comment`
+			WHERE	STATUS != 'N'
+		GROUP BY	article_id
+		) b
+ON	a.articleId = b.article_id
+WHERE	a.STATUS != 'N'
 <choose>
 	<when test="boardId gte 3">
 	AND board_id >= 3

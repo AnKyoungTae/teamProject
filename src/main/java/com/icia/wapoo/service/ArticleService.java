@@ -90,12 +90,9 @@ public class ArticleService {
 		}
 		catch(Exception e)
 		{
-			System.out.println();
-			System.out.println(e);
+			System.out.println("boardList 오류 ");
+			e.printStackTrace();
 		}
-		
-		System.out.println(article);
-		
 		
 		return article;
 	}
@@ -141,18 +138,12 @@ public class ArticleService {
 		
 		try
 		{
-			
 			count = articleDao.boardInsert(article);
 			
-			
-			if(count > 0)
-			{
-				System.out.println("데이터 DB 저장");
-			}
 		}
 		catch(Exception e)
 		{
-			System.out.println("오류: "+ e);
+			System.out.println("listInsert 오류: "+ e);
 		}
 		return count;
 	}
@@ -288,7 +279,6 @@ public class ArticleService {
 		
 		}
 		
-		
 		return list;
 	}
 	
@@ -304,7 +294,7 @@ public class ArticleService {
 		catch(Exception e)
 		{
 			System.out.println("게시글 업데이트 오류");
-			System.out.println(e);
+			e.printStackTrace();
 		}
 		return count;
 	}
@@ -525,8 +515,6 @@ public class ArticleService {
 		try
 		{
 			list = articleDao.suspendArticle();
-			
-			
 		}
 		catch(Exception e)
 		{
@@ -595,7 +583,6 @@ public class ArticleService {
 			try
 			{
 				count = articleDao.changeSuspendComment(tableId, status);
-				
 				
 				if(count > 0)
 				{

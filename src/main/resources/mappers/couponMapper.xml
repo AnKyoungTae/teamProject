@@ -112,4 +112,13 @@
             used_date = NOW()
         WHERE id = #{id};
     </update>
+    
+    <select id="existCounpon" resultType="int">
+	    
+	SELECT	COUNT(*)
+		FROM	`member_coupon`  
+	WHERE	coupon_id = #{couponId}
+	AND	coupon_holder = #{memberId}
+    </select>
+    
 </mapper>

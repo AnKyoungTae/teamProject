@@ -158,7 +158,14 @@ export default {
         })
         .then((res) => {
           if (res.data == "ok") {
-            alert("삭제되었습니다.");
+            if(status === 'Y'){
+              
+              alert("신고가 취소되엇습니다")
+            }else{
+            
+              alert("삭제되었습니다.");
+            }
+            
             this.articleProc();
           } else {
             alert("문제가 발생했습니다.");

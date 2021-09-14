@@ -35,7 +35,7 @@ public class AkinatorController {
     public ResponseEntity getFoodList(@RequestBody Map<String, Object> data) {
         Double LAT = (Double) data.get("LAT");
         Double LON = (Double) data.get("LON");
-        System.out.println(LAT);
+     
         List<Integer> foodIdList = (List<Integer>) data.get("filteredIdList");
         List<Map<String, Object>> akinatorFoodList = akinatorService.getFoodList(foodIdList,LAT,LON);
         return new ResponseEntity(akinatorFoodList, HttpStatus.OK);

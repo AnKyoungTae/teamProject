@@ -219,6 +219,7 @@ export default {
       // 아키네이터를 불러온다.
       http.get("/akinator/getAkinators").then((res) => {
         if (res.status === 200) {
+         
           this.akinatorList = res.data;
           this.shuffle(this.akinatorList);
           http.get("/akinator/getAkinatorMeta").then((res) => {
