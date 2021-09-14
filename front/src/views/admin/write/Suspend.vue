@@ -33,8 +33,7 @@
             <td colspan="3">
               <!-- 리스트 시작 -->
               <div class="accordion accordion-flush" id="accordionFlushExample">
-                <div class="accordion-item"
-                v-for="(li, index) in list" :key="index">
+                <div class="accordion-item" v-for="(li, index) in list" :key="index">
                   <h2 class="accordion-header" v-bind:id="'flush-heading' + index">
                     <button
                       class="accordion-button collapsed susTitle"
@@ -109,8 +108,7 @@
             <td colspan="3">
               <!-- 리스트 시작 -->
               <div class="accordion accordion-flush" id="accordionFlushExample">
-                <div class="accordion-item"
-                v-for="(li, index) in list" :key="index">
+                <div class="accordion-item" v-for="(li, index) in list" :key="index">
                   <h2 class="accordion-header" v-bind:id="'flush-heading' + index">
                     <button
                       class="accordion-button collapsed susTitle"
@@ -151,14 +149,14 @@
                         <button
                           type="button"
                           class="btn btn-outline-danger"
-                          @click="changeSuspend(li.articleId, 'N')"
+                          @click="changeSuspend(li.commentId, 'N')"
                         >
                           삭제
                         </button>
                         <button
                           type="button"
                           class="btn btn-outline-primary"
-                          @click="changeSuspend(li.articleId, 'Y')"
+                          @click="changeSuspend(li.commentId, 'Y')"
                         >
                           복귀
                         </button>
@@ -232,10 +230,12 @@ export default {
           },
         })
         .then((res) => {
+          console.log(res.data);
           if (res.data == "ok") {
             alert("삭제되었습니다.");
             this.articleProc();
           } else {
+            console.log(res.data);
             alert("문제가 발생했습니다.");
           }
         })

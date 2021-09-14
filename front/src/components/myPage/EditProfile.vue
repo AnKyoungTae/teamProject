@@ -155,14 +155,16 @@ export default {
     editProfile() {
       const passwordCheckReg = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$/;
       let pwdCheck = passwordCheckReg.test(this.pwd);
-      const telCheck = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-      let telCh = telCheck.test(this.email);
+      const emailCheck = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+      let emailCh = emailCheck.test(this.email);
+      const telCheck = /^\d{11}$/;
+      let telCh = telCheck.test(this.tel);
       if(this.nickname === ""){
         return alert("닉네임을 입력하세요")
-      }else if(this.tel === ""){
-        return alert("전화번호를 입력하세요")
       }else if(this.email === ""){
         return alert("이메일을 입력하세요")
+      }else if(this.tel === ""){
+        return alert("전화번호를 입력하세요")
       }else if(this.nicknameValid === false){
         return alert("dsdasadsdas가능합니다.")
       }
@@ -177,8 +179,10 @@ export default {
       }
       if(!this.nicknameValid){
         return alert("닉네이다")
+      }else if(!emailCh){
+        return alert("알맞은 이메일을 입력하세요")
       }else if(!telCh){
-        return alert("알맞은 전화번호 입력")
+        return alert("알맞은 전화번호를 입력하세요")
       }
       
       
