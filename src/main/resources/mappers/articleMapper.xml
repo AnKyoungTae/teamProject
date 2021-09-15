@@ -358,11 +358,33 @@ WHERE		article_id = #{articleId}
 <!-- 관리자 question 수 -->
 <select id="deleteAdminQuestionCnt" resultType="int">
 
-	SELECT	COUNT(articleId)
-		FROM	`article`
-	WHERE	board_id >= 3
-	AND	board_id != 7
+	SELECT	
+	COUNT(a.articleId)
 	
+	FROM(SELECT	
+			a.articleId,
+			a.updateDate,
+			a.regDate,
+			a.title,
+			a.BODY AS 'body',
+			a.hit,
+			a.STATUS AS 'status',
+			IFNULL(b.children, 0) AS 'children',
+			a.board_id AS boardId,
+			a.parant_id AS parantId,
+			a.writer_id AS writerId,
+			a.SUSPEND AS 'suspend'
+		FROM	article a LEFT OUTER JOIN (SELECT
+					COUNT(commentId) AS 'children',
+					article_id
+					FROM	`comment`
+					WHERE	STATUS != 'N'
+				GROUP BY	article_id
+				) b
+		ON	a.articleId = b.article_id
+		WHERE	board_id >= 3
+		AND	board_id != 7
+		AND board_id >= 3	
 <choose>
 	<when test="status == 'ALL'">
 		AND	STATUS != 'N'
@@ -371,7 +393,9 @@ WHERE		article_id = #{articleId}
 		AND	STATUS = 'H'
 	</otherwise>
 </choose>
+		) a
 
+	WHERE	1 =1
 <if test="children == 'OFF'">
 	AND	children = 0
 </if>
@@ -384,22 +408,47 @@ WHERE		article_id = #{articleId}
 
 <!-- 관리자 question 리스트 -->
 <select id="deleteAdminQuestion" resultType="Article">
-	SELECT	articleId,
-	regDate,
-	updateDate,
-	title,
-	`BODY` AS 'body',
-	hit AS 'hit',
-	STATUS AS 'status',
-	children AS 'children',
-	parant_id AS 'parantId',
-	board_id AS 'boardId',
-	writer_id AS 'writerId',
-	SUSPEND AS 'suspend'
+
+
+SELECT	
+	a.articleId,
+	a.regDate,
+	a.updateDate,
+	a.title,
+	a.BODY AS 'body',
+	a.hit AS 'hit',
+	a.STATUS AS 'status',
+	a.children AS 'children',
+	a.parantId AS 'parantId',
+	a.boardId AS 'boardId',
+	a.writerId AS 'writerId',
+	a.SUSPEND AS 'suspend'
 	
-		FROM	`article`
-	WHERE	board_id >= 3
-	AND	board_id != 7
+	FROM(SELECT	
+			a.articleId,
+			a.updateDate,
+			a.regDate,
+			a.title,
+			a.BODY AS 'body',
+			a.hit,
+			a.STATUS AS 'status',
+			IFNULL(b.children, 0) AS 'children',
+			a.board_id AS boardId,
+			a.parant_id AS parantId,
+			a.writer_id AS writerId,
+			a.SUSPEND AS 'suspend'
+		FROM	article a LEFT OUTER JOIN (SELECT
+					COUNT(commentId) AS 'children',
+					article_id
+					FROM	`comment`
+					WHERE	STATUS != 'N'
+				GROUP BY	article_id
+				) b
+		ON	a.articleId = b.article_id
+		WHERE	board_id >= 3
+			AND	board_id != 7
+		AND board_id >= 3
+		
 
 <choose>
 	<when test="status == 'ALL'">
@@ -409,7 +458,9 @@ WHERE		article_id = #{articleId}
 		AND	STATUS = 'H'
 	</otherwise>
 </choose>
-
+		
+		) a
+WHERE	1 =1
 
 <if test="children == 'OFF'">
 	AND	children = 0

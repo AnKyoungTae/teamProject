@@ -52,18 +52,6 @@
         <div v-else class="Login-manage">
           <h3 class="Login-Exp">가입시 회원정보로 등록한 이름과 이메일을 입력해 주세요.</h3>
           <table class="manage-box">
-            <tr>
-              <th class="login-txt">이름 입력</th>
-              <td class="login-tit">
-                <input 
-                  type="text" 
-                  class="text" 
-                  style="width:350px;"
-                  v-model="name" 
-                  placeholder="이름"
-                />
-              </td>
-            </tr>
             <tr style="margin-top: 30px">
               <th class="login-txt">아이디 입력</th>
               <td class="login-tit">
@@ -73,6 +61,18 @@
                   style="width:350px;"
                   v-model="loginId"
                   placeholder="아이디"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th class="login-txt">이름 입력</th>
+              <td class="login-tit">
+                <input 
+                  type="text" 
+                  class="text" 
+                  style="width:350px;"
+                  v-model="name" 
+                  placeholder="이름"
                 />
               </td>
             </tr>

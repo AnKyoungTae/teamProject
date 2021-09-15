@@ -69,4 +69,27 @@ public class ReviewService {
     public List<Map<String, Object>> getAllReviewByMemberId(Integer memberId) {
         return reviewDao.selectAllReviewsByMemberId(memberId);
     }
+    
+    public List<Map<String, Object>> suspendReview()
+    {
+    	List<Map<String, Object>> list = reviewDao.suspendReview();
+    	
+    	return  list;
+    }
+    
+    public int changeReviewSuspend(int reviewId, String status)
+    {
+    	int count = 0;
+    	try
+    	{
+    		count = reviewDao.changeReviewSuspend(reviewId, status);
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println("changeReviewSuspend 오류");
+    		e.printStackTrace();
+    	}
+    	
+    	return count;
+    }
 }

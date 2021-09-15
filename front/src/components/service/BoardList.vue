@@ -71,7 +71,8 @@
         <div
           style="float: left; width: 30%; text-align: left; padding-left: 20px"
         >
-          <span>{{ list.nickname }}</span>
+          <span v-if="list.boardId == 2">관리자</span>
+          <span v-else>{{ list.nickname }}</span>
         </div>
         <div
           style="
