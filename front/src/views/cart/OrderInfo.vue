@@ -1,10 +1,10 @@
 <template>
-  <div style="width: 100%; margin-top: 50px;">
-    <h1 class="nearShopTitle" style="margin-right: 50px;">
-              <p>주문상세정보페이지</p>
-            </h1>
+  <div style="width: 100%; margin-top: 50px">
+    <h1 class="nearShopTitle" style="margin-right: 50px">
+      <p>주문상세정보페이지</p>
+    </h1>
   </div>
-  <div class="container" style="width: 1000px;">
+  <div class="container" style="width: 1000px">
     <div class="m-4">
       <p>주문번호 : {{ orderId }}</p>
       <div v-if="loaded == false">
@@ -37,18 +37,55 @@
           :key="foodList"
           style="height: 130px; border-bottom: 2px solid black"
         >
-          <div style="font-size: 20px; width: 600px; text-align: left; margin-left: 20px;">
+          <div
+            style="
+              font-size: 20px;
+              width: 600px;
+              text-align: left;
+              margin-left: 20px;
+            "
+          >
             <img
               :src="foodList.fileUrl"
               style="width: 100px; height: 100px; margin-right: 30px"
             />
-            {{ foodList.name }}
+            <span v-if="foodList.orderStatus == 'S'">
+              <!-- 주문이 막 들어왔을 때 -->
+              {{ foodList.name }}
+            </span>
+            <span v-else-if="foodList.orderStatus == 'Y'">
+              <!-- 주문이 승인났을때 -->
+              {{ foodList.name }}
+            </span>
+            <span v-else-if="foodList.orderStatus == 'C'">
+              {{ foodList.name }}
+              <span class="requestCancleTag">취소요청중</span>
+            </span>
+            <span v-else>
+              <!-- 주문이 취소되었을때 -->
+
+              <span class="cancledItemName">{{ foodList.name }}</span>
+              <span class="cancledItemTag"> 취소된 상품</span>
+            </span>
           </div>
           <div style="font-size: 20px; width: 200px">
             {{ foodList.quantity }}
           </div>
           <div style="font-size: 20px; width: 200px">
-            {{ foodList.price }}
+            <span v-if="foodList.orderStatus == 'S'">
+              {{ foodList.price }}
+            </span>
+            <span v-else-if="foodList.orderStatus == 'Y'">
+              {{ foodList.price }}
+            </span>
+            <span v-else-if="foodList.orderStatus == 'C'">
+              {{ foodList.price }}
+              <span class="requestCancleTag">취소요청중</span>
+            </span>
+            <span v-else>
+              <span class="cancledItemName">{{ foodList.price }}</span>
+              <span class="cancledItemTag"> 0</span>
+            </span>
           </div>
         </div>
         <div
@@ -129,11 +166,12 @@
             {{ order.phone }}
           </div>
         </div>
-        
-        
-        <div  style="margin: 50px" v-if="this.foodList[0].paySuccess == 'N'">취소된 주문</div>
-        <div  style="margin: 50px" v-else-if="this.foodList[0].paySuccess == 'C'">취소중입니다</div>
-        <button v-else
+
+        <div style="margin: 50px" v-if="this.orderStatus != ''">
+          {{ this.orderStatus }}
+        </div>
+        <button
+          v-else
           type="button"
           class="btn btn-outline-danger"
           style="margin: 50px"
@@ -155,6 +193,7 @@ export default {
       loaded: false,
       order: null,
       foodList: null,
+      orderStatus: "",
     };
   },
   mounted() {
@@ -164,25 +203,31 @@ export default {
       this.$router.push({ path: "/" });
       alert("잘못된 요청입니다");
     }
-    console.log(this.orderId);
-    this.getOrderedFoodList()
-      
+    this.getOrderedFoodList();
+    //
   },
   methods: {
     getOrderedFoodList() {
       http
-      .get("/order/getOrderedFoodList", {
-        params: {
-          orderId: this.orderId,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        this.order = res.data.order;
-        this.foodList = res.data.foodList;
-        this.loaded = true;
-        console.log(this.foodList[0].paySuccess);
-      });
+        .get("/order/getOrderedFoodList", {
+          params: {
+            orderId: this.orderId,
+          },
+        })
+        .then((res) => {
+          if (res.data.foodList.length == 0 || res.data.order == null) {
+            this.$router.push({ path: "/" });
+            alert("잘못된 요청입니다");
+            return;
+          }
+          this.order = res.data.order;
+          this.foodList = res.data.foodList;
+          this.loaded = true;
+          this.getOrderStatus();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     cancelOrder() {
       const orderId = parseInt(this.orderId);
@@ -193,12 +238,30 @@ export default {
         })
         .then((res) => {
           if (res.status === 200) {
-            this.getOrderedFoodList()
+            this.getOrderedFoodList();
             alert("주문 취소를 요청하였습니다!");
           } else {
             alert("알수없는 오류입니다. 관리자에게 문의하세요");
           }
         });
+    },
+    getOrderStatus() {
+      let hasC = this.foodList.find((food) => {
+        if (food.orderStatus == "C") {
+          return true;
+        }
+      });
+      if (hasC) {
+        this.orderStatus = "취소중인 주문입니다.";
+      }
+      let hasN = this.foodList.find((food) => {
+        if (food.orderStatus == "N") {
+          return true;
+        }
+      });
+      if (hasN) {
+        this.orderStatus = "부분 취소된 주문입니다.";
+      }
     },
   },
 };
@@ -236,5 +299,18 @@ export default {
     format("woff");
   font-weight: normal;
   font-style: normal;
+}
+.cancledItemName {
+  text-decoration-line: line-through;
+  color: grey;
+  white-space: nowrap;
+}
+.cancledItemTag {
+  color: red;
+  font-size: 15px;
+}
+.requestCancleTag {
+  color: gray;
+  font-size: 15px;
 }
 </style>

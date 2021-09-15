@@ -67,7 +67,7 @@
         SELECT
             i.food_id foodId,
             i.quantity,
-            i.status paySuccess,
+            i.status orderStatus,
             f.name,
             f.description,
             f.status foodStatus,
