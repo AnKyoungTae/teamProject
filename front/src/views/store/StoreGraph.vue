@@ -343,18 +343,23 @@
         <td style="width: 100px"></td>
       </tr>
     </table>
+    
+  
   </div>
 </template>
 
 <script>
 import http from "@/api/http";
 
+
 export default {
+
   data() {
     return {
       graphFoods: [],
       graphDays: [],
       graphResentFoods: [],
+    
       //전달금액
       graphPayment: [],
       dropDown: "음식판매량",
@@ -362,6 +367,9 @@ export default {
       //최근 음식별 판매 시간 드랍 다운시 버튼
       ResentDropdownButton: "",
       resentFoodTime: "",
+
+      //날짜
+      date:''
     };
   },
   computed: {
@@ -445,6 +453,7 @@ export default {
   },
   methods: {
     clickRadio(date) {
+      this.date = date
       if (this.dropDown == "음식판매량") {
         this.getFoodSaleAmount(date);
       } else if (this.dropDown == "요일별판매량") {
@@ -476,6 +485,7 @@ export default {
         .post("/order/getFoodSaleAmount", date)
         .then((res) => {
           this.graphFoods = res.data;
+    
         })
         .catch((err) => {
           console.log(err);
@@ -486,6 +496,7 @@ export default {
         .post("/order/getDayAmount", date)
         .then((res) => {
           this.graphDays = res.data;
+      
         })
         .catch((err) => {
           console.log(err);
@@ -500,6 +511,8 @@ export default {
           this.ResentDropdownButton = res.data.name;
           this.graphResentFoods = res.data.graphResntFood;
           this.resentFoodTime = date;
+
+
         })
         .catch((err) => {
           console.log(err);
@@ -517,6 +530,9 @@ export default {
     this.changeDropdownButton("음식판매량", "week");
     this.getPayment();
   },
+  updated(){
+    
+  }
 };
 </script>
 
