@@ -3,25 +3,21 @@
     <div class="manage-div">
       <div class="manage-div2">
         <div class="title">
-          <div 
-            class="passwordBtn spread-underline"
-            @click="changeStatusId"  
-          >
+          <div class="passwordBtn spread-underline" @click="changeStatusId">
             <a :class="[status === 'id' ? 'choicedMenu' : '']">
               <h3>아이디 찾기</h3>
             </a>
           </div>
-          <div 
-            class="passwordBtn spread-underline"
-            @click="changeStatusPwd"  
-          >
+          <div class="passwordBtn spread-underline" @click="changeStatusPwd">
             <a :class="[status === 'pwd' ? 'choicedMenu' : '']">
               <h3>비밀번호 찾기</h3>
             </a>
           </div>
         </div>
         <div class="Login-manage" v-if="status == 'id'">
-          <h3 class="Login-Exp">가입시 회원정보로 등록한 이름과 이메일을 입력해 주세요.</h3>
+          <h3 class="Login-Exp">
+            가입시 회원정보로 등록한 이름과 이메일을 입력해 주세요.
+          </h3>
           <table class="manage-box">
             <tr>
               <th class="login-txt">이름 입력</th>
@@ -29,7 +25,7 @@
                 <input
                   type="text"
                   class="text"
-                  style="width:350px;"
+                  style="width: 350px"
                   v-model="name"
                   placeholder="이름"
                 />
@@ -41,7 +37,7 @@
                 <input
                   type="text"
                   class="text"
-                  style="width:350px;"
+                  style="width: 350px"
                   v-model="email"
                   placeholder="이메일"
                 />
@@ -50,7 +46,9 @@
           </table>
         </div>
         <div v-else class="Login-manage">
-          <h3 class="Login-Exp">가입시 회원정보로 등록한 이름과 이메일을 입력해 주세요.</h3>
+          <h3 class="Login-Exp">
+            가입시 회원정보로 등록한 아이디, 이름과 이메일을 입력해 주세요.
+          </h3>
           <table class="manage-box">
             <tr style="margin-top: 30px">
               <th class="login-txt">아이디 입력</th>
@@ -58,7 +56,7 @@
                 <input
                   type="text"
                   class="text"
-                  style="width:350px;"
+                  style="width: 350px"
                   v-model="loginId"
                   placeholder="아이디"
                 />
@@ -67,11 +65,11 @@
             <tr>
               <th class="login-txt">이름 입력</th>
               <td class="login-tit">
-                <input 
-                  type="text" 
-                  class="text" 
-                  style="width:350px;"
-                  v-model="name" 
+                <input
+                  type="text"
+                  class="text"
+                  style="width: 350px"
+                  v-model="name"
                   placeholder="이름"
                 />
               </td>
@@ -82,7 +80,7 @@
                 <input
                   type="text"
                   class="text"
-                  style="width:350px;"
+                  style="width: 350px"
                   v-model="email"
                   placeholder="이메일"
                 />
@@ -94,12 +92,12 @@
     </div>
     <div v-if="status == 'id'">
       <button @click="sendId" class="btn btn-warning send-button">
-        보내기
+        이메일 인증
       </button>
     </div>
     <div v-else>
       <button @click="sendEmail" class="btn btn-warning send-button">
-        보내기
+        이메일 인증
       </button>
     </div>
   </div>
@@ -228,11 +226,11 @@ export default {
   text-align: center;
 }
 .text:focus {
-  outline:none;
+  outline: none;
 }
 .send-button {
-  font-size:25px;
-  width:150px;
+  font-size: 25px;
+  width: 150px;
 }
 
 .main {
@@ -255,7 +253,7 @@ export default {
 }
 .passwordBtn {
   float: left;
-  width:250px;
+  width: 250px;
   height: 60px;
   line-height: 40px;
   text-align: center;
