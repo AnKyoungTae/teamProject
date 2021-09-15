@@ -171,4 +171,7 @@ export default {
   justify-content: space-between;
   width:100%;
 }
+.accordion-body {
+  width:85%;
+}
 </style>

@@ -392,6 +392,7 @@ export default {
           },
         })
         .then((res) => {
+          console.log(res.data);
           if (res.data == "ok") {
             if (status === "Y") {
               alert("신고가 취소되엇습니다");
@@ -401,6 +402,7 @@ export default {
 
             this.articleProc();
           } else {
+            console.log(res.data);
             alert("문제가 발생했습니다.");
           }
         })

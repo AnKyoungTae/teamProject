@@ -78,7 +78,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #profileMenu {
   width: 80%;
 }

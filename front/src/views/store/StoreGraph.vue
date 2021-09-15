@@ -425,7 +425,6 @@ export default {
     },
     plusResentFooddiscount() {
       let discount = 0;
-      /*
     if(this.dropDown == "음식판매량"){
       for(let i = 0; i < this.graphFoods.length; i++){
       discount +=  this.graphPayment[i].discount
@@ -439,7 +438,6 @@ export default {
       discount +=  this.graphPayment[i].discount
     }
     }
-    */
       return discount;
     },
   },

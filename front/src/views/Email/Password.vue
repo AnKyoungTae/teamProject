@@ -1,106 +1,107 @@
 <template>
   <div class="main">
-    <div v-if="status == 'id'">
-      <div class="manage-div">
-        <div class="manage-div2">
-          <h3 class="title">아이디 찾기</h3>
-          <div class="Login-manage">
-            <div class="manage-box">
-              <div>
-                <strong><span class="login-txt">이름 입력</span></strong>
-                <a class="Login-Abox">
-                  <strong class="login-tit"
-                    ><input
-                      type="text"
-                      class="text"
-                      v-model="name"
-                      placeholder="이름"
-                  /></strong>
-                </a>
-              </div>
-              <div style="margin-top: 30px">
-                <strong><span class="login-txt">이메일 입력</span></strong>
-                <a class="Login-Abox">
-                  <strong class="login-tit"
-                    ><input
-                      type="text"
-                      class="text"
-                      v-model="email"
-                      placeholder="이메일"
-                  /></strong>
-                </a>
-              </div>
-              <p style="margin-top: 8px">
-                <span style="cursor: pointer" @click="changeStatusId"
-                  >아이디</span
-                >
-                &nbsp;|&nbsp;
-                <span style="cursor: pointer" @click="changeStatusPwd"
-                  >비밀번호</span
-                >
-              </p>
-            </div>
+    <div class="manage-div">
+      <div class="manage-div2">
+        <div class="title">
+          <div 
+            class="passwordBtn spread-underline"
+            @click="changeStatusId"  
+          >
+            <a :class="[status === 'id' ? 'choicedMenu' : '']">
+              <h3>아이디 찾기</h3>
+            </a>
+          </div>
+          <div 
+            class="passwordBtn spread-underline"
+            @click="changeStatusPwd"  
+          >
+            <a :class="[status === 'pwd' ? 'choicedMenu' : '']">
+              <h3>비밀번호 찾기</h3>
+            </a>
           </div>
         </div>
+        <div class="Login-manage" v-if="status == 'id'">
+          <h3 class="Login-Exp">가입시 회원정보로 등록한 이름과 이메일을 입력해 주세요.</h3>
+          <table class="manage-box">
+            <tr>
+              <th class="login-txt">이름 입력</th>
+              <td class="login-tit">
+                <input
+                  type="text"
+                  class="text"
+                  style="width:350px;"
+                  v-model="name"
+                  placeholder="이름"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th class="login-txt">이메일 입력</th>
+              <td class="login-tit">
+                <input
+                  type="text"
+                  class="text"
+                  style="width:350px;"
+                  v-model="email"
+                  placeholder="이메일"
+                />
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div v-else class="Login-manage">
+          <h3 class="Login-Exp">가입시 회원정보로 등록한 이름과 이메일을 입력해 주세요.</h3>
+          <table class="manage-box">
+            <tr style="margin-top: 30px">
+              <th class="login-txt">아이디 입력</th>
+              <td class="login-tit">
+                <input
+                  type="text"
+                  class="text"
+                  style="width:350px;"
+                  v-model="loginId"
+                  placeholder="아이디"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th class="login-txt">이름 입력</th>
+              <td class="login-tit">
+                <input 
+                  type="text" 
+                  class="text" 
+                  style="width:350px;"
+                  v-model="name" 
+                  placeholder="이름"
+                />
+              </td>
+            </tr>
+            <tr style="margin-top: 30px">
+              <th class="login-txt">이메일 입력</th>
+              <td class="login-tit">
+                <input
+                  type="text"
+                  class="text"
+                  style="width:350px;"
+                  v-model="email"
+                  placeholder="이메일"
+                />
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
-      
-      <button @click="sendId" class="btn btn-outline-info send-button">
+    </div>
+    <div v-if="status == 'id'">
+      <button @click="sendId" class="btn btn-warning send-button">
         보내기
       </button>
     </div>
     <div v-else>
-      <div class="manage-div">
-        <div class="manage-div2">
-          <h3 class="title">비밀번호 찾기</h3>
-          <div class="Login-manage">
-            <div class="manage-box">
-              <div>
-                <strong><span class="login-txt">이름 입력</span></strong>
-                <a class="Login-Abox">
-                  <strong class="login-tit"><input type="text" class="text" v-model="name" placeholder="이름"></strong>
-                </a>
-              </div>
-              <div style="margin-top: 30px">
-                <strong><span class="login-txt">아이디 입력</span></strong>
-                <a class="Login-Abox">
-                  <strong class="login-tit"
-                    ><input
-                      type="text"
-                      class="text"
-                      v-model="loginId"
-                      placeholder="아이디"
-                  /></strong>
-                </a>
-              </div>
-              <div style="margin-top: 30px">
-                <strong><span class="login-txt">이메일 입력</span></strong>
-                <a class="Login-Abox">
-                  <strong class="login-tit"
-                    ><input
-                      type="text"
-                      class="text"
-                      v-model="email"
-                      placeholder="이메일"
-                  /></strong>
-                </a>
-              </div>
-              <p style="margin-top: 8px">
-                <span style="cursor: pointer" @click="changeStatusId"
-                  >아이디</span
-                >
-                &nbsp;|&nbsp;
-                <span style="cursor: pointer" @click="changeStatusPwd"
-                  >비밀번호</span
-                >
-              </p>
-            </div>
-          </div>
-      </div>
-      <button @click="sendEmail" class="btn btn-outline-info send-button">
+      <button @click="sendEmail" class="btn btn-warning send-button">
         보내기
       </button>
-      </div>
-      </div>
+    </div>
   </div>
 </template>
 
@@ -190,7 +191,7 @@ export default {
 
 <style scoped>
 .manage-div {
-  max-width: 560px;
+  max-width: 700px;
   margin: 50px auto 0;
   display: block;
 }
@@ -208,50 +209,30 @@ export default {
 .manage-box {
   margin: 40px auto;
   text-align: center;
-  width: 400px;
+  width: 500px;
 }
-.Login-Abox {
-  margin-top: 10px;
-  text-decoration: none;
-}
-.Login-Aboxdiv {
-  float: left;
-  width: 80px;
-  height: 80px;
-  padding: auto 0;
-  position: relative;
-}
-.Login-Aboxdiv Abox {
-  display: block;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-}
-.Abox-text {
-  overflow: hidden;
-  display: block;
-  font-size: 22px;
-  height: 80px;
-  line-height: middle;
-  padding-left: 20px;
-  padding-bottom: 10px;
+.Login-Exp {
+  padding-top: 30px;
 }
 .login-tit {
-  font-size: 20px;
+  font-size: 25px;
 }
 .login-txt {
-  margin-right: 15px;
+  padding-left: 20px;
   color: #5066aa;
-  font-size: 20px;
+  font-size: 25px;
 }
 .text {
   border: none;
   border-bottom: 1.5px solid lightgray;
-  width: 100%;
   text-align: center;
 }
+.text:focus {
+  outline:none;
+}
 .send-button {
-  width: 25%;
+  font-size:25px;
+  width:150px;
 }
 
 .main {
@@ -262,6 +243,8 @@ export default {
 }
 .title {
   margin: 5vh 0 15px 0;
+  display: flex;
+  justify-content: space-around;
 }
 .main .tab {
   margin: 0 auto;
@@ -269,5 +252,55 @@ export default {
 .main .text {
   width: 20vw;
   margin: 1vh 0;
+}
+.passwordBtn {
+  float: left;
+  width:250px;
+  height: 60px;
+  line-height: 40px;
+  text-align: center;
+  border: 2px solid #fd3a69;
+  overflow: hidden;
+  cursor: pointer;
+  font-size: 1.5em;
+  border-radius: 10px 10px 10px 0;
+  background: #ffda77;
+}
+.passwordBtn:hover {
+  background: #91afba;
+  color: #fff;
+  cursor: pointer;
+}
+.choicedMenu {
+  text-decoration: underline;
+  text-underline-position: under;
+  color: #fd3a69;
+}
+.spread-underline {
+  color: #333;
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px 0;
+  position: relative;
+}
+.spread-underline:after {
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 4px;
+  left: 50%;
+  position: absolute;
+  background: #ffefa3;
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0;
+}
+.spread-underline:hover:after {
+  width: 100%;
+  left: 0;
+}
+a {
+  text-decoration: none;
+  color: #404040;
 }
 </style>
