@@ -115,7 +115,6 @@
         type="button"
         @click="reallyDelete"
         class="btn btn-secondary"
-        style="position: fixed"
       >
         <span style="font-size: 20px">탈퇴하기</span>
       </button>

@@ -67,11 +67,11 @@
         <th colspan="2">할인금액</th>
         <td colspan="2">{{ discount }}</td>
         <th colspan="2">전일매출</th>
-        <th colspan="2">
+        <td colspan="2">
           {{ graphPayment.beforeDayPayment }}
-        </th>
+        </td>
         <th colspan="2">당일매출</th>
-        <th colspan="2">{{ graphPayment.dayPayment }}</th>
+        <td colspan="2">{{ graphPayment.dayPayment }}</td>
       </tr>
     </table>
     <!-- 종류별로 바낌-->

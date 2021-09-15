@@ -73,7 +73,7 @@ export default {
 }
 
 .modal-body {
-  margin: 20px auto;
+  margin-bottom: 20px;
 }
 
 .modal-default-button {
