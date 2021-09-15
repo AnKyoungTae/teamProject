@@ -33,4 +33,8 @@ public interface ReviewDao {
     int updateReviewStatus(@Param("reviewId") Integer reviewId, @Param("status") String state);
 
     List<Map<String, Object>> selectAllReviewsByMemberId(@Param("memberId") Integer memberId);
+    
+    List<Map<String, Object>> suspendReview();
+    
+    int changeReviewSuspend(int reviewId, String status);
 }

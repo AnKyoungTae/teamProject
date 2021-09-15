@@ -95,5 +95,32 @@ public class ReviewController {
         return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
+    @PostMapping("/suspendReview")
+    public ResponseEntity suspendReview()
+    {
+    	List<Map<String, Object>> list = reviewService.suspendReview();
+    	
+    	return new ResponseEntity(list, HttpStatus.OK);
+    }
 	
+    @PostMapping("/changeReviewSuspend")
+    public ResponseEntity changeReviewSuspend(@RequestBody Map<String, Object> ListData,HttpServletRequest request)
+	{
+		System.out.println("Review Controller: changeReviewSuspend");
+		Map<String, Object> param = (Map<String, Object>) ListData.get("param");
+		
+		int reviewId = (((Integer) param.get("reviewId")).intValue()); 
+	
+		String status = (String) param.get("status");
+		
+		if(reviewService.changeReviewSuspend(reviewId, status) > 0)
+		{
+			return new ResponseEntity("ok", HttpStatus.OK);
+		}
+		
+		return new ResponseEntity("no", HttpStatus.OK);
+	}
+    
+    
+    
 }
