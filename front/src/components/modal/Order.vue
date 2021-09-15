@@ -20,18 +20,23 @@
         </div>
 
         <hr />
-        <div class="DescDiv" ref="divH">
-        <span class="foodDesc">
-          {{ data.description }}
-        </span>
+        <div class="DescDiv">
+          <span class="foodDesc">
+            {{ data.description }}
+          </span>
         </div>
         <div @click="moreDetails" v-if="divHidden">
           <a class="foodDesc2">더보기</a>
         </div>
       </div>
       <div v-else>
-        <div @click="detailBoolean" style="text-align: left;"><i class="fas fa-arrow-left"></i></div>
-        <FoodDesc v-bind:data="data.description" style="margin-top: 5px;"></FoodDesc>
+        <div @click="detailBoolean" style="text-align: left">
+          <i class="fas fa-arrow-left"></i>
+        </div>
+        <FoodDesc
+          v-bind:data="data.description"
+          style="margin-top: 5px"
+        ></FoodDesc>
       </div>
       <hr />
       <span class="foodPrice">{{ data.price }} 원</span>
@@ -71,9 +76,8 @@ export default {
   },
   methods: {
     divheight() {
-      var abc = this.$refs.divH.scrollHeight;
-      console.log(abc);
-      if(abc >= 72) {
+      var textLength = this.data.description.length;
+      if (textLength >= 72) {
         this.divHidden = true;
       }
     },
@@ -83,7 +87,7 @@ export default {
     },
     moreDetails() {
       console.log("실행");
-      if(this.Desc === true) {
+      if (this.Desc === true) {
         this.Desc = false;
       }
     },
@@ -126,13 +130,13 @@ export default {
 }
 .foodDesc {
   font-size: 12px;
-  display: -webkit-box; 
-    word-wrap:break-word; 
-    -webkit-line-clamp:4; 
-    -webkit-box-orient:vertical; 
-    overflow:hidden; 
-    text-overflow:ellipsis;
-    max-height:72px;
+  display: -webkit-box;
+  word-wrap: break-word;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 72px;
 }
 
 .foodDesc2 {

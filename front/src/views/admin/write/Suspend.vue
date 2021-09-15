@@ -223,15 +223,21 @@
           <tr>
             <th style="width: 100px">#</th>
             <th style="width: 300px">날짜</th>
-            <th style="padding-right:45px;">글 내용</th>
+            <th style="padding-right: 45px">글 내용</th>
           </tr>
           <tr>
             <td colspan="3">
               <!-- 리스트 시작 -->
               <div class="accordion accordion-flush" id="accordionFlushExample">
-                <div class="accordion-item"
-                v-for="(li, index) in list" :key="index">
-                  <h2 class="accordion-header" v-bind:id="'flush-heading' + index">
+                <div
+                  class="accordion-item"
+                  v-for="(li, index) in list"
+                  :key="index"
+                >
+                  <h2
+                    class="accordion-header"
+                    v-bind:id="'flush-heading' + index"
+                  >
                     <button
                       class="accordion-button collapsed susTitle"
                       type="button"
@@ -243,11 +249,14 @@
                       <span class="susTitleNum">{{ index + 1 }}</span>
                       <span class="susTitleDay">
                         {{
-                          li.regDate[0]  + "년 " + 
-                          li.regDate[1] + "월 " +
-                          li.regDate[2] + "일 " +
-                          li.regDate[3] + "시 " 
-                         
+                          li.regDate[0] +
+                          "년 " +
+                          li.regDate[1] +
+                          "월 " +
+                          li.regDate[2] +
+                          "일 " +
+                          li.regDate[3] +
+                          "시 "
                         }}
                       </span>
                       <span class="susTitleContents">{{ li.body }}</span>
@@ -261,10 +270,12 @@
                   >
                     <div class="accordion-body susBody">
                       <div class="susBodyList">
-                        <strong>가게 댓글 : </strong>{{ li.reply }}
-                      </div>
-                      <div class="susBodyList">
-                        <strong>신고 내용 : </strong>{{ li.suspend }}
+                        <strong v-if="li.reply"
+                          >사장님 댓글 : {{ li.reply }}</strong
+                        >
+                        <strong v-else
+                          >후기에 달린 사장님 댓글이 없습니다.</strong
+                        >
                       </div>
                       <div class="susBodyBtn">
                         <button
@@ -307,36 +318,33 @@ export default {
   },
   methods: {
     //review
-    reviewProc(){
-        this.changeKind('review')
-       http
-        .post("/review/suspendReview")
-        .then(res=>{
-          console.log(res.data);
-          this.list = res.data;
-        })
-
+    reviewProc() {
+      this.kind = "review";
+      http.post("/review/suspendReview").then((res) => {
+        console.log(res.data);
+        this.list = res.data;
+      });
     },
-    changeReviewSuspend(reviewId, status){
+    changeReviewSuspend(reviewId, status) {
       http
         .post("/review/changeReviewSuspend", {
           param: {
             reviewId: reviewId,
             status: status,
-          }
+          },
         })
-        .then(res=>{
-            if(res.data == "ok"){
-              if(status == 'Y'){
-                alert("신고가 취소되었습니다")
-              }else{
-                alert("삭제되었습니다")
-              }
-            }else{
-              alert("문제가 발생했습니다")
+        .then((res) => {
+          if (res.data == "ok") {
+            if (status == "Y") {
+              alert("신고가 취소되었습니다");
+            } else {
+              alert("삭제되었습니다");
             }
-            this.reviewProc()
-        })
+          } else {
+            alert("문제가 발생했습니다");
+          }
+          this.reviewProc();
+        });
     },
 
     //article, comment
@@ -344,7 +352,6 @@ export default {
       http
         .post("/article/suspendArticle", this.kind)
         .then((res) => {
-          
           this.list = res.data;
 
           for (let i = 0; i < this.list.length; i++) {
@@ -402,9 +409,7 @@ export default {
         });
     },
     //riview 승인 제거
-    changeReview(){
-
-    }
+    changeReview() {},
   },
   mounted() {
     this.articleProc();
