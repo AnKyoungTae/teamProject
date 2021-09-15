@@ -20,12 +20,14 @@
         </div>
 
         <hr />
-        <div class="DescDiv" v-bind="DescDiv">
+        <div class="DescDiv" ref="divH">
         <span class="foodDesc">
           {{ data.description }}
         </span>
         </div>
-        <div @click="moreDetails"><a class="foodDesc2">더보기</a></div>
+        <div @click="moreDetails" v-if="divHidden">
+          <a class="foodDesc2">더보기</a>
+        </div>
       </div>
       <div v-else>
         <div @click="detailBoolean" style="text-align: left;"><i class="fas fa-arrow-left"></i></div>
@@ -58,17 +60,26 @@ export default {
     return {
       counter: 1,
       Desc: true,
+      divHidden: false,
     };
   },
-  mounted() {},
+  mounted() {
+    this.divheight();
+  },
   computed: {
     ...mapGetters({ checkCart: "checkCart" }),
   },
   methods: {
+    divheight() {
+      var abc = this.$refs.divH.scrollHeight;
+      console.log(abc);
+      if(abc >= 72) {
+        this.divHidden = true;
+      }
+    },
     detailBoolean() {
       console.log("실행1");
       this.Desc = true;
-      
     },
     moreDetails() {
       console.log("실행");
