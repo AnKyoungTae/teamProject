@@ -728,6 +728,7 @@ public class ArticleController {
 			
 			if(articleService.changeSuspendComment(tableId, status) > 0)
 			{
+				System.out.println("dd");
 				return new ResponseEntity("ok", HttpStatus.OK);
 			}
 		

@@ -38,9 +38,6 @@
           <input @click="setLoginSave" v-model="loginSave" type="checkbox" />
           <span>아이디 저장</span>
         </label>
-        <button class="find-password-button">
-          <div @click="findPw">비밀번호 찾기</div>
-        </button>
       </div>
       <div class="login-button-wrapper">
         <div>
@@ -55,6 +52,12 @@
           <!-- OAUTH연동로직 -->
           <button @click="registerClick('BUYER')" class="register-button">
             회원가입하기
+          </button>
+        </div>
+        <div class="register-wrapper">
+          로그인이 안되시나요?
+          <button @click="findPw" class="find-password-button">
+            아이디|비밀번호 찾기
           </button>
         </div>
       </div></template
