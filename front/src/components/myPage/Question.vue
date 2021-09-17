@@ -66,6 +66,7 @@ export default {
   },
   methods: {
     throwQNA(articleId) {
+      this.$store.commit("SET_serviceCenterToggle", true);
       this.$router.push({
         name: "BoardList",
         query: { board: "qna", articleId: articleId },

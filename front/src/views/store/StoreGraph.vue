@@ -199,7 +199,7 @@
         <th colspan="2">전체 매출</th>
         <td colspan="2">{{ plusResentFoodPayment }}</td>
         <th colspan="2">전체 할인량</th>
-        <td colspan="2">{{ graphPayment.discount }}</td>
+        <td colspan="2">{{ discount }}</td>
       </tr>
 
       <tr class="storeChart">
@@ -310,7 +310,7 @@
         <th colspan="2">전체 매출</th>
         <td colspan="2">{{ plusResentFoodPayment }}</td>
         <th colspan="2">전체 할인량</th>
-        <td colspan="2">{{ graphPayment.discount }}</td>
+        <td colspan="2">{{ discount }}</td>
       </tr>
 
       <tr class="storeChart">
@@ -519,6 +519,7 @@ export default {
     //전월매출 등등
     getPayment() {
       http.post("/order/getPayment").then((res) => {
+        console.log(res.data);
         this.graphPayment = res.data;
       });
     },

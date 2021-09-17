@@ -245,7 +245,7 @@ export default {
     //글 공개 여부
     changeStatus(word) {
       (this.status = "ALL"), //글 상태
-        (this.children = "OFF"), //댓글 여부
+         //댓글 여부
         (this.search = null), //검색
         (this.status = word);
       this.downAllList(1, 1);
