@@ -27,7 +27,7 @@
       <div v-if="list.length == 0">
         <strong style="font-size: 25px">신고된 글이 없습니다.</strong>
       </div>
-      <div v-else-if="list.length != 0">
+      <div v-else>
         <!-- 게시글 -->
         <table v-if="kind == 'article'" class="susTable">
           <tr>
@@ -356,7 +356,7 @@ export default {
 
           for (let i = 0; i < this.list.length; i++) {
             if (this.list[i].suspend != null) {
-              console.log(i + "번 성공");
+             
               let suspend = this.list[i].suspend.split("///");
               this.list[i].suspend = "";
 

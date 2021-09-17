@@ -213,6 +213,10 @@ public class OrderService {
         resultMap.put("order",orderDao.selectOrderByOrderId(orderId));
         List<Map<String, Object>> orderedFoodsList  = orderDao.selectAllOrderedFoodByOrderId(orderId);
         resultMap.put("foodList", orderedFoodsList);
+        
+        System.out.println(orderedFoodsList);
+        System.out.println();
+        
         return resultMap;
     }
 

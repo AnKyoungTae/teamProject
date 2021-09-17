@@ -215,6 +215,7 @@ export default {
           },
         })
         .then((res) => {
+          console.log(res.data);
           if (res.data.foodList.length == 0 || res.data.order == null) {
             this.$router.push({ path: "/" });
             alert("잘못된 요청입니다");

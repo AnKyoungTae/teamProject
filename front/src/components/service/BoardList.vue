@@ -14,6 +14,7 @@
         class="btn btn-danger"
         style="margin-left: 10px"
         @click="reportArticle(articleId)"
+        v-if="this.board != 'notice'"
       >
         신고
       </button>
@@ -36,6 +37,7 @@
           class="btn btn-primary"
           style="margin-right: 10px"
           @click="changeReply"
+          v-if="this.board != 'notice'"
         >
           답글
         </button>
