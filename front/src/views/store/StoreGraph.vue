@@ -64,8 +64,8 @@
         <td colspan="2">{{ graphPayment.payment }}</td>
       </tr>
       <tr class="storeChart">
-        <th colspan="2">할인금액</th>
-        <td colspan="2">{{ discount }}</td>
+        <th colspan="2">전월할인</th>
+        <td colspan="2">{{ graphPayment.beforeDiscount }}</td>
         <th colspan="2">전일매출</th>
         <td colspan="2">
           {{ graphPayment.beforeDayPayment }}
@@ -122,8 +122,8 @@
         <td colspan="2">{{ plusResentFoodQuantity }}</td>
         <th colspan="2">전체 매출</th>
         <td colspan="2">{{ plusResentFoodPayment }}</td>
-        <th colspan="2">전체 할인량</th>
-        <td colspan="2">{{ graphPayment.discount }}</td>
+        <th colspan="2">할인금액</th>
+        <td colspan="2">{{ discount }}</td>
       </tr>
 
       <tr class="storeChart">
