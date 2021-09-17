@@ -43,7 +43,7 @@
     </template>
     <template v-slot:footer>
       <div class="btn btn-success" @click="addToCart(data)">
-        주문표에 추가하기
+        장바구니에 추가하기
       </div>
       <div class="btn btn-danger" @click="SET_MODAL_ORDER(false)">취소</div>
     </template>

@@ -49,7 +49,7 @@
       <!-- 판매자로 로그인 했을때 보이는 메뉴들 -->
       <SidebarLink to="/store" icon="fas fa-store"> 내 가게</SidebarLink>
       <SidebarLink to="/storeOrder" icon="fas fa-sort-amount-down">
-        주문표</SidebarLink
+        주문관리</SidebarLink
       >
       <SidebarLink to="/storeMenus" icon="fas fa-bars"> 가게메뉴 </SidebarLink>
       <SidebarLink to="/storeGraph" icon="fas fa-chart-pie">

@@ -389,7 +389,8 @@ ORDER BY a.n ASC
 SELECT	IFNULL(a.beforeMonthPayment, 0) AS 'beforeMonthPayment',
 	IFNULL(b.payment, 0) AS 'payment',
 	IFNULL(c.beforeDayPayment, 0) AS 'beforeDayPayment',
-	IFNULL(d.dayPayment, 0) AS 'dayPayment'
+	IFNULL(d.dayPayment, 0) AS 'dayPayment',
+	IFNULL(e.beforeDiscount, 0) AS 'beforeDiscount'
 	FROM (SELECT SUM(payment)  AS 'beforeMonthPayment'
 		FROM (SELECT	
 				a.quantity * c.price AS 'payment'
@@ -421,7 +422,15 @@ SELECT	IFNULL(a.beforeMonthPayment, 0) AS 'beforeMonthPayment',
 				WHERE	a.order_id = b.orderId
 				AND	DATE_FORMAT(b.orderDate, '%Y-%m-%d') = DATE_FORMAT(NOW() , '%Y-%m-%d')
 				AND	store_id = #{storeId}
-				AND	a.food_id = c.foodId) a) d
+				AND	a.food_id = c.foodId) a) d,
+		(SELECT SUM(discount) AS 'beforeDiscount'
+			FROM (SELECT
+					b.discount AS 'discount'
+				FROM	`orderInfo` a, `order` b, `food` c
+				WHERE	a.order_id = b.orderId
+				AND	DATE_FORMAT(b.orderDate, '%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m') 
+				AND	store_id = #{storeId}
+				AND	a.food_id = c.foodId) a) e
 </select>
 
 
