@@ -25,13 +25,13 @@
       </div>
       <div>
         <h3>댓글 여부</h3>
-        있음<input
+        포함<input
           type="radio"
           name="comment"
           value="ALL"
           @click="changechildren('ON')"
         />
-        없음<input
+        미포함<input
           type="radio"
           name="comment"
           value="Hidden"

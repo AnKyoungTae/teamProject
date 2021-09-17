@@ -88,8 +88,8 @@
                     <thead>
                       <tr class="bg-secondary">
                         <th scope="col fw-bold">#</th>
-                        <th scope="col fw-bold">이벤트발행일자</th>
-                        <th scope="col fw-bold">사용종료일</th>
+                        <th scope="col fw-bold">이벤트등록일</th>
+                        <th scope="col fw-bold">이벤트종료일</th>
                         <th scope="col fw-bold">제목</th>
                         <th scope="col fw-bold">내용</th>
                         <th scope="col fw-bold">상태</th>
@@ -161,8 +161,8 @@
                 >
                   <thead>
                     <tr class="bg-secondary">
-                      <th scope="col fw-bold">쿠폰발행일자</th>
-                      <th scope="col fw-bold">쿠폰사용종료일</th>
+                      <th scope="col fw-bold">쿠폰발급일</th>
+                      <th scope="col fw-bold">쿠폰만료일</th>
                       <th scope="col fw-bold">이름</th>
                       <th scope="col fw-bold">번호</th>
 
@@ -476,6 +476,9 @@ export default {
   width: 30%;
   border-bottom: 8px solid #ffda77;
   padding-bottom: 10px;
+}
+.align-self-center {
+  text-align: center;
 }
 
 @font-face {
