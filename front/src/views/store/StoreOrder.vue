@@ -61,7 +61,7 @@
           <td v-if="cancelStoreOrderId(index)">
             <span
               class="badge bg-danger"
-              @click="deleteAllOrder(cancel.orderId)"
+              @click="deleteAllOrder('C',cancel.orderId)"
               >전체주문취소</span
             >
           </td>
@@ -172,7 +172,7 @@
             <span class="badge bg-success" @click="approveOrder(li.orderId)"
               >전체주문받기</span
             >
-            <span class="badge bg-danger" @click="deleteAllOrder(li.orderId)"
+            <span class="badge bg-danger" @click="deleteAllOrder('L',li.orderId)"
               >전체주문취소</span
             >
           </td>
@@ -424,15 +424,26 @@ export default {
         });
       }
     },
-    //주문 1건 삭제
-    deleteAllOrder(orderId) {
+    //주문 1건 삭제 cancelStoreOrder
+    deleteAllOrder(word, orderId) {
       if (confirm("주문번호" + orderId + "번의 주문을 취소합니다")) {
         let allOrderInfoId = []
-        for(let i = 0; i < this.list.length; i++){
-          if(this.list[i].orderId == orderId){
-            allOrderInfoId.push(this.list[i].orderInfoId)
+        if(word == 'C'){
+          for(let i = 0; i < this.cancelStoreOrder.length; i++){
+          
+            if(this.cancelStoreOrder[i].orderId == orderId){
+              allOrderInfoId.push(this.cancelStoreOrder[i].orderInfoId)
+            }
+         }
+        }else{
+          for(let i = 0; i < this.list.length; i++){
+          
+            if(this.list[i].orderId == orderId){
+              allOrderInfoId.push(this.list[i].orderInfoId)
+            }
           }
         }
+        
         
         http.post("/order/deleteAllOrder", allOrderInfoId).then((res) => {
  
