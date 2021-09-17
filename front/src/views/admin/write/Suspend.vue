@@ -113,7 +113,7 @@
                           class="btn btn-outline-primary"
                           @click="changeSuspend(li.articleId, 'Y')"
                         >
-                          복귀
+                          복구
                         </button>
                       </div>
                     </div>
@@ -206,7 +206,7 @@
                           class="btn btn-outline-primary"
                           @click="changeSuspend(li.commentId, 'Y')"
                         >
-                          복귀
+                          복구
                         </button>
                       </div>
                     </div>
@@ -290,7 +290,7 @@
                           class="btn btn-outline-primary"
                           @click="changeReviewSuspend(li.reviewId, 'Y')"
                         >
-                          복귀
+                          복구
                         </button>
                       </div>
                     </div>

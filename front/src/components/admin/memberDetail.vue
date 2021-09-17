@@ -11,10 +11,10 @@
     <div class="manage-div2">
       <div class="profile-manage">
         <div class="manage-box">
-          <a class="profile-img">
+          <div class="profile-img">
             <strong class="login-tit profile-tit">프로필사진</strong>
             <span class="login-txt"
-              ><a class="profile-img">
+              ><div class="profile-img">
                 <img
                   :src="profilePicUrl"
                   style="
@@ -23,54 +23,48 @@
                     height: 80px;
                     border-radius: 50%;
                   "
-                /> </a
+                /> </div
             ></span>
-          </a>
+          </div>
         </div>
         <hr style="padding: 0px" />
         <div class="manage-box">
-          <a class="profile-img">
-            <a class="profile-img">
+          <div class="profile-img">
+            <div class="profile-img">
               <strong class="login-tit">회원 번호</strong>
               <span class="login-txt">{{ data.memberId }}</span>
-            </a>
+            </div>
             <hr style="padding: 0px" />
 
             <strong class="login-tit">이름</strong>
             <span class="login-txt">{{ data.name }}</span>
-          </a>
+          </div>
           <hr style="padding: 0px" />
 
-          <a class="profile-img">
+          <div class="profile-img">
             <strong class="login-tit">닉네임</strong>
             <span class="login-txt">{{ data.nickname }}</span>
-          </a>
+          </div>
           <hr style="padding: 0px" />
 
-          <a class="profile-img">
+          <div class="profile-img">
             <strong class="login-tit">이메일</strong>
             <span class="login-txt">{{ data.email }}</span>
-          </a>
+          </div>
           <hr style="padding: 0px" />
 
-          <a class="profile-img">
+          <div class="profile-img">
             <strong class="login-tit">핸드폰번호</strong>
             <span class="login-txt">{{ data.phone }}</span>
-          </a>
+          </div>
           <hr style="padding: 0px" />
 
-          <a class="profile-img">
+          <div class="profile-img">
             <strong class="login-tit">역할</strong>
             <span class="login-txt">{{ data.role }}</span>
-          </a>
+          </div>
           <hr style="padding: 0px" />
-
-          <a class="profile-img">
-            <strong class="login-tit">신고당한 횟수</strong>
-            <!-- 수정요망 -->
-            <span class="login-txt">{{ data.memberId }}</span>
-          </a>
-          <hr style="padding: 0px" />
+          
         </div>
       </div>
     </div>

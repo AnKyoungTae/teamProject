@@ -56,7 +56,8 @@
         "
       >
         <div style="width: 100px">
-          <span v-if="list.boardId == 3">기타</span>
+          <span v-if="list.boardId == 2">공지사항</span>
+          <span v-else-if="list.boardId == 3">기타</span>
           <span v-else-if="list.boardId == 4">주문</span>
           <span v-else-if="list.boardId == 5">딜리버리 주문</span>
           <span v-else-if="list.boardId == 6">제품/품질/서비스</span>
