@@ -97,14 +97,17 @@
         <div class="register-information-wrapper">
           <div class="register-title">이메일(아이디)</div>
           <div class="register-input-wrapper">
-            <input v-model="email" class="register-input register-email" />
+            <input
+              v-model="email"
+              class="register-input register-email"
+              @blur="checkEmail"
+              :class="{ invalid: !availableEmail }"
+            />
             <span class="space">@</span>
             <input
               v-if="selectEtc"
               class="register-email-domain-input"
               placeholder="이메일"
-              @blur="checkEmail"
-              :class="{ invalid: !availableEmail }"
             />
             <select
               v-model="selectedDomain"

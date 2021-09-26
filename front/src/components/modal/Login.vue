@@ -80,7 +80,7 @@
 import Modal from "@/components/modal/Modal_login";
 import { error, success } from "@/api/notification";
 import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
-import http from "@/api/http";
+
 export default {
   components: {
     Modal,
