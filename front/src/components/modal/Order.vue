@@ -22,7 +22,7 @@
         <hr />
         <div class="DescDiv">
           <span class="foodDesc">
-            {{ data.description }}
+            {{ shortenDesc }}
           </span>
         </div>
         <div @click="moreDetails" v-if="divHidden">
@@ -73,6 +73,9 @@ export default {
   },
   computed: {
     ...mapGetters({ checkCart: "checkCart" }),
+    shortenDesc() {
+      return this.data.description.substr(0, 98);
+    },
   },
   methods: {
     divheight() {

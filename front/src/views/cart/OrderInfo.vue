@@ -52,6 +52,7 @@
             <span v-if="foodList.orderStatus == 'S'">
               <!-- 주문이 막 들어왔을 때 -->
               {{ foodList.name }}
+              <span class="prepareOrderTag">주문대기중</span>
             </span>
             <span v-else-if="foodList.orderStatus == 'Y'">
               <!-- 주문이 승인났을때 -->
@@ -313,5 +314,8 @@ export default {
 .requestCancleTag {
   color: gray;
   font-size: 15px;
+}
+.prepareOrderTag {
+  color: aqua;
 }
 </style>

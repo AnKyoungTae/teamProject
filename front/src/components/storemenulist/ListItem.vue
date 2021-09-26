@@ -56,7 +56,7 @@ expand-leave-active {
 }
 .item-box:hover {
   cursor: pointer;
-  background: #FFEFA3;
+  background: #ffefa3;
   transition: 0.2s;
 }
 .item-text {
