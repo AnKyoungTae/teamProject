@@ -9,6 +9,8 @@
     <div class="store-write-notification-wra">
       <ul class="store-write-wrapper">
         <li>알림사항</li>
+        <li>가게 등록 후 관리자가 판매 여부를 결정합니다.</li>
+        <li>자세히 입력하면 더욱 좋습니다.</li>
       </ul>
       <!-- 이름 -->
       <div class="input-group-sm mb-3">
@@ -137,6 +139,9 @@
               "
             >
               사진 올릴떄 주의사항
+            </div>
+            <div>
+              용량이 큰 사진 파일을 그대로 올리는 경우 로딩 속도가 늦어집니다.
             </div>
             <div
               class="store-imageFile-notice-item store-imageFile-upload-button"
@@ -410,17 +415,7 @@ export default {
   margin-top: 8px;
 }
 
-.store-write-wrapper > li::before {
-  content: "";
-  width: 3px;
-  height: 3px;
-  background-color: rgb(34, 34, 34);
-  position: absolute;
-  top: 50%;
-  left: -10px;
-  transform: translateY(-50%);
-  border-radius: 50%;
-}
+
 .store-write-type-container {
   border: 1px solid #bbbbbb;
   box-shadow: rgba(188, 196, 219, 0.77) 5px 5px 13px 0px;

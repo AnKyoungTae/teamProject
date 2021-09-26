@@ -72,7 +72,7 @@
               class="col-5"
               style="text-align: left; padding-left: 20px; padding-right: 20px"
             >
-              <span v-html="parsingTitle(qn.title, qn.children)"> </span>
+              <span v-html="parsingTitle(qn.title, qn.children,qn.boardId)"> </span>
             </td>
             <td class="col-2" style="font-size: 14px">
               {{ parseDate(qn.regDate) }}
@@ -334,16 +334,48 @@ export default {
         this.pageList.push(i);
       }
     },
-    parsingTitle(title, count) {
+    parsingTitle(title, count, boardId) {
       let parsed = title.substr(0, 26);
-      return (
-        "<div style='white-space:nowrap;'>" +
+      if(boardId == 7){
+        if(title.length < 26){
+        return (
+          "<div style='white-space:nowrap;'> ㄴ" +
         parsed +
         "<span style='font-size:12px; color:grey; white-space:nowrap;'>[" +
-        count +
-        "] ...[더보기] </span>" +
-        "</div>"
-      );
+        count +"]"
+          )
+        }else{
+          return (
+            "<div style='white-space:nowrap;'> ㄴ" +
+            parsed +
+            "<span style='font-size:12px; color:grey; white-space:nowrap;'>[" +
+            count +
+            "] ...[더보기] </span>" +
+            "</div>"
+          );
+        }
+      }else{
+        if(title.length < 26){
+        return (
+          "<div style='white-space:nowrap;'>" +
+        parsed +
+        "<span style='font-size:12px; color:grey; white-space:nowrap;'>[" +
+        count +"]"
+          )
+        }else{
+          return (
+            "<div style='white-space:nowrap;'>" +
+            parsed +
+            "<span style='font-size:12px; color:grey; white-space:nowrap;'>[" +
+            count +
+            "] ...[더보기] </span>" +
+            "</div>"
+          );
+        }
+      }
+      
+
+      
     },
   },
 
