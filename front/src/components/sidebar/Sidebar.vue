@@ -38,41 +38,32 @@
       <!-- 관리자로 로그인 했을때 보이는 메뉴들 -->
       <SidebarLink to="/manageMember" icon="fas fa-users">회원관리</SidebarLink>
       <SidebarLink to="/manageStore" icon="fas fa-home">가게관리</SidebarLink>
-      <SidebarLink to="/admincoupon" icon="fas fa-ticket-alt"
-        >이벤트관리</SidebarLink
-      >
-      <SidebarLink to="/adminService" icon="fas fa-pencil-alt"
-        >게시글</SidebarLink
-      >
+      <SidebarLink to="/admincoupon" icon="fas fa-ticket-alt">이벤트관리</SidebarLink>
+      <SidebarLink to="/adminService" icon="fas fa-pencil-alt">게시글</SidebarLink>
     </div>
+
     <div v-else-if="userRole != null && userRole == 'SELLER'">
       <!-- 판매자로 로그인 했을때 보이는 메뉴들 -->
       <SidebarLink to="/store" icon="fas fa-store"> 내 가게</SidebarLink>
-      <SidebarLink to="/storeOrder" icon="fas fa-sort-amount-down">
-        주문관리</SidebarLink
-      >
+      <SidebarLink to="/storeOrder" icon="fas fa-sort-amount-down">주문관리</SidebarLink>
       <SidebarLink to="/storeMenus" icon="fas fa-bars"> 가게메뉴 </SidebarLink>
-      <SidebarLink to="/storeGraph" icon="fas fa-chart-pie">
-        매출관리
-      </SidebarLink>
-      <SidebarLink to="/eventadd" icon="fas fa-ticket-alt">
-        이벤트등록
-      </SidebarLink>
+      <SidebarLink to="/storeGraph" icon="fas fa-chart-pie">매출관리</SidebarLink>
+      <SidebarLink to="/eventadd" icon="fas fa-ticket-alt">이벤트등록</SidebarLink>
     </div>
+
     <div v-else>
       <SidebarLink to="/akinator" icon="fas fa-robot">아키네이터</SidebarLink>
       <SidebarLink to="/cart" icon="fas fa-shopping-cart">장바구니</SidebarLink>
-
-      <SidebarLink to="/shopCategory" icon="fas fa-utensils"
-        >음식/가게</SidebarLink
-      >
+      <SidebarLink to="/shopCategory" icon="fas fa-utensils">음식/가게</SidebarLink>
     </div>
+
     <SidebarLink
       to="/serviceCenter"
       icon="far fa-comments"
       @click="serviceCenter"
-      >고객센터</SidebarLink
     >
+      고객센터
+    </SidebarLink>
     <SidebarLink to="/event" icon="fas fa-calendar-week">이벤트</SidebarLink>
     <hr />
     <div
